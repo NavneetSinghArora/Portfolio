@@ -1,0 +1,396 @@
+---
+---
+<div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none transition-colors duration-1000 bg-main" id="aurora-container">
+    
+    <!-- Deep Background Layer: Soft CSS Aurora Blobs -->
+    <div id="layer-slow" class="absolute inset-[-10%] w-[120%] h-[120%] transition-transform will-change-transform">
+        <div class="absolute top-[5%] left-[5%] w-[50vw] h-[50vw] max-w-[800px] max-h-[800px] rounded-full bg-blue-400/15 dark:bg-blue-600/10 blur-[100px] animate-aurora-1 mix-blend-multiply dark:mix-blend-screen opacity-70"></div>
+        <div class="absolute top-[20%] right-[5%] w-[45vw] h-[45vw] max-w-[700px] max-h-[700px] rounded-full bg-purple-400/15 dark:bg-purple-600/10 blur-[120px] animate-aurora-2 mix-blend-multiply dark:mix-blend-screen opacity-70"></div>
+        <div class="absolute top-[40%] left-[20%] w-[60vw] h-[60vw] max-w-[900px] max-h-[900px] rounded-full bg-cyan-300/15 dark:bg-cyan-800/10 blur-[120px] animate-aurora-3 mix-blend-multiply dark:mix-blend-screen opacity-70"></div>
+    </div>
+
+    <!-- Foreground Layer: Anchored Point mesh -->
+    <canvas id="parallax-bg" class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-1000"></canvas>
+    
+</div>
+
+<style>
+    /* Continuous soft drift for Aurora */
+    @keyframes bg-drift {
+        0% { transform: translateY(0px) translateX(0px) scale(1); }
+        50% { transform: translateY(-15px) translateX(15px) scale(1.02); }
+        100% { transform: translateY(0px) translateX(0px) scale(1); }
+    }
+    
+    #layer-slow {
+        animation: bg-drift 40s infinite ease-in-out;
+        translate: calc(var(--mouseX, 0px) * 0.4) calc(var(--mouseY, 0px) * 0.4);
+    }
+
+    /* Aurora blob movements */
+    @keyframes aurora-1 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(4%, 6%) scale(1.05); }
+    }
+    @keyframes aurora-2 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(-4%, 5%) scale(0.95); }
+    }
+    @keyframes aurora-3 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(5%, -3%) scale(1.02); }
+    }
+
+    .animate-aurora-1 { animation: aurora-1 22s infinite ease-in-out; }
+    .animate-aurora-2 { animation: aurora-2 26s infinite ease-in-out; }
+    .animate-aurora-3 { animation: aurora-3 30s infinite ease-in-out; }
+</style>
+
+<script>
+    function initParallax() {
+        const canvas = document.getElementById('parallax-bg') as HTMLCanvasElement;
+        const container = document.getElementById('aurora-container');
+        if (!canvas || !container) return;
+
+        const CONFIG = {
+            particleDensity: 4.5,      // Increased density heavily to reduce gaps
+            particleSize: 1.0,         
+            
+            // Theme Aware Node Styling
+            darkRGB: '230, 245, 255',  // Lighter soft blue for dark mode
+            darkDotA: 0.5,
+            darkLineA: 0.2,            
+            
+            lightRGB: '70, 110, 180',   // Lighter slate/blue for light mode
+            lightDotA: 0.7,
+            lightLineA: 0.35,          
+            
+            // Neural Network connections
+            connectDistance: 75,       // Longer distance catches isolated nodes
+            
+            // Electrical Datastream (Synapses)
+            maxSignals: 25,            // Maximum concurrent data pulses
+            signalSpawnChance: 0.0001, // Probability to spawn per frame per connection
+            signalSpeed: 0.015,        // Speed of the pulse traveling the line
+            
+            // Cohesive Idle Breathing Field
+            idleAmplitude: 8,          
+            idleSpeed: 0.0008,         
+            
+            // Repulsive Displacement Mechanics
+            mouseRadius: 200,          // Gaussian falloff horizon
+            mouseForce: 5.0,           // Push strength creating the "void"
+            
+            // Critical Damping Springs (Restoration)
+            spring: 0.05,              
+            friction: 0.85             
+        };
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        
+        setTimeout(() => { canvas.style.opacity = '1'; }, 100);
+        if (prefersReducedMotion) return;
+
+        const ctx = canvas.getContext('2d', { alpha: true });
+        if (!ctx) return;
+
+        let width = 0;
+        let height = 0;
+        let particles: Particle[] = [];
+        let signals: Signal[] = [];
+        let animationFrameId: number;
+        
+        // Spatial hash Grid arrays for O(N) rendering performance
+        let cols = 0;
+        let rows = 0;
+        let head: Int32Array;
+        let next: Int32Array;
+        
+        let mouseX = -1000;
+        let mouseY = -1000;
+        let targetX = 0;
+        let targetY = 0;
+        let currentParallaxX = 0;
+        let currentParallaxY = 0;
+
+        // Precalculated global physics constants
+        const PI2 = Math.PI * 2;
+        let mouseRadiusSq = CONFIG.mouseRadius * CONFIG.mouseRadius;
+        let mouseSigmaSq2 = 2 * Math.pow(CONFIG.mouseRadius / 3, 2);
+
+        class Particle {
+            bx: number; 
+            by: number; 
+            x: number;  
+            y: number;  
+            vx: number; 
+            vy: number; 
+            phaseX: number; 
+            phaseY: number;
+
+            constructor(bx: number, by: number) {
+                this.bx = bx;
+                this.by = by;
+                this.x = bx;
+                this.y = by;
+                this.vx = 0;
+                this.vy = 0;
+                
+                // Tie noise phase to spatial coordinate to create massive organic flows
+                this.phaseX = (bx * 0.005) + (by * 0.002);
+                this.phaseY = (bx * 0.002) - (by * 0.005);
+            }
+
+            update(time: number) {
+                // Wave propagation for ambient "breathing" field
+                const targetX = this.bx + Math.sin(time * CONFIG.idleSpeed + this.phaseX) * CONFIG.idleAmplitude;
+                const targetY = this.by + Math.cos(time * CONFIG.idleSpeed + this.phaseY) * CONFIG.idleAmplitude;
+
+                // Localized mouse deformation using exponential falloff (Gaussian distribution)
+                let tempVx = 0;
+                let tempVy = 0;
+                
+                const dx = mouseX - this.x;
+                const dy = mouseY - this.y;
+                const distSq = dx * dx + dy * dy;
+
+                if (distSq < mouseRadiusSq && distSq > 0) {
+                    const dist = Math.sqrt(distSq);
+                    const force = Math.exp(-(distSq) / mouseSigmaSq2);
+                    
+                    tempVx = -(dx / dist) * force * CONFIG.mouseForce;
+                    tempVy = -(dy / dist) * force * CONFIG.mouseForce;
+                }
+
+                this.vx += tempVx;
+                this.vy += tempVy;
+
+                // Hooke's Law implementation for elasticity
+                this.vx += (targetX - this.x) * CONFIG.spring;
+                this.vx *= CONFIG.friction;
+                
+                this.vy += (targetY - this.y) * CONFIG.spring;
+                this.vy *= CONFIG.friction;
+
+                this.x += this.vx;
+                this.y += this.vy;
+            }
+
+            draw(ctx: CanvasRenderingContext2D) {
+                ctx.moveTo(this.x, this.y);
+                ctx.arc(this.x, this.y, CONFIG.particleSize, 0, PI2);
+            }
+        }
+
+        class Signal {
+            p1: Particle;
+            p2: Particle;
+            progress: number;
+            speed: number;
+
+            constructor(p1: Particle, p2: Particle) {
+                this.p1 = p1;
+                this.p2 = p2;
+                this.progress = 0;
+                // Add a tiny bit of random variation to speed so they organically differ
+                this.speed = CONFIG.signalSpeed + (Math.random() * 0.01); 
+            }
+
+            update() {
+                this.progress += this.speed;
+                return this.progress >= 1.0; // returns true if journey is finished
+            }
+
+            draw(ctx: CanvasRenderingContext2D, isDark: boolean) {
+                const x = this.p1.x + (this.p2.x - this.p1.x) * this.progress;
+                const y = this.p1.y + (this.p2.y - this.p1.y) * this.progress;
+                
+                const rgb = isDark ? '200, 240, 255' : '50, 140, 255';
+                
+                // Draw hard bright core
+                ctx.beginPath();
+                ctx.arc(x, y, 1.2, 0, PI2);
+                ctx.fillStyle = `rgba(${rgb}, 1)`;
+                ctx.fill();
+                
+                // Draw soft glowing halation
+                ctx.beginPath();
+                ctx.arc(x, y, 3.5, 0, PI2);
+                ctx.fillStyle = `rgba(${rgb}, 0.3)`;
+                ctx.fill();
+            }
+        }
+
+        function resize() {
+            const rect = container?.getBoundingClientRect();
+            if (rect) {
+                width = rect.width;
+                height = rect.height;
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width = width * dpr;
+                canvas.height = height * dpr;
+                ctx?.scale(dpr, dpr);
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            signals = [];
+            // Generate fully randomized, floating point distribution
+            const area = width * height;
+            let count = Math.floor((area / 10000) * CONFIG.particleDensity);
+            if (width < 768) count = Math.floor(count * 0.4); // Mobile performance safeguard for N^2 links
+            
+            for (let i = 0; i < count; i++) {
+                const bx = Math.random() * width;
+                const by = Math.random() * height;
+                particles.push(new Particle(bx, by));
+            }
+            
+            // Initialize Spatial Hash Data structures
+            cols = Math.ceil(width / CONFIG.connectDistance);
+            rows = Math.ceil(height / CONFIG.connectDistance);
+            head = new Int32Array(cols * rows);
+            next = new Int32Array(particles.length);
+        }
+
+        function drawLines(isDark: boolean) {
+            if (!ctx) return;
+            ctx.lineWidth = 0.5;
+            const radiusSq = CONFIG.connectDistance * CONFIG.connectDistance;
+            
+            const rgb = isDark ? CONFIG.darkRGB : CONFIG.lightRGB;
+            const lineOpacityMax = isDark ? CONFIG.darkLineA : CONFIG.lightLineA;
+
+            // 1. O(N) Populate Spatial Hash Grid
+            head.fill(-1);
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+                let col = Math.floor(p.x / CONFIG.connectDistance);
+                let row = Math.floor(p.y / CONFIG.connectDistance);
+                
+                if (col < 0) col = 0; if (col >= cols) col = cols - 1;
+                if (row < 0) row = 0; if (row >= rows) row = rows - 1;
+                
+                const idx = row * cols + col;
+                next[i] = head[idx];
+                head[idx] = i;
+            }
+
+            // 2. O(N) Resolve Connections
+            for (let i = 0; i < particles.length; i++) {
+                const p1 = particles[i];
+                let col = Math.floor(p1.x / CONFIG.connectDistance);
+                let row = Math.floor(p1.y / CONFIG.connectDistance);
+                
+                if (col < 0) col = 0; if (col >= cols) col = cols - 1;
+                if (row < 0) row = 0; if (row >= rows) row = rows - 1;
+
+                // Check particle against exactly 9 neighboring local cells instead of all particles globally
+                for (let r = row - 1; r <= row + 1; r++) {
+                    if (r < 0 || r >= rows) continue;
+                    for (let c = col - 1; c <= col + 1; c++) {
+                        if (c < 0 || c >= cols) continue;
+                        
+                        let j = head[r * cols + c];
+                        while (j !== -1) {
+                            if (j > i) { // Only evaluate each distinct pair once implicitly
+                                const p2 = particles[j];
+                                const dx = p1.x - p2.x;
+                                const dy = p1.y - p2.y;
+                                const distSq = dx * dx + dy * dy;
+
+                                if (distSq < radiusSq) {
+                                    const dist = Math.sqrt(distSq);
+                                    const opacity = (1 - dist / CONFIG.connectDistance) * lineOpacityMax;
+                                    
+                                    ctx.beginPath();
+                                    ctx.moveTo(p1.x, p1.y);
+                                    ctx.lineTo(p2.x, p2.y);
+                                    ctx.strokeStyle = `rgba(${rgb}, ${opacity})`;
+                                    ctx.stroke();
+
+                                    // Spawning datastreams natively inside fast pairing loop
+                                    if (signals.length < CONFIG.maxSignals && Math.random() < CONFIG.signalSpawnChance) {
+                                        signals.push(new Signal(
+                                            Math.random() > 0.5 ? p1 : p2, 
+                                            Math.random() > 0.5 ? p2 : p1
+                                        ));
+                                    }
+                                }
+                            }
+                            j = next[j];
+                        }
+                    }
+                }
+            }
+        }
+
+        function animate(time: number) {
+            if (!ctx) return;
+            ctx.clearRect(0, 0, width, height);
+
+            const isDark = document.documentElement.classList.contains('dark');
+
+            // Fast array iterations
+            for(let i=0; i<particles.length; i++){
+                particles[i].update(time);
+            }
+            drawLines(isDark);
+
+            // Update and draw traveling data bursts (electrical synapses)
+            for (let i = signals.length - 1; i >= 0; i--) {
+                if (signals[i].update()) {
+                    signals.splice(i, 1);
+                } else {
+                    signals[i].draw(ctx, isDark);
+                }
+            }
+
+            // O(1) batched dot rendering
+            ctx.beginPath();
+            for(let i=0; i<particles.length; i++){
+                particles[i].draw(ctx);
+            }
+            
+            const dotRGB = isDark ? CONFIG.darkRGB : CONFIG.lightRGB;
+            const dotA = isDark ? CONFIG.darkDotA : CONFIG.lightDotA;
+            ctx.fillStyle = `rgba(${dotRGB}, ${dotA})`;
+            ctx.fill();
+
+            // Process parallax for CSS background aurora blobs
+            currentParallaxX += (targetX - currentParallaxX) * 0.15;
+            currentParallaxY += (targetY - currentParallaxY) * 0.15;
+            container?.style.setProperty('--mouseX', `${currentParallaxX}px`);
+            container?.style.setProperty('--mouseY', `${currentParallaxY}px`);
+
+            animationFrameId = requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            resize();
+            initParticles();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Normalized coordinates for Aurora blob parallax
+            const nx = e.clientX / window.innerWidth - 0.5;
+            const ny = e.clientY / window.innerHeight - 0.5;
+            targetX = nx * -200; 
+            targetY = ny * -200;
+        });
+
+        // Initialize!
+        resize();
+        initParticles();
+        animate(0);
+
+        return () => cancelAnimationFrame(animationFrameId);
+    }
+
+    initParallax();
+    document.addEventListener('astro:page-load', initParallax);
+</script>

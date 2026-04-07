@@ -16,7 +16,7 @@ seo:
 **Project Overview:**
 TimeWarp Travel Agency aims to redefine the travel experience by offering an innovative and immersive online platform that explores the concept of time travel. The website combines cutting-edge technology with captivating storytelling to provide users with a unique journey through time.
 
-> Working with Ethan Donovan was a game-changer for our online presence. Their innovative solutions and attention to detail turned our vision into a reality. The website not only looks fantastic but also functions seamlessly. A true professional who exceeded our expectations!
+> Navneet Singh Arora's expertise as a full-stack engineer was instrumental in bringing our vision to life. Their dedication to user experience and technical precision resulted in a product that exceeded our expectations.
 
 ## Objectives
 

@@ -11,29 +11,39 @@ const { title, image, text, actions } = Astro.props;
 
 {
     (title || image?.src || text || (actions && actions.length > 0)) && (
-        <section class="mb-16 flex w-full flex-col gap-8 sm:mb-24">
-            {title && <h1 class="font-serif text-3xl leading-tight font-medium sm:text-5xl sm:leading-tight">{title}</h1>}
-            {image?.src && (
-                <figure>
-                    <CustomImage
-                        class="w-full"
-                        {...image}
-                        widths={[480, 640, 768, 1024, 1536]}
-                        sizes="(min-width: 832px) 768px, calc(100vw - 32px)"
-                        fetchpriority="high"
-                        loading="eager"
-                    />
-                    {image.caption && <figcaption class="mt-1.5 text-xs sm:text-sm">{image.caption}</figcaption>}
-                </figure>
-            )}
-            {text && <div class="prose sm:prose-lg max-w-none" set:html={marked.parse(text)} />}
-            {actions && actions.length > 0 && (
-                <div class="flex flex-wrap gap-4">
-                    {actions.map((action) => (
-                        <Button href={action.href}>{action.text}</Button>
-                    ))}
-                </div>
-            )}
+        <section class="relative mb-16 flex w-full flex-col gap-8 sm:mb-24 py-10 sm:py-16 px-4 sm:px-8">
+            <div class="relative z-10 flex w-full flex-col gap-8">
+                {title && (
+                    <div class="relative">
+                        <!-- Subtle radial glow for readability -->
+                        <div class="absolute inset-[-20%] -z-10 bg-main/80 dark:bg-main/60 blur-[40px] pointer-events-none rounded-full"></div>
+                        <h1 class="relative font-serif text-3xl leading-tight font-medium sm:text-5xl sm:leading-tight">{title}</h1>
+                    </div>
+                )}
+                {image?.src && (
+                    <figure>
+                        <CustomImage
+                            class="w-full relative z-10 rounded-2xl"
+                            {...image}
+                            widths={[480, 640, 768, 1024, 1536]}
+                            sizes="(min-width: 832px) 768px, calc(100vw - 32px)"
+                            fetchpriority="high"
+                            loading="eager"
+                        />
+                        {image.caption && <figcaption class="mt-1.5 text-xs sm:text-sm relative z-10">{image.caption}</figcaption>}
+                    </figure>
+                )}
+                {text && <div class="relative z-10 prose sm:prose-lg max-w-none drop-shadow-sm" set:html={marked.parse(text)} />}
+                {actions && actions.length > 0 && (
+                    <div class="relative z-10 flex flex-wrap gap-4 mt-2">
+                        {actions.map((action) => (
+                            <Button href={action.href} target={action.target}>
+                                {action.text}
+                            </Button>
+                        ))}
+                    </div>
+                )}
+            </div>
         </section>
     )
 }

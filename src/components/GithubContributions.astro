@@ -1,0 +1,306 @@
+---
+interface Props {
+    username: string;
+}
+
+const { username } = Astro.props;
+---
+
+<section class="mb-16 sm:mb-24">
+    <div class="mb-12 sm:mb-16">
+        <h2 class="mb-4 font-serif text-xl italic sm:text-2xl">Contributions</h2>
+        <p class="max-w-2xl text-sm opacity-80 sm:text-base">
+            My open source activity and contributions over the last year.
+        </p>
+    </div>
+
+    <div 
+        id="github-contributions"
+        data-username={username}
+        class="spotlight-card group/card relative overflow-hidden rounded-2xl border border-main/10 p-6 transition-all hover:border-main/20 backdrop-blur-[2px]"
+        style="background-color: rgba(var(--text-main-rgb, 23, 23, 23), 0.01);"
+    >
+        <div id="contributions-loading" class="flex h-[150px] items-center justify-center opacity-50">
+            <div class="h-6 w-6 animate-spin rounded-full border-2 border-main border-t-transparent"></div>
+        </div>
+        
+        <div id="contributions-error" class="hidden flex h-[150px] items-center justify-center text-sm opacity-50">
+            Failed to load contributions.
+        </div>
+
+        <div id="contributions-content" class="hidden">
+            <div class="overflow-x-auto pb-4 custom-scrollbar">
+                <div id="contributions-grid" class="flex gap-[3px] min-w-max">
+                    <!-- Columns will be injected here -->
+                </div>
+            </div>
+            
+            <div class="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-main/5 pt-6">
+                <div class="flex items-center gap-6">
+                    <div class="flex flex-col">
+                        <span id="total-contributions" class="text-xl font-medium tracking-tight">0</span>
+                        <span class="text-[10px] uppercase tracking-wider opacity-50">Total Contributions</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <span class="text-[10px] uppercase tracking-wider opacity-50">Less</span>
+                    <div class="flex gap-[3px]">
+                        <div class="h-[10px] w-[10px] rounded-[2px] level-0"></div>
+                        <div class="h-[10px] w-[10px] rounded-[2px] level-1"></div>
+                        <div class="h-[10px] w-[10px] rounded-[2px] level-2"></div>
+                        <div class="h-[10px] w-[10px] rounded-[2px] level-3"></div>
+                        <div class="h-[10px] w-[10px] rounded-[2px] level-4"></div>
+                    </div>
+                    <span class="text-[10px] uppercase tracking-wider opacity-50">More</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spotlight Layers -->
+        <div class="spotlight-glow absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 group-hover/card:opacity-100" />
+        <div class="spotlight-border absolute inset-0 -z-10 rounded-2xl opacity-0 transition-opacity duration-500 group-hover/card:opacity-100" />
+    </div>
+
+    <!-- Premium Sliding Tooltip -->
+    <div id="github-tooltip" class="pointer-events-none fixed z-50 will-change-[transform,left,top,opacity]" style="opacity: 0; visibility: hidden; color: var(--bg-main);">
+        <div class="relative flex flex-col items-center drop-shadow-xl">
+            <div class="rounded-md px-3 py-1.5 text-[11px] font-medium tracking-wide whitespace-nowrap" style="background-color: var(--text-main);">
+                <span id="github-tooltip-text"></span>
+            </div>
+            <svg class="w-3 h-1.5 -mt-[1px]" style="color: var(--text-main);" viewBox="0 0 12 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4.69701 5.30299C5.41843 6.02441 6.58157 6.02441 7.30299 5.30299L12 0.605988L0 0.605988L4.69701 5.30299Z" fill="currentColor"/>
+            </svg>
+        </div>
+    </div>
+</section>
+
+<style>
+    .custom-scrollbar::-webkit-scrollbar {
+        height: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(var(--text-main-rgb, 23, 23, 23), 0.1);
+        border-radius: 10px;
+    }
+    :global(.dark) .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .spotlight-glow {
+        background: radial-gradient(
+            600px circle at var(--mx, 0px) var(--my, 0px),
+            var(--spotlight-color, rgba(56, 189, 248, 0.15)),
+            transparent 80%
+        );
+    }
+
+    .spotlight-border {
+        padding: 1px;
+        background: radial-gradient(
+            300px circle at var(--mx, 0px) var(--my, 0px),
+            rgba(56, 189, 248, 0.4),
+            transparent 80%
+        );
+        mask: linear-gradient(#fff, #fff) content-box, linear-gradient(#fff, #fff);
+        mask-composite: exclude;
+        -webkit-mask: linear-gradient(#fff, #fff) content-box, linear-gradient(#fff, #fff);
+        -webkit-mask-composite: xor;
+        pointer-events: none;
+    }
+</style>
+
+<style is:global>
+    /* Contribution square colors for dynamically injected DOM */
+    .level-0 { background-color: rgba(var(--text-main-rgb, 23, 23, 23), 0.05); }
+    .level-1 { background-color: rgba(var(--text-main-rgb, 23, 23, 23), 0.2); }
+    .level-2 { background-color: rgba(var(--text-main-rgb, 23, 23, 23), 0.4); }
+    .level-3 { background-color: rgba(var(--text-main-rgb, 23, 23, 23), 0.6); }
+    .level-4 { background-color: rgba(var(--text-main-rgb, 23, 23, 23), 0.9); }
+
+    html.dark .level-0, .dark .level-0 { background-color: rgba(255, 255, 255, 0.05); }
+    html.dark .level-1, .dark .level-1 { background-color: rgba(255, 255, 255, 0.2); }
+    html.dark .level-2, .dark .level-2 { background-color: rgba(255, 255, 255, 0.4); }
+    html.dark .level-3, .dark .level-3 { background-color: rgba(255, 255, 255, 0.6); }
+    html.dark .level-4, .dark .level-4 { background-color: rgba(255, 255, 255, 0.9); }
+</style>
+
+<script>
+    async function initGithubContributions() {
+        const container = document.getElementById('github-contributions');
+        if (!container) return;
+
+        const usernames = container.dataset.username?.split(',').map(u => u.trim()) || [];
+        const grid = document.getElementById('contributions-grid');
+        const loading = document.getElementById('contributions-loading');
+        const error = document.getElementById('contributions-error');
+        const content = document.getElementById('contributions-content');
+        const totalEl = document.getElementById('total-contributions');
+
+        if (!usernames.length || !grid || !loading || !error || !content || !totalEl) return;
+
+        try {
+            const fetchPromises = usernames.map(u => 
+                fetch(`https://github-contributions-api.jogruber.de/v4/${u}?y=last`).then(res => {
+                    if (!res.ok) throw new Error('Failed to fetch');
+                    return res.json();
+                })
+            );
+            
+            const allData = await Promise.all(fetchPromises);
+            
+            let totalLastYear = 0;
+            const contributionsMap = new Map();
+
+            allData.forEach(data => {
+                totalLastYear += data.total?.lastYear || 0;
+                
+                data.contributions?.forEach((day: any) => {
+                    if (contributionsMap.has(day.date)) {
+                        const existing = contributionsMap.get(day.date);
+                        existing.count += day.count;
+                    } else {
+                        contributionsMap.set(day.date, { date: day.date, count: day.count });
+                    }
+                });
+            });
+
+            const getLevel = (count: number) => {
+                if (count === 0) return 0;
+                if (count <= 2) return 1;
+                if (count <= 5) return 2;
+                if (count <= 9) return 3;
+                return 4;
+            };
+
+            const contributions = Array.from(contributionsMap.values())
+                .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+                .map(day => ({
+                    ...day,
+                    level: getLevel(day.count)
+                }));
+            
+            totalEl.innerText = totalLastYear.toLocaleString();
+
+            // Group by week
+            const weeks: any[][] = [];
+            let currentWeek: any[] = [];
+            
+            contributions.forEach((day, index) => {
+                currentWeek.push(day);
+                if (currentWeek.length === 7 || index === contributions.length - 1) {
+                    weeks.push(currentWeek);
+                    currentWeek = [];
+                }
+            });
+
+            // Render grid
+            grid.innerHTML = weeks.map(week => `
+                <div class="flex flex-col gap-[3px]">
+                    ${week.map(day => `
+                        <div 
+                            class="github-square h-[10px] w-[10px] rounded-[2px] level-${day.level} transition-all hover:scale-125 hover:z-10" 
+                            data-date="${day.date}"
+                            data-count="${day.count}"
+                        ></div>
+                    `).join('')}
+                </div>
+            `).join('');
+
+            loading.classList.add('hidden');
+            content.classList.remove('hidden');
+
+            const tooltip = document.getElementById('github-tooltip');
+            const tooltipText = document.getElementById('github-tooltip-text');
+
+            if (tooltip && tooltipText) {
+                let isTooltipVisible = false;
+                let hideTimeout: number;
+
+                grid.addEventListener('mouseover', (e) => {
+                    const target = e.target as HTMLElement;
+                    const square = target.closest('.github-square');
+                    if (!square) return;
+
+                    clearTimeout(hideTimeout);
+
+                    const count = parseInt(square.getAttribute('data-count') || '0');
+                    const dateStr = square.getAttribute('data-date');
+                    if (!dateStr) return;
+                    
+                    const date = new Date(dateStr);
+                    const formattedDate = date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                    
+                    const text = count === 0 
+                        ? `${formattedDate} — Rest day 🪴` 
+                        : `${formattedDate} — ${count} contribution${count > 1 ? 's' : ''}`;
+                    
+                    tooltipText.innerText = text;
+                    
+                    const rect = square.getBoundingClientRect();
+                    const left = rect.left + rect.width / 2;
+                    const top = rect.top - 8;
+
+                    if (!isTooltipVisible) {
+                        // Snap into position instantly
+                        tooltip.style.transition = 'none';
+                        tooltip.style.left = `${left}px`;
+                        tooltip.style.top = `${top}px`;
+                        tooltip.style.transform = `translate(-50%, -100%) translateY(4px) scale(0.95)`;
+                        
+                        // Force reflow
+                        void tooltip.offsetHeight;
+                        
+                        // Add entrance transitions
+                        tooltip.style.transition = 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)';
+                        isTooltipVisible = true;
+                    }
+
+                    // Animate to position & scale up
+                    tooltip.style.opacity = '1';
+                    tooltip.style.visibility = 'visible';
+                    tooltip.style.left = `${left}px`;
+                    tooltip.style.top = `${top}px`;
+                    tooltip.style.transform = `translate(-50%, -100%) translateY(0) scale(1)`;
+                });
+
+                grid.addEventListener('mouseout', (e) => {
+                    const target = e.target as HTMLElement;
+                    const square = target.closest('.github-square');
+                    if (!square) return;
+
+                    // Delay to allow smooth transition between squares
+                    hideTimeout = window.setTimeout(() => {
+                        tooltip.style.opacity = '0';
+                        tooltip.style.transform = `translate(-50%, -100%) translateY(4px) scale(0.95)`;
+                        isTooltipVisible = false;
+                        
+                        window.setTimeout(() => { 
+                            if (!isTooltipVisible) tooltip.style.visibility = 'hidden'; 
+                        }, 200);
+                    }, 50);
+                });
+            }
+        } catch (err) {
+            console.error(err);
+            loading.classList.add('hidden');
+            error.classList.remove('hidden');
+        }
+
+        // Spotlight interaction
+        container.addEventListener('mousemove', (e: MouseEvent) => {
+            const rect = container.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            container.style.setProperty('--mx', `${x}px`);
+            container.style.setProperty('--my', `${y}px`);
+        });
+    }
+
+    // Run on initial load and view transitions
+    initGithubContributions();
+    document.addEventListener('astro:page-load', initGithubContributions);
+</script>

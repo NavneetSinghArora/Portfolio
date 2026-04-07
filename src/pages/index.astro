@@ -2,8 +2,10 @@
 import { getCollection } from 'astro:content';
 import Button from '../components/Button.astro';
 import Hero from '../components/Hero.astro';
+import TechStack from '../components/TechStack.astro';
 import PostPreview from '../components/PostPreview.astro';
 import ProjectPreview from '../components/ProjectPreview.astro';
+import GithubContributions from '../components/GithubContributions.astro';
 import siteConfig from '../data/site-config';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { sortItemsByDateDesc } from '../utils/data-utils';
@@ -17,6 +19,8 @@ const featuredProjects = projects.filter(({ data }) => data.isFeatured);
 
 <BaseLayout description={siteConfig.description}>
     <Hero {...siteConfig.hero} />
+    {siteConfig.stack && <TechStack {...siteConfig.stack} />}
+    {siteConfig.github && <GithubContributions username={siteConfig.github} />}
     {
         featuredProjects?.length > 0 && (
             <div class="mb-16 sm:mb-24">

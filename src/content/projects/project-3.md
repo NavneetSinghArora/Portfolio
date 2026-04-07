@@ -55,7 +55,7 @@ RoboChef Recipe Assistant is a groundbreaking mobile application that leverages 
 - Database: PostgreSQL for efficient data storage and retrieval.
 - AI Integration: TensorFlow for machine learning models powering recipe recommendations.
 
-> Ethan Donovan possesses a rare blend of technical expertise and creative flair. They skillfully transformed our vague ideas into a visually stunning and highly functional website. The end result exceeded our expectations, and we continue to receive compliments on the design and user experience.
+> Navneet Singh Arora possesses a rare blend of technical expertise and creative flair. They skillfully transformed our vague ideas into a visually stunning and highly functional website. The end result exceeded our expectations, and we continue to receive compliments on the design and user experience.
 
 ## Outcome
 

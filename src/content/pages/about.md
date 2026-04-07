@@ -1,43 +1,40 @@
 ---
 title: About
 seo:
-  title: About Me
-  description: Learn more about the person behind the website and embark on a journey of inspiration and shared experiences.
+  title: About Navneet Singh Arora
+  description: Machine Learning & Full Stack Engineer with 6+ years of experience in AI, Deep Learning, and Software Development.
   image:
     src: '../../assets/images/about.jpg'
-    alt: A person sitting at a desk in front of a computer
+    alt: Navneet Singh Arora
 ---
 
-![Alt text for image](../../assets/images/about.jpg)
+![Navneet Singh Arora](../../assets/images/about.jpg)
 
-**Note!:** This about page is entirely fictional and created for the purpose of showcasing [Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/).
+## Navneet Singh Arora - Machine Learning & Full Stack Engineer
 
-## Ethan Donovan - Web Developer based in Estonia
+**Greetings!** I'm Navneet Singh Arora, a meticulous Engineer and Master's Student in Machine Learning & AI at the **Universität Hamburg**. Based in Germany, I bring over 6 years of industry experience in delivering innovative business solutions powered by artificial intelligence and robust full-stack development.
 
-**Greetings!** I'm Ethan Donovan, a passionate web developer residing in the picturesque landscapes of [Estonia](https://en.wikipedia.org/wiki/Estonia). With a keen eye for design and a love for crafting seamless digital experiences, I bring a unique blend of creativity and technical expertise to the world of web development.
+## Strategic Expertise
 
-## Skills and Expertise
-
-I specialize in front-end and back-end development, utilizing the latest technologies to build responsive and user-friendly websites. My proficiency includes **HTML**, **CSS**, **JavaScript**, and frameworks such as **Astro.js** for dynamic and interactive user interfaces. On the server side, I'm well-versed in Node.js and have experience with database management systems like MongoDB.
+I specialize in **Machine Learning**, **Deep Learning**, and **Computer Vision**, with a strong foundation in **Python**, **Java**, and **JavaScript**. My recent work at **Repath** involves leading data preparation and CI/CD pipelines, while my role at **Omdena** as a Chapter Lead allows me to foster open-source collaboration in the AI community.
 
 ## Innovation and Problem-Solving
 
-I thrive on solving complex problems and transforming ideas into functional, elegant websites. Whether it's optimizing performance, implementing new features, or troubleshooting issues, I approach each challenge with enthusiasm and a commitment to delivering high-quality solutions.
+I thrive on bridging the gap between research and production. From designing Transformer models to building scalable platform UIs, I approach every project with a focus on consistency, quality, and technical excellence. My experience as a **Tech Lead at Nice** and a **Program Analyst at Cognizant** has honed my ability to lead teams and deliver high-impact software analysis.
 
-## Global Perspective, Local Impact
+## Professional Journey & Education
 
-Living in Estonia has not only influenced my appreciation for nature and culture but has also shaped my approach to web development. I understand the importance of creating digital solutions that resonate with local audiences while maintaining a global perspective.
+- **MSc. Intelligent Adaptive Systems**: Universität Hamburg, Germany (2020 - 2022)
+- **BSc. Computer Science & Engineering**: Lovely Professional University, India (2011 - 2015)
 
-## Continuous Learning
-
-The dynamic nature of the tech industry inspires me to stay up-to-date with the latest trends and advancements. I'm always eager to expand my skill set and embrace emerging technologies that enhance the functionality and aesthetics of the websites I create.
+With a deep understanding of **PyTorch**, **Tableau**, **MySQL**, and **Linux**, I am dedicated to continuous learning and staying at the forefront of AI research.
 
 ## Collaboration and Communication
 
-I believe in the power of collaboration and effective communication. Whether working with clients, designers, or fellow developers, I value clear communication to ensure the success of every project.
+I believe that the best products are born from effective communication and agile methodologies. Whether I'm conducting practical labs for students as a **Tutor** or collaborating on remote full-stack projects, I prioritize clear, actionable insights and team synergy.
 
 ## Get in Touch
 
-Are you looking to elevate your online presence or bring your digital ideas to life? I'd love to hear from you! Feel free to reach out for collaboration, consultation, or just a friendly chat about all things web development.
+Are you looking for an expert to help integrate ML algorithms into your workflow or build a high-performance full-stack application? I'd love to connect! Feel free to reach out for collaboration, consulting, or a chat about the future of AI.
 
-_Let's build something amazing together!_
+_Let's build the future of intelligent systems together!_

@@ -1,14 +1,14 @@
 ---
 title: Get in touch
 seo:
-  title: Contact
-  description: Get in touch through email or social media! Let me know how I can help.
+  title: Contact Navneet Singh Arora
+  description: Get in touch with Navneet Singh Arora for Machine Learning and Full Stack development opportunities.
 ---
 
-Thank you for reaching out! Whether you have a question, a suggestion, or just want to share your thoughts, I'm all ears. Feel free to get in touch through any of the methods below:
+Thank you for visiting! Whether you have a project in mind, a question about my research, or just want to connect, I'm always open to interesting conversations. Feel free to reach out through any of the methods below:
 
 _Email:_
-Feel free to drop me an email at [example@example.com](mailto:example@example.com), and I'll do my best to respond as soon as possible.
+The best way to reach me is via email at [aroranavneetsingh.de@gmail.com](mailto:aroranavneetsingh.de@gmail.com). I typically respond within 24-48 hours.
 
-_Social Media:_
-Connect with me on social media as well. Find me on [Twitter](https://twitter.com) or [LinkedIn](https://www.linkedin.com/).
+_Social Media & Professional Networks:_
+Connect with me on [LinkedIn](https://www.linkedin.com/in/navneet-singh-arora) for professional inquiries, or follow my latest code contributions on [GitHub](https://www.github.com/NavneetSinghArora). You can also find my professional profile on [Xing](https://www.xing.com/profile/NavneetSingh_Arora).

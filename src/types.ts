@@ -7,6 +7,7 @@ export type ImageInput = {
 export type Link = {
     text: string;
     href: string;
+    target?: string;
 };
 
 export type Hero = {
@@ -30,6 +31,22 @@ export type Subscribe = {
     form?: SubscribeForm;
 };
 
+export type StackItem = {
+    label: string;
+    icon?: string | { light: string; dark: string };
+};
+
+export type StackCategory = {
+    title: string;
+    items: StackItem[];
+};
+
+export type Stack = {
+    title: string;
+    description: string;
+    categories: StackCategory[];
+};
+
 export type SiteConfig = {
     website: string;
     avatar?: ImageInput;
@@ -41,6 +58,8 @@ export type SiteConfig = {
     footerNavLinks?: Link[];
     socialLinks?: Link[];
     hero?: Hero;
+    stack?: Stack;
+    github?: string;
     subscribe?: Subscribe;
     postsPerPage?: number;
     projectsPerPage?: number;

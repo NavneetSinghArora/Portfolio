@@ -1,0 +1,174 @@
+---
+import type { Stack as StackProps } from '../types';
+
+type Props = StackProps;
+
+const { title, description, categories } = Astro.props;
+
+// Dynamically import all logos from src/assets/icons
+const logos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/icons/*.{svg,png,webp,jpg,jpeg}', { eager: true });
+
+function resolveIcon(name: string | undefined) {
+    if (!name) return '';
+    if (name.startsWith('http')) return name;
+    
+    const extensions = ['.svg', '.png', '.webp', '.jpg', '.jpeg'];
+    for (const ext of extensions) {
+        // Try both absolute and relative path formats
+        const paths = [
+            `/src/assets/icons/${name}${ext}`,
+            `../assets/icons/${name}${ext}`
+        ];
+        
+        for (const path of paths) {
+            const asset = logos[path];
+            if (asset) {
+                // Handle both ImageMetadata (with .src) and direct string imports
+                return (asset.default as any)?.src || asset.default || asset;
+            }
+        }
+    }
+    
+    return name;
+}
+
+// Ensure the optimal bento order
+const layoutOrder = [
+    'AI Engineering',
+    'Backend & APIs',
+    'Infrastructure',
+    'Automation & Workflow',
+    'Languages & Data'
+];
+
+const bentoCategories = [...categories].sort(
+    (a, b) => layoutOrder.indexOf(a.title) - layoutOrder.indexOf(b.title)
+);
+---
+
+<section class="mb-16 sm:mb-24">
+    <div class="mb-10 sm:mb-14">
+        <h2 class="mb-3 font-serif text-xl italic sm:text-2xl">{title}</h2>
+        <p class="max-w-2xl text-sm opacity-60 sm:text-base">{description}</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
+        {bentoCategories.map((category) => {
+            let colSpan = 'md:col-span-1';
+            let spotColor = 'rgba(56, 189, 248, 0.15)'; // Default
+            let desc = '';
+
+            if (category.title === 'AI Engineering') {
+                colSpan = 'md:col-span-2 row-span-1';
+                spotColor = 'rgba(139, 92, 246, 0.18)'; // Violet
+                desc = 'LLM tooling, local inference, and agent workflows';
+            } else if (category.title === 'Backend & APIs') {
+                colSpan = 'md:col-span-1 row-span-1';
+                spotColor = 'rgba(20, 184, 166, 0.15)'; // Teal
+                desc = 'APIs, data models, and backend systems';
+            } else if (category.title === 'Infrastructure') {
+                colSpan = 'md:col-span-1';
+                spotColor = 'rgba(245, 158, 11, 0.12)'; // Amber
+                desc = 'Deployment, networking, and runtime environments';
+            } else if (category.title === 'Automation & Workflow') {
+                colSpan = 'md:col-span-1';
+                spotColor = 'rgba(163, 163, 163, 0.12)'; // Neutral
+                desc = 'CI/CD, version control, and team orchestration';
+            } else if (category.title === 'Languages & Data') {
+                colSpan = 'md:col-span-1';
+                spotColor = 'rgba(16, 185, 129, 0.12)'; // Green
+                desc = 'Core programming and data manipulation';
+            }
+
+            return (
+                <div 
+                    class={`spotlight-card group/card relative flex flex-col justify-between overflow-hidden rounded-[2rem] border border-main/5 bg-black/[0.015] dark:bg-white/[0.015] p-6 sm:p-8 transition-all hover:border-main/15 hover:bg-black/[0.03] hover:dark:bg-white/[0.03] backdrop-blur-[6px] ${colSpan}`}
+                    style={`--spotlight-color: ${spotColor};`}
+                >
+                    <div class="relative z-10 mb-8 sm:mb-12">
+                        <h3 class="font-serif text-[1.35rem] leading-tight opacity-90 sm:text-2xl">{category.title}</h3>
+                        <p class="mt-1.5 text-xs opacity-50 sm:text-sm">{desc}</p>
+                    </div>
+                    
+                    <div class="relative z-10 flex flex-wrap gap-2">
+                        {category.items.map((item) => {
+                            if (!item.icon) return null;
+                            const icon = item.icon;
+                            const isDualIcon = typeof icon === 'object' && icon !== null && 'light' in icon;
+                            
+                            return (
+                                <div class="relative flex items-center gap-1.5 overflow-hidden rounded-full border border-main/5 bg-black/[0.03] dark:bg-white/[0.03] px-3 py-1.5 transition-all hover:border-main/20 hover:bg-black/[0.06] hover:dark:bg-white/[0.06] backdrop-blur-md">
+                                    {isDualIcon ? (
+                                        <>
+                                            <img 
+                                                src={resolveIcon(icon.light)} 
+                                                alt="" 
+                                                class="relative z-10 h-3.5 w-3.5 object-contain opacity-70 block dark:hidden"
+                                                loading="lazy"
+                                            />
+                                            <img 
+                                                src={resolveIcon(icon.dark)} 
+                                                alt="" 
+                                                class="relative z-10 h-3.5 w-3.5 object-contain opacity-70 hidden dark:block"
+                                                loading="lazy"
+                                            />
+                                        </>
+                                    ) : (
+                                        <img 
+                                            src={resolveIcon(icon as string)} 
+                                            alt="" 
+                                            class="relative z-10 h-3.5 w-3.5 object-contain opacity-70"
+                                            loading="lazy"
+                                        />
+                                    )}
+                                    <span class="relative z-10 text-[11px] font-medium leading-none opacity-70 tracking-wide">{item.label}</span>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    
+                    <div class="spotlight-glow absolute inset-0 -z-10 opacity-0 transition-opacity duration-700 group-hover/card:opacity-100" />
+                </div>
+            );
+        })}
+    </div>
+</section>
+
+<style>
+    .spotlight-card {
+        transform: translateZ(0); /* Force GPU acceleration */
+    }
+
+    .spotlight-glow {
+        background: radial-gradient(
+            650px circle at var(--mx, 50%) var(--my, 50%),
+            var(--spotlight-color),
+            transparent 80%
+        );
+    }
+</style>
+
+<script>
+    function setupSpotlight() {
+        // Track mouse for cards and chips
+        const elements = document.querySelectorAll('.spotlight-card, .spotlight-chip');
+        
+        elements.forEach((el) => {
+            if (el instanceof HTMLElement) {
+                el.addEventListener('mousemove', (e) => {
+                    const rect = el.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    el.style.setProperty('--mx', `${x}px`);
+                    el.style.setProperty('--my', `${y}px`);
+                });
+            }
+        });
+    }
+
+    // Initial setup
+    setupSpotlight();
+
+    // Re-setup on view transitions if enabled
+    document.addEventListener('astro:page-load', setupSpotlight);
+</script>

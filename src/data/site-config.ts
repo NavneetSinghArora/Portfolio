@@ -3,17 +3,17 @@ import hero from '../assets/images/hero.jpg';
 import type { SiteConfig } from '../types';
 
 const siteConfig: SiteConfig = {
-    website: 'https://example.com',
+    website: 'https://www.navneetsingharora.com',
     avatar: {
         src: avatar,
-        alt: 'Ethan Donovan'
+        alt: 'Navneet Singh Arora'
     },
-    title: 'Dante',
-    subtitle: 'Minimal Astro.js theme',
-    description: 'Astro.js and Tailwind CSS theme for blog and portfolio by justgoodui.com',
+    title: 'Navneet Singh Arora',
+    subtitle: 'Machine Learning & Full Stack Engineer',
+    description: 'Expertise in AI, Machine Learning, and Full Stack Development with over 6 years of industry experience.',
     image: {
         src: '/dante-preview.jpg',
-        alt: 'Dante - Astro.js and Tailwind CSS theme'
+        alt: 'Navneet Singh Arora - Machine Learning & Full Stack Engineer'
     },
     headerNavLinks: [
         {
@@ -21,7 +21,7 @@ const siteConfig: SiteConfig = {
             href: '/'
         },
         {
-            text: 'Projects',
+            text: 'Work',
             href: '/projects'
         },
         {
@@ -29,8 +29,23 @@ const siteConfig: SiteConfig = {
             href: '/blog'
         },
         {
-            text: 'Tags',
-            href: '/tags'
+            text: 'About',
+            href: '/about'
+        },
+        {
+            text: 'Resume',
+            href: '/Navneet-Resume.pdf',
+            target: '_blank'
+        },
+        {
+            text: 'GitHub',
+            href: 'https://www.github.com/NavneetSinghArora',
+            target: '_blank'
+        },
+        {
+            text: 'LinkedIn',
+            href: 'https://www.linkedin.com/in/navneet-singh-arora',
+            target: '_blank'
         }
     ],
     footerNavLinks: [
@@ -39,50 +54,116 @@ const siteConfig: SiteConfig = {
             href: '/about'
         },
         {
+            text: 'Resume',
+            href: '/Navneet-Resume.pdf',
+            target: '_blank'
+        },
+        {
             text: 'Contact',
             href: '/contact'
         },
         {
             text: 'Terms',
             href: '/terms'
-        },
-        {
-            text: 'Download theme',
-            href: 'https://github.com/JustGoodUI/dante-astro-theme'
         }
     ],
     socialLinks: [
         {
-            text: 'Dribbble',
-            href: 'https://dribbble.com/'
+            text: 'LinkedIn',
+            href: 'https://www.linkedin.com/in/navneet-singh-arora'
         },
         {
-            text: 'Instagram',
-            href: 'https://instagram.com/'
+            text: 'GitHub',
+            href: 'https://www.github.com/NavneetSinghArora'
         },
         {
-            text: 'X/Twitter',
-            href: 'https://twitter.com/'
+            text: 'Xing',
+            href: 'https://www.xing.com/profile/NavneetSingh_Arora'
         }
     ],
     hero: {
-        title: 'Hi There & Welcome to My Corner of the Web!',
-        text: "I'm **Ethan Donovan**, a web developer at Amazing Studio, dedicated to the realms of collaboration and artificial intelligence.\nMy approach involves embracing intuition, conducting just enough research, and leveraging aesthetics as a catalyst for exceptional products.\nI have a profound appreciation for top-notch software, visual design, and the principles of product-led growth.\n\nFeel free to explore some of my coding endeavors on [GitHub](https://github.com/JustGoodUI/dante-astro-theme) or follow me on [Twitter/X](https://twitter.com/justgoodui).",
+        title: "Hi, I'm Navneet Singh Arora!",
+        text: "I'm a **Machine Learning & Full Stack Engineer** with over 6 years of experience in AI, deep learning, and robust software solutions.\nCurrently, I'm a Machine Learning Engineer at **Repath** in Hamburg, specializing in data preparation and CI/CD pipelines for ML models.\nI'm passionate about leveraging aesthetics and cutting-edge AI to build exceptional products that deliver real value.\n\nConnect with me on [LinkedIn](https://www.linkedin.com/in/navneet-singh-arora) or check out my work on [GitHub](https://www.github.com/NavneetSinghArora).",
         image: {
             src: hero,
-            alt: 'A person sitting at a desk in front of a computer'
+            alt: 'Navneet Singh Arora'
         },
         actions: [
+            {
+                text: 'Download Resume',
+                href: '/Navneet-Resume.pdf',
+                target: '_blank'
+            },
             {
                 text: 'Get in Touch',
                 href: '/contact'
             }
         ]
     },
+    stack: {
+        title: 'Tech Stack',
+        description: 'Strategically grouped technologies that power my backend, automation, and AI workflows.',
+        categories: [
+            {
+                title: 'Languages & Data',
+                items: [
+                    { label: 'Python', icon: 'python' },
+                    { label: 'TypeScript', icon: 'https://cdn.simpleicons.org/typescript' },
+                    { label: 'Pandas', icon: 'pandas' },
+                    { label: 'NumPy', icon: 'numpy' }
+                ]
+            },
+            {
+                title: 'Backend & APIs',
+                items: [
+                    { label: 'PostgreSQL', icon: 'postgresql' },
+                    { label: 'FastAPI', icon: 'fastapi' },
+                    { label: 'Hasura', icon: 'hasura' },
+                    { label: 'Bash', icon: 'bash' }
+                ]
+            },
+            {
+                title: 'Infrastructure',
+                items: [
+                    { label: 'GCP', icon: 'googlecloud' },
+                    { label: 'Docker', icon: 'docker' },
+                    { label: 'Cloudflare', icon: 'cloudflare' },
+                    { label: 'Caddy', icon: 'caddy' },
+                    { label: 'Tailscale', icon: { light: 'tailscale-dark', dark: 'tailscale-light' } }
+                ]
+            },
+            {
+                title: 'Automation & Workflow',
+                items: [
+                    { label: 'n8n', icon: 'n8n' },
+                    { label: 'Git', icon: 'git' },
+                    { label: 'GitHub', icon: { light: 'github-dark', dark: 'github-light' } },
+                    { label: 'Notion', icon: { light: 'notion-light', dark: 'notion-dark' } },
+                    { label: 'Slack', icon: 'slack' },
+                    { label: 'Miro', icon: 'miro' }
+                ]
+            },
+            {
+                title: 'AI Engineering',
+                items: [
+                    { label: 'Claude Code', icon: 'claude' },
+                    { label: 'Gemini', icon: 'gemini' },
+                    { label: 'Cursor', icon: { light: 'cursor-dark', dark: 'cursor-light' } },
+                    { label: 'Ollama', icon: { light: 'ollama-dark', dark: 'ollama-light' } },
+                    { label: 'HuggingFace', icon: 'hugging-face' },
+                    { label: 'PyTorch', icon: 'pytorch' },
+                    { label: 'FastMCP', icon: 'https://unpkg.com/@lobehub/icons-static-svg@latest/icons/mcp.svg' },
+                    { label: 'Jupyter', icon: 'jupyter' },
+                    { label: 'Colab', icon: 'colab' }
+                ]
+            }
+        ]
+    },
+    github: 'NavneetSinghArora, Navneet-Repath',
     subscribe: {
         enabled: true,
-        title: 'Subscribe to Dante Newsletter',
-        text: 'One update per week. All the latest posts directly in your inbox.',
+        title: 'Subscribe to my Newsletter',
+        text: 'Updates on Machine Learning, AI, and Full Stack development.',
         form: {
             action: '#'
         }
