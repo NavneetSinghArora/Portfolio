@@ -83,22 +83,12 @@ const siteConfig: SiteConfig = {
     ],
     hero: {
         title: "Hi, I'm Navneet Singh Arora!",
-        text: "I'm a **Machine Learning & Full Stack Engineer** with over 6 years of experience in AI, deep learning, and robust software solutions.\nCurrently, I'm a Machine Learning Engineer at **Repath** in Hamburg, specializing in data preparation and CI/CD pipelines for ML models.\nI'm passionate about leveraging aesthetics and cutting-edge AI to build exceptional products that deliver real value.\n\nConnect with me on [LinkedIn](https://www.linkedin.com/in/navneet-singh-arora) or check out my work on [GitHub](https://www.github.com/NavneetSinghArora).",
+        text: "*Hero section will be updated soon.*",
         image: {
             src: hero,
             alt: 'Navneet Singh Arora'
         },
-        actions: [
-            {
-                text: 'Download Resume',
-                href: '/Navneet-Resume.pdf',
-                target: '_blank'
-            },
-            {
-                text: 'Get in Touch',
-                href: '/contact'
-            }
-        ]
+        actions: []
     },
     stack: {
         title: 'Tech Stack',
