@@ -1,119 +1,56 @@
-# Dante - Astro & Tailwind CSS Theme by justgoodui.com
+# Navneet's Personal Portfolio
 
-Dante is a single-author blog and portfolio theme for Astro.js. Featuring a minimal, slick, responsive and content-focused design. For more Astro.js themes please check [justgoodui.com](https://justgoodui.com/).
+A sleek, premium, performance-oriented personal portfolio designed to showcase projects, professional experience, tech stacks, and more. Built upon the Dante Astro theme and highly customized.
 
-![Dante Astro.js Theme](public/dante-preview.jpg)
+## Built With
 
-[![Deploy to Netlify Button](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/JustGoodUI/dante-astro-theme)
+- **[Astro](https://astro.build/)** - Core Framework for building fast, content-driven websites.
+- **[Tailwind CSS v4](https://tailwindcss.com/)** - Utility-first styling for rapid and consistent design.
+- **TypeScript** - Strongly typed JavaScript for safer, more robust features.
 
-Clicking the button above ☝️ will create a new repo for you that looks exactly like this one, and sets that repo up immediately for deployment on Netlify.
+## Features
 
-## Theme Features:
+- **Interactive Dynamic Backgrounds:** Neural network interactions, glass-morphism effects, and highly performant particle layers.
+- **Grouped Tech Stack:** A well-organized grid showing extensive tooling (Cloud & Infra, Automation, AI/Emerging, Backend, Frontend).
+- **GitHub Contributions Array:** Integrates with real-time GitHub data, displaying standard graphs with sleek sliding tooltips.
+- **Theme Support:** Fully responsive Dark & Light modes with dynamic icon switching and customized color palettes.
+- **Blazing Fast:** Zero-JS by default approach using Astro islands where needed.
 
-- ✅ Dark and light color mode
-- ✅ Hero section with bio
-- ✅ Portfolio collection
-- ✅ Pagination support
-- ✅ Post tags support
-- ✅ Subscription form
-- ✅ View transitions
-- ✅ Tailwind CSS
-- ✅ Mobile-first responsive layout
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-- ✅ Optimized images using Astro’s `Image` component
+## Getting Started
 
-## Template Integrations
+### Prerequisites
 
-- @astrojs/tailwind - https://docs.astro.build/en/guides/integrations-guide/tailwind/
-- @astrojs/sitemap - https://docs.astro.build/en/guides/integrations-guide/sitemap/
-- @astrojs/mdx - https://docs.astro.build/en/guides/markdown-content/
-- @astrojs/rss - https://docs.astro.build/en/guides/rss/
+You'll need [Node.js](https://nodejs.org/) installed along with a package manager like `npm`.
 
-## ⚙️ Configuration Notes
+### Installation
 
-### `site-config.ts`
+1. Clone the repository:
+   ```bash
+   git clone <your-repo-url>
+   cd personal-portfolio
+   ```
 
-All site-wide data and theme options are stored in `src/data/site-config.ts`. It provides a single configuration object used throughout the theme for navigation, branding, hero content, social links, and more.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-You can update this file to customize:
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-- Site identity — title, description, avatar, subtitle, and default social share image
-- Navigation — header and footer navigation links
-- Social links — URLs for supported platforms
-- Hero section — title, text, image, and action buttons
-- Newsletter subscription — form settings suitable for Mailchimp, Formspree, ConvertKit, or other form-based providers. The form supports a custom action URL, configurable email and hidden fields, and an optional honeypot field for spam protection.
-- Pagination — posts per page for blog and projects listings
+4. View the site:
+   Open [http://localhost:4321](http://localhost:4321) in your browser.
 
-Images can be referenced either as imports from `src/assets/` (for optimized Astro images) or as string paths from the `public/` directory.
+## Available Commands
 
-### Images
-
-The theme uses a `CustomImage` component that automatically displays images using Astro’s optimized `<Image />` or a standard `<img>` tag depending on the source.
-
-- Content collection images (used in posts or pages) must be stored in `src/assets/` since they use Astro’s `image()` schema.
-- Site-config images (like the avatar, hero image, or social preview) can either be imported from `src/assets/` for optimization or referenced directly from `public/` if you prefer not to optimize them.
-
-## Project Structure
-
-Inside of Dante Astro theme, you'll see the following folders and files:
-
-```text
-├── public/
-├── src/
-│   ├── assets/
-│   ├── components/
-│   ├── content/
-│   ├── data/
-│   ├── icons/
-│   ├── layouts/
-│   ├── pages/
-│   ├── styles/
-│   ├── utils/
-│   ├── content.config.ts
-│   └── types.ts
-├── astro.config.mjs
-├── package.json
-├── README.md
-└── tsconfig.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro (`.astro`) components.
-
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## Astro.js Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## Want to learn more about Astro.js?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credits
-
-- Demo content generate with [Chat GPT](https://chat.openai.com/)
-- Images for demo content from [Unsplash](https://unsplash.com/)
-
-## Astro Themes by Just Good UI
-
-- [Ovidius](https://github.com/JustGoodUI/ovidius-astro-theme) is a free single author blog theme.
+| Command | Description |
+| :--- | :--- |
+| `npm run dev` | Runs the local development server at `localhost:4321` |
+| `npm run build` | Builds the site into static files for production |
+| `npm run preview` | Previews the local build before deployment |
 
 ## License
 
-Licensed under the [GPL-3.0](https://github.com/JustGoodUI/dante-astro-theme/blob/main/LICENSE) license.
+This project is open-sourced under the [MIT License](LICENSE).
