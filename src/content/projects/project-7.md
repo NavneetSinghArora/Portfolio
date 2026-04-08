@@ -1,62 +1,41 @@
 ---
-title: CryptoTrader - Cryptocurrency Portfolio Manager
-description: CryptoTrader Dashboard is a comprehensive web application designed to empower cryptocurrency enthusiasts with tools to manage and optimize their digital asset portfolios.
-publishDate: 'Jan 10 2024'
+title: 'IndoRE: Relation Extraction for Low Resource Indian Languages (2022)'
+description: 'The IndoRE project focused on relation extraction for three low-resource Indian languages: Bengali, Telugu, and Hindi using deep generative models and transformer architectures.'
+publishDate: 'Aug 15 2022'
 isFeatured: true
 seo:
   image:
-    src: '../../assets/images/project-7.jpg'
+    src: '../../assets/images/indoml.png'
+    alt: 'IndoRE Project - NLP for Indian Languages'
 ---
 
-![Project preview](../../assets/images/project-7.jpg)
+![IndoRE Project preview](../../assets/images/indoml.png)
 
-**Note:** This case study is entirely fictional and created for the purpose of showcasing [Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/).
+*Kaggle Competition and NLP Course Project, Universität Hamburg*
 
-**Project Overview:**
-CryptoTrader Dashboard is a comprehensive web application designed to empower cryptocurrency enthusiasts with tools to manage and optimize their digital asset portfolios. By providing real-time market data, analytics, and portfolio tracking, the dashboard offers a seamless experience for users to monitor and enhance their cryptocurrency investments.
+<div class="not-prose my-12 p-6 rounded-2xl border border-main/10 bg-main/5 flex flex-col md:flex-row items-center justify-between gap-6 transition-colors hover:border-main/20">
+    <div class="space-y-1">
+        <h4 class="text-[10px] font-bold uppercase tracking-[0.2em] text-main/40">Project Sources</h4>
+        <p class="text-sm text-main/60 font-medium">Technical implementation and competition details.</p>
+    </div>
+    <div class="flex items-center gap-6">
+        <a href="https://github.com/NavneetSinghArora/Relation-Extraction" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository" title="GitHub Repository" class="group transition-transform hover:-translate-y-1">
+            <img src="https://cdn.simpleicons.org/github" alt="" class="h-6 w-6 opacity-40 group-hover:opacity-100 transition-opacity dark:hidden" />
+            <img src="https://cdn.simpleicons.org/github/white" alt="" class="h-6 w-6 opacity-40 group-hover:opacity-100 transition-opacity hidden dark:block" />
+        </a>
+        <a href="https://www.kaggle.com/c/indore-datathon-2021" target="_blank" rel="noopener noreferrer" aria-label="Kaggle Competition" title="Kaggle Competition" class="group transition-transform hover:-translate-y-1">
+            <img src="https://cdn.simpleicons.org/kaggle" alt="" class="h-10 w-10 opacity-40 group-hover:opacity-100 transition-opacity dark:hidden" />
+            <img src="https://cdn.simpleicons.org/kaggle/white" alt="" class="h-10 w-10 opacity-40 group-hover:opacity-100 transition-opacity hidden dark:block" />
+        </a>
+    </div>
+</div>
 
-## Objectives
+The IndoRE project focused on relation extraction for three low-resource Indian languages: Bengali, Telugu, and Hindi. With relation extraction being a crucial task in natural language processing (NLP), the objective was to predict the relationship between a pair of entities given a sentence.
 
-1. Develop a user-friendly and feature-rich dashboard that consolidates real-time data from various cryptocurrency exchanges.
-2. Provide tools for users to analyze market trends, track their portfolio performance, and make informed investment decisions.
-3. Create a secure and efficient platform that ensures users have a holistic view of their cryptocurrency holdings.
+Due to the scarcity of tagged data for relation classification in Indian languages, the project aimed to explore and enhance this area by leveraging recent advancements in deep generative models. The challenge involved predicting relations from limited tagged training data, consisting of instances across 25 different relations for each language. Additionally, an untagged data dump was provided, which facilitated the use of techniques like similarity-based data augmentation or distant supervision to improve performance.
 
-## Features
+Employing mBERT and RoBERTa models, the project successfully tackled the relation extraction task. By leveraging these powerful models and exploring innovative techniques, the project pushed the boundaries of relation classification in low-resource Indian languages.
 
-1. **Multi-Exchange Integration:**
+Overall, the IndoRE project served as an opportunity to showcase expertise in NLP, particularly in relation extraction for Bengali, Telugu, and Hindi. It demonstrated the ability to leverage limited tagged data and explore data augmentation and distant supervision techniques to improve model performance in the context of low-resource languages.
 
-- CryptoTrader Dashboard aggregates data from multiple cryptocurrency exchanges, allowing users to view their entire portfolio in one centralized location.
-- Real-time updates provide the latest market prices, trading volumes, and order book data.
-
-2. **Portfolio Analytics:**
-
-- Users can analyze their portfolio's performance through interactive charts and graphs.
-- The dashboard offers insights into historical performance, asset allocation, and profit/loss over time.
-
-3. **Risk Management Tools:**
-
-- Advanced risk management tools help users assess the volatility and potential risks associated with their cryptocurrency investments.
-- Users receive alerts for significant market fluctuations or changes in their portfolio value.
-
-4. **Automated Transaction Tracking:**
-
-- The dashboard automatically tracks and records users' cryptocurrency transactions, simplifying the process of updating and managing portfolios.
-- Users can categorize transactions, add notes, and maintain a comprehensive transaction history.
-
-5. **News and Market Insights:**
-
-- A dedicated section provides real-time news and market insights relevant to users' cryptocurrency holdings.
-- Users can stay informed about market trends, regulatory developments, and news affecting their investment decisions.
-
-## Technology Stack
-
-- Frontend: React for a responsive and interactive user interface.
-- Backend: Django for server-side logic and API integration.
-- Database: PostgreSQL for efficient storage and retrieval of portfolio and market data.
-- API Integration: Integration with cryptocurrency exchange APIs for real-time market data.
-
-## Outcome
-
-CryptoTrader Dashboard has become a trusted companion for cryptocurrency investors, offering a consolidated and user-friendly platform for managing their portfolios. The robust analytics, real-time market data, and risk management tools empower users to make informed decisions and navigate the dynamic world of cryptocurrency with confidence.
-
-**Note:** This case study is entirely fictional and created for the purpose of showcasing [Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/).
+---

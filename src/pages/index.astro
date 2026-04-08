@@ -3,30 +3,62 @@ import { getCollection } from 'astro:content';
 import Button from '../components/Button.astro';
 import Hero from '../components/Hero.astro';
 import TechStack from '../components/TechStack.astro';
-import PostPreview from '../components/PostPreview.astro';
-import ProjectPreview from '../components/ProjectPreview.astro';
+import ProjectThumbnail from '../components/ProjectThumbnail.astro';
+import PostThumbnail from '../components/PostThumbnail.astro';
 import GithubContributions from '../components/GithubContributions.astro';
 import siteConfig from '../data/site-config';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { sortItemsByDateDesc } from '../utils/data-utils';
 
 const posts = (await getCollection('blog')).sort(sortItemsByDateDesc);
-const featuredPosts = posts.filter(({ data }) => data.isFeatured);
+const displayPosts = posts.slice(0, 3);
 
 const projects = (await getCollection('projects')).sort(sortItemsByDateDesc);
 const featuredProjects = projects.filter(({ data }) => data.isFeatured);
+const nonFeaturedProjects = projects.filter(({ data }) => !data.isFeatured);
+const displayProjects = [...featuredProjects, ...nonFeaturedProjects].slice(0, 3);
 ---
 
 <BaseLayout description={siteConfig.description}>
     <Hero {...siteConfig.hero} />
     {siteConfig.stack && <TechStack {...siteConfig.stack} />}
     {siteConfig.github && <GithubContributions username={siteConfig.github} />}
+    
     <div class="mb-16 sm:mb-24">
-        <h2 class="mb-12 font-serif text-xl italic sm:mb-16 sm:text-2xl">Projects</h2>
-        <p class="text-main/80 opacity-80 italic">Projects will be updated soon.</p>
+        <div class="mb-12 flex items-baseline justify-between sm:mb-16">
+            <h2 class="font-serif text-2xl sm:text-3xl">Featured Projects</h2>
+            <a href="/projects" class="text-sm font-medium text-main/60 hover:text-main transition-colors">
+                See all projects →
+            </a>
+        </div>
+        
+        {displayProjects.length > 0 ? (
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+                {displayProjects.map((project) => (
+                    <ProjectThumbnail project={project} />
+                ))}
+            </div>
+        ) : (
+            <p class="text-main/60 italic font-serif">Project details will be updated soon.</p>
+        )}
     </div>
+
     <div class="mb-16 sm:mb-24">
-        <h2 class="mb-12 font-serif text-xl italic sm:mb-16 sm:text-2xl">Writing</h2>
-        <p class="text-main/80 opacity-80 italic">Writing will be updated soon.</p>
+        <div class="mb-12 flex items-baseline justify-between sm:mb-16">
+            <h2 class="font-serif text-2xl sm:text-3xl">Recent Writing</h2>
+            <a href="/blog" class="text-sm font-medium text-main/60 hover:text-main transition-colors">
+                See all posts →
+            </a>
+        </div>
+        
+        {displayPosts.length > 0 ? (
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+                {displayPosts.map((post) => (
+                    <PostThumbnail post={post} />
+                ))}
+            </div>
+        ) : (
+            <p class="text-main/60 italic font-serif">Writing will be updated soon.</p>
+        )}
     </div>
 </BaseLayout>
