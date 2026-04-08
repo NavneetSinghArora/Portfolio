@@ -31,17 +31,9 @@ const siteConfig: SiteConfig = {
         {
             text: 'Blog',
             href: '/blog'
-        },
-        {
-            text: 'About',
-            href: '/about'
         }
     ],
     footerNavLinks: [
-        {
-            text: 'About',
-            href: '/about'
-        },
         {
             text: 'Resume',
             href: '/Navneet-Resume.pdf',
