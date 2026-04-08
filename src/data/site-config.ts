@@ -1,11 +1,11 @@
-import avatar from '../assets/images/avatar.jpg';
-import hero from '../assets/images/hero.jpg';
+import navneet_photo from '../assets/images/navneet_photo.jpg';
+import heroBio from '../content/fragments/hero-bio.md?raw';
 import type { SiteConfig } from '../types';
 
 const siteConfig: SiteConfig = {
     website: 'https://www.navneetsingharora.com',
     avatar: {
-        src: avatar,
+        src: navneet_photo,
         alt: 'Navneet Singh Arora'
     },
     title: 'Navneet Singh Arora',
@@ -83,9 +83,9 @@ const siteConfig: SiteConfig = {
     ],
     hero: {
         title: "Hi, I'm Navneet Singh Arora!",
-        text: "*Section will be updated soon.*",
+        text: heroBio,
         image: {
-            src: hero,
+            src: navneet_photo,
             alt: 'Navneet Singh Arora'
         },
         actions: [
@@ -129,7 +129,8 @@ const siteConfig: SiteConfig = {
                     { label: 'Docker', icon: 'docker' },
                     { label: 'Cloudflare', icon: 'cloudflare' },
                     { label: 'Caddy', icon: 'caddy' },
-                    { label: 'Tailscale', icon: { light: 'tailscale-dark', dark: 'tailscale-light' } }
+                    { label: 'Tailscale', icon: { light: 'tailscale-dark', dark: 'tailscale-light' } },
+                    { label: 'OAuth', icon: 'auth0' },
                 ]
             },
             {
@@ -146,13 +147,15 @@ const siteConfig: SiteConfig = {
             {
                 title: 'AI Engineering',
                 items: [
-                    { label: 'Claude Code', icon: 'claude' },
-                    { label: 'Gemini', icon: 'gemini' },
-                    { label: 'Cursor', icon: { light: 'cursor-dark', dark: 'cursor-light' } },
-                    { label: 'Ollama', icon: { light: 'ollama-dark', dark: 'ollama-light' } },
                     { label: 'HuggingFace', icon: 'hugging-face' },
                     { label: 'PyTorch', icon: 'pytorch' },
                     { label: 'FastMCP', icon: 'https://unpkg.com/@lobehub/icons-static-svg@latest/icons/mcp.svg' },
+                    { label: 'Google Vertex AI', icon: 'gemini' },
+                    { label: 'LangChain', icon: 'langchain' },
+                    { label: 'Langsmith', icon: 'langsmith' },
+                    { label: 'Cursor', icon: { light: 'cursor-dark', dark: 'cursor-light' } },
+                    { label: 'Ollama', icon: { light: 'ollama-dark', dark: 'ollama-light' } },
+                    { label: 'Claude Code', icon: 'claude' },
                     { label: 'Jupyter', icon: 'jupyter' },
                     { label: 'Colab', icon: 'colab' }
                 ]

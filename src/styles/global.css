@@ -1,6 +1,4 @@
-@import '@fontsource-variable/inter' layer(base);
-@import '@fontsource-variable/newsreader' layer(base);
-@import '@fontsource-variable/newsreader/wght-italic.css' layer(base);
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@700,500,400&display=swap');
 
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
@@ -20,41 +18,9 @@ html.dark {
     --border-main: #f2f1ec;
 }
 
-/* Cyan */
-/*
-:root {
-    --text-main: #162a2b;
-    --bg-main: #d6e0e2;
-    --bg-muted: #ccd8db;
-    --border-main: #162a2b;
-}
-html.dark {
-    --text-main: #d6e0e2;
-    --bg-main: #162a2b;
-    --bg-muted: #1c3537;
-    --border-main: #d6e0e2;
-}
-*/
-
-/* Green */
-/*
-:root {
-    --text-main: #3a4238;
-    --bg-main: #f3efe6;
-    --bg-muted: #eee9dc;
-    --border-main: #3a4238;
-}
-html.dark {
-    --text-main: #f3efe6;
-    --bg-main: #5e6c5b;
-    --bg-muted: #596756;
-    --border-main: #f3efe6;
-}
-*/
-
 @theme inline {
-    --font-sans: 'Inter Variable', sans-serif;
-    --font-serif: 'Newsreader Variable', serif;
+    --font-sans: 'Satoshi', sans-serif;
+    --font-serif: 'Satoshi', sans-serif; /* Using Satoshi for everything per user modern vibe */
     --text-color-main: var(--text-main);
     --background-color-main: var(--bg-main);
     --background-color-muted: var(--bg-muted);
@@ -108,7 +74,7 @@ html.dark {
     }
 
     .prose :where(h1, h2, h3, h4, h5, h6) {
-        @apply font-serif font-medium;
+        @apply font-bold;
     }
 
     .prose :where(code, strong) {
@@ -116,6 +82,21 @@ html.dark {
     }
 
     .prose blockquote {
-        @apply font-serif font-normal italic border-none pl-0 text-[1.375em] leading-snug sm:text-[1.66667em];
+        @apply font-medium italic border-none pl-0 text-[1.375em] leading-snug sm:text-[1.66667em];
     }
 }
+
+/* Base Body Weight */
+body {
+    font-weight: 400;
+}
+
+/* Nav & Heading Weights */
+nav, h1, h2, h3, h4, h5, h6 {
+    @apply font-medium;
+}
+
+h1, h2 {
+    @apply font-bold;
+}
+
