@@ -21,7 +21,11 @@ const siteConfig: SiteConfig = {
             href: '/'
         },
         {
-            text: 'Work',
+            text: 'Education',
+            href: '/education'
+        },
+        {
+            text: 'Experience',
             href: '/projects'
         },
         {
@@ -31,21 +35,6 @@ const siteConfig: SiteConfig = {
         {
             text: 'About',
             href: '/about'
-        },
-        {
-            text: 'Resume',
-            href: '/Navneet-Resume.pdf',
-            target: '_blank'
-        },
-        {
-            text: 'GitHub',
-            href: 'https://www.github.com/NavneetSinghArora',
-            target: '_blank'
-        },
-        {
-            text: 'LinkedIn',
-            href: 'https://www.linkedin.com/in/navneet-singh-arora',
-            target: '_blank'
         }
     ],
     footerNavLinks: [
@@ -79,6 +68,14 @@ const siteConfig: SiteConfig = {
         {
             text: 'Xing',
             href: 'https://www.xing.com/profile/NavneetSingh_Arora'
+        },
+        {
+            text: 'Gmail',
+            href: 'mailto:aroranavneetsingh.de@gmail.com'
+        },
+        {
+            text: 'Resume',
+            href: '/Navneet-Resume.pdf'
         }
     ],
     hero: {
@@ -141,7 +138,7 @@ const siteConfig: SiteConfig = {
                     { label: 'n8n', icon: 'n8n' },
                     { label: 'Git', icon: 'git' },
                     { label: 'GitHub', icon: { light: 'github-dark', dark: 'github-light' } },
-                    { label: 'Notion', icon: { light: 'notion-light', dark: 'notion-dark' } },
+                    { label: 'Notion', icon: { light: 'notion-dark', dark: 'notion-light' } },
                     { label: 'Slack', icon: 'slack' },
                     { label: 'Miro', icon: 'miro' }
                 ]
