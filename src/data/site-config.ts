@@ -1,11 +1,10 @@
-import avatar from '../assets/images/avatar.jpg';
-import hero from '../assets/images/hero.jpg';
+import navneet_photo from '../assets/images/navneet_photo.jpg';
 import type { SiteConfig } from '../types';
 
 const siteConfig: SiteConfig = {
     website: 'https://www.navneetsingharora.com',
     avatar: {
-        src: avatar,
+        src: navneet_photo,
         alt: 'Navneet Singh Arora'
     },
     title: 'Navneet Singh Arora',
@@ -85,7 +84,7 @@ const siteConfig: SiteConfig = {
         title: "Hi, I'm Navneet Singh Arora!",
         text: "*Section will be updated soon.*",
         image: {
-            src: hero,
+            src: navneet_photo,
             alt: 'Navneet Singh Arora'
         },
         actions: [
