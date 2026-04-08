@@ -32,6 +32,41 @@ const titleClass = 'text-theme-foreground font-serif text-2xl leading-tight font
                 </a>
             )
         }
-        {siteConfig.subtitle && <p class="text-sm leading-tight">{siteConfig.subtitle}</p>}
+        {siteConfig.subtitle && <p class="text-sm leading-tight opacity-70 mb-3">{siteConfig.subtitle}</p>}
+        
+        <div class="flex gap-4">
+            {siteConfig.socialLinks?.map((link) => {
+                const iconName = link.text.toLowerCase();
+                let iconPath = `/src/assets/icons/${iconName}.svg`;
+                
+                // Handle GitHub dual icons
+                const isGithub = iconName === 'github';
+                const isResume = iconName === 'resume';
+                const resumeIcon = 'https://img.icons8.com/color/48/parse-from-clipboard.png';
+                
+                return (
+                    <a 
+                        href={link.href} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        class="group/social relative flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5"
+                        title={link.text}
+                    >
+                        <div class="absolute -inset-2 rounded-full bg-main/5 opacity-0 transition-opacity group-hover/social:opacity-100"></div>
+                        
+                        {isGithub ? (
+                            <>
+                                <img src="/src/assets/icons/github-dark.svg" alt="" class="h-5 w-5 opacity-60 transition-opacity group-hover/social:opacity-100 dark:hidden" />
+                                <img src="/src/assets/icons/github-light.svg" alt="" class="hidden h-5 w-5 opacity-60 transition-opacity group-hover/social:opacity-100 dark:block" />
+                            </>
+                        ) : isResume ? (
+                            <img src={resumeIcon} alt="" class="h-6 w-6 opacity-80 transition-opacity group-hover/social:opacity-100" />
+                        ) : (
+                            <img src={iconPath} alt="" class="h-5 w-5 opacity-60 transition-opacity group-hover/social:opacity-100" />
+                        )}
+                    </a>
+                )
+            })}
+        </div>
     </div>
 </header>
