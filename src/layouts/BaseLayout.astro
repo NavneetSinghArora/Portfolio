@@ -1,10 +1,12 @@
 ---
 import { ClientRouter } from 'astro:transitions';
+import Analytics from '@vercel/analytics/astro';
 import BaseHead, { type Props as HeadProps } from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import Nav from '../components/Nav.astro';
 import AuroraBackground from '../components/AuroraBackground.astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 
 export type Props = HeadProps & { showHeader?: boolean };
 
@@ -22,8 +24,9 @@ const { showHeader = true, ...head } = Astro.props;
         </script>
         <ClientRouter />
         <script is:inline src="/theme-toggle.js"></script>
+        <Analytics />
     </head>
-    <body class="bg-transparent text-main">
+    <body class="text-main bg-transparent">
         <AuroraBackground />
         <div class="flex min-h-screen flex-col px-4 md:px-8">
             <Nav />
@@ -33,5 +36,6 @@ const { showHeader = true, ...head } = Astro.props;
             </main>
             <Footer />
         </div>
+        <SpeedInsights />
     </body>
 </html>
