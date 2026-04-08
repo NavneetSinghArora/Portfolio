@@ -9,11 +9,7 @@ import siteConfig from './src/data/site-config';
 export default defineConfig({
     site: siteConfig.website,
     output: 'server',
-    adapter: vercel({
-        webAnalytics: {
-            enabled: true
-        }
-    }),
+    adapter: vercel(),
     vite: {
         plugins: [tailwindcss()]
     },
