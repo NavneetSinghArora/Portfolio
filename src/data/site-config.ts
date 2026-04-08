@@ -39,8 +39,12 @@ const siteConfig: SiteConfig = {
             href: '/contact'
         },
         {
-            text: 'Terms',
-            href: '/terms'
+            text: 'Imprint',
+            href: '/imprint'
+        },
+        {
+            text: 'Privacy',
+            href: '/privacy'
         }
     ],
     socialLinks: [
