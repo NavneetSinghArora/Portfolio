@@ -6,44 +6,60 @@ import siteConfig from '../data/site-config';
 const navLinks = siteConfig.headerNavLinks ?? [];
 ---
 
-<nav class="relative min-h-10 pt-4 pb-12 sm:min-h-14 sm:pb-24 md:pt-8" aria-label="Primary navigation">
-    {
-        navLinks.length > 0 && (
-            <div class="relative mx-auto w-full max-w-3xl">
-                <button
-                    class="menu-toggle relative z-30 -ml-1 flex h-8 w-8 cursor-pointer items-center justify-center md:hidden"
-                    aria-label="Open Menu"
-                    aria-expanded="false"
-                    aria-controls="menu-items"
-                >
-                    <span class="menu-toggle-icon relative h-px w-6 bg-current" />
-                </button>
-                <ul
-                    id="menu-items"
-                    class="menu max-md:bg-main/80 max-md:backdrop-blur-md max-md:border-main/20 flex gap-6 max-md:absolute max-md:-top-2.5 max-md:-left-2.5 max-md:z-20 max-md:max-w-64 max-md:flex-col max-md:gap-1 max-md:border max-md:border-dashed max-md:px-3 max-md:pt-16 max-md:pb-10 rounded-2xl"
-                >
-                    {navLinks.map((link) => (
-                        <li class="py-1">
-                            <NavLink
-                                class="text-main font-serif text-xl hover:underline hover:decoration-1 hover:underline-offset-2 md:text-base"
-                                href={link.href}
-                                target={link.target}
-                            >
-                                {link.text}
-                            </NavLink>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        )
-    }
-    <div class="absolute top-4 right-0 z-10 md:top-8">
-        <ThemeToggle />
+<nav id="main-nav" class="sticky top-0 z-50 transition-all duration-500" aria-label="Primary navigation">
+    <div id="nav-content" class="relative min-h-10 pt-4 pb-10 sm:min-h-14 sm:pb-16 md:pt-8 transition-all duration-500">
+        {
+            navLinks.length > 0 && (
+                <div class="relative mx-auto w-full max-w-3xl">
+                    <button
+                        class="menu-toggle relative z-30 -ml-1 flex h-8 w-8 cursor-pointer items-center justify-center md:hidden"
+                        aria-label="Open Menu"
+                        aria-expanded="false"
+                        aria-controls="menu-items"
+                    >
+                        <span class="menu-toggle-icon relative h-px w-6 bg-current" />
+                    </button>
+                    <ul
+                        id="menu-items"
+                        class="menu max-md:bg-main/80 max-md:backdrop-blur-md max-md:border-main/20 flex gap-6 max-md:absolute max-md:-top-2.5 max-md:-left-2.5 max-md:z-20 max-md:max-w-64 max-md:flex-col max-md:gap-1 max-md:border max-md:border-dashed max-md:px-3 max-md:pt-16 max-md:pb-10 rounded-2xl"
+                    >
+                        {navLinks.map((link) => (
+                            <li class="py-1">
+                                <NavLink
+                                    class="text-main font-serif text-xl hover:underline hover:decoration-1 hover:underline-offset-2 md:text-base transition-opacity duration-300"
+                                    href={link.href}
+                                    target={link.target}
+                                >
+                                    {link.text}
+                                </NavLink>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )
+        }
+        <div class="absolute top-4 right-0 z-10 md:top-8 transition-all duration-500" id="theme-toggle-wrapper">
+            <ThemeToggle />
+        </div>
     </div>
 </nav>
 
 <style>
     @reference "tailwindcss";
+
+    #main-nav.is-scrolled {
+        background-color: color-mix(in srgb, var(--bg-main) 80%, transparent);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid color-mix(in srgb, var(--border-main) 10%, transparent);
+    }
+
+    #main-nav.is-scrolled #nav-content {
+        @apply pb-4 md:pt-4;
+    }
+
+    #main-nav.is-scrolled #theme-toggle-wrapper {
+        @apply top-4 md:top-4;
+    }
 
     @media (max-width: 767px) {
         .menu {
@@ -92,9 +108,22 @@ const navLinks = siteConfig.headerNavLinks ?? [];
 </style>
 
 <script>
-    function menuToggle() {
+    function initNav() {
+        const nav = document.getElementById('main-nav');
         const menu = document.querySelector('.menu');
         const menuToggleBtn = document.querySelector('.menu-toggle');
+
+        const handleScroll = () => {
+            if (window.scrollY > 10) {
+                nav?.classList.add('is-scrolled');
+            } else {
+                nav?.classList.remove('is-scrolled');
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+
         menuToggleBtn?.addEventListener('click', () => {
             const isMenuExpanded = menuToggleBtn.getAttribute('aria-expanded') === 'true';
             menuToggleBtn.classList.toggle('is-active');
@@ -103,6 +132,7 @@ const navLinks = siteConfig.headerNavLinks ?? [];
             menu?.classList.toggle('is-visible');
         });
     }
-    menuToggle();
-    document.addEventListener('astro:after-swap', menuToggle);
+
+    initNav();
+    document.addEventListener('astro:after-swap', initNav);
 </script>
