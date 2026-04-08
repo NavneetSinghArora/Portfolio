@@ -1,11 +1,10 @@
----
-title: 'PixelPerfect Art Gallery'
-description: PixelPerfect Art Gallery is an innovative online platform that transcends traditional art exhibition spaces.
+description: 'PixelPerfect is an immersive digital art gallery showcase that utilizes ultra-high-resolution rendering to provide a virtual exhibition experience for global artists.'
 publishDate: 'Oct 25 2023'
 isFeatured: false
 seo:
   image:
     src: '../../assets/images/project-5.jpg'
+    alt: 'PixelPerfect Digital Art Gallery Showcase'
 ---
 
 ![Project preview](../../assets/images/project-5.jpg)

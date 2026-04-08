@@ -1,11 +1,10 @@
----
-title: 'RoboChef - AI Powered Cooking Guide'
-description: RoboChef Recipe Assistant is a groundbreaking mobile application that leverages artificial intelligence to redefine the cooking experience.
+description: 'RoboChef is an AI-powered culinary assistant that offers personalized recipe recommendations and real-time cooking guidance using generative AI.'
 publishDate: 'Oct 12 2023'
 isFeatured: false
 seo:
   image:
     src: '../../assets/images/project-3.jpg'
+    alt: 'RoboChef - AI Recipe Assistant Interface'
 ---
 
 ![Project preview](../../assets/images/project-3.jpg)

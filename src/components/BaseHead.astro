@@ -76,6 +76,7 @@ function formatCanonicalURL(url: string | URL) {
 <meta property="og:type" content={pageType} />
 <meta property="og:url" content={formatCanonicalURL(canonicalURL)} />
 <meta property="og:title" content={title} />
+<meta property="og:site_name" content={siteConfig.title} />
 {description && <meta property="og:description" content={description} />}
 {resolvedImage?.src && <meta property="og:image" content={resolvedImage.src} />}
 {resolvedImage?.alt && <meta property="og:image:alt" content={resolvedImage.alt} />}
@@ -87,3 +88,25 @@ function formatCanonicalURL(url: string | URL) {
 {description && <meta name="twitter:description" content={description} />}
 {resolvedImage?.src && <meta name="twitter:image" content={resolvedImage.src} />}
 {resolvedImage?.alt && <meta name="twitter:image:alt" content={resolvedImage.alt} />}
+
+<!-- JSON-LD Structured Data for AI & LLMs -->
+<script is:inline type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": pageType === 'article' ? 'BlogPosting' : 'Person',
+  "name": siteConfig.title,
+  "description": description || siteConfig.description,
+  "url": formatCanonicalURL(canonicalURL),
+  "image": resolvedImage?.src,
+  ...(pageType === 'article' ? {
+    "headline": Astro.props.title,
+    "datePublished": (Astro.props as any).publishDate,
+    "author": {
+      "@type": "Person",
+      "name": siteConfig.title,
+      "url": siteConfig.website
+    }
+  } : {
+    "jobTitle": siteConfig.subtitle,
+    "sameAs": siteConfig.socialLinks?.map(link => link.href) || []
+  })
+})} />

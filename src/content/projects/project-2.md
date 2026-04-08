@@ -1,12 +1,10 @@
----
-title: 'TimeWarp - Travel Agency Website'
-description: Explore the possibilities of time travel through an immersive website for a fictional travel agency, complete with dynamic destination timelines and interactive historical events.
+description: 'TimeWarp is an immersive travel agency website featuring interactive historical timelines and dynamic destination previews for fictional time travel.'
 publishDate: 'Oct 2 2023'
 isFeatured: false
 seo:
   image:
     src: '../../assets/images/project-2.jpg'
-    alt: Project preview
+    alt: 'TimeWarp Travel Agency Interface Preview'
 ---
 
 ![Project preview](../../assets/images/project-2.jpg)

@@ -1,10 +1,9 @@
----
-title: 'NeuralPlaylist - AI Generated Music Recommendations'
-description: Leveraging advanced algorithms and machine learning, NeuralPlaylist crafts personalized music recommendations based on users' preferences, moods, and even biometric data.
+description: 'NeuralPlaylist uses machine learning and biometric data to generate hyper-personalized music playlists tailored to your current mood and environment.'
 publishDate: 'Oct 19 2023'
 seo:
   image:
     src: '../../assets/images/project-4.jpg'
+    alt: 'NeuralPlaylist AI Music Recommendation Platform'
 ---
 
 ![Project preview](../../assets/images/project-4.jpg)

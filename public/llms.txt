@@ -1,0 +1,28 @@
+# Navneet Singh Arora
+Machine Learning & Full Stack Engineer
+
+Expertise in AI, Machine Learning, and Full Stack Development with over 6 years of industry experience.
+
+## Technical Expertise
+- **AI Engineering**: HuggingFace, PyTorch, LangChain, Google Vertex AI, Gemini, Ollama.
+- **Backend & APIs**: Python, FastAPI, Hasura, PostgreSQL, Docker, GCP.
+- **Automation**: n8n, GitHub Actions, Bash scripting.
+
+## Career Summary
+Navneet is a professional with deep specialization in creating intelligent automation and scalable backend architectures.
+
+## Recent Work
+- **IndoRE**: Relation Extraction for Low Resource Indian Languages. Uses mBERT and RoBERTa for NLP in Bengali, Telugu, and Hindi.
+- **COLMAN**: Collaborative Multi-Agent Navigation using Textual-Visual Embeddings. Leverages Transformers and CLIP for embodied AI.
+
+## Contact & Socials
+- Website: https://www.navneetsingharora.com
+- LinkedIn: https://www.linkedin.com/in/navneet-singh-arora
+- GitHub: https://www.github.com/NavneetSinghArora
+- Gmail: aroranavneetsingh.de@gmail.com
+
+## Site Structure
+- /projects: Detailed case studies of technical work.
+- /blog: Writing on Machine Learning, AI, and Full Stack development.
+- /education: Academic background in Computer Science.
+- /experience: Professional journey and roles.
