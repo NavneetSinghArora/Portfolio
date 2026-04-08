@@ -35,11 +35,6 @@ const siteConfig: SiteConfig = {
     ],
     footerNavLinks: [
         {
-            text: 'Resume',
-            href: '/Navneet-Resume.pdf',
-            target: '_blank'
-        },
-        {
             text: 'Contact',
             href: '/contact'
         },
