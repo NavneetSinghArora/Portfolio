@@ -2,6 +2,24 @@
 import siteConfig from '../data/site-config';
 import CustomImage from './CustomImage.astro';
 
+// Dynamically import all logos from src/assets/icons to ensure they are bundled correctly
+const logos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/icons/*.{svg,png,webp,jpg,jpeg}', { eager: true });
+
+function resolveIcon(name: string | undefined) {
+    if (!name) return '';
+    if (name.startsWith('http')) return name;
+    
+    const extensions = ['.svg', '.png', '.webp', '.jpg', '.jpeg'];
+    for (const ext of extensions) {
+        const path = `/src/assets/icons/${name}${ext}`;
+        const asset = logos[path];
+        if (asset) {
+            return (asset.default as any)?.src || asset.default || asset;
+        }
+    }
+    return '';
+}
+
 const titleClass = 'text-theme-foreground font-serif text-2xl leading-tight font-medium sm:text-3xl';
 ---
 
@@ -37,7 +55,7 @@ const titleClass = 'text-theme-foreground font-serif text-2xl leading-tight font
         <div class="flex gap-4">
             {siteConfig.socialLinks?.map((link) => {
                 const iconName = link.text.toLowerCase();
-                let iconPath = `/src/assets/icons/${iconName}.svg`;
+                const iconPath = resolveIcon(iconName);
                 
                 // Handle GitHub dual icons
                 const isGithub = iconName === 'github';
@@ -56,8 +74,8 @@ const titleClass = 'text-theme-foreground font-serif text-2xl leading-tight font
                         
                         {isGithub ? (
                             <>
-                                <img src="/src/assets/icons/github-dark.svg" alt="" class="h-5 w-5 opacity-60 transition-opacity group-hover/social:opacity-100 dark:hidden" />
-                                <img src="/src/assets/icons/github-light.svg" alt="" class="hidden h-5 w-5 opacity-60 transition-opacity group-hover/social:opacity-100 dark:block" />
+                                <img src={resolveIcon('github-dark')} alt="" class="h-5 w-5 opacity-60 transition-opacity group-hover/social:opacity-100 dark:hidden" />
+                                <img src={resolveIcon('github-light')} alt="" class="hidden h-5 w-5 opacity-60 transition-opacity group-hover/social:opacity-100 dark:block" />
                             </>
                         ) : isResume ? (
                             <img src={resumeIcon} alt="" class="h-6 w-6 opacity-80 transition-opacity group-hover/social:opacity-100" />
