@@ -1,6 +1,24 @@
 ---
 import siteConfig from '../data/site-config';
 
+// Dynamically import all logos from src/assets/icons to ensure they are bundled correctly
+const logos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/icons/*.{svg,png,webp,jpg,jpeg}', { eager: true });
+
+function resolveIcon(name: string | undefined) {
+    if (!name) return '';
+    if (name.startsWith('http')) return name;
+    
+    const extensions = ['.svg', '.png', '.webp', '.jpg', '.jpeg'];
+    for (const ext of extensions) {
+        const path = `/src/assets/icons/${name}${ext}`;
+        const asset = logos[path];
+        if (asset) {
+            return (asset.default as any)?.src || asset.default || asset;
+        }
+    }
+    return '';
+}
+
 const socialLinks = siteConfig.socialLinks ?? [];
 const navLinks = siteConfig.footerNavLinks ?? [];
 const currentYear = new Date().getFullYear();
@@ -29,7 +47,7 @@ const currentYear = new Date().getFullYear();
                 <div class="flex flex-wrap gap-5">
                     {socialLinks.map((link) => {
                         const iconName = link.text.toLowerCase();
-                        const iconPath = `/src/assets/icons/${iconName}.svg`;
+                        const iconPath = resolveIcon(iconName);
                         const isGithub = iconName === 'github';
                         const isResume = iconName === 'resume';
                         const resumeIcon = 'https://img.icons8.com/color/48/parse-from-clipboard.png';
@@ -45,8 +63,8 @@ const currentYear = new Date().getFullYear();
                                 <div class="absolute -inset-2 rounded-full bg-main/5 opacity-0 transition-opacity group-hover/social:opacity-100" />
                                 {isGithub ? (
                                     <>
-                                        <img src="/src/assets/icons/github-dark.svg" alt="" class="h-5 w-5 opacity-50 transition-opacity group-hover/social:opacity-100 dark:hidden" />
-                                        <img src="/src/assets/icons/github-light.svg" alt="" class="hidden h-5 w-5 opacity-50 transition-opacity group-hover/social:opacity-100 dark:block" />
+                                        <img src={resolveIcon('github-dark')} alt="" class="h-5 w-5 opacity-50 transition-opacity group-hover/social:opacity-100 dark:hidden" />
+                                        <img src={resolveIcon('github-light')} alt="" class="hidden h-5 w-5 opacity-50 transition-opacity group-hover/social:opacity-100 dark:block" />
                                     </>
                                 ) : isResume ? (
                                     <img src={resumeIcon} alt="" class="h-6 w-6 opacity-70 transition-opacity group-hover/social:opacity-100" />
