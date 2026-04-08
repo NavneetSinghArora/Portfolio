@@ -102,7 +102,7 @@ const siteConfig: SiteConfig = {
     },
     stack: {
         title: 'Tech Stack',
-        description: 'Strategically grouped technologies that power my backend, automation, and AI workflows.',
+        description: 'A curated stack of high-performance technologies powering my backend architecture, intelligent automation, and AI workflows.',
         categories: [
             {
                 title: 'Languages & Data',
@@ -131,6 +131,8 @@ const siteConfig: SiteConfig = {
                     { label: 'Caddy', icon: 'caddy' },
                     { label: 'Tailscale', icon: { light: 'tailscale-dark', dark: 'tailscale-light' } },
                     { label: 'OAuth', icon: 'auth0' },
+                    { label: 'Vercel', icon: { light: 'vercel-dark', dark: 'vercel-light' } },
+
                 ]
             },
             {
