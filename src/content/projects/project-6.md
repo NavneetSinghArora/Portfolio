@@ -1,61 +1,38 @@
 ---
-title: FitQuest - AR Fitness Adventure Game
-description: This web application encourages users to embark on thrilling adventures, complete challenges, and achieve fitness goals in an engaging virtual environment.
-publishDate: 'Dec 28 2023'
+title: 'COLMAN: Collaborative Multi-Agent Navigation using Textual-Visual Embeddings (2022)'
+description: 'COLMAN explores object goal navigation using embodied AI agents, leveraging Transformer-based architectures and CLIP semantic embeddings for improved scene understanding.'
+publishDate: 'Aug 20 2022'
+isFeatured: true
 seo:
   image:
-    src: '../../assets/images/project-6.jpg'
+    src: '../../assets/images/colman.png'
+    alt: 'COLMAN Project - Multi-Agent Navigation'
 ---
 
-![Project preview](../../assets/images/project-6.jpg)
+![COLMAN Project preview](../../assets/images/colman.png)
 
-**Note:** This case study is entirely fictional and created for the purpose of showcasing [Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/).
+*CV Masters Seminar, Universität Hamburg*
 
-**Project Overview:**
-FitQuest is an augmented reality (AR) fitness adventure game that revolutionizes traditional workout routines by combining physical exercise with immersive gameplay. This web application encourages users to embark on thrilling adventures, complete challenges, and achieve fitness goals in an engaging virtual environment.
+<div class="not-prose my-12 p-6 rounded-2xl border border-main/10 bg-main/5 flex flex-col md:flex-row items-center justify-between gap-6 transition-colors hover:border-main/20">
+    <div class="space-y-1">
+        <h4 class="text-[10px] font-bold uppercase tracking-[0.2em] text-main/40">Project Sources</h4>
+        <p class="text-sm text-main/60 font-medium">Technical implementation and research paper.</p>
+    </div>
+    <div class="flex items-center gap-6">
+        <a href="https://github.com/NavneetSinghArora/COLMAN" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository" title="GitHub Repository" class="group transition-transform hover:-translate-y-1">
+            <img src="https://cdn.simpleicons.org/github" alt="" class="h-6 w-6 opacity-40 group-hover:opacity-100 transition-opacity dark:hidden" />
+            <img src="https://cdn.simpleicons.org/github/white" alt="" class="h-6 w-6 opacity-40 group-hover:opacity-100 transition-opacity hidden dark:block" />
+        </a>
+        <a href="https://github.com/NavneetSinghArora/COLMAN/blob/master/COLMAN_Computer_Vision_Master_Project.pdf" target="_blank" rel="noopener noreferrer" aria-label="Research Paper" title="Research Paper" class="group transition-transform hover:-translate-y-1">
+            <img src="https://unpkg.com/lucide-static/icons/file-text.svg" alt="" class="h-6 w-6 opacity-40 group-hover:opacity-100 transition-opacity dark:invert" />
+        </a>
+    </div>
+</div>
 
-## Objectives
+The project works around the recent advancements in object goal navigation using embodied AI agents. While CNN-based approaches have achieved state-of-the-art performance in these tasks, they are memory-intensive and have limitations in more complex environments. The emergence of Transformers has shifted the focus towards attention-inclusive, transformer-based approaches that leverage egocentric views and have scene understanding with multi-head attention.
 
-1. Develop a fitness app that leverages augmented reality to make workouts more enjoyable and interactive.
-2. Integrate real-world locations and landmarks into the game, turning everyday environments into exciting adventure settings.
-3. Motivate users to stay active and maintain a consistent fitness routine by blending physical activity with a captivating storyline.
+The recent works that involve multiple agents working together, such as TBONE and Cordial Sync, and how they achieve SOTA performance. However, these approaches do not incorporate natural language processing (NLP) modules, which could improve the agents' understanding of the semantic meaning of the object.
 
-## Features
+This work aims to enable object recognition for multiple objects by incorporating Contrastive Language-Image Pre-Training (CLIP), a SOTA model that generates semantic embeddings using both image and textual features.
 
-1. **Augmented Reality Workouts:**
-
-- FitQuest utilizes AR technology to overlay game elements onto the real-world environment, creating an immersive and dynamic workout experience.
-- Users engage in exercises that align with the game's storyline while interacting with virtual elements superimposed on their surroundings.
-
-2. **Interactive Storyline and Challenges:**
-
-- The app features an adventure-driven storyline where users embark on quests and missions to complete fitness challenges.
-- Challenges include cardio exercises, strength training, and flexibility workouts, seamlessly integrated into the game's narrative.
-
-3. **Real-World Landmarks Integration:**
-
-- FitQuest incorporates real-world landmarks and locations as key elements in the game, turning parks, streets, and other environments into virtual fitness arenas.
-- Users explore these locations while completing fitness challenges and unlocking new levels.
-
-4. **Multiplayer Mode and Team Challenges:**
-
-- Users can connect with friends or join teams to participate in multiplayer challenges.
-- Team-based missions encourage collaboration and friendly competition, enhancing the social aspect of fitness.
-
-5. **Fitness Tracking and Progress Monitoring:**
-
-- The app includes a comprehensive fitness tracking system that monitors users' progress, calories burned, and achievements.
-- Users can set personalized fitness goals and track their improvement over time.
-
-## Technology Stack
-
-- Frontend: Unity for AR game development.
-- Backend: Node.js for handling server-side logic and real-time data synchronization.
-- Database: MongoDB for storing user profiles, fitness data, and game progress.
-- AR Integration: ARCore (Android) and ARKit (iOS) for augmented reality features.
-
-## Outcome
-
-FitQuest has transformed the fitness landscape by merging physical activity with immersive gaming experiences. Users not only enjoy staying active but also find motivation in the storyline and challenges, creating a unique and entertaining approach to maintaining a healthy lifestyle.
-
-**Note:** This case study is entirely fictional and created for the purpose of showcasing [Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/).
+***
