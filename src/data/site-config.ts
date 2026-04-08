@@ -83,12 +83,22 @@ const siteConfig: SiteConfig = {
     ],
     hero: {
         title: "Hi, I'm Navneet Singh Arora!",
-        text: "*Hero section will be updated soon.*",
+        text: "*Section will be updated soon.*",
         image: {
             src: hero,
             alt: 'Navneet Singh Arora'
         },
-        actions: []
+        actions: [
+            {
+                text: 'Download Resume',
+                href: '/Navneet-Resume.pdf',
+                target: '_blank'
+            },
+            {
+                text: 'Get in Touch',
+                href: '/contact'
+            }
+        ]
     },
     stack: {
         title: 'Tech Stack',
