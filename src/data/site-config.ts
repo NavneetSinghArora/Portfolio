@@ -26,6 +26,10 @@ const siteConfig: SiteConfig = {
         },
         {
             text: 'Experience',
+            href: '/experience'
+        },
+        {
+            text: 'Projects',
             href: '/projects'
         },
         {

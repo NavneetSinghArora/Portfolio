@@ -1,0 +1,25 @@
+---
+import siteConfig from '../data/site-config';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const experiences = [];
+---
+
+<BaseLayout title={`Experience - ${siteConfig.title}`} description="Professional experience and career journey.">
+    <div class="mb-12 sm:mb-16">
+        <h1 class="font-serif text-3xl leading-tight font-medium sm:text-4xl mb-4">Experience</h1>
+        <p class="text-main/90">My professional journey and industry impact.</p>
+    </div>
+
+    <div class="space-y-12">
+        {experiences.length > 0 ? (
+            experiences.map((item) => (
+                <div class="group relative flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-10 transition-all duration-300 py-3">
+                    {/* Experience items will go here */}
+                </div>
+            ))
+        ) : (
+            <p class="text-main/60 italic font-serif">Experience details will be updated soon.</p>
+        )}
+    </div>
+</BaseLayout>
