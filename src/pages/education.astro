@@ -1,0 +1,104 @@
+---
+import siteConfig from '../data/site-config';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const education = [
+    {
+        degree: "MSc. Intelligent Adaptive Systems",
+        institution: "Universität Hamburg",
+        location: "Hamburg, Germany",
+        period: "2021 — 2023",
+        grade: "1.81 GPA",
+        focus: "Artificial Intelligence | Machine Learning | Speech Processing | Computer Vision | Neural Networks",
+        logo: "uhh"
+    },
+    {
+        degree: "BSc. Computer Science & Engineering",
+        institution: "Lovely Professional University",
+        location: "Punjab, India",
+        period: "2011 — 2015",
+        grade: "2.26 GPA",
+        focus: "Software Engineering | Data Structures | Algorithms | Database Management | Web Development",
+        logo: "lpu"
+    }
+];
+
+// Dynamic icon resolution
+const logos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/icons/*.{svg,png,webp,jpg,jpeg}', { eager: true });
+
+function resolveIcon(name: string | undefined) {
+    if (!name) return '';
+    const extensions = ['.svg', '.png', '.webp', '.jpg', '.jpeg'];
+    for (const ext of extensions) {
+        const path = `/src/assets/icons/${name}${ext}`;
+        const asset = logos[path];
+        if (asset) {
+            return (asset.default as any)?.src || asset.default || asset;
+        }
+    }
+    return '';
+}
+---
+
+<BaseLayout title={`Education - ${siteConfig.title}`} description="Academic background and qualifications.">
+    <div class="mb-12 sm:mb-16">
+        <h1 class="font-serif text-3xl leading-tight font-medium sm:text-4xl mb-4">Education</h1>
+        <p class="text-main/90">My academic journey and technical foundations.</p>
+    </div>
+
+    <div class="space-y-12">
+        {education.map((item) => (
+            <div class="group relative flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-10 transition-all duration-300 py-3">
+                <!-- Logo -->
+                <div class="flex-shrink-0 pt-2">
+                    <div class="w-16 h-16 flex items-center justify-center rounded-2xl bg-main/5 p-2 transition-transform duration-300 group-hover:scale-110">
+                        <img 
+                            src={resolveIcon(item.logo)} 
+                            alt={item.institution} 
+                            class="w-full h-full object-contain"
+                        />
+                    </div>
+                </div>
+                
+                <!-- Content -->
+                <div class="grow">
+                    <div class="flex flex-col-reverse justify-between items-start gap-y-1 sm:flex-row sm:items-center sm:gap-4 mb-4">
+                        <h2 class="font-serif text-2xl sm:text-3xl leading-tight font-medium group-hover:underline group-hover:decoration-dashed group-hover:decoration-1 group-hover:underline-offset-4">
+                            {item.degree}
+                        </h2>
+                        <span class="text-xs sm:text-sm font-medium text-main/60 whitespace-nowrap">
+                            {item.period}
+                        </span>
+                    </div>
+                    
+                    <div class="space-y-1">
+                        <p class="text-lg text-theme-foreground/90 font-medium">
+                            {item.institution}
+                        </p>
+                        <p class="text-sm text-main/70 capitalize">
+                            {item.location}
+                        </p>
+                    </div>
+
+                    {item.focus && (
+                        <div class="mt-6 mb-8 py-1 transition-colors">
+                            <p class="text-[10px] uppercase tracking-widest font-bold text-main mb-2">Course Focus</p>
+                            <p class="text-sm sm:text-base text-main/90 leading-relaxed font-serif">
+                                {item.focus}
+                            </p>
+                        </div>
+                    )}
+
+                    {item.grade && (
+                        <div class="mt-4 transition-colors">
+                            <p class="text-[10px] uppercase tracking-widest font-bold text-main mb-1">Final Grade</p>
+                            <p class="text-sm text-main/80 font-serif">
+                                {item.grade}
+                            </p>
+                        </div>
+                    )}
+                </div>
+            </div>
+        ))}
+    </div>
+</BaseLayout>
