@@ -16,7 +16,7 @@ const { title, image, text, actions } = Astro.props;
                 {title && (
                     <div class="relative">
                         <!-- Subtle radial glow for readability -->
-                        <div class="absolute inset-[-20%] -z-10 bg-main/80 dark:bg-main/60 blur-[40px] pointer-events-none rounded-full"></div>
+                        <div class="absolute inset-[-20%] -z-10 bg-main-bg/80 dark:bg-main-bg/60 blur-[40px] pointer-events-none rounded-full"></div>
                         <h1 class="relative font-serif text-3xl leading-tight font-medium sm:text-5xl sm:leading-tight">{title}</h1>
                     </div>
                 )}

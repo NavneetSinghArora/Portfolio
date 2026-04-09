@@ -18,13 +18,14 @@ html.dark {
     --border-main: #f2f1ec;
 }
 
-@theme inline {
+@theme {
     --font-sans: 'Satoshi', sans-serif;
-    --font-serif: 'Satoshi', sans-serif; /* Using Satoshi for everything per user modern vibe */
-    --text-color-main: var(--text-main);
-    --background-color-main: var(--bg-main);
-    --background-color-muted: var(--bg-muted);
-    --border-color-main: var(--border-main);
+    --font-serif: 'Satoshi', sans-serif;
+
+    --color-main: var(--text-main);
+    --color-main-bg: var(--bg-main);
+    --color-main-muted: var(--bg-muted);
+    --color-main-border: var(--border-main);
 }
 
 @layer utilities {

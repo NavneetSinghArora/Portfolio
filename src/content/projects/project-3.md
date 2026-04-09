@@ -1,8 +1,7 @@
 ---
 title: 'RoboChef - AI Powered Cooking Guide'
 description: 'RoboChef is an AI-powered culinary assistant that offers personalized recipe recommendations and real-time cooking guidance using generative AI.'
-publishDate: 'Oct 12 2023'
-isFeatured: false
+publishDate: 'Oct 19 2023'
 seo:
   image:
     src: '../../assets/images/project-3.jpg'

@@ -17,11 +17,11 @@ const { username } = Astro.props;
     <div 
         id="github-contributions"
         data-username={username}
-        class="spotlight-card group/card relative overflow-hidden rounded-2xl border border-main/10 p-6 transition-all hover:border-main/20 backdrop-blur-[2px]"
+        class="spotlight-card group/card relative overflow-hidden rounded-2xl border border-main-border/10 p-6 transition-all hover:border-main-border/20 backdrop-blur-[2px]"
         style="background-color: rgba(var(--text-main-rgb, 23, 23, 23), 0.01);"
     >
         <div id="contributions-loading" class="flex h-[150px] items-center justify-center opacity-50">
-            <div class="h-6 w-6 animate-spin rounded-full border-2 border-main border-t-transparent"></div>
+            <div class="h-6 w-6 animate-spin rounded-full border-2 border-main-border border-t-transparent"></div>
         </div>
         
         <div id="contributions-error" class="hidden flex h-[150px] items-center justify-center text-sm opacity-50">
@@ -35,7 +35,7 @@ const { username } = Astro.props;
                 </div>
             </div>
             
-            <div class="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-main/5 pt-6">
+            <div class="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-main-border/5 pt-6">
                 <div class="flex items-center gap-6">
                     <div class="flex flex-col">
                         <span id="total-contributions" class="text-xl font-medium tracking-tight">0</span>
@@ -63,7 +63,7 @@ const { username } = Astro.props;
     </div>
 
     <!-- Premium Sliding Tooltip -->
-    <div id="github-tooltip" class="pointer-events-none fixed z-50 will-change-[transform,left,top,opacity]" style="opacity: 0; visibility: hidden; color: var(--bg-main);">
+    <div id="github-tooltip" class="pointer-events-none fixed z-50 will-change-[transform,left,top,opacity]" style="opacity: 0; visibility: hidden; color: var(--bg-main-bg);">
         <div class="relative flex flex-col items-center drop-shadow-xl">
             <div class="rounded-md px-3 py-1.5 text-[11px] font-medium tracking-wide whitespace-nowrap" style="background-color: var(--text-main);">
                 <span id="github-tooltip-text"></span>

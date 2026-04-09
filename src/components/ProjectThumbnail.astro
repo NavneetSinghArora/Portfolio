@@ -9,7 +9,7 @@ const { title, description, seo } = project.data;
 const image = seo?.image;
 ---
 
-<a class:list={['group block overflow-hidden rounded-2xl border border-main/10 bg-main/5 transition-all duration-500 hover:border-main/20 hover:bg-main/10', className]} href={`/projects/${project.id}/`}>
+<a class:list={['group block overflow-hidden rounded-2xl border border-main-border/10 bg-main-bg/5 transition-all duration-500 hover:border-main-border/20 hover:bg-main-bg/10', className]} href={`/projects/${project.id}/`}>
     <div class="aspect-video w-full overflow-hidden">
         {image ? (
             <CustomImage 
@@ -20,7 +20,7 @@ const image = seo?.image;
                 height={337}
             />
         ) : (
-            <div class="flex h-full w-full items-center justify-center bg-main/10 text-main/40 italic text-sm">
+            <div class="flex h-full w-full items-center justify-center bg-main-bg/10 text-main/40 italic text-sm">
                 No preview available
             </div>
         )}
