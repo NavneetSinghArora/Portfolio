@@ -19,7 +19,7 @@ seo:
 
 This research focuses on the complex challenge of **Audio-Visual Emotion Recognition (AV-ER)** within the continuous domain (Valence-Arousal space). Unlike traditional discrete emotion classification (e.g., Happy, Sad), continuous modeling allows for a more nuanced understanding of human affect by positioning emotions on a dimensional spectrum.
 
-## 🧠 Methodology & Innovation
+## Methodology & Innovation
 
 The core of the project lies in **multi-modal representation learning**. By leveraging both self-supervised and semi-supervised techniques, the framework achieves robust feature extraction even from large-scale unlabelled datasets.
 
