@@ -63,6 +63,8 @@ const isBlog = Astro.url.pathname.startsWith('/blog/') && Astro.url.pathname !==
 <title>{title}</title>
 <meta name="generator" content={Astro.generator} />
 <meta name="author" content={siteConfig.title} />
+{siteConfig.keywords && <meta name="keywords" content={siteConfig.keywords.join(', ')} />}
+<meta name="robots" content="index, follow" />
 <meta name="theme-color" content="#000000" />
 
 <!-- Fonts -->
