@@ -20,7 +20,7 @@ const image = seo?.image;
                 height={337}
             />
         ) : (
-            <div class="flex h-full w-full items-center justify-center text-main/55 italic text-xs">No preview</div>
+            <div class="flex h-full w-full items-center justify-center text-main/55 text-xs">No preview</div>
         )}
     </div>
     
@@ -63,6 +63,6 @@ const image = seo?.image;
                 </div>
             )}
         </div>
-        <span class="text-xs font-bold uppercase tracking-widest text-main/55 italic">{project.data.publishDate.getFullYear()}</span>
+        <span class="text-xs font-bold uppercase tracking-widest text-main/55">{project.data.publishDate.getFullYear()}</span>
     </div>
 </a>

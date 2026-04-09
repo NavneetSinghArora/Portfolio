@@ -25,7 +25,7 @@ const { title, publishDate, updatedDate, excerpt, tags = [], seo, medium, banner
 const { Content } = await render(post);
 ---
 
-<BaseLayout title={seo?.title ?? title} description={seo?.description ?? excerpt} image={seo?.image} publishDate={publishDate} showHeader={false}>
+<BaseLayout title={seo?.title ?? title} description={seo?.description ?? excerpt} image={seo?.image} publishDate={publishDate}>
     <article class="mb-16 sm:mb-24">
         <header class="mb-8">
             <h1 class="font-serif text-3xl leading-tight font-medium sm:text-5xl sm:leading-tight">{title}</h1>
@@ -61,8 +61,8 @@ const { Content } = await render(post);
         {medium && (
             <div class="not-prose mb-12 p-6 rounded-2xl border border-main-border/10 bg-main-bg/5 flex flex-col md:flex-row items-center justify-between gap-6 transition-colors hover:border-main-border/20">
                 <div class="space-y-1.5 text-center md:text-left">
-                    <h4 class="text-xs font-bold uppercase tracking-[0.2em] text-main/55 italic">Resource Directory</h4>
-                    <p class="text-sm text-main/70 font-medium font-serif italic">This is a summary. <br />Read the full article on Medium — and if you find it helpful, a clap or follow is always appreciated.</p>
+                    <h4 class="text-xs font-bold uppercase tracking-[0.2em] text-main/55">Resource Directory</h4>
+                    <p class="text-sm text-main/70 font-medium font-serif">This is a summary. <br />Read the full article on Medium — and if you find it helpful, a clap or follow is always appreciated.</p>
                 </div>
                 <div class="flex items-center gap-6">
                     {medium && (
@@ -97,7 +97,7 @@ const { Content } = await render(post);
             <>
                 <hr class="border-t border-main-border/10 my-16 sm:my-24" />
                 <div>
-                    <h2 class="mb-12 font-serif text-xl italic sm:mb-16 sm:text-2xl">Read Next</h2>
+                    <h2 class="mb-12 font-serif text-xl sm:mb-16 sm:text-2xl">Read Next</h2>
                     {nextPost && <PostPreview post={nextPost} class="mb-10 sm:mb-12" headingLevel="h3" />}
                     {prevPost && <PostPreview post={prevPost} class="mb-10 sm:mb-12" headingLevel="h3" />}
                 </div>

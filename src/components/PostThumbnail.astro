@@ -19,7 +19,7 @@ const imageSrc = banner ?? seo?.image?.src?.src;
                 loading="lazy"
             />
         ) : (
-            <div class="flex h-full w-full items-center justify-center text-main/55 italic text-xs">No preview</div>
+            <div class="flex h-full w-full items-center justify-center text-main/55 text-xs">No preview</div>
         )}
     </div>
     
@@ -31,7 +31,7 @@ const imageSrc = banner ?? seo?.image?.src?.src;
     </div>
     
     <div class="mt-auto pt-3 border-t border-main-border/10">
-        <p class="text-xs font-bold uppercase tracking-widest text-main/55 italic">
+        <p class="text-xs font-bold uppercase tracking-widest text-main/55">
             {publishDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
         </p>
     </div>

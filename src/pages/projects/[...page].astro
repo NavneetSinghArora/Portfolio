@@ -23,11 +23,11 @@ const portfolio = page.data;
 const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
 ---
 
-<BaseLayout title="Portfolio" description="Explore a diverse portfolio showcasing my passion and expertise" showHeader={false}>
+<BaseLayout title="Portfolio" description="Explore a diverse portfolio showcasing my passion and expertise">
     <div class="mb-12 flex flex-col justify-between gap-6 sm:mb-16 sm:flex-row sm:items-end">
         <div>
-            <h1 class="font-serif text-2xl leading-tight italic sm:text-4xl text-main">Projects</h1>
-            <p class="mt-2 text-sm text-main-bg/60 max-w-md">Technical research, engineering implementations, and academic reviews.</p>
+            <h1 class="font-serif text-2xl leading-tight sm:text-4xl text-main">Projects</h1>
+            <p class="mt-2 text-sm text-main/60 max-w-md">Technical research, engineering implementations, and academic reviews.</p>
         </div>
         
         <!-- View Switcher -->
@@ -96,7 +96,7 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                             />
                         ) : (
-                            <div class="flex h-full w-full items-center justify-center bg-main-bg/10 text-main/55 italic text-xs">No preview</div>
+                            <div class="flex h-full w-full items-center justify-center bg-main-bg/10 text-main/55 text-xs">No preview</div>
                         )}
                     </a>
 
@@ -132,7 +132,7 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                                 </a>
                             )}
                         </div>
-                        <span class="text-xs font-bold uppercase tracking-widest text-main/55 italic">Year {project.data.publishDate.getFullYear()}</span>
+                        <span class="text-xs font-bold uppercase tracking-widest text-main/55">Year {project.data.publishDate.getFullYear()}</span>
                     </div>
                 </div>
 
@@ -168,7 +168,7 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                             />
                         ) : (
-                            <div class="flex h-full w-full items-center justify-center text-main/55 italic text-xs">No preview</div>
+                            <div class="flex h-full w-full items-center justify-center text-main/55 text-xs">No preview</div>
                         )}
                     </div>
                     <h3 class="font-serif text-base font-bold leading-tight line-clamp-2 mb-2 group-hover:underline group-hover:decoration-dashed text-main">{project.data.title}</h3>
@@ -209,7 +209,7 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                             </a>
                         )}
                     </div>
-                    <span class="text-xs font-bold uppercase tracking-widest text-main/55 italic">{project.data.publishDate.getFullYear()}</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-main/55">{project.data.publishDate.getFullYear()}</span>
                 </div>
             </div>
         ))}
