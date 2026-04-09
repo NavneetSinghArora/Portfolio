@@ -74,13 +74,13 @@ const titleClass = 'text-theme-foreground font-serif text-2xl leading-tight font
                         
                         {isGithub ? (
                             <>
-                                <img src={resolveIcon('github-dark')} alt="" class="h-5 w-5 opacity-60 transition-opacity group-hover/social:opacity-100 dark:hidden" />
-                                <img src={resolveIcon('github-light')} alt="" class="hidden h-5 w-5 opacity-60 transition-opacity group-hover/social:opacity-100 dark:block" />
+                                <img src={resolveIcon('github-dark')} alt="" width="20" height="20" class="h-5 w-5 opacity-60 transition-opacity group-hover/social:opacity-100 dark:hidden" />
+                                <img src={resolveIcon('github-light')} alt="" width="20" height="20" class="hidden h-5 w-5 opacity-60 transition-opacity group-hover/social:opacity-100 dark:block" />
                             </>
                         ) : isResume ? (
-                            <img src={resumeIcon} alt="" class="h-6 w-6 opacity-80 transition-opacity group-hover/social:opacity-100" />
+                            <img src={resumeIcon} alt="" width="24" height="24" class="h-6 w-6 opacity-80 transition-opacity group-hover/social:opacity-100" />
                         ) : (
-                            <img src={iconPath} alt="" class="h-5 w-5 opacity-60 transition-opacity group-hover/social:opacity-100" />
+                            <img src={iconPath} alt="" width="20" height="20" class="h-5 w-5 opacity-60 transition-opacity group-hover/social:opacity-100" />
                         )}
                     </a>
                 )

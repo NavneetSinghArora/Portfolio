@@ -21,9 +21,12 @@ const { title, image, text, actions } = Astro.props;
                     </div>
                 )}
                 {image?.src && (
-                    <figure>
+                    <figure 
+                        class="overflow-hidden rounded-2xl bg-main-bg/5"
+                        style={typeof image.src === 'object' ? `aspect-ratio: ${image.src.width} / ${image.src.height}` : ''}
+                    >
                         <CustomImage
-                            class="w-full relative z-10 rounded-2xl"
+                            class="w-full relative z-10"
                             {...image}
                             widths={[480, 640, 768, 1024, 1536]}
                             sizes="(min-width: 832px) 768px, calc(100vw - 32px)"
