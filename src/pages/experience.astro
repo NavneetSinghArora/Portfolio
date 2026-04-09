@@ -11,6 +11,7 @@ import cognizantImg from '../assets/images/cognizant.png';
 const experiences = [
     {
         company: 'Repath',
+        linkedin: 'https://www.linkedin.com/company/repathnow/posts/?feedView=all',
         period: 'Dec 2021 — Present',
         roles: [
             {
@@ -24,6 +25,7 @@ const experiences = [
     },
     {
         company: 'Omdena',
+        linkedin: 'https://www.linkedin.com/company/omdena/posts/?feedView=all',
         period: 'Jun 2021 — Present',
         roles: [
             {
@@ -37,6 +39,7 @@ const experiences = [
     },
     {
         company: 'Universität Hamburg',
+        linkedin: 'https://www.linkedin.com/school/unihamburg/posts/?feedView=all',
         period: 'Oct 2021 — Mar 2022',
         roles: [
             {
@@ -63,6 +66,7 @@ const experiences = [
     },
     {
         company: 'NICE Ltd.',
+        linkedin: 'https://www.linkedin.com/company/nice-systems/posts/?feedView=all',
         period: 'Jan 2018 — Oct 2020',
         roles: [
             {
@@ -82,6 +86,7 @@ const experiences = [
     },
     {
         company: 'Cognizant',
+        linkedin: 'https://www.linkedin.com/company/cognizant/posts/?feedView=all',
         period: 'Jul 2015 — Jan 2018',
         roles: [
             {
@@ -120,7 +125,16 @@ const experiences = [
                     {/* Content */}
                     <div class="flex-1 space-y-6 mt-1">
                         <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
-                            <h2 class="font-serif text-xl sm:text-2xl font-medium">{item.company}</h2>
+                            <h2 class="font-serif text-xl sm:text-2xl font-medium flex items-center gap-2">
+                                {item.company}
+                                {item.linkedin && (
+                                    <a href={item.linkedin} target="_blank" rel="noopener noreferrer" class="text-main/30 hover:text-main transition-colors mt-1" aria-label={`View ${item.company} on LinkedIn`}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                                        </svg>
+                                    </a>
+                                )}
+                            </h2>
                             <span class="text-xs font-bold uppercase tracking-widest text-main/55">{item.period}</span>
                         </div>
                         
