@@ -4,8 +4,15 @@ import ProjectPreview from '../../components/ProjectPreview.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { sortItemsByDateDesc } from '../../utils/data-utils';
 
-const { id } = Astro.params;
-const project = await getEntry('projects', id as string);
+export async function getStaticPaths() {
+    const projects = await getCollection('projects');
+    return projects.map((project) => ({
+        params: { id: project.id },
+        props: { project }
+    }));
+}
+
+const { project } = Astro.props;
 
 if (!project) {
     return Astro.redirect('/404');
