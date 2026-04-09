@@ -163,7 +163,7 @@ const siteConfig: SiteConfig = {
     },
     github: 'NavneetSinghArora, Navneet-Repath',
     subscribe: {
-        enabled: true,
+        enabled: false,
         title: 'Subscribe to my Newsletter',
         text: 'Updates on Machine Learning, AI, and Full Stack development.',
         form: {
