@@ -1,61 +1,26 @@
 ---
-title: 'PixelPerfect Art Gallery'
-description: 'PixelPerfect is an immersive digital art gallery showcase that utilizes ultra-high-resolution rendering to provide a virtual exhibition experience for global artists.'
-publishDate: 'Oct 25 2023'
-isFeatured: false
+title: 'IndoRE: Relation Extraction for Low Resource Indian Languages'
+description: 'The IndoRE project focused on relation extraction for three low-resource Indian languages: Bengali, Telugu, and Hindi using deep generative models and transformer architectures.'
+publishDate: 'Aug 15 2022'
+isFeatured: true
+github: 'https://github.com/NavneetSinghArora/Relation-Extraction'
+paper: 'https://www.kaggle.com/c/indore-datathon-2021'
 seo:
   image:
-    src: '../../assets/images/project-5.jpg'
-    alt: 'PixelPerfect Digital Art Gallery Showcase'
+    src: '../../assets/images/indoml.png'
+    alt: 'IndoRE Project - NLP for Indian Languages'
 ---
 
-**Note:** This case study is entirely fictional and created for the purpose of showcasing [Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/).
+*Kaggle Competition and NLP Course Project, Universität Hamburg*
 
-**Project Overview:**
-PixelPerfect Art Gallery is an innovative online platform that transcends traditional art exhibition spaces. This web application is dedicated to showcasing and celebrating pixel art in the form of Non-Fungible Tokens (NFTs), providing artists with a digital canvas to display their unique creations while ensuring secure ownership through blockchain technology.
 
-## Objectives
+The IndoRE project focused on relation extraction for three low-resource Indian languages: Bengali, Telugu, and Hindi.
+ With relation extraction being a crucial task in natural language processing (NLP), the objective was to predict the relationship between a pair of entities given a sentence.
 
-1. Create an immersive online gallery experience specifically tailored for pixel art enthusiasts and NFT collectors.
-2. Utilize blockchain technology to authenticate and secure ownership of digital artworks, ensuring a transparent and tamper-proof art marketplace.
-3. Foster a community of digital artists and art collectors, providing a platform for collaboration, appreciation, and exchange.
+Due to the scarcity of tagged data for relation classification in Indian languages, the project aimed to explore and enhance this area by leveraging recent advancements in deep generative models. The challenge involved predicting relations from limited tagged training data, consisting of instances across 25 different relations for each language. Additionally, an untagged data dump was provided, which facilitated the use of techniques like similarity-based data augmentation or distant supervision to improve performance.
 
-## Features
+Employing mBERT and RoBERTa models, the project successfully tackled the relation extraction task. By leveraging these powerful models and exploring innovative techniques, the project pushed the boundaries of relation classification in low-resource Indian languages.
 
-1. **NFT Art Exhibition:**
+Overall, the IndoRE project served as an opportunity to showcase expertise in NLP, particularly in relation extraction for Bengali, Telugu, and Hindi. It demonstrated the ability to leverage limited tagged data and explore data augmentation and distant supervision techniques to improve model performance in the context of low-resource languages.
 
-- PixelPerfect features a curated exhibition of pixel art NFTs, showcasing a diverse range of styles, themes, and techniques.
-- Users can explore and appreciate the intricate details of each digital artwork in a visually stunning online gallery.
-
-2. **Blockchain Authentication:**
-
-- Each pixel art piece is tokenized as an NFT on a blockchain, ensuring authenticity, provenance, and secure ownership.
-- Users can view the blockchain records to verify the origin and history of the digital artworks.
-
-3. **Virtual Art Auctions:**
-
-- PixelPerfect hosts virtual art auctions, allowing users to bid on and acquire exclusive pixel art NFTs.
-- The auction platform provides a dynamic and engaging environment for art enthusiasts and collectors.
-
-4. **Community Collaboration Spaces:**
-
-- Dedicated community spaces allow artists to connect, collaborate, and showcase their creative process.
-- Users can discuss techniques, share insights, and even collaborate on pixel art projects within the PixelPerfect community.
-
-5. **Interactive Pixel Art Creation Workshop:**
-
-- PixelPerfect provides a virtual workshop where users can create their own pixel art and potentially tokenize their creations as NFTs.
-- Artists can share their works with the community or submit them for consideration in future exhibitions.
-
-## Technology Stack
-
-- Frontend: Angular for a dynamic and responsive user interface.
-- Backend: Node.js for handling server-side logic and API integration.
-- Database: Ethereum blockchain for storing NFT ownership and transaction details.
-- Smart Contracts: Solidity for developing blockchain smart contracts.
-
-## Outcome
-
-PixelPerfect Art Gallery has successfully created a digital haven for pixel art enthusiasts, providing a secure and engaging platform for artists and collectors alike. The integration of blockchain technology ensures transparency and authenticity in the world of digital art, fostering a vibrant community that appreciates the uniqueness and creativity of pixel art NFTs.
-
-**Note:** This case study is entirely fictional and created for the purpose of showcasing [Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/).
+---

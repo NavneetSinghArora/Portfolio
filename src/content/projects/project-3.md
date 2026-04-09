@@ -1,62 +1,41 @@
 ---
-title: 'RoboChef - AI Powered Cooking Guide'
-description: 'RoboChef is an AI-powered culinary assistant that offers personalized recipe recommendations and real-time cooking guidance using generative AI.'
-publishDate: 'Oct 19 2023'
+title: 'Audio-Visual Emotion Recognition In Continuous Domain'
+description: 'Master Thesis project implementing a high-performance framework for multi-modal emotion recognition using advanced self-supervised representation learning on audio and visual streams.'
+publishDate: 'March 26 2023'
+isFeatured: true
+github: 'https://github.com/NavneetSinghArora/Audio-Visual-Emotion-Recognition-In-Continuous-Domain'
+paper: '/papers/Master-Thesis.pdf'
 seo:
   image:
-    src: '../../assets/images/project-3.jpg'
-    alt: 'RoboChef - AI Recipe Assistant Interface'
+    src: '../../assets/images/emotions.png'
+    alt: 'Valence-Arousal Emotion Wheel - Master Thesis Research'
 ---
 
-**Note:** This case study is entirely fictional and created for the purpose of showcasing [Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/).
+*Master Thesis, University of Hamburg (Informatik)*
 
-**Project Overview:**
-RoboChef Recipe Assistant is a groundbreaking mobile application that leverages artificial intelligence to redefine the cooking experience. By combining machine learning with culinary expertise, RoboChef empowers users to explore a world of flavors, improve their cooking skills, and enjoy personalized recipe recommendations.
+This research focuses on the complex challenge of **Audio-Visual Emotion Recognition (AV-ER)** within the continuous domain (Valence-Arousal space). Unlike traditional discrete emotion classification (e.g., Happy, Sad), continuous modeling allows for a more nuanced understanding of human affect by positioning emotions on a dimensional spectrum.
 
-## Objectives
+## 🧠 Methodology & Innovation
 
-1. Develop a user-friendly mobile app that utilizes AI to provide personalized recipe suggestions based on user preferences, dietary restrictions, and available ingredients.
-2. Create an interactive cooking guide that assists users with step-by-step instructions, cooking tips, and real-time assistance.
-3. Implement a smart learning system that refines recommendations over time, adapting to users' taste preferences and dietary changes.
+The core of the project lies in **multi-modal representation learning**. By leveraging both self-supervised and semi-supervised techniques, the framework achieves robust feature extraction even from large-scale unlabelled datasets.
 
-## Features
+### 1. Dual-Stream Representation Learning
+- **Speech (Audio)**: Implements and evaluates both contrastive and non-contrastive methodologies on unlabelled speech data (e.g., Tedlium v3). This ensures the model captures acoustic nuances that are typically lost in supervised training.
+- **Facial (Visual)**: Utilizes high-fidelity synthetic data (FaceSynthetics) to learn rich facial representations, ensuring the model is resilient to variations in lighting, pose, and occlusions.
 
-1. **AI-Powered Recipe Recommendations:**
+### 2. Pseudo-Labelling Pipeline
+One of the key contributions is an automated high-fidelity labelling pipeline. By strategically generating "pseudo-labels" for unlabelled data, the system significantly reduces the need for expensive manual annotation while increasing the training volume and subsequent accuracy on datasets like **IEMOCAP**.
 
-- RoboChef analyzes users' taste preferences, dietary restrictions, and ingredient availability to suggest personalized recipes.
-- Machine learning algorithms continuously learn from user interactions, refining recommendations for an increasingly tailored experience.
+## 🛠️ Technical Architecture
 
-2. **Ingredient Scanner and Inventory Management:**
+The project is built as a robust, production-ready Python package with a modular design:
 
-- Users can scan their pantry and refrigerator using the app's built-in ingredient scanner.
-- RoboChef provides recipe suggestions based on available ingredients and helps users manage their inventory by suggesting recipes that utilize soon-to-expire items.
+- **Framework**: Developed using **PyTorch** for GPU-accelerated training and inference.
+- **Experiment Tracking**: Full integration with **Comet ML** for real-time monitoring of loss curves, valence/arousal correlation (CCC), and hyper-parameter optimization.
+- **CLI-First Workflow**: A comprehensive Command Line Interface that handles the entire pipeline—from dataset preparation and augmentation to multi-stage representation learning and final evaluation.
 
-3. **Step-by-Step Cooking Guide:**
+## 📊 Impact & Results
 
-- Each recipe includes a detailed step-by-step cooking guide with interactive multimedia elements.
-- Users can watch video tutorials, view images, and receive real-time tips from RoboChef as they progress through each cooking stage.
+By integrating audio-visual streams through late-fusion and optimized attention mechanisms, the model demonstrates significant performance gains over single-modality baselines. The framework provides a scalable foundation for applications in **Human-Robot Interaction**, **Empathetic AI**, and **Mental Health Monitoring**, where understanding the subtle "shades" of emotion is critical.
 
-4. **Nutritional Insights and Meal Planning:**
-
-- RoboChef provides nutritional information for each recipe, helping users make informed decisions about their meals.
-- The app offers meal planning features, allowing users to create weekly menus based on dietary goals and preferences.
-
-5. **Voice-Activated Assistance:**
-
-- Users can interact with RoboChef using voice commands for a hands-free cooking experience.
-- The AI assistant responds to queries, provides cooking tips, and adapts recipes based on user preferences.
-
-## Technology Stack
-
-- Frontend: Flutter for a seamless cross-platform mobile app experience.
-- Backend: Django for handling server-side logic and API integration.
-- Database: PostgreSQL for efficient data storage and retrieval.
-- AI Integration: TensorFlow for machine learning models powering recipe recommendations.
-
-> Navneet Singh Arora possesses a rare blend of technical expertise and creative flair. They skillfully transformed our vague ideas into a visually stunning and highly functional website. The end result exceeded our expectations, and we continue to receive compliments on the design and user experience.
-
-## Outcome
-
-RoboChef Recipe Assistant has revolutionized the way users approach cooking, making it an enjoyable and educational experience. The AI-powered features not only simplify the cooking process but also contribute to users' culinary growth, creating a personalized and evolving cooking journey.
-
-**Note:** This case study is entirely fictional and created for the purpose of showcasing [Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/).
+---
