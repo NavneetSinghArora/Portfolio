@@ -23,7 +23,7 @@ seo:
             <img src="https://cdn.simpleicons.org/github" alt="" class="h-6 w-6 opacity-40 group-hover:opacity-100 transition-opacity dark:hidden" />
             <img src="https://cdn.simpleicons.org/github/white" alt="" class="h-6 w-6 opacity-40 group-hover:opacity-100 transition-opacity hidden dark:block" />
         </a>
-        <a href="/papers/COLMAN-Computer-Vision-Master-Project.pdf" target="_blank" rel="noopener noreferrer" aria-label="Research Paper" title="Research Paper" class="group transition-transform hover:-translate-y-1">
+        <a href="/papers/COLMAN-Collaborative-Multi-Agent-Navigation-using-Textual-Visual-Embeddings" target="_blank" rel="noopener noreferrer" aria-label="Research Paper" title="Research Paper" class="group transition-transform hover:-translate-y-1">
             <img src="https://unpkg.com/lucide-static/icons/file-text.svg" alt="" class="h-6 w-6 opacity-40 group-hover:opacity-100 transition-opacity dark:invert" />
         </a>
     </div>
