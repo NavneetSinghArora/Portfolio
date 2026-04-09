@@ -9,8 +9,8 @@ const { title, description, seo } = project.data;
 const image = seo?.image;
 ---
 
-<a class:list={['group block overflow-hidden rounded-2xl border border-main-border/10 bg-main-bg/5 transition-all duration-500 hover:border-main-border/20 hover:bg-main-bg/10', className]} href={`/projects/${project.id}/`}>
-    <div class="aspect-video w-full overflow-hidden">
+<a class:list={['group block relative flex flex-col rounded-2xl border border-main-border/10 bg-main-bg/5 p-4 transition-all hover:border-main-border/20 hover:bg-main-bg/10', className]} href={`/projects/${project.id}/`}>
+    <div class="aspect-video w-full overflow-hidden rounded-xl border border-main-border/5 bg-main-bg/10 mb-4">
         {image ? (
             <CustomImage 
                 src={image.src} 
@@ -20,15 +20,49 @@ const image = seo?.image;
                 height={337}
             />
         ) : (
-            <div class="flex h-full w-full items-center justify-center bg-main-bg/10 text-main/40 italic text-sm">
-                No preview available
-            </div>
+            <div class="flex h-full w-full items-center justify-center text-main/40 italic text-xs">No preview</div>
         )}
     </div>
-    <div class="p-4">
-        <h3 class="font-serif text-lg font-medium leading-tight group-hover:underline group-hover:decoration-dashed group-hover:decoration-1 group-hover:underline-offset-4">
+    
+    <div class="flex-grow">
+        <h3 class="font-serif text-base font-bold leading-tight line-clamp-2 mb-2 group-hover:underline group-hover:decoration-dashed text-main">
             {title}
         </h3>
-        {description && <p class="mt-2 text-sm text-main/60 line-clamp-2 leading-relaxed">{description}</p>}
+        {description && <p class="text-[11px] text-main/80 line-clamp-3 mb-4 leading-relaxed font-sans">{description}</p>}
+    </div>
+    
+    <!-- Card Meta -->
+    <div class="mt-auto flex items-center justify-between pt-3 border-t border-main-border/5">
+        <div class="flex items-center gap-2">
+            {project.data.github && (
+                <div class="opacity-40" title="GitHub Repository">
+                    <img src="https://cdn.simpleicons.org/github" class="h-3.5 w-3.5 dark:hidden" alt="GitHub" />
+                    <img src="https://cdn.simpleicons.org/github/white" class="h-3.5 w-3.5 hidden dark:block" alt="GitHub" />
+                </div>
+            )}
+            {project.data.paper && (
+                <div class="opacity-40" title={project.data.paper.includes('kaggle.com') ? "Kaggle Competition" : "Research/Project Document"}>
+                    {project.data.paper.includes('kaggle.com') ? (
+                        <div class="flex items-center">
+                            <img src="https://cdn.simpleicons.org/kaggle" class="h-4.5 w-4.5 dark:hidden scale-110" alt="Kaggle" />
+                            <img src="https://cdn.simpleicons.org/kaggle/white" class="h-4.5 w-4.5 hidden dark:block scale-110" alt="Kaggle" />
+                        </div>
+                    ) : (
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    )}
+                </div>
+            )}
+            {project.data.demo && (
+                <div class="opacity-40" title="Live Demo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                </div>
+            )}
+            {project.data.external && (
+                <div class="opacity-40" title="External Link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                </div>
+            )}
+        </div>
+        <span class="text-[9px] font-bold uppercase tracking-widest text-main/40 italic">{project.data.publishDate.getFullYear()}</span>
     </div>
 </a>

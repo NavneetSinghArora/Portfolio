@@ -10,29 +10,37 @@ const { title, excerpt, publishDate, seo } = post.data;
 const image = seo?.image;
 ---
 
-<a class:list={['group block overflow-hidden rounded-2xl border border-main-border/10 bg-main-bg/5 transition-all duration-500 hover:border-main-border/20 hover:bg-main-bg/10', className]} href={`/blog/${post.id}/`}>
-    <div class="aspect-[16/10] w-full overflow-hidden">
+<a class:list={['group block relative flex flex-col rounded-2xl border border-main-border/10 bg-main-bg/5 p-4 transition-all hover:border-main-border/20 hover:bg-main-bg/10', className]} href={`/blog/${post.id}/`}>
+    <div class="aspect-video w-full overflow-hidden rounded-xl border border-main-border/5 bg-main-bg/10 mb-4">
         {image ? (
             <CustomImage 
                 src={image.src} 
                 alt={image.alt || title} 
-                class="h-full w-full object-cover grayscale transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                 width={600}
-                height={375}
+                height={337}
             />
         ) : (
-            <div class="flex h-full w-full items-center justify-center bg-main-bg/10 text-main/40 italic text-sm">
-                No preview available
-            </div>
+            <div class="flex h-full w-full items-center justify-center text-main/40 italic text-xs">No preview</div>
         )}
     </div>
-    <div class="p-4">
-        <div class="mb-2 text-[10px] uppercase tracking-widest font-bold text-main/40">
-            <FormattedDate date={publishDate} />
-        </div>
-        <h3 class="font-serif text-lg font-medium leading-tight group-hover:underline group-hover:decoration-dashed group-hover:decoration-1 group-hover:underline-offset-4">
+    
+    <div class="flex-grow">
+        <h3 class="font-serif text-base font-bold leading-tight line-clamp-2 mb-2 group-hover:underline group-hover:decoration-dashed text-main">
             {title}
         </h3>
-        {excerpt && <p class="mt-3 text-sm text-main/60 line-clamp-3 leading-relaxed">{excerpt}</p>}
+        {excerpt && <p class="text-[11px] text-main/80 line-clamp-3 mb-4 leading-relaxed font-sans">{excerpt}</p>}
+    </div>
+    
+    <!-- Blog Meta -->
+    <div class="mt-auto flex items-center justify-between pt-3 border-t border-main-border/5">
+        <div class="flex items-center gap-1.5 overflow-hidden">
+            {post.data.tags.slice(0, 2).map(tag => (
+                <span class="text-[8px] uppercase tracking-tighter text-main/40 whitespace-nowrap">{tag}</span>
+            ))}
+        </div>
+        <span class="text-[9px] font-bold uppercase tracking-widest text-main/40 italic whitespace-nowrap">
+            {publishDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+        </span>
     </div>
 </a>
