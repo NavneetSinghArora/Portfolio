@@ -24,14 +24,18 @@ const education = [
 ];
 
 // Dynamic icon resolution
-const logos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/icons/*.{svg,png,webp,jpg,jpeg}', { eager: true });
+const logos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/{icons,images}/*.{svg,png,webp,jpg,jpeg}', { eager: true });
 
 function resolveIcon(name: string | undefined) {
     if (!name) return '';
     const extensions = ['.svg', '.png', '.webp', '.jpg', '.jpeg'];
+    
     for (const ext of extensions) {
-        const path = `/src/assets/icons/${name}${ext}`;
-        const asset = logos[path];
+        // Try icons and images paths gracefully
+        const iconPath = `/src/assets/icons/${name}${ext}`;
+        const imagePath = `/src/assets/images/${name}${ext}`;
+        
+        let asset = logos[iconPath] || logos[imagePath];
         if (asset) {
             return (asset.default as any)?.src || asset.default || asset;
         }
@@ -49,54 +53,49 @@ function resolveIcon(name: string | undefined) {
     <div class="space-y-12">
         {education.map((item) => (
             <div class="group relative flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-10 transition-all duration-300 py-3">
-                <!-- Logo -->
-                <div class="flex-shrink-0 pt-2">
-                    <div class="w-16 h-16 flex items-center justify-center rounded-2xl bg-main-bg/5 p-2 transition-transform duration-300 group-hover:scale-110">
+                {/* SVG Icon Container */}
+                <div class="flex-shrink-0 mt-1">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl border border-main-border/10 bg-main-bg/5 text-main/70 shadow-sm transition-colors group-hover:border-main-border/30 group-hover:text-main overflow-hidden">
                         <img 
                             src={resolveIcon(item.logo)} 
                             alt={item.institution} 
-                            class="w-full h-full object-contain"
+                            class="h-full w-full object-cover"
                         />
                     </div>
                 </div>
                 
-                <!-- Content -->
-                <div class="grow">
-                    <div class="flex flex-col-reverse justify-between items-start gap-y-1 sm:flex-row sm:items-center sm:gap-4 mb-4">
-                        <h2 class="font-serif text-2xl sm:text-3xl leading-tight font-medium group-hover:underline group-hover:decoration-dashed group-hover:decoration-1 group-hover:underline-offset-4">
-                            {item.degree}
-                        </h2>
-                        <span class="text-xs sm:text-sm font-medium text-main/60 whitespace-nowrap">
-                            {item.period}
-                        </span>
+                {/* Content */}
+                <div class="flex-1 space-y-6 mt-1">
+                    <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
+                        <h2 class="font-serif text-xl sm:text-2xl font-medium">{item.institution}</h2>
+                        <span class="text-xs font-bold uppercase tracking-widest text-main/55 whitespace-nowrap">{item.period}</span>
                     </div>
                     
-                    <div class="space-y-1">
-                        <p class="text-lg text-theme-foreground/90 font-medium">
-                            {item.institution}
-                        </p>
-                        <p class="text-sm text-main/70 capitalize">
-                            {item.location}
-                        </p>
+                    <div class="space-y-8 relative before:absolute before:inset-y-1 before:-left-[24px] before:w-[2px] before:bg-main-border/10 ml-6 sm:ml-0">
+                        <div class="relative">
+                            <span class="absolute top-1.5 -left-[27px] h-2 w-2 rounded-full bg-main/40 ring-4 ring-main-bg"></span>
+                            <h3 class="text-base font-semibold text-main/80">{item.degree}</h3>
+                            
+                            <div class="flex items-center flex-wrap gap-2 sm:gap-3 text-xs font-medium text-main/60 mt-1 mb-3">
+                                <span>{item.period}</span>
+                                <span class="hidden sm:inline-block h-1 w-1 rounded-full bg-main/30"></span>
+                                <span>{item.location}</span>
+                                {item.grade && (
+                                    <>
+                                        <span class="hidden sm:inline-block h-1 w-1 rounded-full bg-main/30"></span>
+                                        <span class="font-serif text-main/80 font-bold">{item.grade}</span>
+                                    </>
+                                )}
+                            </div>
+                            
+                            {item.focus && (
+                                <p class="text-sm leading-relaxed text-main/70 max-w-2xl mt-4 font-serif">
+                                    <span class="text-main/90 font-sans tracking-widest uppercase text-[10px] font-bold mr-2">Focus</span>
+                                    {item.focus}
+                                </p>
+                            )}
+                        </div>
                     </div>
-
-                    {item.focus && (
-                        <div class="mt-6 mb-8 py-1 transition-colors">
-                            <p class="text-[10px] uppercase tracking-widest font-bold text-main mb-2">Course Focus</p>
-                            <p class="text-sm sm:text-base text-main/90 leading-relaxed font-serif">
-                                {item.focus}
-                            </p>
-                        </div>
-                    )}
-
-                    {item.grade && (
-                        <div class="mt-4 transition-colors">
-                            <p class="text-[10px] uppercase tracking-widest font-bold text-main mb-1">Final Grade</p>
-                            <p class="text-sm text-main/80 font-serif">
-                                {item.grade}
-                            </p>
-                        </div>
-                    )}
                 </div>
             </div>
         ))}

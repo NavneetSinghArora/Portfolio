@@ -2,7 +2,104 @@
 import siteConfig from '../data/site-config';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const experiences = [];
+import repathImg from '../assets/images/repath.jpeg';
+import omdenaImg from '../assets/images/omdena.png';
+import uhhImg from '../assets/images/uhh.jpeg';
+import niceImg from '../assets/images/nice.jpeg';
+import cognizantImg from '../assets/images/cognizant.png';
+
+const experiences = [
+    {
+        company: 'Repath',
+        period: 'Dec 2021 — Present',
+        roles: [
+            {
+                title: 'Machine Learning & Full Stack Engineer',
+                period: 'Dec 2021 — Present',
+                location: 'Hamburg, Germany',
+                description: 'Leading the AI initiative and architecting AI-powered Climate Resilience solutions using FastMCP, LangChain, and GCP. Project Lead for CI/CD pipelines, integrating ML algorithms, and managing data integration infrastructure.'
+            }
+        ],
+        icon: `<img src="${repathImg.src}" alt="Repath" class="h-full w-full rounded-2xl object-cover" />`
+    },
+    {
+        company: 'Omdena',
+        period: 'Jun 2021 — Present',
+        roles: [
+            {
+                title: 'Chapter Lead',
+                period: 'Jun 2021 — Present',
+                location: 'Remote',
+                description: 'Community Leader for the Hamburg Chapter, hosting open-source AI projects for knowledge sharing and social impact among global tech community members.'
+            }
+        ],
+        icon: `<img src="${omdenaImg.src}" alt="Omdena" class="h-full w-full rounded-2xl object-cover" />`
+    },
+    {
+        company: 'Universität Hamburg',
+        period: 'Oct 2021 — Mar 2022',
+        roles: [
+            {
+                title: 'Student Tutor',
+                period: 'Oct 2021 — Mar 2022',
+                location: 'Hamburg, Germany',
+                description: 'Conducted practical labs and Q&A sessions for Computer Vision students. Managed course administration and student assignment tracking.'
+            }
+        ],
+        icon: `<img src="${uhhImg.src}" alt="Universität Hamburg" class="h-full w-full rounded-2xl object-cover" />`
+    },
+    {
+        company: 'alloffice.space',
+        period: 'May 2020 — Feb 2021',
+        roles: [
+            {
+                title: 'Full Stack Engineer - Freelance',
+                period: 'May 2020 — Feb 2021',
+                location: 'Remote',
+                description: 'Developed backend applications using Python and Selenium. Built internal platform UI leveraging Tkinter to accelerate team workflows.'
+            }
+        ],
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="M10 4v4"/><path d="M2 8h20"/><path d="M6 4v4"/></svg>'
+    },
+    {
+        company: 'NICE Ltd.',
+        period: 'Jan 2018 — Oct 2020',
+        roles: [
+            {
+                title: 'Tech Lead',
+                period: 'Oct 2019 — Oct 2020',
+                location: 'Pune, India',
+                description: 'Moving up the ladder, I was given the role of Technical Scrum Master along with being a Full Stack Developer. Extensive work on Client-Side as well as Server-Side code to build new features and integrate legacy code. Also worked as a QA on various fronts.'
+            },
+            {
+                title: 'Software Engineer',
+                period: 'Jan 2018 — Oct 2019',
+                location: 'Pune, India',
+                description: 'I started working as a Tableau Developer, creating Dashboards along with Data Sources. Joined a new team to upgrade the product platform and develop multiple features from scratch. I was also given the responsibility of Scrum Master.'
+            }
+        ],
+        icon: `<img src="${niceImg.src}" alt="NICE Ltd." class="h-full w-full rounded-2xl object-cover" />`
+    },
+    {
+        company: 'Cognizant',
+        period: 'Jul 2015 — Jan 2018',
+        roles: [
+            {
+                title: 'Program Analyst',
+                period: 'Dec 2015 — Jan 2018',
+                location: 'Pune, India',
+                description: 'Joined Credit Suisse as a Software Developer. I was part of 4 projects extensively using Java and Shell Script. Named Innovation Lead for the team, saving costs for the project and awarded Kudos Award for significant contributions.'
+            },
+            {
+                title: 'Program Analyst Trainee',
+                period: 'Jul 2015 — Nov 2015',
+                location: 'Pune, India',
+                description: 'Started my stint in IT as a Trainee. Went through comprehensive training in Java, SQL, and various basic modules including communications and soft skills.'
+            }
+        ],
+        icon: `<img src="${cognizantImg.src}" alt="Cognizant" class="h-full w-full rounded-2xl object-cover" />`
+    }
+];
 ---
 
 <BaseLayout title={`Experience - ${siteConfig.title}`} description="Professional experience and career journey.">
@@ -15,7 +112,41 @@ const experiences = [];
         {experiences.length > 0 ? (
             experiences.map((item) => (
                 <div class="group relative flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-10 transition-all duration-300 py-3">
-                    {/* Experience items will go here */}
+                    {/* SVG Icon Container */}
+                    <div class="flex-shrink-0 mt-1">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-2xl border border-main-border/10 bg-main-bg/5 text-main/70 shadow-sm transition-colors group-hover:border-main-border/30 group-hover:text-main" set:html={item.icon} />
+                    </div>
+                    
+                    {/* Content */}
+                    <div class="flex-1 space-y-6 mt-1">
+                        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
+                            <h2 class="font-serif text-xl sm:text-2xl font-medium">{item.company}</h2>
+                            <span class="text-xs font-bold uppercase tracking-widest text-main/55">{item.period}</span>
+                        </div>
+                        
+                        <div class="space-y-8 relative before:absolute before:inset-y-1 before:-left-[24px] before:w-[2px] before:bg-main-border/10 ml-6 sm:ml-0">
+                            {item.roles.map(role => (
+                                <div class="relative">
+                                    <span class="absolute top-1.5 -left-[27px] h-2 w-2 rounded-full bg-main/40 ring-4 ring-main-bg"></span>
+                                    <h3 class="text-base font-semibold text-main/80">{role.title}</h3>
+                                    
+                                    <div class="flex items-center gap-3 text-xs font-medium text-main/60 mt-1 mb-3">
+                                        <span>{role.period}</span>
+                                        {role.location && (
+                                            <>
+                                                <span class="h-1 w-1 rounded-full bg-main/30"></span>
+                                                <span>{role.location}</span>
+                                            </>
+                                        )}
+                                    </div>
+                                    
+                                    <p class="text-sm leading-relaxed text-main/70 max-w-2xl">
+                                        {role.description}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             ))
         ) : (
