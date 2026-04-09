@@ -63,12 +63,12 @@ const { username } = Astro.props;
     </div>
 
     <!-- Premium Sliding Tooltip -->
-    <div id="github-tooltip" class="pointer-events-none fixed z-50 will-change-[transform,left,top,opacity]" style="opacity: 0; visibility: hidden; color: var(--bg-main-bg);">
+    <div id="github-tooltip" class="pointer-events-none fixed z-50 will-change-[transform,left,top,opacity]" style="opacity: 0; visibility: hidden;">
         <div class="relative flex flex-col items-center drop-shadow-xl">
-            <div class="rounded-md px-3 py-1.5 text-[11px] font-medium tracking-wide whitespace-nowrap" style="background-color: var(--text-main);">
+            <div class="rounded-md px-3 py-1.5 text-[11px] font-medium tracking-wide whitespace-nowrap bg-main text-main-bg">
                 <span id="github-tooltip-text"></span>
             </div>
-            <svg class="w-3 h-1.5 -mt-[1px]" style="color: var(--text-main);" viewBox="0 0 12 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-3 h-1.5 -mt-[1px] text-main" viewBox="0 0 12 6" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4.69701 5.30299C5.41843 6.02441 6.58157 6.02441 7.30299 5.30299L12 0.605988L0 0.605988L4.69701 5.30299Z" fill="currentColor"/>
             </svg>
         </div>
@@ -185,30 +185,88 @@ const { username } = Astro.props;
             
             totalEl.innerText = totalLastYear.toLocaleString();
 
+            // Padding the beginning so the first day aligns correctly with the day of the week (0 = Sunday)
+            const firstDateStr = contributions[0].date;
+            const firstPadding = new Date(firstDateStr).getDay();
+            const paddedContributions = [];
+            
+            for (let i = 0; i < firstPadding; i++) {
+                paddedContributions.push({ empty: true });
+            }
+            paddedContributions.push(...contributions);
+
             // Group by week
             const weeks: any[][] = [];
             let currentWeek: any[] = [];
             
-            contributions.forEach((day, index) => {
+            paddedContributions.forEach((day, index) => {
                 currentWeek.push(day);
-                if (currentWeek.length === 7 || index === contributions.length - 1) {
+                if (currentWeek.length === 7 || index === paddedContributions.length - 1) {
                     weeks.push(currentWeek);
                     currentWeek = [];
                 }
             });
 
             // Render grid
-            grid.innerHTML = weeks.map(week => `
-                <div class="flex flex-col gap-[3px]">
-                    ${week.map(day => `
-                        <div 
-                            class="github-square h-[10px] w-[10px] rounded-[2px] level-${day.level} transition-all hover:scale-125 hover:z-10" 
-                            data-date="${day.date}"
-                            data-count="${day.count}"
-                        ></div>
-                    `).join('')}
+            let monthLabels = '';
+            let currentMonth = -1;
+            
+            const weeksHTML = weeks.map((week, weekIndex) => {
+                // Determine month of first non-empty day in the week
+                const firstRealDay = week.find(d => !d.empty);
+                if (firstRealDay) {
+                    const firstDayDate = new Date(firstRealDay.date);
+                    const month = firstDayDate.getMonth();
+                    
+                    if (month !== currentMonth && weekIndex < weeks.length - 2) {
+                        currentMonth = month;
+                        const monthName = firstDayDate.toLocaleString('default', { month: 'short' });
+                        monthLabels += `<div class="absolute" style="left: ${weekIndex * 13}px">${monthName}</div>`;
+                    }
+                }
+
+                return `
+                    <div class="flex flex-col gap-[3px]">
+                        ${week.map(day => day.empty ? `
+                            <div class="h-[10px] w-[10px] rounded-[2px] bg-transparent"></div>
+                        ` : `
+                            <div 
+                                class="github-square h-[10px] w-[10px] rounded-[2px] level-${day.level} transition-all hover:scale-125 hover:z-10" 
+                                data-date="${day.date}"
+                                data-count="${day.count}"
+                            ></div>
+                        `).join('')}
+                    </div>
+                `;
+            }).join('');
+
+            grid.innerHTML = `
+                <div class="flex gap-2 w-full">
+                    <!-- Left Axis for Days -->
+                    <div class="flex flex-col gap-[3px] text-[9px] text-main/50 font-medium pt-[18px]">
+                        <div style="height: 10px;"></div>
+                        <div style="height: 10px; line-height: 10px;">Mon</div>
+                        <div style="height: 10px;"></div>
+                        <div style="height: 10px; line-height: 10px;">Wed</div>
+                        <div style="height: 10px;"></div>
+                        <div style="height: 10px; line-height: 10px;">Fri</div>
+                        <div style="height: 10px;"></div>
+                    </div>
+                    
+                    <!-- Chart Area -->
+                    <div class="flex flex-col gap-[3px]">
+                        <!-- Top Axis for Months -->
+                        <div class="relative h-[15px] text-[9px] text-main/50 font-medium">
+                            ${monthLabels}
+                        </div>
+                        
+                        <!-- Grid Matrix -->
+                        <div class="flex gap-[3px]">
+                            ${weeksHTML}
+                        </div>
+                    </div>
                 </div>
-            `).join('');
+            `;
 
             loading.classList.add('hidden');
             content.classList.remove('hidden');
