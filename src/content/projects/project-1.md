@@ -1,3 +1,5 @@
+---
+title: 'EcoBuddy: Sustainable Living App'
 description: 'EcoBuddy is a gamified sustainable living app that enables users to track their carbon footprint and achieve eco-friendly goals through virtual rewards.'
 publishDate: 'Jan 02 2024'
 seo:
