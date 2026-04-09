@@ -1,27 +1,25 @@
 ---
 import { type CollectionEntry } from 'astro:content';
-import CustomImage from './CustomImage.astro';
 import FormattedDate from './FormattedDate.astro';
 
 type Props = { post: CollectionEntry<'blog'>; class?: string };
 
 const { post, class: className } = Astro.props;
-const { title, excerpt, publishDate, seo } = post.data;
-const image = seo?.image;
+const { title, excerpt, publishDate, seo, banner } = post.data;
+const imageSrc = banner ?? seo?.image?.src?.src;
 ---
 
 <a class:list={['group block relative flex flex-col rounded-2xl border border-main-border/10 bg-main-bg/5 p-4 transition-all hover:border-main-border/20 hover:bg-main-bg/10', className]} href={`/blog/${post.id}/`}>
     <div class="aspect-video w-full overflow-hidden rounded-xl border border-main-border/5 bg-main-bg/10 mb-4">
-        {image ? (
-            <CustomImage 
-                src={image.src} 
-                alt={image.alt || title} 
+        {imageSrc ? (
+            <img
+                src={imageSrc}
+                alt={title}
                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                width={600}
-                height={337}
+                loading="lazy"
             />
         ) : (
-            <div class="flex h-full w-full items-center justify-center text-main/40 italic text-xs">No preview</div>
+            <div class="flex h-full w-full items-center justify-center text-main/55 italic text-xs">No preview</div>
         )}
     </div>
     
@@ -29,18 +27,12 @@ const image = seo?.image;
         <h3 class="font-serif text-base font-bold leading-tight line-clamp-2 mb-2 group-hover:underline group-hover:decoration-dashed text-main">
             {title}
         </h3>
-        {excerpt && <p class="text-[11px] text-main/80 line-clamp-3 mb-4 leading-relaxed font-sans">{excerpt}</p>}
+        {excerpt && <p class="text-xs text-main/80 line-clamp-3 mb-4 leading-relaxed font-sans">{excerpt}</p>}
     </div>
     
-    <!-- Blog Meta -->
-    <div class="mt-auto flex items-center justify-between pt-3 border-t border-main-border/5">
-        <div class="flex items-center gap-1.5 overflow-hidden">
-            {post.data.tags.slice(0, 2).map(tag => (
-                <span class="text-[8px] uppercase tracking-tighter text-main/40 whitespace-nowrap">{tag}</span>
-            ))}
-        </div>
-        <span class="text-[9px] font-bold uppercase tracking-widest text-main/40 italic whitespace-nowrap">
+    <div class="mt-auto pt-3 border-t border-main-border/10">
+        <p class="text-xs font-bold uppercase tracking-widest text-main/55 italic">
             {publishDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
-        </span>
+        </p>
     </div>
 </a>

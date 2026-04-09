@@ -20,7 +20,7 @@ const image = seo?.image;
                 height={337}
             />
         ) : (
-            <div class="flex h-full w-full items-center justify-center text-main/40 italic text-xs">No preview</div>
+            <div class="flex h-full w-full items-center justify-center text-main/55 italic text-xs">No preview</div>
         )}
     </div>
     
@@ -28,7 +28,7 @@ const image = seo?.image;
         <h3 class="font-serif text-base font-bold leading-tight line-clamp-2 mb-2 group-hover:underline group-hover:decoration-dashed text-main">
             {title}
         </h3>
-        {description && <p class="text-[11px] text-main/80 line-clamp-3 mb-4 leading-relaxed font-sans">{description}</p>}
+        {description && <p class="text-xs text-main/80 line-clamp-3 mb-4 leading-relaxed font-sans">{description}</p>}
     </div>
     
     <!-- Card Meta -->
@@ -63,6 +63,6 @@ const image = seo?.image;
                 </div>
             )}
         </div>
-        <span class="text-[9px] font-bold uppercase tracking-widest text-main/40 italic">{project.data.publishDate.getFullYear()}</span>
+        <span class="text-xs font-bold uppercase tracking-widest text-main/55 italic">{project.data.publishDate.getFullYear()}</span>
     </div>
 </a>

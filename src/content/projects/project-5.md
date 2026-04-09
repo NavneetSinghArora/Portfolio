@@ -3,6 +3,10 @@ title: 'IndoRE: Relation Extraction for Low Resource Indian Languages'
 description: 'The IndoRE project focused on relation extraction for three low-resource Indian languages: Bengali, Telugu, and Hindi using deep generative models and transformer architectures.'
 publishDate: 'Aug 15 2022'
 isFeatured: true
+tags:
+  - NLP
+  - Deep Learning
+  - Low-Resource Languages
 github: 'https://github.com/NavneetSinghArora/Relation-Extraction'
 paper: 'https://www.kaggle.com/c/indore-datathon-2021'
 seo:

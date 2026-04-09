@@ -3,6 +3,10 @@ title: 'Deep Imitation Learning for Complex Manipulation Task from Virtual Reali
 description: 'Research focused on robot skill acquisition through imitation learning and VR teleoperation, mapping raw pixels to complex robotic manipulation actions.'
 publishDate: 'Feb 17 2021'
 isFeatured: true
+tags:
+  - Robotics
+  - Deep Learning
+  - Computer Vision
 paper: '/papers/Deep-Imitation-Learning-for-Complex-Manipulation-Task-from-Virtual-Reality-Teleoperation.pdf'
 seo:
   image:

@@ -90,6 +90,10 @@ html.dark {
 /* Base Body Weight */
 body {
     font-weight: 400;
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* Nav & Heading Weights */

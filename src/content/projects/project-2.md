@@ -3,6 +3,10 @@ title: 'FAZE: Few-Shot Adaptive Gaze Estimation using Meta-Learning'
 description: 'Implementation of a personalized gaze estimation framework using DT-ED networks and meta-learning to achieve high accuracy with minimal calibration samples.'
 publishDate: 'Jan 28 2021'
 isFeatured: true
+tags:
+  - Computer Vision
+  - Meta-Learning
+  - Deep Learning
 github: 'https://github.com/NavneetSinghArora/Gaze-Estimatiom'
 paper: '/papers/Few-Shot-Adaptive-Gaze-Estimation.pdf'
 seo:

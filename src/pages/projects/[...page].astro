@@ -20,6 +20,7 @@ type Props = { page: Page<CollectionEntry<'projects'>> };
 
 const { page } = Astro.props;
 const portfolio = page.data;
+const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
 ---
 
 <BaseLayout title="Portfolio" description="Explore a diverse portfolio showcasing my passion and expertise" showHeader={false}>
@@ -61,10 +62,30 @@ const portfolio = page.data;
         </div>
     </div>
 
+    <!-- Tag Filter Bar -->
+    {allTags.length > 0 && (
+        <div class="mb-8 flex flex-wrap items-center gap-2">
+            <button
+                data-tag-filter="all"
+                class="tag-filter-btn active-tag text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-main-border/20 text-main/80 transition-all hover:border-main-border/60"
+            >
+                All
+            </button>
+            {allTags.map(tag => (
+                <button
+                    data-tag-filter={tag}
+                    class="tag-filter-btn text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-main-border/10 text-main/40 transition-all hover:border-main-border/40 hover:text-main/70"
+                >
+                    {tag}
+                </button>
+            ))}
+        </div>
+    )}
+
     <!-- Gallery View Container (Horizontal List / Visual List) -->
     <div id="gallery-container" class="hidden flex flex-col gap-6 transition-all duration-300">
         {portfolio.map((project) => (
-            <div class="group relative flex flex-col sm:flex-row gap-6 p-6 rounded-2xl border border-main-border/10 bg-main-bg/5 hover:bg-main-bg/10 transition-all hover:border-main-border/20 overflow-hidden">
+            <div class="project-card group relative flex flex-col sm:flex-row gap-6 p-6 rounded-2xl border border-main-border/10 bg-main-bg/5 hover:bg-main-bg/10 transition-all hover:border-main-border/20 overflow-hidden" data-tags={project.data.tags.join(',')}>
                 <!-- Visual & Meta Column (Left) -->
                 <div class="w-full sm:w-48 lg:w-64 shrink-0 flex flex-col gap-4">
                     <a href={`/projects/${project.id}/`} class="block aspect-square sm:aspect-video rounded-xl overflow-hidden border border-main-border/5">
@@ -75,7 +96,7 @@ const portfolio = page.data;
                                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                             />
                         ) : (
-                            <div class="flex h-full w-full items-center justify-center bg-main-bg/10 text-main/40 italic text-xs">No preview</div>
+                            <div class="flex h-full w-full items-center justify-center bg-main-bg/10 text-main/55 italic text-xs">No preview</div>
                         )}
                     </a>
 
@@ -111,7 +132,7 @@ const portfolio = page.data;
                                 </a>
                             )}
                         </div>
-                        <span class="text-[10px] font-bold uppercase tracking-widest text-main/40 italic">Year {project.data.publishDate.getFullYear()}</span>
+                        <span class="text-xs font-bold uppercase tracking-widest text-main/55 italic">Year {project.data.publishDate.getFullYear()}</span>
                     </div>
                 </div>
 
@@ -137,7 +158,7 @@ const portfolio = page.data;
     <!-- Cards View Container (Detailed Grid) - DEFAULT -->
     <div id="cards-container" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 transition-all duration-300">
         {portfolio.map((project) => (
-            <div class="group relative flex flex-col rounded-2xl border border-main-border/10 bg-main-bg/5 p-4 transition-all hover:border-main-border/20 hover:bg-main-bg/10">
+            <div class="project-card group relative flex flex-col rounded-2xl border border-main-border/10 bg-main-bg/5 p-4 transition-all hover:border-main-border/20 hover:bg-main-bg/10" data-tags={project.data.tags.join(',')}>
                 <a href={`/projects/${project.id}/`} class="flex-grow">
                     <div class="aspect-video w-full overflow-hidden rounded-xl border border-main-border/5 bg-main-bg/10 mb-4">
                         {project.data.seo?.image ? (
@@ -147,12 +168,12 @@ const portfolio = page.data;
                                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                             />
                         ) : (
-                            <div class="flex h-full w-full items-center justify-center text-main/40 italic text-xs">No preview</div>
+                            <div class="flex h-full w-full items-center justify-center text-main/55 italic text-xs">No preview</div>
                         )}
                     </div>
                     <h3 class="font-serif text-base font-bold leading-tight line-clamp-2 mb-2 group-hover:underline group-hover:decoration-dashed text-main">{project.data.title}</h3>
                     {project.data.description && (
-                        <p class="text-[11px] text-main/80 line-clamp-3 mb-4 leading-relaxed font-sans">{project.data.description}</p>
+                        <p class="text-xs text-main/80 line-clamp-3 mb-4 leading-relaxed font-sans">{project.data.description}</p>
                     )}
                 </a>
                 
@@ -188,7 +209,7 @@ const portfolio = page.data;
                             </a>
                         )}
                     </div>
-                    <span class="text-[9px] font-bold uppercase tracking-widest text-main/40 italic">{project.data.publishDate.getFullYear()}</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-main/55 italic">{project.data.publishDate.getFullYear()}</span>
                 </div>
             </div>
         ))}
@@ -197,7 +218,7 @@ const portfolio = page.data;
     <!-- List View Container (Text Only) -->
     <div id="list-container" class="hidden flex-col gap-8 transition-all duration-300">
         {portfolio.map((project) => (
-            <div class="pb-8 border-b border-main-border/5 last:border-0 last:pb-0">
+            <div class="project-card pb-8 border-b border-main-border/5 last:border-0 last:pb-0" data-tags={project.data.tags.join(',')}>
                 <ProjectPreview project={project} />
             </div>
         ))}
@@ -210,6 +231,9 @@ const portfolio = page.data;
     @reference "../../styles/global.css";
     .active-view {
         @apply bg-main-bg/10 text-main shadow-sm;
+    }
+    .active-tag {
+        @apply border-main-border/60 text-main bg-main-bg/10;
     }
 </style>
 
@@ -253,6 +277,26 @@ const portfolio = page.data;
             localStorage.setItem('projects-view', view);
         }
     }
+
+    // --- Tag Filter ---
+    const filterBtns = document.querySelectorAll<HTMLButtonElement>('.tag-filter-btn');
+    const projectCards = document.querySelectorAll<HTMLElement>('.project-card');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tag = btn.dataset.tagFilter!;
+            filterBtns.forEach(b => b.classList.remove('active-tag'));
+            btn.classList.add('active-tag');
+            projectCards.forEach(card => {
+                if (tag === 'all') {
+                    card.style.display = '';
+                } else {
+                    const cardTags = (card.dataset.tags || '').split(',');
+                    card.style.display = cardTags.includes(tag) ? '' : 'none';
+                }
+            });
+        });
+    });
 
     // Init on first load
     initViewSwitcher();

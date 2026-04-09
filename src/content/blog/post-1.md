@@ -1,47 +1,42 @@
 ---
-title: The Advantages & Disadvantages of Working from Home
-excerpt: In recent years, the way we work has undergone a significant transformation, largely due to advancements in technology and changing attitudes toward work-life balance. One of the most notable changes has been the rise of remote work, allowing employees to work from the comfort of their own homes.
-publishDate: 'Aug 5 2023'
+title: 'Siamese Neural Network (SNN)'
+excerpt: 'A deep dive into the architecture and intuition behind Siamese Neural Networks, exploring how they use shared weights and distance metrics to solve few-shot learning and verification tasks.'
+publishDate: 'Mar 15 2023'
 tags:
-  - Guide
+  - Computer Vision
+  - Machine Learning
+medium: 'https://medium.com/@navneet-singh-arora/siamese-neural-network-snn-e3ea18cadeb8'
+banner: 'https://miro.medium.com/v2/resize:fit:720/format:webp/1*7OvvsYSU7YkiiMKZgGhgLQ.png'
 seo:
-  image:
-    src: '../../assets/images/post-1.jpg'
-    alt: A person standing at the window
+  pageType: article
 ---
 
-![A person standing at the window](../../assets/images/post-1.jpg)
+Siamese Neural Networks (SNNs) represent a specialized class of neural network architectures designed to address the "data-hungry" limitations of traditional deep learning. While standard CNNs excel at broad category-wise classification, SNNs are engineered for **Verification** and **Few-Shot Learning**, enabling high precision even with minimal samples.
 
-**Note:** This post was created using Chat GPT to demonstrate the features of the _[Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/)_.
+## The "Twin" Architecture
 
-In recent years, the way we work has undergone a significant transformation, largely due to advancements in technology and changing attitudes toward work-life balance. One of the most notable changes has been the rise of remote work, allowing employees to work from the comfort of their own homes. While this shift has brought about many benefits, it has also introduced its fair share of challenges. Let's explore the advantages and disadvantages of working from home.
+The defining characteristic of a Siamese network is its **Twin sub-networks**. These are two identical neural networks that share the exact same weights, biases, and parameters.
 
-## Advantages of Working from Home
+- **Weight Sharing**: This symmetry ensures that any two inputs are processed through the same feature extraction logic, providing a consistent "embedding" for comparison.
+- **Feature Embeddings**: Rather than outputting a class probability (e.g., "Dog: 90%"), each sub-network generates a low-dimensional vector that represents the essential characteristics of the input.
 
-1. **Flexibility:** One of the most significant advantages of remote work is the flexibility it offers. Employees can often set their own hours, which can be particularly beneficial for those with family responsibilities or other commitments.
+## Learning Similarity, Not Categories
 
-2. **Reduced Commute:** Eliminating the daily commute not only saves time but also reduces stress and expenses associated with transportation. This can lead to better mental health and increased job satisfaction.
+Unlike traditional models that learn to identify "what" an object is, SNNs learn "how different" two objects are. This is achieved through a specialized learning objective:
 
-3. **Cost Savings:** Working from home can result in significant cost savings. Employees can save money on transportation, work attire, and daily meals, which can have a positive impact on their overall financial well-being.
+1. **Distance Metric**: The output of both twin networks is compared using a distance function, typically **Euclidean distance**.
+2. **Contrastive Loss**: This is the primary engine of the model. It works by:
+    - **Minimizing distance** for positive pairs (the same person or object).
+    - **Maximizing distance** for negative pairs (different objects) up to a defined **margin ($m$)**.
 
-4. **Increased Productivity:** Many people find that they are more productive when working from home. The absence of office distractions and the ability to create a personalized work environment can lead to improved focus and efficiency.
+## Professional Applications
 
-5. **Work-Life Balance:** Remote work allows for better work-life balance. Employees can better manage their personal and professional lives, leading to reduced burnout and increased job satisfaction.
+Because SNNs don't require retraining to recognize new categories, they are the industry standard for:
 
-> Your ability to discipline yourself to set clear goals and then work toward them every day will do more to guarantee your success than any other single factor.
+- **Face ID & Biometrics**: Comparing a live camera feed against a single reference photo.
+- **SigNet (Signature Verification)**: Detecting sophisticated forgeries by measuring the distance from a verified baseline.
+- **Forensic Fingerprint Matching**: High-precision identification in high-stakes environments.
 
-## Disadvantages of Working from Home
+---
 
-1. **Isolation:** Remote work can be lonely. The absence of coworkers and face-to-face interaction can lead to feelings of isolation and loneliness, which may negatively impact mental health.
-
-2. **Difficulty in Communication:** Effective communication can be a challenge when working remotely. Misunderstandings, lack of clear communication, and delayed responses can hinder teamwork and collaboration.
-
-3. **Work-Life Boundaries:** While remote work can improve work-life balance, it can also blur the lines between work and personal life. It can be challenging to establish clear boundaries, leading to overwork and burnout.
-
-4. **Technology Issues:** Technical problems, such as internet connectivity issues or software glitches, can disrupt work and cause frustration.
-
-5. **Distractions:** Working from home can be riddled with distractions, ranging from household chores to noisy neighbors. Maintaining focus can be a constant struggle for some.
-
-6. **Career Growth:** Some employees may feel that working remotely limits their opportunities for career advancement, as they may have less visibility within the organization.
-
-While it offers flexibility, cost savings, and improved work-life balance, it can also lead to isolation, communication challenges, and distractions. The key to successful remote work lies in finding a balance that suits individual preferences and addressing potential drawbacks through effective communication, time management, and self-discipline. As remote work continues to evolve, understanding and adapting to these advantages and disadvantages will be crucial for both employees and employers.
+*This summary is part of my technical writing series. To explore the full mathematical intuition, code samples, and architectural diagrams, visit the [original article on Medium](https://medium.com/@navneet-singh-arora/siamese-neural-network-snn-e3ea18cadeb8).*

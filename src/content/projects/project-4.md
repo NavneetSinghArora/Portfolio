@@ -3,6 +3,10 @@ title: 'COLMAN: Collaborative Multi-Agent Navigation using Textual-Visual Embedd
 description: 'COLMAN explores object goal navigation using embodied AI agents, leveraging Transformer-based architectures and CLIP semantic embeddings for improved scene understanding.'
 publishDate: 'Aug 20 2022'
 isFeatured: true
+tags:
+  - Embodied AI
+  - Computer Vision
+  - Deep Learning
 github: 'https://github.com/NavneetSinghArora/COLMAN'
 paper: '/papers/colman.pdf'
 seo:

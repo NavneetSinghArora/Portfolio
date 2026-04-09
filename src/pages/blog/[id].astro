@@ -21,7 +21,7 @@ const prevPost = postIndex + 1 !== posts.length ? posts[postIndex + 1] : null;
 const nextPost = postIndex !== 0 ? posts[postIndex - 1] : null;
 
 const { href } = Astro.url;
-const { title, publishDate, updatedDate, excerpt, tags = [], seo } = post.data;
+const { title, publishDate, updatedDate, excerpt, tags = [], seo, medium, banner } = post.data;
 const { Content } = await render(post);
 ---
 
@@ -43,7 +43,38 @@ const { Content } = await render(post);
                 }
             </div>
         </header>
-        <div class="prose sm:prose-lg max-w-none">
+
+        <!-- Banner Image -->
+        {banner && (
+            <div class="w-full flex justify-center mb-12">
+                <div class="overflow-hidden rounded-3xl bg-main-bg/5 shadow-2xl shadow-main-bg/20">
+                    <img
+                        src={banner}
+                        alt={title}
+                        class="max-w-full h-auto max-h-[70vh] object-contain block"
+                    />
+                </div>
+            </div>
+        )}
+
+        <!-- Resource Directory Banner (rendered from frontmatter) -->
+        {medium && (
+            <div class="not-prose mb-12 p-6 rounded-2xl border border-main-border/10 bg-main-bg/5 flex flex-col md:flex-row items-center justify-between gap-6 transition-colors hover:border-main-border/20">
+                <div class="space-y-1.5 text-center md:text-left">
+                    <h4 class="text-xs font-bold uppercase tracking-[0.2em] text-main/55 italic">Resource Directory</h4>
+                    <p class="text-sm text-main/70 font-medium font-serif italic">This is a summary. <br />Read the full article on Medium — and if you find it helpful, a clap or follow is always appreciated.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    {medium && (
+                        <a href={medium} target="_blank" rel="noopener noreferrer" aria-label="Read on Medium" title="Read on Medium" class="group transition-transform hover:-translate-y-1">
+                            <img src="https://img.icons8.com/sf-black-filled/64/medium-logo.png" alt="Medium" class="h-8 w-8 opacity-40 group-hover:opacity-100 transition-opacity dark:invert" />
+                        </a>
+                    )}
+                </div>
+            </div>
+        )}
+
+        <div class="prose sm:prose-lg max-w-none prose-p:leading-relaxed prose-p:text-main/90 [&>*]:max-w-[72ch]">
             <Content />
         </div>
         <div class="mt-8 flex flex-wrap items-center justify-between gap-6 text-sm sm:mt-12 sm:text-base">
@@ -63,11 +94,14 @@ const { Content } = await render(post);
     </article>
     {
         (prevPost || nextPost) && (
-            <div class="my-16 sm:my-24">
-                <h2 class="mb-12 font-serif text-xl italic sm:mb-16 sm:text-2xl">Read Next</h2>
-                {nextPost && <PostPreview post={nextPost} class="mb-10 sm:mb-12" headingLevel="h3" />}
-                {prevPost && <PostPreview post={prevPost} class="mb-10 sm:mb-12" headingLevel="h3" />}
-            </div>
+            <>
+                <hr class="border-t border-main-border/10 my-16 sm:my-24" />
+                <div>
+                    <h2 class="mb-12 font-serif text-xl italic sm:mb-16 sm:text-2xl">Read Next</h2>
+                    {nextPost && <PostPreview post={nextPost} class="mb-10 sm:mb-12" headingLevel="h3" />}
+                    {prevPost && <PostPreview post={prevPost} class="mb-10 sm:mb-12" headingLevel="h3" />}
+                </div>
+            </>
         )
     }
     <Subscribe class="my-16 sm:my-24" />

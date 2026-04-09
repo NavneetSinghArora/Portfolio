@@ -18,17 +18,11 @@ const TitleTag = headingLevel;
             >
                 {title}
             </TitleTag>
-            <div class="mt-2 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-main/40 italic flex items-center gap-2">
+            <div class="mt-2 text-xs sm:text-xs font-bold uppercase tracking-widest text-main/55 italic flex items-center gap-2">
                 <FormattedDate date={publishDate} />
                 {updatedDate && (
-                    <span class="opacity-60 text-[9px]">(Updated <FormattedDate date={updatedDate} />)</span>
+                    <span class="opacity-60 text-xs">(Updated <FormattedDate date={updatedDate} />)</span>
                 )}
-                <span class="opacity-20 mx-1">|</span>
-                <div class="flex gap-2">
-                    {post.data.tags.slice(0, 3).map(tag => (
-                        <span class="lowercase">#{tag}</span>
-                    ))}
-                </div>
             </div>
             {excerpt && <div class="mt-3 text-sm leading-relaxed text-main/80 font-sans max-w-3xl">{excerpt}</div>}
         </a>
