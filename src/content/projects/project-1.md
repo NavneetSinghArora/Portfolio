@@ -10,23 +10,11 @@ seo:
     alt: 'Deep Imitation Learning - Robot Manipulation'
 ---
 
-![Project preview](../../assets/images/imitation.png)
+*Intelligent Robotics Seminar: Paper Review & Implementation, Universität Hamburg*
 
-*Intelligent Robotics Seminar: Paper Review, Universität Hamburg*
 
-<div class="not-prose my-12 p-6 rounded-2xl border border-main-border/10 bg-main-bg/5 flex flex-col md:flex-row items-center justify-between gap-6 transition-colors hover:border-main-border/20">
-    <div class="space-y-1">
-        <h4 class="text-[10px] font-bold uppercase tracking-[0.2em] text-main/40">Project Sources</h4>
-        <p class="text-sm text-main/60 font-medium">Reviewed literature.</p>
-    </div>
-    <div class="flex items-center gap-6">
-        <a href="/papers/Deep-Imitation-Learning-for-Complex-Manipulation-Task-from-Virtual-Reality-Teleoperation.pdf" target="_blank" rel="noopener noreferrer" aria-label="Original Paper" title="Original Paper" class="group transition-transform hover:-translate-y-1">
-            <img src="https://unpkg.com/lucide-static/icons/file-text.svg" alt="" class="h-6 w-6 opacity-40 group-hover:opacity-100 transition-opacity dark:invert" />
-        </a>
-    </div>
-</div>
-
-This project presents a comprehensive review and analysis of mastering robot skills through imitation learning—a paradigm that has gained significant traction for its ability to facilitate complex demonstrations without extensive professional intervention. The study examines how specialized algorithms can be optimized to address the challenges of policy acquisition, specifically focusing on the mapping from raw pixels to robotic manipulation actions.
+This project presents a comprehensive review and analysis of mastering robot skills through imitation learning—a paradigm that has gained significant traction for its ability to facilitate complex demonstrations without extensive professional intervention.
+ The study examines how specialized algorithms can be optimized to address the challenges of policy acquisition, specifically focusing on the mapping from raw pixels to robotic manipulation actions.
 
 The work explores the underlying methodologies of using consumer-grade Virtual Reality (VR) headsets and hand-tracking hardware to naturally teleoperate robots. By analyzing deep neural network policies learned through imitation, the review evaluates how pixels-to-actions mapping demonstrates acquired skills in high-dimensional environments, such as table tennis.
 

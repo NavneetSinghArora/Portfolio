@@ -8,8 +8,6 @@ seo:
     alt: 'RoboChef - AI Recipe Assistant Interface'
 ---
 
-![Project preview](../../assets/images/project-3.jpg)
-
 **Note:** This case study is entirely fictional and created for the purpose of showcasing [Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/).
 
 **Project Overview:**

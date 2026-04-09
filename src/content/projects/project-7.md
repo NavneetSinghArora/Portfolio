@@ -11,28 +11,11 @@ seo:
     alt: 'IndoRE Project - NLP for Indian Languages'
 ---
 
-![IndoRE Project preview](../../assets/images/indoml.png)
-
 *Kaggle Competition and NLP Course Project, Universität Hamburg*
 
-<div class="not-prose my-12 p-6 rounded-2xl border border-main-border/10 bg-main-bg/5 flex flex-col md:flex-row items-center justify-between gap-6 transition-colors hover:border-main-border/20">
-    <div class="space-y-1">
-        <h4 class="text-[10px] font-bold uppercase tracking-[0.2em] text-main/40">Project Sources</h4>
-        <p class="text-sm text-main/60 font-medium">Technical implementation and competition details.</p>
-    </div>
-    <div class="flex items-center gap-6">
-        <a href="https://github.com/NavneetSinghArora/Relation-Extraction" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository" title="GitHub Repository" class="group transition-transform hover:-translate-y-1">
-            <img src="https://cdn.simpleicons.org/github" alt="" class="h-6 w-6 opacity-40 group-hover:opacity-100 transition-opacity dark:hidden" />
-            <img src="https://cdn.simpleicons.org/github/white" alt="" class="h-6 w-6 opacity-40 group-hover:opacity-100 transition-opacity hidden dark:block" />
-        </a>
-        <a href="https://www.kaggle.com/c/indore-datathon-2021" target="_blank" rel="noopener noreferrer" aria-label="Kaggle Competition" title="Kaggle Competition" class="group transition-transform hover:-translate-y-1">
-            <img src="https://cdn.simpleicons.org/kaggle" alt="" class="h-10 w-10 opacity-40 group-hover:opacity-100 transition-opacity dark:hidden" />
-            <img src="https://cdn.simpleicons.org/kaggle/white" alt="" class="h-10 w-10 opacity-40 group-hover:opacity-100 transition-opacity hidden dark:block" />
-        </a>
-    </div>
-</div>
 
-The IndoRE project focused on relation extraction for three low-resource Indian languages: Bengali, Telugu, and Hindi. With relation extraction being a crucial task in natural language processing (NLP), the objective was to predict the relationship between a pair of entities given a sentence.
+The IndoRE project focused on relation extraction for three low-resource Indian languages: Bengali, Telugu, and Hindi.
+ With relation extraction being a crucial task in natural language processing (NLP), the objective was to predict the relationship between a pair of entities given a sentence.
 
 Due to the scarcity of tagged data for relation classification in Indian languages, the project aimed to explore and enhance this area by leveraging recent advancements in deep generative models. The challenge involved predicting relations from limited tagged training data, consisting of instances across 25 different relations for each language. Additionally, an untagged data dump was provided, which facilitated the use of techniques like similarity-based data augmentation or distant supervision to improve performance.
 
