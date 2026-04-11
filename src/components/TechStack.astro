@@ -48,7 +48,7 @@ const bentoCategories = [...categories].sort(
 
 <section class="mb-16 sm:mb-24">
     <div class="mb-10 sm:mb-14">
-        <h2 class="mb-3 font-serif text-xl italic sm:text-2xl">{title}</h2>
+        <h2 class="mb-3 font-serif text-xl sm:text-2xl">{title}</h2>
         <p class="max-w-2xl text-sm opacity-60 sm:text-base">{description}</p>
     </div>
     
@@ -82,7 +82,7 @@ const bentoCategories = [...categories].sort(
 
             return (
                 <div 
-                    class={`spotlight-card group/card relative flex flex-col justify-between overflow-hidden rounded-[2rem] border border-main/5 bg-black/[0.015] dark:bg-white/[0.015] p-6 sm:p-8 transition-all hover:border-main/15 hover:bg-black/[0.03] hover:dark:bg-white/[0.03] backdrop-blur-[6px] ${colSpan}`}
+                    class={`spotlight-card group/card relative flex flex-col justify-between overflow-hidden rounded-[2rem] border border-main-border/5 bg-black/[0.015] dark:bg-white/[0.015] p-6 sm:p-8 transition-all hover:border-main-border/15 hover:bg-black/[0.03] hover:dark:bg-white/[0.03] backdrop-blur-[6px] ${colSpan}`}
                     style={`--spotlight-color: ${spotColor};`}
                 >
                     <div class="relative z-10 mb-8 sm:mb-12">
@@ -97,7 +97,7 @@ const bentoCategories = [...categories].sort(
                             const isDualIcon = typeof icon === 'object' && icon !== null && 'light' in icon;
                             
                             return (
-                                <div class="relative flex items-center gap-1.5 overflow-hidden rounded-full border border-main/5 bg-black/[0.03] dark:bg-white/[0.03] px-3 py-1.5 transition-all hover:border-main/20 hover:bg-black/[0.06] hover:dark:bg-white/[0.06] backdrop-blur-md">
+                                <div class="relative flex items-center gap-1.5 overflow-hidden rounded-full border border-main-border/5 bg-black/[0.03] dark:bg-white/[0.03] px-3 py-1.5 transition-all hover:border-main-border/20 hover:bg-black/[0.06] hover:dark:bg-white/[0.06] backdrop-blur-md">
                                     {isDualIcon ? (
                                         <>
                                             <img 

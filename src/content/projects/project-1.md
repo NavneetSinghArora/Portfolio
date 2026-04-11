@@ -1,66 +1,27 @@
 ---
-title: 'EcoBuddy: Sustainable Living App'
-description: EcoBuddy is a mobile app that gamifies sustainable living. Users can set eco-friendly goals, track their carbon footprint, and earn virtual rewards for adopting environmentally conscious habits.
-publishDate: 'Jan 02 2024'
+title: 'Deep Imitation Learning for Complex Manipulation Task from Virtual Reality Teleoperation'
+description: 'Research focused on robot skill acquisition through imitation learning and VR teleoperation, mapping raw pixels to complex robotic manipulation actions.'
+publishDate: 'Feb 17 2021'
+isFeatured: true
+tags:
+  - Robotics
+  - Deep Learning
+  - Computer Vision
+paper: '/papers/Deep-Imitation-Learning-for-Complex-Manipulation-Task-from-Virtual-Reality-Teleoperation.pdf'
 seo:
   image:
-    src: '../../assets/images/project-1.jpg'
-    alt: Project preview
+    src: '../../assets/images/imitation.png'
+    alt: 'Deep Imitation Learning - Robot Manipulation'
 ---
 
-![Project preview](../../assets/images/project-1.jpg)
+*Intelligent Robotics Seminar: Paper Review & Implementation, Universität Hamburg*
 
-**Note:** This case study is entirely fictional and created for the purpose of showcasing [Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/).
 
-**Project Overview:**
-EcoBuddy is a revolutionary mobile application designed to make sustainable living accessible, engaging, and rewarding. With a focus on gamification and real-world impact, EcoBuddy encourages users to adopt eco-friendly habits, reduce their carbon footprint, and contribute to a healthier planet.
+This project presents a comprehensive review and analysis of mastering robot skills through imitation learning—a paradigm that has gained significant traction for its ability to facilitate complex demonstrations without extensive professional intervention.
+ The study examines how specialized algorithms can be optimized to address the challenges of policy acquisition, specifically focusing on the mapping from raw pixels to robotic manipulation actions.
 
-## Objectives
+The work explores the underlying methodologies of using consumer-grade Virtual Reality (VR) headsets and hand-tracking hardware to naturally teleoperate robots. By analyzing deep neural network policies learned through imitation, the review evaluates how pixels-to-actions mapping demonstrates acquired skills in high-dimensional environments, such as table tennis.
 
-1. Develop a user-friendly mobile app that motivates individuals to adopt sustainable practices in their daily lives.
-2. Utilize gamification elements to make sustainable living fun and interactive.
-3. Provide educational resources and personalized challenges to empower users to make informed eco-conscious decisions.
+Finally, we evaluate the reviewed imitation learning approaches through contextual video analysis, comparing them against traditional teleoperation and validating the proposed frameworks for robot skill acquisition. This review serves to synthesize current advancements in embodied AI and propose a robust foundation for future skill acquisition models.
 
-## Features
-
-1. **EcoScore and Challenges:**
-
-- Users are assigned an EcoScore based on their sustainable activities and choices.
-- Daily and weekly challenges encourage users to adopt new habits and compete with friends or the community to earn EcoPoints.
-
-2. **Personalized Eco-Goals:**
-
-- Users can set and track personalized eco-goals, such as reducing plastic usage, conserving water, or choosing eco-friendly transportation.
-- The app provides tips and suggestions to help users achieve their goals.
-
-3. **Green Rewards Marketplace:**
-
-- EcoPoints earned through challenges and sustainable actions can be redeemed in a virtual Green Rewards Marketplace.
-- The marketplace offers discounts on eco-friendly products, services, and even contributions to environmental causes.
-
-4. **Community Hub:**
-
-- A community feature allows users to connect, share their eco-friendly achievements, and inspire others.
-- Users can join local eco-groups, organize clean-up events, and collaborate on sustainability projects.
-
-5. **EcoEducator AI Assistant:**
-
-- An AI-powered assistant, EcoEducator, provides personalized eco-tips, facts, and information based on users' preferences and habits.
-- Users can chat with EcoEducator for instant advice on sustainable living.
-
-## Technology Stack
-
-- Frontend: React Native for cross-platform mobile app development.
-- Backend: Firebase for real-time data synchronization and user authentication.
-- Database: Firestore for scalable and flexible data storage.
-- AI Integration: Dialogflow for natural language processing and conversation with EcoEducator.
-
-## Outcome
-
-EcoBuddy has successfully created a community of environmentally conscious individuals who actively participate in sustainable living practices. The app not only educates and motivates users but also provides tangible rewards for their commitment to a greener lifestyle, fostering a positive impact on the environment.
-
-## Client Testimonial
-
-> We couldn't be happier with the results delivered by Navneet Singh Arora. From the initial concept discussions to the final product, their responsiveness and collaborative approach were impressive. Our startup's website now stands out, thanks to their creative input and commitment to excellence.
-
-**Note:** This case study is entirely fictional and created for the purpose of showcasing [Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/).
+***

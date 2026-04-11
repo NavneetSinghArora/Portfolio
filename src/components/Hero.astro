@@ -16,14 +16,17 @@ const { title, image, text, actions } = Astro.props;
                 {title && (
                     <div class="relative">
                         <!-- Subtle radial glow for readability -->
-                        <div class="absolute inset-[-20%] -z-10 bg-main/80 dark:bg-main/60 blur-[40px] pointer-events-none rounded-full"></div>
+                        <div class="absolute inset-[-20%] -z-10 bg-main-bg/80 dark:bg-main-bg/60 blur-[40px] pointer-events-none rounded-full"></div>
                         <h1 class="relative font-serif text-3xl leading-tight font-medium sm:text-5xl sm:leading-tight">{title}</h1>
                     </div>
                 )}
                 {image?.src && (
-                    <figure>
+                    <figure 
+                        class="overflow-hidden rounded-2xl bg-main-bg/5"
+                        style={typeof image.src === 'object' ? `aspect-ratio: ${image.src.width} / ${image.src.height}` : ''}
+                    >
                         <CustomImage
-                            class="w-full relative z-10 rounded-2xl"
+                            class="w-full relative z-10"
                             {...image}
                             widths={[480, 640, 768, 1024, 1536]}
                             sizes="(min-width: 832px) 768px, calc(100vw - 32px)"

@@ -11,6 +11,7 @@ const siteConfig: SiteConfig = {
     title: 'Navneet Singh Arora',
     subtitle: 'Machine Learning & Full Stack Engineer',
     description: 'Expertise in AI, Machine Learning, and Full Stack Development with over 6 years of industry experience.',
+    keywords: ['Navneet Singh Arora', 'Machine Learning Engineer', 'AI Engineer', 'Full Stack Developer', 'Software Engineer Hamburg', 'Deep Learning', 'Computer Vision', 'Generative AI', 'React', 'Node.js', 'Python', 'Cloud Computing'],
     image: {
         src: '/dante-preview.jpg',
         alt: 'Navneet Singh Arora - Machine Learning & Full Stack Engineer'
@@ -35,6 +36,10 @@ const siteConfig: SiteConfig = {
         {
             text: 'Blog',
             href: '/blog'
+        },
+        {
+            text: 'Contact',
+            href: '/contact'
         }
     ],
     footerNavLinks: [
@@ -158,7 +163,7 @@ const siteConfig: SiteConfig = {
     },
     github: 'NavneetSinghArora, Navneet-Repath',
     subscribe: {
-        enabled: true,
+        enabled: false,
         title: 'Subscribe to my Newsletter',
         text: 'Updates on Machine Learning, AI, and Full Stack development.',
         form: {
