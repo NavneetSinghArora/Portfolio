@@ -8,6 +8,8 @@ tags:
 medium: 'https://medium.com/@navneet-singh-arora/from-frustration-to-fluency-unlock-the-true-power-of-git-part-i-afcdd36627ed'
 banner: 'https://miro.medium.com/v2/resize:fit:720/format:webp/1*4x1jIerUIi0W7LD-egCeAg.png'
 seo:
+  title: 'Mastering the Git Mental Model: Beyond Basic Commands | Navneet Singh Arora'
+  description: 'Unlock the true power of Git by understanding its underlying filesystem and snapshot-based mental model.'
   pageType: article
 ---
 

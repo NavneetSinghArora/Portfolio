@@ -12,6 +12,8 @@ tags:
 medium: 'https://medium.com/@navneet-singh-arora/stop-paying-for-zapier-build-a-zero-cost-ai-automation-hub-with-n8n-and-gemini-1ea68678d86f'
 banner: 'https://miro.medium.com/v2/resize:fit:4800/format:webp/1*OmUFhhBZf7OggMXlGOyX9w.png'
 seo:
+  title: 'Zero-Cost n8n Automation & AI Workflow Guide | Navneet Singh Arora'
+  description: 'Learn how to build a powerful AI automation hub using self-hosted n8n, Docker, and Google Gemini with $0 recurring costs.'
   pageType: article
 ---
 

@@ -10,10 +10,25 @@ const siteConfig: SiteConfig = {
     },
     title: 'Navneet Singh Arora',
     subtitle: 'Machine Learning & Full Stack Engineer',
-    description: 'Expertise in AI, Machine Learning, and Full Stack Development with over 6 years of industry experience.',
-    keywords: ['Navneet Singh Arora', 'Machine Learning Engineer', 'AI Engineer', 'Full Stack Developer', 'Software Engineer Hamburg', 'Deep Learning', 'Computer Vision', 'Generative AI', 'React', 'Node.js', 'Python', 'Cloud Computing'],
+    description: 'Expertise in AI, Machine Learning, and Full Stack Development with a focus on architecting intelligent automation workflows and high-performance backend systems.',
+    keywords: [
+        'Navneet Singh Arora', 
+        'Machine Learning Engineer', 
+        'AI Automation Expert', 
+        'n8n Developer', 
+        'Self-Hosted Automation', 
+        'Full Stack Developer Hamburg', 
+        'Deep Learning', 
+        'Computer Vision', 
+        'Generative AI', 
+        'Python Developer', 
+        'TypeScript', 
+        'Docker', 
+        'Google Gemini AI', 
+        'Agentic Workflows'
+    ],
     image: {
-        src: '/dante-preview.jpg',
+        src: navneet_photo,
         alt: 'Navneet Singh Arora - Machine Learning & Full Stack Engineer'
     },
     headerNavLinks: [

@@ -8,6 +8,8 @@ tags:
 medium: 'https://medium.com/@navneet-singh-arora/siamese-neural-network-snn-e3ea18cadeb8'
 banner: 'https://miro.medium.com/v2/resize:fit:720/format:webp/1*7OvvsYSU7YkiiMKZgGhgLQ.png'
 seo:
+  title: 'Siamese Neural Networks: Architecture and Intuition | Navneet Singh Arora'
+  description: 'A deep dive into SNN architectures, shared weights, and distance metrics for verification and few-shot learning.'
   pageType: article
 ---
 
