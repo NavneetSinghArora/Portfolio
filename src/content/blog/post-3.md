@@ -10,7 +10,7 @@ tags:
   - Self-Hosting
   - Docker
 medium: 'https://medium.com/@navneet-singh-arora/stop-paying-for-zapier-build-a-zero-cost-ai-automation-hub-with-n8n-and-gemini-1ea68678d86f'
-banner: '/images/n8n-banner.png'
+banner: 'https://miro.medium.com/v2/resize:fit:4800/format:webp/1*OmUFhhBZf7OggMXlGOyX9w.png'
 seo:
   pageType: article
 ---
