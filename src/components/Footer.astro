@@ -38,7 +38,7 @@ const currentYear = new Date().getFullYear();
     }
     <div
         class:list={[
-            'border-main flex flex-col gap-8 border-t border-dashed pt-8',
+            'border-main-border flex flex-col gap-8 border-t border-dashed pt-8',
             { 'sm:flex-row-reverse sm:items-center sm:justify-between': socialLinks.length > 0 }
         ]}
     >
@@ -60,7 +60,7 @@ const currentYear = new Date().getFullYear();
                                 rel="noopener noreferrer"
                                 title={link.text}
                             >
-                                <div class="absolute -inset-2 rounded-full bg-main/5 opacity-0 transition-opacity group-hover/social:opacity-100" />
+                                <div class="absolute -inset-2 rounded-full bg-main-bg/5 opacity-0 transition-opacity group-hover/social:opacity-100" />
                                 {isGithub ? (
                                     <>
                                         <img src={resolveIcon('github-dark')} alt="" class="h-5 w-5 opacity-50 transition-opacity group-hover/social:opacity-100 dark:hidden" />

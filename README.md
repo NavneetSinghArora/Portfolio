@@ -1,32 +1,45 @@
-# Navneet's Personal Portfolio
+# Navneet Singh Arora | Personal Portfolio
 
-A sleek, premium, performance-oriented personal portfolio designed to showcase projects, professional experience, tech stacks, and more. Built upon the Dante Astro theme and highly customized.
+A premium, performance-engineered personal portfolio designed for the modern web. This site showcases a high-end engineering aesthetic, featuring advanced interactions, organic animations, and deep optimization for both humans and AI agents.
 
-## Built With
+## 🚀 Built With
 
-- **[Astro](https://astro.build/)** - Core Framework for building fast, content-driven websites.
-- **[Tailwind CSS v4](https://tailwindcss.com/)** - Utility-first styling for rapid and consistent design.
-- **TypeScript** - Strongly typed JavaScript for safer, more robust features.
+- **[Astro 5](https://astro.build/)** - The web framework for content-driven websites.
+- **[Tailwind CSS v4](https://tailwindcss.com/)** - Next-generation utility-first CSS framework.
+- **[TypeScript](https://www.typescript.org/)** - For robust, type-safe application logic.
+- **[Vercel](https://vercel.com/)** - Edge-first deployment and serverless architecture.
 
-## Features
+## ✨ Key Features
 
-- **Interactive Dynamic Backgrounds:** Neural network interactions, glass-morphism effects, and highly performant particle layers.
-- **Grouped Tech Stack:** A well-organized grid showing extensive tooling (Cloud & Infra, Automation, AI/Emerging, Backend, Frontend).
-- **GitHub Contributions Array:** Integrates with real-time GitHub data, displaying standard graphs with sleek sliding tooltips.
-- **Theme Support:** Fully responsive Dark & Light modes with dynamic icon switching and customized color palettes.
-- **Blazing Fast:** Zero-JS by default approach using Astro islands where needed.
+### 🎨 Premium Aesthetics
+- **Persistent Neural Background**: A canvas-based, interactive neural network mesh that remains seamless across page navigations using Astro's `transition:persist`.
+- **Aurora Glow System**: Layered, animated SVG blobs with dynamic blend modes (`screen`/`multiply`) for a high-end atmosphere.
+- **Micro-Interactions**: Litos-inspired button states, scaling icons, and hover-aware card layouts.
 
-## Getting Started
+### 🤖 AI & LLM Optimization
+- **`llms.txt`**: A dedicated machine-readable summary of professional expertise, projects, and site structure for AI crawlers and LLMs.
+- **JSON-LD Structured Data**: Implements `Person` and `BlogPosting` schemas (Schema.org) to ensure AI agents (GPT-4, Claude, Perplexity) accurately represent Navneet's professional profile.
+- **Semantic HTML**: 100% adherence to HTML5 semantic standards for better machine understanding.
 
-### Prerequisites
+### 🛠️ Technical Prowess
+- **Grouped Tech Stack**: A categorized expertise grid (AI Engineering, Backend, Infra, Automation) with theme-aware icons.
+- **Persistent Theming**: Synchronized Dark and Light modes with manual toggle and system preference detection.
+- **SEO Excellence**: Automated OpenGraph generation, Twitter card support, and auto-canonical links.
 
-You'll need [Node.js](https://nodejs.org/) installed along with a package manager like `npm`.
+## 📦 Project Structure
+
+- `src/content/`: Type-safe Markdown collections for Projects and Blog posts.
+- `src/components/`: Reusable Astro components with encapsulated logic.
+- `src/layouts/`: Global page structures and SEO wrappers.
+- `public/`: Static assets including `robots.txt` and `llms.txt`.
+
+## 🛠️ Getting Started
 
 ### Installation
 
 1. Clone the repository:
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/NavneetSinghArora/Portfolio.git
    cd personal-portfolio
    ```
 
@@ -35,22 +48,19 @@ You'll need [Node.js](https://nodejs.org/) installed along with a package manage
    npm install
    ```
 
-3. Start the development server:
+3. Start development:
    ```bash
    npm run dev
    ```
 
-4. View the site:
-   Open [http://localhost:4321](http://localhost:4321) in your browser.
+## 📜 Available Commands
 
-## Available Commands
-
-| Command | Description |
+| Command | Action |
 | :--- | :--- |
-| `npm run dev` | Runs the local development server at `localhost:4321` |
-| `npm run build` | Builds the site into static files for production |
-| `npm run preview` | Previews the local build before deployment |
+| `npm run dev` | Starts local dev server at `localhost:4321` |
+| `npm run build` | Bundles the site for production (Vercel) |
+| `npm run preview` | Previews the production build locally |
 
-## License
+## ⚖️ License
 
-This project is open-sourced under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](LICENSE).

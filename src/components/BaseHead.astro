@@ -10,17 +10,19 @@ export type Props = {
     description?: string;
     image?: ImageInput | undefined;
     pageType?: 'website' | 'article';
+    publishDate?: Date | string;
 };
 
 const { description = '', pageType = 'website' } = Astro.props;
 const title = [Astro.props.title, siteConfig.title].filter(Boolean).join(' | ');
 const image = Astro.props.image ?? siteConfig.image;
 let resolvedImage: { src: string; alt?: string } | undefined;
+
 if (image?.src) {
     if (typeof image.src === 'string') {
         resolvedImage = {
             src: new URL(image.src, Astro.site).toString(),
-            alt: image.alt
+            alt: image.alt || title
         };
     } else {
         const optimizedImage = await getImage({
@@ -32,11 +34,12 @@ if (image?.src) {
         });
         resolvedImage = {
             src: new URL(optimizedImage.src, Astro.site).toString(),
-            alt: image.alt
+            alt: image.alt || title
         };
     }
 }
 const canonicalURL = new URL(Astro.request.url, Astro.site);
+const publishDate = (Astro.props as any).publishDate;
 
 /**
  * Enforce some standard canonical URL formatting across the site.
@@ -44,13 +47,14 @@ const canonicalURL = new URL(Astro.request.url, Astro.site);
 function formatCanonicalURL(url: string | URL) {
     const path = url.toString();
     const hasQueryParams = path.includes('?');
-    // If there are query params, make sure the URL has no trailing slash
     if (hasQueryParams) {
-        path.replace(/\/?$/, '');
+        return path.replace(/\/?$/, '');
     }
-    // otherwise, canonical URL always has a trailing slash
-    return path.replace(/\/?$/, hasQueryParams ? '' : '/');
+    return path.replace(/\/?$/, '/');
 }
+
+const isProject = Astro.url.pathname.startsWith('/projects/') && Astro.url.pathname !== '/projects/';
+const isBlog = Astro.url.pathname.startsWith('/blog/') && Astro.url.pathname !== '/blog/';
 ---
 
 <!-- High Priority Global Metadata -->
@@ -59,6 +63,9 @@ function formatCanonicalURL(url: string | URL) {
 <title>{title}</title>
 <meta name="generator" content={Astro.generator} />
 <meta name="author" content={siteConfig.title} />
+{siteConfig.keywords && <meta name="keywords" content={siteConfig.keywords.join(', ')} />}
+<meta name="robots" content="index, follow" />
+<meta name="theme-color" content="#000000" />
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://api.fontshare.com" />
@@ -73,9 +80,10 @@ function formatCanonicalURL(url: string | URL) {
 <meta name="description" content={description} />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content={pageType} />
+<meta property="og:type" content={isBlog ? 'article' : 'website'} />
 <meta property="og:url" content={formatCanonicalURL(canonicalURL)} />
 <meta property="og:title" content={title} />
+<meta property="og:site_name" content={siteConfig.title} />
 {description && <meta property="og:description" content={description} />}
 {resolvedImage?.src && <meta property="og:image" content={resolvedImage.src} />}
 {resolvedImage?.alt && <meta property="og:image:alt" content={resolvedImage.alt} />}
@@ -86,4 +94,50 @@ function formatCanonicalURL(url: string | URL) {
 <meta name="twitter:title" content={title} />
 {description && <meta name="twitter:description" content={description} />}
 {resolvedImage?.src && <meta name="twitter:image" content={resolvedImage.src} />}
-{resolvedImage?.alt && <meta name="twitter:image:alt" content={resolvedImage.alt} />}
+
+<!-- JSON-LD Structured Data -->
+<script is:inline type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${siteConfig.website}#person`,
+      "name": siteConfig.title,
+      "url": siteConfig.website,
+      "image": siteConfig.image?.src,
+      "jobTitle": siteConfig.subtitle,
+      "description": siteConfig.description,
+      "sameAs": siteConfig.socialLinks?.map(link => link.href) || []
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteConfig.website}#website`,
+      "url": siteConfig.website,
+      "name": siteConfig.title,
+      "publisher": { "@id": `${siteConfig.website}#person` }
+    },
+    {
+      "@type": isBlog ? "BlogPosting" : isProject ? "CreativeWork" : "WebPage",
+      "@id": `${formatCanonicalURL(canonicalURL)}#webpage`,
+      "url": formatCanonicalURL(canonicalURL),
+      "name": title,
+      "description": description,
+      "isPartOf": { "@id": `${siteConfig.website}#website` },
+      "primaryImageOfPage": resolvedImage ? { "@type": "ImageObject", "url": resolvedImage.src } : undefined,
+      ...(isBlog || isProject ? {
+        "headline": Astro.props.title,
+        "datePublished": publishDate,
+        "author": { "@id": `${siteConfig.website}#person` }
+      } : {})
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": Astro.url.pathname.split('/').filter(Boolean).map((path, index, arr) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "name": path.charAt(0).toUpperCase() + path.slice(1),
+        "item": new URL('/' + arr.slice(0, index + 1).join('/'), siteConfig.website).toString()
+      }))
+    }
+  ]
+})} />
