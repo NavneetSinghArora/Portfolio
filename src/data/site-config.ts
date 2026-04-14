@@ -153,7 +153,7 @@ const siteConfig: SiteConfig = {
                     { label: 'n8n', icon: 'n8n' },
                     { label: 'Git', icon: 'git' },
                     { label: 'GitHub', icon: { light: 'github-dark', dark: 'github-light' } },
-                    { label: 'GitHub Actions', icon: 'githubactions' },
+                    { label: 'GitHub Actions', icon: 'github-actions' },
                     { label: 'Notion', icon: { light: 'notion-dark', dark: 'notion-light' } },
                     { label: 'Slack', icon: 'slack' },
                     { label: 'Miro', icon: 'miro' }
@@ -172,7 +172,7 @@ const siteConfig: SiteConfig = {
                     { label: 'Ollama', icon: { light: 'ollama-dark', dark: 'ollama-light' } },
                     { label: 'Claude Code', icon: 'claude' },
                     { label: 'Gemini CLI', icon: 'gemini' },
-                    { label: 'Codex', icon: 'openai' },
+                    { label: 'Codex', icon: 'codex' },
                     { label: 'Computer Vision', icon: 'https://cdn.simpleicons.org/opencv' },
                     { label: 'LLMs', icon: 'https://cdn.simpleicons.org/openai' },
                     { label: 'Jupyter', icon: 'jupyter' },
