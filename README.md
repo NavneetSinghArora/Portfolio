@@ -1,5 +1,10 @@
 # Navneet Singh Arora | Personal Portfolio
 
+![Python](https://img.shields.io/badge/python-3.10-blue?style=flat-square&logo=python&logoColor=white)
+![Astro](https://img.shields.io/badge/Astro-5.0-BC52EE?style=flat-square&logo=astro&logoColor=white)
+![Tailwind](https://img.shields.io/badge/Tailwind-v4-38B2AC?style=flat-square&logo=tailwindcss&logoColor=white)
+![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)
+
 A premium, performance-engineered personal portfolio designed for the modern web. This site showcases a high-end engineering aesthetic, featuring advanced interactions, organic animations, and deep optimization for both humans and AI agents.
 
 ## 🚀 Built With
@@ -22,7 +27,8 @@ A premium, performance-engineered personal portfolio designed for the modern web
 - **Semantic HTML**: 100% adherence to HTML5 semantic standards for better machine understanding.
 
 ### 🛠️ Technical Prowess
-- **Grouped Tech Stack**: A categorized expertise grid (AI Engineering, Backend, Infra, Automation) with theme-aware icons.
+- **5-Pillar Expertise Grid**: A professionally categorized stack (AI Engineering, Backend & APIs, Infrastructure, Automation & Workflow, and Languages & Data).
+- **Advanced Agentic Ready**: Features integration points for MCP (Model Context Protocol) and custom agent triggers via `llms.txt`.
 - **Persistent Theming**: Synchronized Dark and Light modes with manual toggle and system preference detection.
 - **SEO Excellence**: Automated OpenGraph generation, Twitter card support, and auto-canonical links.
 
