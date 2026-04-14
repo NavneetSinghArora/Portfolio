@@ -142,7 +142,7 @@ const siteConfig: SiteConfig = {
                     { label: 'Cloudflare', icon: 'cloudflare' },
                     { label: 'Caddy', icon: 'caddy' },
                     { label: 'Tailscale', icon: { light: 'tailscale-dark', dark: 'tailscale-light' } },
-                    { label: 'OAuth', icon: 'auth0' },
+                    { label: 'Auth0', icon: 'auth0' },
                     { label: 'Vercel', icon: { light: 'vercel-dark', dark: 'vercel-light' } },
 
                 ]
@@ -153,6 +153,7 @@ const siteConfig: SiteConfig = {
                     { label: 'n8n', icon: 'n8n' },
                     { label: 'Git', icon: 'git' },
                     { label: 'GitHub', icon: { light: 'github-dark', dark: 'github-light' } },
+                    { label: 'GitHub Actions', icon: 'githubactions' },
                     { label: 'Notion', icon: { light: 'notion-dark', dark: 'notion-light' } },
                     { label: 'Slack', icon: 'slack' },
                     { label: 'Miro', icon: 'miro' }
@@ -170,6 +171,10 @@ const siteConfig: SiteConfig = {
                     { label: 'Cursor', icon: { light: 'cursor-dark', dark: 'cursor-light' } },
                     { label: 'Ollama', icon: { light: 'ollama-dark', dark: 'ollama-light' } },
                     { label: 'Claude Code', icon: 'claude' },
+                    { label: 'Gemini CLI', icon: 'gemini' },
+                    { label: 'Codex', icon: 'openai' },
+                    { label: 'Computer Vision', icon: 'https://cdn.simpleicons.org/opencv' },
+                    { label: 'LLMs', icon: 'https://cdn.simpleicons.org/openai' },
                     { label: 'Jupyter', icon: 'jupyter' },
                     { label: 'Colab', icon: 'colab' }
                 ]
