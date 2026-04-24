@@ -47,18 +47,23 @@ const navLinks = siteConfig.headerNavLinks ?? [];
 <style>
     @reference "tailwindcss";
 
+    #main-nav {
+        @apply border-b border-transparent;
+    }
+
     #main-nav.is-scrolled {
-        background-color: color-mix(in srgb, var(--bg-main-bg) 80%, transparent);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid color-mix(in srgb, var(--border-main-border) 10%, transparent);
+        background-color: color-mix(in srgb, var(--bg-main-bg) 85%, transparent);
+        backdrop-filter: blur(16px);
+        border-bottom-color: color-mix(in srgb, var(--border-main-border) 15%, transparent);
+        @apply shadow-2xl;
     }
 
     #main-nav.is-scrolled #nav-content {
-        @apply pb-4 md:pt-4;
+        @apply pb-6 md:pt-6;
     }
 
     #main-nav.is-scrolled #theme-toggle-wrapper {
-        @apply top-4 md:top-4;
+        @apply top-6 md:top-6;
     }
 
     @media (max-width: 767px) {
@@ -113,11 +118,15 @@ const navLinks = siteConfig.headerNavLinks ?? [];
         const menu = document.querySelector('.menu');
         const menuToggleBtn = document.querySelector('.menu-toggle');
 
+        let isScrolled = false;
         const handleScroll = () => {
-            if (window.scrollY > 10) {
+            const scrollY = window.scrollY;
+            if (scrollY > 50 && !isScrolled) {
                 nav?.classList.add('is-scrolled');
-            } else {
+                isScrolled = true;
+            } else if (scrollY < 20 && isScrolled) {
                 nav?.classList.remove('is-scrolled');
+                isScrolled = false;
             }
         };
 
