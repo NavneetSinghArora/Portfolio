@@ -18,7 +18,6 @@ const { username } = Astro.props;
         id="github-contributions"
         data-username={username}
         class="spotlight-card group relative p-6 sm:p-8"
-        style="--spotlight-color: rgba(34, 197, 94, 0.3);"
     >
         <div class="spotlight-glow"></div>
         <!-- Skeleton Loading Sketch -->
@@ -89,17 +88,11 @@ const { username } = Astro.props;
 
 <style>
     .custom-scrollbar::-webkit-scrollbar {
-        height: 4px;
+        display: none;
     }
-    .custom-scrollbar::-webkit-scrollbar-track {
-        background: transparent;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: rgba(var(--text-main-rgb, 23, 23, 23), 0.1);
-        border-radius: 10px;
-    }
-    :global(.dark) .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.1);
+    .custom-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
     }
 </style>
 
@@ -197,18 +190,21 @@ const { username } = Astro.props;
                 }
             });
 
+            // Restrict to exactly 52 weeks
+            const displayWeeks = weeks.slice(-52);
+
             // Render grid
             let monthLabels = '';
             let currentMonth = -1;
             
-            const weeksHTML = weeks.map((week, weekIndex) => {
+            const weeksHTML = displayWeeks.map((week, weekIndex) => {
                 // Determine month of first non-empty day in the week
                 const firstRealDay = week.find(d => !d.empty);
                 if (firstRealDay) {
                     const firstDayDate = new Date(firstRealDay.date);
                     const month = firstDayDate.getMonth();
                     
-                    if (month !== currentMonth && weekIndex < weeks.length - 2) {
+                    if (month !== currentMonth && weekIndex < displayWeeks.length - 2) {
                         currentMonth = month;
                         const monthName = firstDayDate.toLocaleString('default', { month: 'short' });
                         monthLabels += `<div class="absolute" style="left: ${weekIndex * 13}px">${monthName}</div>`;

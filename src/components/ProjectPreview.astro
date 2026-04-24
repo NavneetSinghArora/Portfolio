@@ -8,18 +8,9 @@ const { project, class: className, headingLevel = 'h2' } = Astro.props;
 const { title, description } = project.data;
 const TitleTag = headingLevel;
 
-const spotlightColors = [
-    'rgba(56, 189, 248, 0.15)', // Blue
-    'rgba(139, 92, 246, 0.15)', // Purple
-    'rgba(16, 185, 129, 0.15)', // Emerald
-    'rgba(245, 158, 11, 0.15)', // Amber
-    'rgba(236, 72, 153, 0.15)', // Pink
-    'rgba(244, 63, 94, 0.15)',  // Rose
-];
-const spotColor = spotlightColors[title.length % spotlightColors.length];
 ---
 
-<div class:list={['project-card spotlight-card group relative flex flex-col sm:flex-row sm:items-stretch gap-6 p-6', className]} style={`--spotlight-color: ${spotColor};`}>
+<div class:list={['project-card spotlight-card group relative flex flex-col sm:flex-row sm:items-stretch gap-6 p-6', className]}>
     <div class="spotlight-glow"></div>
     {/* Content Section */}
     <div class="flex-1 min-w-0">

@@ -19,14 +19,6 @@ const { page } = Astro.props;
 const blog = page.data;
 const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
 
-const spotlightColors = [
-    'rgba(56, 189, 248, 0.15)', // Blue
-    'rgba(139, 92, 246, 0.15)', // Purple
-    'rgba(16, 185, 129, 0.15)', // Emerald
-    'rgba(245, 158, 11, 0.15)', // Amber
-    'rgba(236, 72, 153, 0.15)', // Pink
-    'rgba(244, 63, 94, 0.15)',  // Rose
-];
 ---
 
 <BaseLayout title="Blog" description="Embark on a journey of personal insights and experiences through my blog">
@@ -142,7 +134,6 @@ const spotlightColors = [
         {blog.map((post) => (
             <div 
                 class="post-card spotlight-card group relative flex flex-col sm:flex-row gap-6 p-6" 
-                style={`--spotlight-color: ${spotlightColors[post.data.title.length % spotlightColors.length]};`}
                 data-tags={post.data.tags.join(',')}
                 data-date={post.data.publishDate.getTime()}
                 data-title={post.data.title.toLowerCase()}
@@ -208,7 +199,6 @@ const spotlightColors = [
         {blog.map((post) => (
             <div 
                 class="post-card spotlight-card group relative flex flex-col p-4 shadow-sm" 
-                style={`--spotlight-color: ${spotlightColors[post.data.title.length % spotlightColors.length]};`}
                 data-tags={post.data.tags.join(',')}
                 data-date={post.data.publishDate.getTime()}
                 data-title={post.data.title.toLowerCase()}

@@ -109,14 +109,6 @@ const experiences = [
 // Extract unique locations for filtering
 const allLocations = [...new Set(experiences.flatMap(exp => exp.roles.map(role => role.location.split(', ').pop())))];
 
-const spotlightColors = [
-    'rgba(56, 189, 248, 0.15)', // Blue
-    'rgba(139, 92, 246, 0.15)', // Purple
-    'rgba(16, 185, 129, 0.15)', // Emerald
-    'rgba(245, 158, 11, 0.15)', // Amber
-    'rgba(236, 72, 153, 0.15)', // Pink
-    'rgba(244, 63, 94, 0.15)',  // Rose
-];
 ---
 
 <BaseLayout title={`Experience - ${siteConfig.title}`} description="Professional experience and career journey.">
@@ -195,7 +187,6 @@ const spotlightColors = [
             experiences.map((item, index) => (
                 <div 
                     class="experience-card spotlight-card group relative flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8 p-6"
-                    style={`--spotlight-color: ${spotlightColors[index % spotlightColors.length]};`}
                     data-company={item.company.toLowerCase()}
                     data-location={item.roles[0].location.split(', ').pop()}
                     data-date={index}
