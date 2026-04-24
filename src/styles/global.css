@@ -161,11 +161,11 @@ h1, h2 {
 .spotlight-card {
     position: relative;
     transform: translateZ(0);
-    @apply rounded-2xl border border-main-border/20 bg-main-bg/10 transition-all duration-500 backdrop-blur-xl shadow-sm overflow-hidden;
+    @apply rounded-2xl border border-main-border/20 bg-main-bg/10 transition-all duration-500 backdrop-blur-xl shadow-sm;
 }
 
 .spotlight-card:hover {
-    @apply border-main-border/60;
+    @apply border-main-border/60 z-50;
     background-color: var(--spotlight-color) !important;
     box-shadow: 0 20px 50px -20px var(--spotlight-color, rgba(0,0,0,0));
     transform: translateY(-2px);
