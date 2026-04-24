@@ -1,0 +1,129 @@
+---
+import siteConfig from '../data/site-config';
+
+const websiteUrl = siteConfig.website;
+const vCardData = `BEGIN:VCARD
+VERSION:3.0
+FN:${siteConfig.title}
+TITLE:${siteConfig.subtitle}
+URL:${websiteUrl}
+EMAIL:${siteConfig.socialLinks?.find(l => l.text.toLowerCase() === 'gmail')?.href.replace('mailto:', '')}
+END:VCARD`;
+---
+
+<div class="relative inline-block">
+    <button
+        id="qr-toggle"
+        class="group/social relative flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
+        title="Quick Connect (Scan QR)"
+        aria-label="Show Quick Connect QR Code"
+    >
+        <div class="absolute -inset-2 rounded-full bg-main-bg/5 opacity-0 transition-opacity group-hover/social:opacity-100"></div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 opacity-50 transition-opacity group-hover/social:opacity-100">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+            <path d="M7 7h.01"></path>
+            <path d="M17 7h.01"></path>
+            <path d="M7 17h.01"></path>
+        </svg>
+    </button>
+
+    <div
+        id="qr-container"
+        class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-sm"
+    >
+        <div class="relative mx-4 w-full max-w-sm rounded-[2.5rem] border border-white/10 bg-white/10 p-8 text-center shadow-2xl backdrop-blur-xl transition-transform duration-500 scale-90" id="qr-modal">
+            <button id="qr-close" class="absolute top-4 right-4 p-2 text-white/50 hover:text-white transition-colors">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            
+            <h3 class="mb-2 font-serif text-2xl font-medium text-white">Quick Connect</h3>
+            <p class="mb-8 text-sm text-white/60">Scan to add Navneet to your contacts or visit the mobile site.</p>
+            
+            <div class="mx-auto flex aspect-square w-full max-w-[240px] items-center justify-center rounded-3xl bg-white p-4 shadow-inner">
+                <canvas id="qr-canvas" class="h-full w-full"></canvas>
+            </div>
+            
+            <div class="mt-8 flex justify-center gap-4">
+                <button id="download-vcard" class="rounded-full bg-white/10 px-6 py-2 text-sm font-medium text-white hover:bg-white/20 transition-colors border border-white/5">
+                    Save V-Card
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js" is:inline></script>
+
+<script>
+    function initQR() {
+        const toggle = document.getElementById('qr-toggle');
+        const container = document.getElementById('qr-container');
+        const modal = document.getElementById('qr-modal');
+        const close = document.getElementById('qr-close');
+        const canvas = document.getElementById('qr-canvas');
+        const saveBtn = document.getElementById('download-vcard');
+
+        // Access QRCode from the global winwow (loaded via CDN)
+        const qrcodeLib = (window as any).QRCode;
+
+        if (!toggle || !container || !modal || !canvas || !qrcodeLib) return;
+
+        const websiteUrl = window.location.origin;
+        
+        toggle.addEventListener('click', () => {
+            qrcodeLib.toCanvas(canvas, websiteUrl, {
+                width: 240,
+                margin: 1,
+                color: {
+                    dark: '#000000',
+                    light: '#ffffff'
+                }
+            }, (error: any) => {
+                if (error) console.error('QR Code error:', error);
+            });
+            
+            container.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.remove('scale-90');
+        });
+
+        const closeModal = () => {
+            container.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.add('scale-90');
+        };
+
+        close?.addEventListener('click', closeModal);
+        container.addEventListener('click', (e) => {
+            if (e.target === container) closeModal();
+        });
+
+        saveBtn?.addEventListener('click', () => {
+            const linkedin = 'https://www.linkedin.com/in/navneet-singh-arora';
+            const vCardData = `BEGIN:VCARD
+VERSION:3.0
+FN:Navneet Singh Arora
+TITLE:Machine Learning & Full Stack Engineer
+URL:${websiteUrl}
+URL;type=WORK:${linkedin}
+EMAIL:aroranavneetsingh.de@gmail.com
+END:VCARD`;
+            const blob = new Blob([vCardData], { type: 'text/vcard' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Navneet-Singh-Arora.vcf';
+            a.click();
+        });
+    }
+
+    initQR();
+    document.addEventListener('astro:page-load', initQR);
+</script>
+
+<style>
+    #qr-canvas {
+        image-rendering: pixelated;
+    }
+</style>
