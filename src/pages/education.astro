@@ -50,12 +50,12 @@ function resolveIcon(name: string | undefined) {
         <p class="text-main/90">My academic journey and technical foundations.</p>
     </div>
 
-    <div class="space-y-12">
+    <div class="grid grid-cols-1 gap-8">
         {education.map((item) => (
-            <div class="group relative flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-10 transition-all duration-300 py-3">
+            <div class="group relative flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-10 transition-all duration-300 p-8 rounded-[2rem] border border-main-border/20 bg-main-bg/10 backdrop-blur-md shadow-sm hover:bg-main-bg/20">
                 {/* SVG Icon Container */}
-                <div class="flex-shrink-0 mt-1">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl border border-main-border/10 bg-main-bg/5 text-main/70 shadow-sm transition-colors group-hover:border-main-border/30 group-hover:text-main overflow-hidden">
+                <div class="flex-shrink-0">
+                    <div class="flex h-16 w-16 items-center justify-center rounded-2xl border border-main-border/20 bg-main-bg/10 text-main/70 shadow-sm transition-colors group-hover:border-main-border/30 group-hover:text-main overflow-hidden">
                         <img 
                             src={resolveIcon(item.logo)} 
                             alt={item.institution} 
@@ -65,16 +65,16 @@ function resolveIcon(name: string | undefined) {
                 </div>
                 
                 {/* Content */}
-                <div class="flex-1 space-y-6 mt-1">
+                <div class="flex-1 space-y-6">
                     <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
-                        <h2 class="font-serif text-xl sm:text-2xl font-medium">{item.institution}</h2>
-                        <span class="text-xs font-bold uppercase tracking-widest text-main/55 whitespace-nowrap">{item.period}</span>
+                        <h2 class="font-serif text-xl sm:text-2xl font-bold text-main">{item.institution}</h2>
+                        <span class="text-xs font-bold uppercase tracking-widest text-main/60 whitespace-nowrap">{item.period}</span>
                     </div>
                     
-                    <div class="space-y-8 relative before:absolute before:inset-y-1 before:-left-[24px] before:w-[2px] before:bg-main-border/10 ml-6 sm:ml-0">
+                    <div class="space-y-8 relative before:absolute before:inset-y-1 before:-left-[24px] before:w-[1px] before:bg-main-border/20 ml-6 sm:ml-0">
                         <div class="relative">
-                            <span class="absolute top-1.5 -left-[27px] h-2 w-2 rounded-full bg-main/40 ring-4 ring-main-bg"></span>
-                            <h3 class="text-base font-semibold text-main/80">{item.degree}</h3>
+                            <span class="absolute top-1.5 -left-[27.5px] h-2 w-2 rounded-full bg-main/40 ring-4 ring-main-bg/10 backdrop-blur-md"></span>
+                            <h3 class="text-base font-semibold text-main/90">{item.degree}</h3>
                             
                             <div class="flex items-center flex-wrap gap-2 sm:gap-3 text-xs font-medium text-main/60 mt-1 mb-3">
                                 <span>{item.period}</span>
@@ -83,13 +83,13 @@ function resolveIcon(name: string | undefined) {
                                 {item.grade && (
                                     <>
                                         <span class="hidden sm:inline-block h-1 w-1 rounded-full bg-main/30"></span>
-                                        <span class="font-serif text-main/80 font-bold">{item.grade}</span>
+                                        <span class="font-serif text-main/90 font-bold">{item.grade}</span>
                                     </>
                                 )}
                             </div>
                             
                             {item.focus && (
-                                <p class="text-sm leading-relaxed text-main/70 max-w-2xl mt-4 font-serif">
+                                <p class="text-sm leading-relaxed text-main/80 max-w-2xl mt-4 font-serif">
                                     <span class="text-main/90 font-sans tracking-widest uppercase text-[10px] font-bold mr-2">Focus</span>
                                     {item.focus}
                                 </p>

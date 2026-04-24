@@ -9,7 +9,7 @@ const { title, description } = project.data;
 const TitleTag = headingLevel;
 ---
 
-<div class:list={['group relative flex items-start justify-between gap-8 py-6', className]}>
+<div class:list={['group relative flex items-start justify-between gap-8 p-8 rounded-3xl border border-main-border/20 bg-main-bg/10 backdrop-blur-md shadow-sm hover:bg-main-bg/20 transition-all duration-300', className]}>
     <div class="grow">
         <a href={`/projects/${project.id}/`} class="block">
             <TitleTag
@@ -17,7 +17,7 @@ const TitleTag = headingLevel;
             >
                 {title}
             </TitleTag>
-            {description && <div class="mt-2 text-sm leading-relaxed text-main/80 font-sans max-w-3xl">{description}</div>}
+            {description && <div class="mt-2 text-sm leading-relaxed text-main/90 font-sans max-w-3xl">{description}</div>}
         </a>
         
         <!-- Resources in List View (The 'Blue Spot') -->

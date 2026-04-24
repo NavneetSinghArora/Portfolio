@@ -82,7 +82,7 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
     <!-- Gallery View Container (Horizontal Visual List) -->
     <div id="gallery-container" class="hidden flex flex-col gap-6 transition-all duration-300">
         {blog.map((post) => (
-            <div class="post-card group relative flex flex-col sm:flex-row gap-6 p-6 rounded-2xl border border-main-border/10 bg-main-bg/5 hover:bg-main-bg/10 transition-all hover:border-main-border/20 overflow-hidden" data-tags={post.data.tags.join(',')}>
+            <div class="post-card group relative flex flex-col sm:flex-row gap-6 p-6 rounded-2xl border border-main-border/20 bg-main-bg/10 hover:bg-main-bg/20 transition-all backdrop-blur-md shadow-sm overflow-hidden" data-tags={post.data.tags.join(',')}>
                 <div class="w-full sm:w-48 lg:w-64 shrink-0 flex flex-col gap-3">
                     <a href={`/blog/${post.id}/`} class="block aspect-square sm:aspect-video rounded-xl overflow-hidden border border-main-border/5">
                         {post.data.banner || post.data.seo?.image ? (
@@ -107,7 +107,7 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
                         </a>
                         <div class="space-y-4">
                             {post.data.excerpt && (
-                                <p class="text-xs text-main/80 leading-relaxed font-sans text-justify">
+                                <p class="text-xs text-main/90 leading-relaxed font-sans text-justify">
                                     {post.data.excerpt}
                                 </p>
                             )}
@@ -121,7 +121,7 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
     <!-- Cards View Container (Default Grid) -->
     <div id="cards-container" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 transition-all duration-300">
         {blog.map((post) => (
-            <div class="post-card group relative flex flex-col rounded-2xl border border-main-border/10 bg-main-bg/5 p-4 transition-all hover:border-main-border/20 hover:bg-main-bg/10" data-tags={post.data.tags.join(',')}>
+            <div class="post-card group relative flex flex-col rounded-2xl border border-main-border/20 bg-main-bg/10 p-4 transition-all hover:bg-main-bg/20 backdrop-blur-md shadow-sm" data-tags={post.data.tags.join(',')}>
                 <a href={`/blog/${post.id}/`} class="flex-grow">
                     <div class="aspect-video w-full overflow-hidden rounded-xl border border-main-border/5 bg-main-bg/10 mb-4">
                         {post.data.banner || post.data.seo?.image ? (
@@ -136,7 +136,7 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
                     </div>
                     <h3 class="font-serif text-base font-bold leading-tight line-clamp-2 mb-2 group-hover:underline group-hover:decoration-dashed text-main">{post.data.title}</h3>
                     {post.data.excerpt && (
-                       <p class="text-xs text-main/80 line-clamp-3 mb-4 leading-relaxed font-sans">{post.data.excerpt}</p>
+                       <p class="text-xs text-main/90 line-clamp-3 mb-4 leading-relaxed font-sans">{post.data.excerpt}</p>
                     )}
                 </a>
                 
@@ -149,10 +149,9 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
         ))}
     </div>
 
-    <!-- List View Container (Text Only) -->
-    <div id="list-container" class="hidden flex-col gap-8 transition-all duration-300">
+    <div id="list-container" class="hidden flex flex-col gap-8 transition-all duration-300">
         {blog.map((post) => (
-            <div class="post-card pb-8 border-b border-main-border/5 last:border-0 last:pb-0" data-tags={post.data.tags.join(',')}>
+            <div class="post-card" data-tags={post.data.tags.join(',')}>
                 <PostPreview post={post} />
             </div>
         ))}
