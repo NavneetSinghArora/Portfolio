@@ -10,24 +10,39 @@ const { title, publishDate, updatedDate, excerpt } = post.data;
 const TitleTag = headingLevel;
 ---
 
-<div class:list={['group relative flex items-start justify-between gap-8 p-8 rounded-3xl border border-main-border/20 bg-main-bg/10 backdrop-blur-md shadow-sm hover:bg-main-bg/20 transition-all duration-300', className]}>
-    <div class="grow">
+<div class:list={['group relative flex flex-col sm:flex-row sm:items-stretch gap-6 p-6 rounded-3xl border border-main-border/20 bg-main-bg/10 backdrop-blur-md shadow-sm hover:bg-main-bg/20 transition-all duration-300 hover:z-20', className]}>
+    {/* Content Section */}
+    <div class="flex-1 min-w-0">
         <a href={`/blog/${post.id}/`} class="block">
             <TitleTag
                 class="font-serif text-xl leading-tight font-bold group-hover:underline group-hover:decoration-dashed group-hover:decoration-1 group-hover:underline-offset-4 sm:text-2xl text-main"
             >
                 {title}
             </TitleTag>
-            <div class="mt-2 text-xs sm:text-xs font-bold uppercase tracking-widest text-main/55 flex items-center gap-2">
-                <FormattedDate date={publishDate} />
-                {updatedDate && (
-                    <span class="opacity-60 text-xs">(Updated <FormattedDate date={updatedDate} />)</span>
-                )}
-            </div>
-            {excerpt && <div class="mt-3 text-sm leading-relaxed text-main/90 font-sans max-w-3xl">{excerpt}</div>}
+            {excerpt && <div class="mt-2 text-sm leading-relaxed text-main/90 font-sans max-w-2xl">{excerpt}</div>}
         </a>
     </div>
-    <a href={`/blog/${post.id}/`} class="hidden font-serif text-main/40 transition group-hover:text-main sm:inline-flex sm:shrink-0 sm:items-center sm:gap-1 mt-1">
-        Read <ArrowRight class="h-3 w-3 fill-current ml-1" />
-    </a>
+
+    {/* Metadata Section */}
+    <div class="flex flex-row sm:flex-col justify-between sm:items-end gap-4 shrink-0 pt-1 sm:border-l sm:border-main-border/10 sm:pl-8">
+        <div class="text-[11px] font-bold tracking-[0.2em] text-main/40 uppercase font-sans">
+            {publishDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+        </div>
+        
+        <div class="flex items-center gap-1.5 px-1 sm:px-0">
+            {post.data.medium && (
+                <a 
+                    href={post.data.medium} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    class="group/icon premium-tooltip relative flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
+                    data-tooltip="Read on Medium"
+                >
+                    <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                    <img src="https://cdn.simpleicons.org/medium" class="h-3.5 w-3.5 dark:hidden opacity-70 group-hover:opacity-100 transition-all relative z-10" alt="Medium" />
+                    <img src="https://cdn.simpleicons.org/medium/white" class="h-3.5 w-3.5 hidden dark:block opacity-70 group-hover:opacity-100 transition-all relative z-10" alt="Medium" />
+                </a>
+            )}
+        </div>
+    </div>
 </div>

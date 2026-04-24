@@ -70,13 +70,13 @@ const currentYear = new Date().getFullYear();
                                 <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/social:opacity-100 group-hover/social:scale-110 group-hover/social:bg-main/10 ring-1 ring-main/10" />
                                 {isGithub ? (
                                     <>
-                                        <img src={resolveIcon('github-dark')} alt="" class="relative z-10 h-5 w-5 opacity-90 transition-all dark:hidden" />
-                                        <img src={resolveIcon('github-light')} alt="" class="relative z-10 hidden h-5 w-5 opacity-90 transition-all dark:block" />
+                                        <img src={resolveIcon('github-dark')} alt="" class="relative z-10 h-3.5 w-3.5 opacity-90 transition-all dark:hidden" />
+                                        <img src={resolveIcon('github-light')} alt="" class="relative z-10 hidden h-3.5 w-3.5 opacity-90 transition-all dark:block" />
                                     </>
                                 ) : isResume ? (
-                                    <img src={resumeIcon} alt="" class="relative z-10 h-5 w-5 opacity-90 transition-all" />
+                                    <img src={resumeIcon} alt="" class="relative z-10 h-3.5 w-3.5 opacity-90 transition-all" />
                                 ) : (
-                                    <img src={iconPath} alt="" class="relative z-10 h-5 w-5 opacity-90 transition-all" />
+                                    <img src={iconPath} alt="" class="relative z-10 h-3.5 w-3.5 opacity-90 transition-all" />
                                 )}
                             </a>
                         );

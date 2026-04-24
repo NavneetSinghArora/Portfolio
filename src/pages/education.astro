@@ -23,6 +23,9 @@ const education = [
     }
 ];
 
+// Extract unique levels for filtering
+const allLevels = [...new Set(education.map(ed => ed.degree.split('.')[0]))];
+
 // Dynamic icon resolution
 const logos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/{icons,images}/*.{svg,png,webp,jpg,jpeg}', { eager: true });
 
@@ -45,14 +48,83 @@ function resolveIcon(name: string | undefined) {
 ---
 
 <BaseLayout title={`Education - ${siteConfig.title}`} description="Academic background and qualifications.">
-    <div class="mb-12 sm:mb-16">
-        <h1 class="font-serif text-3xl leading-tight font-medium sm:text-4xl mb-4">Education</h1>
-        <p class="text-main/90">My academic journey and technical foundations.</p>
+    <div class="mb-12">
+        <h1 class="font-serif text-3xl leading-tight font-medium sm:text-4xl mb-4 text-main">Education</h1>
+        <p class="text-main/70">My academic journey and technical foundations.</p>
     </div>
 
-    <div class="grid grid-cols-1 gap-8">
-        {education.map((item) => (
-            <div class="group relative flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-10 transition-all duration-300 p-8 rounded-[2rem] border border-main-border/20 bg-main-bg/10 backdrop-blur-md shadow-sm hover:bg-main-bg/20">
+    <!-- Premium Filter Console -->
+    <div class="mb-12 space-y-4">
+        <!-- Search Bar -->
+        <div class="relative group">
+            <input 
+                type="text" 
+                id="education-search" 
+                placeholder="Search by institution, degree, or focus..." 
+                class="w-full bg-main-bg/10 backdrop-blur-md border border-main-border/20 rounded-xl py-3 pl-12 pr-4 text-[14px] text-main placeholder:text-main/40 focus:outline-none focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all shadow-sm"
+            />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-main/50 group-focus-within:text-blue-500 transition-colors pointer-events-none z-10"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </div>
+
+        <!-- Tool Row (Filters + Sort) -->
+        <div class="flex flex-wrap items-center justify-between gap-4">
+            <div class="flex flex-wrap items-center gap-3">
+                <!-- Level Dropdown -->
+                <div class="relative dropdown-container" id="level-dropdown">
+                    <button class="dropdown-trigger flex items-center justify-between gap-3 px-4 py-2.5 min-w-[160px] bg-main-bg/10 backdrop-blur-md border border-main-border/20 rounded-xl text-[14px] font-medium text-main/60 hover:text-main transition-all shadow-sm">
+                        <div class="flex items-center gap-2">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+                            <span id="current-level">All Levels</span>
+                        </div>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-30 chevron transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
+                    </button>
+                    
+                    <div class="dropdown-menu hidden absolute top-full left-0 mt-2 min-w-[200px] bg-main-bg/80 backdrop-blur-xl border border-main-border/10 rounded-xl py-1.5 shadow-2xl z-50 origin-top-left transition-all duration-200">
+                        <button class="filter-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-filter="all">
+                            <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-100 transition-opacity active-indicator"></div>
+                            All Qualifications
+                        </button>
+                        {allLevels.sort().map(level => (
+                            <button class="filter-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-filter={level}>
+                                <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
+                                {level} Degree
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                <!-- Sort Dropdown -->
+                <div class="relative dropdown-container" id="sort-dropdown">
+                    <button class="dropdown-trigger flex items-center justify-between gap-3 px-4 py-2.5 min-w-[160px] bg-main-bg/10 backdrop-blur-md border border-main-border/20 rounded-xl text-[14px] font-medium text-main/60 hover:text-main transition-all shadow-sm">
+                        <div class="flex items-center gap-2">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><path d="m3 16 4 4 4-4"></path><path d="M7 20V4"></path><path d="m21 8-4-4-4 4"></path><path d="M17 4v16"></path></svg>
+                            <span id="current-sort">Newest First</span>
+                        </div>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-30 chevron transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
+                    </button>
+                    <div class="dropdown-menu hidden absolute top-full left-0 mt-2 min-w-[180px] bg-main-bg/80 backdrop-blur-xl border border-main-border/10 rounded-xl py-1.5 shadow-2xl z-50 origin-top-left transition-all duration-200">
+                        <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="newest">
+                            <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-100 transition-opacity active-indicator"></div>
+                            Newest First
+                        </button>
+                        <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="oldest">
+                            <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
+                            Oldest First
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-8" id="education-container">
+        {education.map((item, index) => (
+            <div 
+                class="education-card group relative flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-10 transition-all duration-500 p-8 rounded-[2rem] border border-main-border/20 bg-main-bg/10 backdrop-blur-md shadow-sm hover:bg-main-bg/20 hover:z-20"
+                data-level={item.degree.split('.')[0]}
+                data-date={index}
+                data-search={`${item.institution} ${item.degree} ${item.focus}`.toLowerCase()}
+            >
                 {/* SVG Icon Container */}
                 <div class="flex-shrink-0">
                     <div class="flex h-16 w-16 items-center justify-center rounded-2xl border border-main-border/20 bg-main-bg/10 text-main/70 shadow-sm transition-colors group-hover:border-main-border/30 group-hover:text-main overflow-hidden">
@@ -73,7 +145,7 @@ function resolveIcon(name: string | undefined) {
                     
                     <div class="space-y-8 relative before:absolute before:inset-y-1 before:-left-[24px] before:w-[1px] before:bg-main-border/20 ml-6 sm:ml-0">
                         <div class="relative">
-                            <span class="absolute top-1.5 -left-[27.5px] h-2 w-2 rounded-full bg-main/40 ring-4 ring-main-bg/10 backdrop-blur-md"></span>
+                            <span class="absolute top-1.5 -left-[27.5px] h-2 w-2 rounded-full bg-blue-500 ring-4 ring-blue-500/10 backdrop-blur-md"></span>
                             <h3 class="text-base font-semibold text-main/90">{item.degree}</h3>
                             
                             <div class="flex items-center flex-wrap gap-2 sm:gap-3 text-xs font-medium text-main/60 mt-1 mb-3">
@@ -100,4 +172,138 @@ function resolveIcon(name: string | undefined) {
             </div>
         ))}
     </div>
+
+    <script>
+        function initEducationDiscovery() {
+            const searchInput = document.getElementById('education-search') as HTMLInputElement;
+            const container = document.getElementById('education-container');
+            const cards = Array.from(document.querySelectorAll('.education-card')) as HTMLElement[];
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const sortBtns = document.querySelectorAll('.sort-btn');
+            
+            let currentFilter = 'all';
+            let currentSort = 'newest';
+            let searchQuery = '';
+
+            function updateUI() {
+                cards.forEach(card => {
+                    const matchesSearch = card.dataset.search?.includes(searchQuery);
+                    const matchesFilter = currentFilter === 'all' || card.dataset.level === currentFilter;
+                    
+                    if (matchesSearch && matchesFilter) {
+                        card.style.display = 'flex';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    } else {
+                        card.style.display = 'none';
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(10px)';
+                    }
+                });
+
+                // Apply Sort
+                const visibleCards = cards.filter(c => c.style.display !== 'none');
+                visibleCards.sort((a, b) => {
+                    const valA = parseInt(a.dataset.date || '0');
+                    const valB = parseInt(b.dataset.date || '0');
+                    return currentSort === 'newest' ? valA - valB : valB - valA;
+                });
+
+                visibleCards.forEach((card, index) => {
+                    card.style.order = index.toString();
+                });
+            }
+
+            // Search
+            searchInput?.addEventListener('input', (e) => {
+                searchQuery = (e.target as HTMLInputElement).value.toLowerCase();
+                updateUI();
+            });
+
+            // Filter
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentFilter = (btn as HTMLElement).dataset.filter || 'all';
+                    const label = document.getElementById('current-level');
+                    if (label) label.textContent = currentFilter === 'all' ? 'All Levels' : currentFilter + ' Degree';
+                    
+                    // Update active state
+                    filterBtns.forEach(b => {
+                        const indicator = b.querySelector('.active-indicator');
+                        if (indicator) {
+                            indicator.classList.remove('opacity-100');
+                            indicator.classList.add('opacity-0');
+                        }
+                    });
+                    const currentIndicator = btn.querySelector('.active-indicator');
+                    if (currentIndicator) {
+                        currentIndicator.classList.remove('opacity-0');
+                        currentIndicator.classList.add('opacity-100');
+                    }
+                    
+                    updateUI();
+                });
+            });
+
+            // Sort
+            sortBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentSort = (btn as HTMLElement).dataset.sort || 'newest';
+                    const label = document.getElementById('current-sort');
+                    if (label) label.textContent = currentSort === 'newest' ? 'Newest First' : 'Oldest First';
+
+                    // Update active state
+                    sortBtns.forEach(b => {
+                        const indicator = b.querySelector('.active-indicator');
+                        if (indicator) {
+                            indicator.classList.remove('opacity-100');
+                            indicator.classList.add('opacity-0');
+                        }
+                    });
+                    const currentIndicator = btn.querySelector('.active-indicator');
+                    if (currentIndicator) {
+                        currentIndicator.classList.remove('opacity-0');
+                        currentIndicator.classList.add('opacity-100');
+                    }
+
+                    updateUI();
+                });
+            });
+
+            // Dropdown Logic
+            const triggers = document.querySelectorAll('.dropdown-trigger');
+            triggers.forEach(trigger => {
+                trigger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const menu = trigger.nextElementSibling;
+                    const chevron = trigger.querySelector('.chevron');
+                    
+                    document.querySelectorAll('.dropdown-menu').forEach(m => {
+                        if (m !== menu) m.classList.add('hidden');
+                    });
+                    document.querySelectorAll('.chevron').forEach(c => {
+                        if (c !== chevron) c.classList.remove('rotate-180');
+                    });
+
+                    menu?.classList.toggle('hidden');
+                    chevron?.classList.toggle('rotate-180');
+                });
+            });
+
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
+                document.querySelectorAll('.chevron').forEach(c => c.classList.remove('rotate-180'));
+            });
+        }
+
+        initEducationDiscovery();
+        document.addEventListener('astro:after-swap', initEducationDiscovery);
+    </script>
+
+    <style>
+        .education-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .rotate-180 { transform: rotate(180deg); }
+    </style>
 </BaseLayout>

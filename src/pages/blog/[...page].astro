@@ -26,36 +26,6 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
             <h1 class="font-serif text-2xl leading-tight sm:text-4xl text-main">Blog Archive</h1>
             <p class="mt-2 text-sm text-main/60 max-w-md">Reflections on engineering, research, and technical explorations.</p>
         </div>
-        
-        <!-- View Switcher -->
-        <div class="flex items-center gap-1 self-start rounded-xl border border-main-border/10 bg-main-bg/5 p-1">
-            <button 
-                id="view-cards" 
-                class="flex h-9 w-9 items-center justify-center rounded-lg transition-all hover:bg-main-bg/5 text-main active-view"
-                title="Card View"
-            >
-                <div class="h-4 w-4">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-full w-full"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>
-                </div>
-            </button>
-            <button 
-                id="view-gallery" 
-                class="flex h-9 w-9 items-center justify-center rounded-lg transition-all hover:bg-main-bg/5 text-main/40"
-                title="Gallery View"
-            >
-                <div class="h-4 w-4">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-full w-full"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
-                </div>
-            </button>
-            <button 
-                id="view-list" 
-                class="flex h-9 w-9 items-center justify-center rounded-lg transition-all hover:bg-main-bg/5 text-main/40"
-                title="List View"
-            >
-                <div class="h-4 w-4">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-full w-full"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-                </div>
-            </button>
         </div>
     </div>
 
@@ -63,68 +33,96 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
     <div class="mb-12 space-y-4">
         <!-- Search Bar -->
         <div class="relative group">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-main/40 group-focus-within:text-blue-500 transition-colors"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
             <input 
                 type="text" 
                 id="blog-search" 
                 placeholder="Search articles by title, topic, or keyword..." 
                 class="w-full bg-main-bg/10 backdrop-blur-md border border-main-border/20 rounded-xl py-3 pl-12 pr-4 text-[14px] text-main placeholder:text-main/40 focus:outline-none focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all shadow-sm"
             />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-main/50 group-focus-within:text-blue-500 transition-colors pointer-events-none z-10"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
         </div>
 
-        <!-- Dropdowns Row -->
-        <div class="flex flex-wrap items-center gap-3">
-            <!-- Category Dropdown -->
-            <div class="relative dropdown-container" id="category-dropdown">
-                <button class="dropdown-trigger flex items-center justify-between gap-3 px-4 py-2.5 min-w-[170px] bg-main-bg/10 backdrop-blur-md border border-main-border/20 rounded-xl text-[14px] font-medium text-main/60 hover:text-main transition-all shadow-sm">
-                    <div class="flex items-center gap-2">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
-                        <span id="current-category">All Topics</span>
-                    </div>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-30 chevron transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
-                </button>
-                <div class="dropdown-menu hidden absolute top-full left-0 mt-2 min-w-[220px] bg-main-bg/80 backdrop-blur-xl border border-main-border/10 rounded-xl py-1.5 shadow-2xl z-50 origin-top-left transition-all duration-200">
-                    <button class="tag-filter-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-tag-filter="all">
-                        <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path></svg>
-                        All Topics
+        <!-- Tool Row (Filters + Sort + View Switcher) -->
+        <div class="flex flex-wrap items-center justify-between gap-4">
+            <div class="flex flex-wrap items-center gap-3">
+                <!-- Topic Dropdown -->
+                <div class="relative dropdown-container" id="category-dropdown">
+                    <button class="dropdown-trigger flex items-center justify-between gap-3 px-4 py-2.5 min-w-[170px] bg-main-bg/10 backdrop-blur-md border border-main-border/20 rounded-xl text-[14px] font-medium text-main/60 hover:text-main transition-all shadow-sm">
+                        <div class="flex items-center gap-2">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+                            <span id="current-category">All Topics</span>
+                        </div>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-30 chevron transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
                     </button>
-                    {allTags.map(tag => (
-                        <button class="tag-filter-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors capitalize" data-tag-filter={tag}>
+                    
+                    <div class="dropdown-menu hidden absolute top-full left-0 mt-2 min-w-[220px] bg-main-bg/80 backdrop-blur-xl border border-main-border/10 rounded-xl py-1.5 shadow-2xl z-50 origin-top-left transition-all duration-200">
+                        <button class="tag-filter-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-tag-filter="all">
                             <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg>
-                            {tag}
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path></svg>
+                            All Articles
                         </button>
-                    ))}
+                        {allTags.map(tag => (
+                            <button class="tag-filter-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors capitalize" data-tag-filter={tag}>
+                                <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg>
+                                {tag}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                <!-- Sort Dropdown -->
+                <div class="relative dropdown-container" id="sort-dropdown">
+                    <button class="dropdown-trigger flex items-center justify-between gap-3 px-4 py-2.5 min-w-[170px] bg-main-bg/10 backdrop-blur-md border border-main-border/20 rounded-xl text-[14px] font-medium text-main/60 hover:text-main transition-all shadow-sm">
+                        <div class="flex items-center gap-2">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><path d="m3 16 4 4 4-4"></path><path d="M7 20V4"></path><path d="m21 8-4-4-4 4"></path><path d="M17 4v16"></path></svg>
+                            <span id="current-sort">Newest First</span>
+                        </div>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-30 chevron transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
+                    </button>
+                    <div class="dropdown-menu hidden absolute top-full left-0 mt-2 min-w-[200px] bg-main-bg/80 backdrop-blur-xl border border-main-border/10 rounded-xl py-1.5 shadow-2xl z-50 origin-top-left transition-all duration-200">
+                        <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="newest">
+                            <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-100 transition-opacity active-indicator"></div>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="m3 16 4 4 4-4"></path><path d="M7 20V4"></path></svg>
+                            Newest First
+                        </button>
+                        <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="oldest">
+                            <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="m3 8 4-4 4 4"></path><path d="M7 4v16"></path></svg>
+                            Oldest First
+                        </button>
+                        <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="az">
+                            <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="M11 5h10"></path><path d="M11 9h10"></path><path d="M11 13h10"></path><path d="m3 17 3 3 3-3"></path><path d="M6 18V4"></path></svg>
+                            Alphabetical (A-Z)
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Sort Dropdown -->
-            <div class="relative dropdown-container" id="sort-dropdown">
-                <button class="dropdown-trigger flex items-center justify-between gap-3 px-4 py-2.5 min-w-[170px] bg-main-bg/10 backdrop-blur-md border border-main-border/20 rounded-xl text-[14px] font-medium text-main/60 hover:text-main transition-all shadow-sm">
-                    <div class="flex items-center gap-2">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><path d="m3 16 4 4 4-4"></path><path d="M7 20V4"></path><path d="m21 8-4-4-4 4"></path><path d="M17 4v16"></path></svg>
-                        <span id="current-sort">Newest First</span>
-                    </div>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-30 chevron transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
+            <!-- Integrated View Switcher -->
+            <div class="flex items-center gap-1.5 bg-main-bg/10 backdrop-blur-md border border-main-border/20 p-1 rounded-xl shadow-sm">
+                <button 
+                    id="view-cards" 
+                    class="flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-main-bg/10 text-main active-view"
+                    title="Grid View"
+                >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>
                 </button>
-                <div class="dropdown-menu hidden absolute top-full left-0 mt-2 min-w-[200px] bg-main-bg/80 backdrop-blur-xl border border-main-border/10 rounded-xl py-1.5 shadow-2xl z-50 origin-top-left transition-all duration-200">
-                    <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="newest">
-                        <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-100 transition-opacity active-indicator"></div>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="m3 16 4 4 4-4"></path><path d="M7 20V4"></path></svg>
-                        Newest First
-                    </button>
-                    <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="oldest">
-                        <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="m3 8 4-4 4 4"></path><path d="M7 4v16"></path></svg>
-                        Oldest First
-                    </button>
-                    <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="az">
-                        <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="M11 5h10"></path><path d="M11 9h10"></path><path d="M11 13h10"></path><path d="m3 17 3 3 3-3"></path><path d="M6 18V4"></path></svg>
-                        Alphabetical (A-Z)
-                    </button>
-                </div>
+                <button 
+                    id="view-gallery" 
+                    class="flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-main-bg/10 text-main/40"
+                    title="Gallery View"
+                >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
+                </button>
+                <button 
+                    id="view-list" 
+                    class="flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-main-bg/10 text-main/40"
+                    title="List View"
+                >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                </button>
             </div>
         </div>
     </div>
@@ -138,8 +136,9 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
                 data-date={post.data.publishDate.getTime()}
                 data-title={post.data.title.toLowerCase()}
             >
-                <div class="w-full sm:w-48 lg:w-64 shrink-0 flex flex-col gap-3">
-                    <a href={`/blog/${post.id}/`} class="block aspect-square sm:aspect-video rounded-xl overflow-hidden border border-main-border/5">
+                <!-- Visual Column (Left) -->
+                <div class="w-full sm:w-64 shrink-0">
+                    <a href={`/blog/${post.id}/`} class="block aspect-video sm:aspect-square rounded-xl overflow-hidden border border-main-border/5">
                         {post.data.banner || post.data.seo?.image ? (
                             <img 
                                 src={post.data.banner ?? post.data.seo!.image!.src.src} 
@@ -150,23 +149,40 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
                             <div class="flex h-full w-full items-center justify-center bg-main-bg/10 text-main/55 text-xs">No preview</div>
                         )}
                     </a>
-                    <p class="text-xs font-bold uppercase tracking-widest text-main/55 truncate px-1">
-                        {post.data.publishDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
-                    </p>
                 </div>
 
-                <div class="flex-grow flex flex-col justify-between">
+                <!-- Content Section (Right) -->
+                <div class="flex-grow flex flex-col justify-between py-1">
                     <div>
                         <a href={`/blog/${post.id}/`}>
-                            <h3 class="font-serif text-xl sm:text-2xl font-bold leading-tight mb-4 group-hover:underline group-hover:decoration-dashed decoration-main/20 text-main">{post.data.title}</h3>
+                            <h3 class="font-serif text-2xl font-bold leading-tight mb-3 group-hover:underline group-hover:decoration-dashed decoration-main/20 text-main">{post.data.title}</h3>
                         </a>
-                        <div class="space-y-4">
-                            {post.data.excerpt && (
-                                <p class="text-xs text-main/90 leading-relaxed font-sans text-justify">
-                                    {post.data.excerpt}
-                                </p>
+                        {post.data.excerpt && (
+                            <p class="text-sm text-main/60 leading-relaxed font-sans line-clamp-3">
+                                {post.data.excerpt}
+                            </p>
+                        )}
+                    </div>
+
+                    <div class="mt-6 flex items-center justify-between">
+                        <div class="flex items-center gap-1.5">
+                            {post.data.medium && (
+                                <a 
+                                    href={post.data.medium} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    class="group/icon premium-tooltip relative flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
+                                    data-tooltip="Read on Medium"
+                                >
+                                    <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                    <img src="https://cdn.simpleicons.org/medium" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-90" alt="Medium" />
+                                    <img src="https://cdn.simpleicons.org/medium/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-90" alt="Medium" />
+                                </a>
                             )}
                         </div>
+                        <span class="text-[10px] font-bold tracking-[0.15em] text-main/30 uppercase font-sans">
+                            {post.data.publishDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -201,6 +217,21 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
                 </a>
                 
                 <div class="mt-auto flex items-center justify-between pt-3 border-t border-main-border/5">
+                    <div class="flex items-center gap-1.5">
+                        {post.data.medium && (
+                            <a 
+                                href={post.data.medium} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                class="group/icon premium-tooltip relative flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115" 
+                                data-tooltip="Read on Medium"
+                            >
+                                <div class="absolute inset-0 rounded-lg bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                <img src="https://cdn.simpleicons.org/medium" class="relative z-10 h-3 w-3 dark:hidden opacity-90" alt="Medium" />
+                                <img src="https://cdn.simpleicons.org/medium/white" class="relative z-10 h-3 w-3 hidden dark:block opacity-90" alt="Medium" />
+                            </a>
+                        )}
+                    </div>
                     <p class="text-[10px] font-bold uppercase tracking-widest text-main/40">
                         {post.data.publishDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
                     </p>
@@ -210,27 +241,15 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
     </div>
 
     <!-- List View Container -->
-    <div id="list-container" class="hidden flex flex-col border border-main-border/10 rounded-2xl overflow-hidden bg-main-bg/5 transition-all duration-300">
+    <div id="list-container" class="hidden flex flex-col gap-4 transition-all duration-300">
         {blog.map((post) => (
             <div 
-                class="post-card group flex items-center justify-between gap-4 p-4 border-b border-main-border/5 last:border-0 hover:bg-main-bg/10 transition-all" 
+                class="post-card" 
                 data-tags={post.data.tags.join(',')}
                 data-date={post.data.publishDate.getTime()}
                 data-title={post.data.title.toLowerCase()}
             >
-                <div class="flex items-center gap-4 min-w-0">
-                    <p class="text-[10px] font-bold uppercase tracking-widest text-main/30 shrink-0 w-20">
-                        {post.data.publishDate.toLocaleDateString('en-US', { month: 'short', 'year': 'numeric' })}
-                    </p>
-                    <a href={`/blog/${post.id}/`} class="truncate">
-                        <h3 class="font-serif text-sm font-bold text-main group-hover:underline decoration-dashed decoration-main/20 truncate">{post.data.title}</h3>
-                    </a>
-                </div>
-                <div class="flex items-center gap-2 shrink-0">
-                    {post.data.tags.slice(0, 2).map(tag => (
-                        <span class="text-[9px] px-2 py-0.5 rounded-full border border-main-border/10 text-main/40 uppercase font-bold tracking-tighter bg-main-bg/10">{tag}</span>
-                    ))}
-                </div>
+                <PostPreview post={post} />
             </div>
         ))}
     </div>

@@ -30,35 +30,6 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
             <p class="mt-2 text-sm text-main/60 max-w-md">Technical research, engineering implementations, and academic reviews.</p>
         </div>
         
-        <!-- View Switcher -->
-        <div class="flex items-center gap-1 self-start rounded-xl border border-main-border/10 bg-main-bg/5 p-1">
-            <button 
-                id="view-cards" 
-                class="flex h-9 w-9 items-center justify-center rounded-lg transition-all hover:bg-main-bg/5 text-main active-view"
-                title="Card View"
-            >
-                <div class="h-4 w-4">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-full w-full"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>
-                </div>
-            </button>
-            <button 
-                id="view-gallery" 
-                class="flex h-9 w-9 items-center justify-center rounded-lg transition-all hover:bg-main-bg/5 text-main/40"
-                title="Gallery View"
-            >
-                <div class="h-4 w-4">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-full w-full"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
-                </div>
-            </button>
-            <button 
-                id="view-list" 
-                class="flex h-9 w-9 items-center justify-center rounded-lg transition-all hover:bg-main-bg/5 text-main/40"
-                title="List View"
-            >
-                <div class="h-4 w-4">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-full w-full"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-                </div>
-            </button>
         </div>
     </div>
 
@@ -66,85 +37,113 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
     <div class="mb-12 space-y-4">
         <!-- Search Bar -->
         <div class="relative group">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-main/40 group-focus-within:text-blue-500 transition-colors"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
             <input 
                 type="text" 
                 id="project-search" 
                 placeholder="Search projects by name, tag, or technology..." 
                 class="w-full bg-main-bg/10 backdrop-blur-md border border-main-border/20 rounded-xl py-3 pl-12 pr-4 text-[14px] text-main placeholder:text-main/40 focus:outline-none focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all shadow-sm"
             />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-main/50 group-focus-within:text-blue-500 transition-colors pointer-events-none z-10"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
         </div>
 
-        <!-- Dropdowns Row -->
-        <div class="flex flex-wrap items-center gap-3">
-            <!-- Category Dropdown -->
-            <div class="relative dropdown-container" id="category-dropdown">
-                <button class="dropdown-trigger flex items-center justify-between gap-3 px-4 py-2.5 min-w-[170px] bg-main-bg/10 backdrop-blur-md border border-main-border/20 rounded-xl text-[14px] font-medium text-main/60 hover:text-main transition-all shadow-sm">
-                    <div class="flex items-center gap-2">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
-                        <span id="current-category">All Categories</span>
-                    </div>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-30 chevron transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
-                </button>
-                
-                <div class="dropdown-menu hidden absolute top-full left-0 mt-2 min-w-[220px] bg-main-bg/80 backdrop-blur-xl border border-main-border/10 rounded-xl py-1.5 shadow-2xl z-50 origin-top-left transition-all duration-200">
-                    <button class="tag-filter-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-tag-filter="all">
-                        <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path></svg>
-                        All Projects
+        <!-- Tool Row (Filters + Sort + View Switcher) -->
+        <div class="flex flex-wrap items-center justify-between gap-4">
+            <div class="flex flex-wrap items-center gap-3">
+                <!-- Category Dropdown -->
+                <div class="relative dropdown-container" id="category-dropdown">
+                    <button class="dropdown-trigger flex items-center justify-between gap-3 px-4 py-2.5 min-w-[170px] bg-main-bg/10 backdrop-blur-md border border-main-border/20 rounded-xl text-[14px] font-medium text-main/60 hover:text-main transition-all shadow-sm">
+                        <div class="flex items-center gap-2">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
+                            <span id="current-category">All Categories</span>
+                        </div>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-30 chevron transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
                     </button>
-                    {allTags.map(tag => (
-                        <button class="tag-filter-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors capitalize" data-tag-filter={tag}>
+                    
+                    <div class="dropdown-menu hidden absolute top-full left-0 mt-2 min-w-[220px] bg-main-bg/80 backdrop-blur-xl border border-main-border/10 rounded-xl py-1.5 shadow-2xl z-50 origin-top-left transition-all duration-200">
+                        <button class="tag-filter-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-tag-filter="all">
                             <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="M12 2l3.5 2h4l2 3.5l-2 3.5v4l-2 3.5l-4 2l-3.5-2h-4l-2-3.5l2-3.5v-4l2-3.5l4-2z"></path></svg>
-                            {tag}
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path></svg>
+                            All Projects
                         </button>
-                    ))}
+                        {allTags.map(tag => (
+                            <button class="tag-filter-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors capitalize" data-tag-filter={tag}>
+                                <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="M12 2l3.5 2h4l2 3.5l-2 3.5v4l-2 3.5l-4 2l-3.5-2h-4l-2-3.5l2-3.5v-4l2-3.5l4-2z"></path></svg>
+                                {tag}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                <!-- Sort Dropdown -->
+                <div class="relative dropdown-container" id="sort-dropdown">
+                    <button class="dropdown-trigger flex items-center justify-between gap-3 px-4 py-2.5 min-w-[170px] bg-main-bg/10 backdrop-blur-md border border-main-border/20 rounded-xl text-[14px] font-medium text-main/60 hover:text-main transition-all shadow-sm">
+                        <div class="flex items-center gap-2">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><path d="m3 16 4 4 4-4"></path><path d="M7 20V4"></path><path d="m21 8-4-4-4 4"></path><path d="M17 4v16"></path></svg>
+                            <span id="current-sort">Newest First</span>
+                        </div>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-30 chevron transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
+                    </button>
+                    <div class="dropdown-menu hidden absolute top-full left-0 mt-2 min-w-[200px] bg-main-bg/80 backdrop-blur-xl border border-main-border/10 rounded-xl py-1.5 shadow-2xl z-50 origin-top-left transition-all duration-200">
+                        <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="newest">
+                            <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-100 transition-opacity active-indicator"></div>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="m3 16 4 4 4-4"></path><path d="M7 20V4"></path></svg>
+                            Newest First
+                        </button>
+                        <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="oldest">
+                            <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="m3 8 4-4 4 4"></path><path d="M7 4v16"></path></svg>
+                            Oldest First
+                        </button>
+                        <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="az">
+                            <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="M11 5h10"></path><path d="M11 9h10"></path><path d="M11 13h10"></path><path d="m3 17 3 3 3-3"></path><path d="M6 18V4"></path></svg>
+                            Alphabetical (A-Z)
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Sort Dropdown -->
-            <div class="relative dropdown-container" id="sort-dropdown">
-                <button class="dropdown-trigger flex items-center justify-between gap-3 px-4 py-2.5 min-w-[170px] bg-main-bg/10 backdrop-blur-md border border-main-border/20 rounded-xl text-[14px] font-medium text-main/60 hover:text-main transition-all shadow-sm">
-                    <div class="flex items-center gap-2">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><path d="m3 16 4 4 4-4"></path><path d="M7 20V4"></path><path d="m21 8-4-4-4 4"></path><path d="M17 4v16"></path></svg>
-                        <span id="current-sort">Newest First</span>
-                    </div>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-30 chevron transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
+            <!-- Integrated View Switcher -->
+            <div class="flex items-center gap-1.5 bg-main-bg/10 backdrop-blur-md border border-main-border/20 p-1 rounded-xl shadow-sm">
+                <button 
+                    id="view-cards"
+                    class="view-mode-btn premium-tooltip flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-main-bg/10 text-main active-view relative" 
+                    data-tooltip="Grid"
+                >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
                 </button>
-                <div class="dropdown-menu hidden absolute top-full left-0 mt-2 min-w-[200px] bg-main-bg/80 backdrop-blur-xl border border-main-border/10 rounded-xl py-1.5 shadow-2xl z-50 origin-top-left transition-all duration-200">
-                    <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="newest">
-                        <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-100 transition-opacity active-indicator"></div>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="m3 16 4 4 4-4"></path><path d="M7 20V4"></path></svg>
-                        Newest First
-                    </button>
-                    <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="oldest">
-                        <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="m3 8 4-4 4 4"></path><path d="M7 4v16"></path></svg>
-                        Oldest First
-                    </button>
-                    <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="az">
-                        <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="M11 5h10"></path><path d="M11 9h10"></path><path d="M11 13h10"></path><path d="m3 17 3 3 3-3"></path><path d="M6 18V4"></path></svg>
-                        Alphabetical (A-Z)
-                    </button>
-                </div>
+                <button 
+                    id="view-gallery"
+                    class="view-mode-btn premium-tooltip flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-main-bg/10 text-main/40 relative" 
+                    data-tooltip="Gallery"
+                >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                </button>
+                <button 
+                    id="view-list"
+                    class="view-mode-btn premium-tooltip flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-main-bg/10 text-main/40 relative" 
+                    data-tooltip="List"
+                >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                </button>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- Gallery View Container (Horizontal List / Visual List) -->
     <div id="gallery-container" class="hidden flex flex-col gap-6 transition-all duration-300">
         {portfolio.map((project) => (
             <div 
-                class="project-card group relative flex flex-col sm:flex-row gap-6 p-6 rounded-2xl border border-main-border/20 bg-main-bg/10 transition-all hover:bg-main-bg/20 backdrop-blur-md shadow-sm" 
+                class="project-card group relative flex flex-col sm:flex-row gap-6 p-6 rounded-2xl border border-main-border/20 bg-main-bg/10 transition-all hover:bg-main-bg/20 backdrop-blur-md shadow-sm hover:z-20" 
                 data-tags={project.data.tags.join(',')}
                 data-date={project.data.publishDate.getTime()}
                 data-title={project.data.title.toLowerCase()}
             >
-                <!-- Visual & Meta Column (Left) -->
-                <div class="w-full sm:w-48 lg:w-64 shrink-0 flex flex-col gap-4">
-                    <a href={`/projects/${project.id}/`} class="block aspect-square sm:aspect-video rounded-xl overflow-hidden border border-main-border/5">
+                <!-- Visual Column (Left) -->
+                <div class="w-full sm:w-64 shrink-0">
+                    <a href={`/projects/${project.id}/`} class="block aspect-video sm:aspect-square rounded-xl overflow-hidden border border-main-border/5">
                         {project.data.seo?.image ? (
                             <img 
                                 src={project.data.seo.image.src.src} 
@@ -155,31 +154,63 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                             <div class="flex h-full w-full items-center justify-center bg-main-bg/10 text-main/55 text-xs">No preview</div>
                         )}
                     </a>
+                </div>
 
-                    <!-- Meta moved below image -->
-                    <div class="flex items-center justify-between px-1">
-                        <div class="flex items-center gap-3">
+                <!-- Content Section (Right) -->
+                <div class="flex-grow flex flex-col justify-between py-1">
+                    <div>
+                        <a href={`/projects/${project.id}/`}>
+                            <h3 class="font-serif text-2xl font-bold leading-tight mb-3 group-hover:underline group-hover:decoration-dashed decoration-main/20 text-main">{project.data.title}</h3>
+                        </a>
+                        <p class="text-sm text-main/60 leading-relaxed font-sans line-clamp-3">
+                            {project.data.description}
+                        </p>
+                    </div>
+
+                    <div class="mt-6 flex items-center justify-between">
+                        <div class="flex items-center gap-1.5">
                             {project.data.github && (
-                                <a href={project.data.github} target="_blank" rel="noopener noreferrer" class="opacity-40 hover:opacity-100 transition-opacity" title="GitHub Repository">
-                                    <img src="https://cdn.simpleicons.org/github" class="h-3.5 w-3.5 dark:hidden" alt="GitHub" />
-                                    <img src="https://cdn.simpleicons.org/github/white" class="h-3.5 w-3.5 hidden dark:block" alt="GitHub" />
+                                <a 
+                                    href={project.data.github} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    class="group/icon premium-tooltip relative flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
+                                    data-tooltip="GitHub"
+                                >
+                                    <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                    <img src="https://cdn.simpleicons.org/github" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-90" alt="GitHub" />
+                                    <img src="https://cdn.simpleicons.org/github/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-90" alt="GitHub" />
                                 </a>
                             )}
                             {project.data.paper && (
-                                <a href={project.data.paper} target="_blank" rel="noopener noreferrer" class="opacity-40 hover:opacity-100 transition-opacity" title={project.data.paper.includes('kaggle.com') ? "Kaggle Competition" : "Research/Project Document"}>
+                                <a 
+                                    href={project.data.paper} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    class="group/icon premium-tooltip relative flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
+                                    data-tooltip={project.data.paper.includes('kaggle.com') ? "Kaggle Competition" : "Research/Project Document"}
+                                >
+                                    <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
                                     {project.data.paper.includes('kaggle.com') ? (
-                                        <div class="flex items-center">
-                                            <img src="https://cdn.simpleicons.org/kaggle" class="h-5 w-5 dark:hidden" alt="Kaggle" />
-                                            <img src="https://cdn.simpleicons.org/kaggle/white" class="h-5 w-5 hidden dark:block" alt="Kaggle" />
-                                        </div>
+                                        <>
+                                            <img src="https://cdn.simpleicons.org/kaggle" class="relative z-10 h-5 w-5 dark:hidden opacity-90" alt="Kaggle" />
+                                            <img src="https://cdn.simpleicons.org/kaggle/white" class="relative z-10 h-5 w-5 hidden dark:block opacity-90" alt="Kaggle" />
+                                        </>
                                     ) : (
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-90"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                                     )}
                                 </a>
                             )}
                             {project.data.demo && (
-                                <a href={project.data.demo} target="_blank" rel="noopener noreferrer" class="opacity-40 hover:opacity-100 transition-opacity" title="Live Demo">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                <a 
+                                    href={project.data.demo} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    class="group/icon premium-tooltip relative flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
+                                    data-tooltip="Live Demo"
+                                >
+                                    <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-90"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                                 </a>
                             )}
                             {project.data.external && (
@@ -187,37 +218,22 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                                     href={project.data.external} 
                                     target="_blank" 
                                     rel="noopener noreferrer" 
-                                    class="opacity-40 hover:opacity-100 transition-opacity" 
-                                    title={project.data.tags.includes('n8n') ? "Technical implementation and research artifacts associated with this project." : "External Link"}
+                                    class="group/icon premium-tooltip relative flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
+                                    data-tooltip={project.data.tags.includes('n8n') ? "Technical implementation and research artifacts associated with this project." : "External Link"}
                                 >
+                                    <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
                                     {project.data.tags.includes('n8n') ? (
-                                        <div class="flex items-center">
-                                            <img src="https://cdn.simpleicons.org/n8n" class="h-3.5 w-3.5 dark:hidden" alt="n8n" />
-                                            <img src="https://cdn.simpleicons.org/n8n/white" class="h-3.5 w-3.5 hidden dark:block" alt="n8n" />
-                                        </div>
+                                        <>
+                                            <img src="https://cdn.simpleicons.org/n8n" class="relative z-10 h-5 w-5 dark:hidden opacity-90" alt="n8n" />
+                                            <img src="https://cdn.simpleicons.org/n8n/white" class="relative z-10 h-5 w-5 hidden dark:block opacity-90" alt="n8n" />
+                                        </>
                                     ) : (
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-90"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                                     )}
                                 </a>
                             )}
                         </div>
-                        <span class="text-xs font-bold uppercase tracking-widest text-main/55">Year {project.data.publishDate.getFullYear()}</span>
-                    </div>
-                </div>
-
-                <!-- Content & Action Section (Right) -->
-                <div class="flex-grow flex flex-col justify-between">
-                    <div>
-                        <a href={`/projects/${project.id}/`}>
-                            <h3 class="font-serif text-xl sm:text-2xl font-bold leading-tight mb-4 group-hover:underline group-hover:decoration-dashed decoration-main/20 text-main">{project.data.title}</h3>
-                        </a>
-                        <div class="space-y-4">
-                            {project.data.description?.split('. ').slice(0, 4).map((point) => (
-                                <p class="text-xs text-main/90 leading-relaxed font-sans text-justify">
-                                    {point}{point.endsWith('.') ? '' : '.'}
-                                </p>
-                            ))}
-                        </div>
+                        <span class="text-[10px] font-bold tracking-[0.15em] text-main/30 uppercase font-sans">YEAR {project.data.publishDate.getFullYear()}</span>
                     </div>
                 </div>
             </div>
@@ -228,7 +244,7 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
     <div id="cards-container" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 transition-all duration-300">
         {portfolio.map((project) => (
             <div 
-                class="project-card group relative flex flex-col rounded-2xl border border-main-border/20 bg-main-bg/10 p-4 transition-all hover:bg-main-bg/20 backdrop-blur-md shadow-sm" 
+                class="project-card group relative flex flex-col rounded-2xl border border-main-border/20 bg-main-bg/10 p-4 transition-all hover:bg-main-bg/20 backdrop-blur-md shadow-sm hover:z-20" 
                 data-tags={project.data.tags.join(',')}
                 data-date={project.data.publishDate.getTime()}
                 data-title={project.data.title.toLowerCase()}
@@ -253,28 +269,49 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                 
                 <!-- Card Meta -->
                 <div class="mt-auto flex items-center justify-between pt-3 border-t border-main-border/5">
-                    <div class="flex items-center gap-2">
+                    <div class="flex items-center gap-1.5">
                         {project.data.github && (
-                            <a href={project.data.github} target="_blank" rel="noopener noreferrer" class="opacity-40 hover:opacity-100 transition-opacity" title="GitHub Repository">
-                                <img src="https://cdn.simpleicons.org/github" class="h-3.5 w-3.5 dark:hidden" alt="GitHub" />
-                                <img src="https://cdn.simpleicons.org/github/white" class="h-3.5 w-3.5 hidden dark:block" alt="GitHub" />
+                            <a 
+                                href={project.data.github} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                class="group/icon premium-tooltip relative flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
+                                data-tooltip="GitHub"
+                            >
+                                <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                <img src="https://cdn.simpleicons.org/github" class="relative z-10 h-4 w-4 dark:hidden opacity-90" alt="GitHub" />
+                                <img src="https://cdn.simpleicons.org/github/white" class="relative z-10 h-4 w-4 hidden dark:block opacity-90" alt="GitHub" />
                             </a>
                         )}
                         {project.data.paper && (
-                            <a href={project.data.paper} target="_blank" rel="noopener noreferrer" class="opacity-40 hover:opacity-100 transition-opacity" title={project.data.paper.includes('kaggle.com') ? "Kaggle Competition" : "Research/Project Document"}>
+                            <a 
+                                href={project.data.paper} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                class="group/icon premium-tooltip relative flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
+                                data-tooltip={project.data.paper.includes('kaggle.com') ? "Kaggle Competition" : "Research/Project Document"}
+                            >
+                                <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
                                 {project.data.paper.includes('kaggle.com') ? (
-                                    <div class="flex items-center">
-                                        <img src="https://cdn.simpleicons.org/kaggle" class="h-4.5 w-4.5 dark:hidden scale-110" alt="Kaggle" />
-                                        <img src="https://cdn.simpleicons.org/kaggle/white" class="h-4.5 w-4.5 hidden dark:block scale-110" alt="Kaggle" />
-                                    </div>
+                                    <>
+                                        <img src="https://cdn.simpleicons.org/kaggle" class="relative z-10 h-5 w-5 dark:hidden opacity-90" alt="Kaggle" />
+                                        <img src="https://cdn.simpleicons.org/kaggle/white" class="relative z-10 h-5 w-5 hidden dark:block opacity-90" alt="Kaggle" />
+                                    </>
                                 ) : (
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-90"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                                 )}
                             </a>
                         )}
                         {project.data.demo && (
-                            <a href={project.data.demo} target="_blank" rel="noopener noreferrer" class="opacity-40 hover:opacity-100 transition-opacity" title="Live Demo">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                            <a 
+                                href={project.data.demo} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                class="group/icon premium-tooltip relative flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
+                                data-tooltip="Live Demo"
+                            >
+                                <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-90"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                             </a>
                         )}
                         {project.data.external && (
@@ -282,27 +319,28 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                                 href={project.data.external} 
                                 target="_blank" 
                                 rel="noopener noreferrer" 
-                                class="opacity-40 hover:opacity-100 transition-opacity" 
-                                title={project.data.tags.includes('n8n') ? "Technical implementation and research artifacts associated with this project." : "External Link"}
+                                class="group/icon premium-tooltip relative flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
+                                data-tooltip={project.data.tags.includes('n8n') ? "n8n Workflows" : "External Link"}
                             >
+                                <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
                                 {project.data.tags.includes('n8n') ? (
-                                    <div class="flex items-center">
-                                        <img src="https://cdn.simpleicons.org/n8n" class="h-3.5 w-3.5 dark:hidden" alt="n8n" />
-                                        <img src="https://cdn.simpleicons.org/n8n/white" class="h-3.5 w-3.5 hidden dark:block" alt="n8n" />
-                                    </div>
+                                    <>
+                                        <img src="https://cdn.simpleicons.org/n8n" class="relative z-10 h-5 w-5 dark:hidden opacity-90" alt="n8n" />
+                                        <img src="https://cdn.simpleicons.org/n8n/white" class="relative z-10 h-5 w-5 hidden dark:block opacity-90" alt="n8n" />
+                                    </>
                                 ) : (
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-90"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                                 )}
                             </a>
                         )}
                     </div>
-                    <span class="text-xs font-bold uppercase tracking-widest text-main/55">{project.data.publishDate.getFullYear()}</span>
+                    <span class="text-[10px] font-bold tracking-[0.15em] text-main/30 uppercase font-sans">YEAR {project.data.publishDate.getFullYear()}</span>
                 </div>
             </div>
         ))}
     </div>
 
-    <div id="list-container" class="hidden flex flex-col gap-8 transition-all duration-300">
+    <div id="list-container" class="hidden flex flex-col gap-4 transition-all duration-300">
         {portfolio.map((project) => (
             <div class="project-card" data-tags={project.data.tags.join(',')}>
                 <ProjectPreview project={project} />

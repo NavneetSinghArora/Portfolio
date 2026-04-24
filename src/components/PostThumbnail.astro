@@ -9,8 +9,11 @@ const { title, excerpt, publishDate, seo, banner } = post.data;
 const imageSrc = banner ?? seo?.image?.src?.src;
 ---
 
-<a class:list={['group block relative flex flex-col rounded-2xl border border-main-border/20 bg-main-bg/10 p-4 transition-all hover:bg-main-bg/20 backdrop-blur-md shadow-sm', className]} href={`/blog/${post.id}/`}>
-    <div class="aspect-video w-full overflow-hidden rounded-xl border border-main-border/5 bg-main-bg/10 mb-4">
+<div class:list={['group block relative flex flex-col rounded-2xl border border-main-border/20 bg-main-bg/10 p-4 transition-all hover:bg-main-bg/20 backdrop-blur-md shadow-sm', className]}>
+    <!-- Base Link Overlay -->
+    <a href={`/blog/${post.id}/`} class="absolute inset-0 z-0" aria-label={`Read ${title}`}></a>
+
+    <div class="relative z-1 aspect-video w-full overflow-hidden rounded-xl border border-main-border/5 bg-main-bg/10 mb-4">
         {imageSrc ? (
             <img
                 src={imageSrc}
@@ -23,16 +26,31 @@ const imageSrc = banner ?? seo?.image?.src?.src;
         )}
     </div>
     
-    <div class="flex-grow">
+    <div class="relative z-1 flex-grow">
         <h3 class="font-serif text-base font-bold leading-tight line-clamp-2 mb-2 group-hover:underline group-hover:decoration-dashed text-main">
             {title}
         </h3>
         {excerpt && <p class="text-xs text-main/90 line-clamp-3 mb-4 leading-relaxed font-sans">{excerpt}</p>}
     </div>
     
-    <div class="mt-auto pt-3 border-t border-main-border/10">
-        <p class="text-xs font-bold uppercase tracking-widest text-main/55">
+    <div class="relative z-10 mt-auto flex items-center justify-between pt-3 border-t border-main-border/10">
+        <div class="flex items-center gap-1.5">
+            {post.data.medium && (
+                <a 
+                    href={post.data.medium} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    data-tooltip="Read on Medium"
+                    class="group/icon premium-tooltip relative flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115"
+                >
+                    <div class="absolute inset-0 rounded-lg bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                    <img src="https://cdn.simpleicons.org/medium" class="h-3.5 w-3.5 dark:hidden relative z-10 opacity-70 group-hover/icon:opacity-100" alt="Medium" />
+                    <img src="https://cdn.simpleicons.org/medium/white" class="h-3.5 w-3.5 hidden dark:block relative z-10 opacity-70 group-hover/icon:opacity-100" alt="Medium" />
+                </a>
+            )}
+        </div>
+        <p class="text-[10px] font-bold uppercase tracking-widest text-main/40 pointer-events-none">
             {publishDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
         </p>
     </div>
-</a>
+</div>
