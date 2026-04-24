@@ -27,10 +27,9 @@ const qrTypes = [
 ];
 ---
 
-<div class="relative inline-block">
+<div class="relative inline-block qr-instance-container">
     <button
-        id="qr-toggle"
-        class="group/social relative flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
+        class="qr-toggle-btn group/social relative flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
         title="Quick Connect (Scan QR)"
         aria-label="Show Quick Connect QR Code"
     >
@@ -47,12 +46,11 @@ const qrTypes = [
     </button>
 
     <div
-        id="qr-container"
-        class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 opacity-0 pointer-events-none transition-opacity duration-400 backdrop-blur-md"
+        class="qr-main-container fixed inset-0 z-[100] flex items-center justify-center bg-black/60 opacity-0 pointer-events-none transition-opacity duration-400 backdrop-blur-md"
     >
-        <div class="relative mx-4 w-full max-w-md overflow-hidden rounded-[2.5rem] border border-main/10 bg-main-bg p-8 text-center shadow-[0_32px_64px_-12px_rgba(0,0,0,0.5)] backdrop-blur-2xl transition-all duration-500 scale-95 dark:bg-[#0f1115]/80" id="qr-modal">
+        <div class="qr-modal-box relative mx-4 w-full max-w-md overflow-hidden rounded-[2.5rem] border border-main/10 bg-main-bg p-8 text-center shadow-[0_32px_64px_-12px_rgba(0,0,0,0.5)] backdrop-blur-2xl transition-all duration-500 scale-95 dark:bg-[#0f1115]/80">
             <!-- Close Button -->
-            <button id="qr-close" class="absolute top-6 right-6 z-10 p-2 text-main/30 hover:text-main transition-colors rounded-full hover:bg-main/5">
+            <button class="qr-close-btn absolute top-6 right-6 z-10 p-2 text-main/30 hover:text-main transition-colors rounded-full hover:bg-main/5">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
             
@@ -75,28 +73,28 @@ const qrTypes = [
             
             <!-- QR Display Area -->
             <div class="relative group">
-                <div class="absolute -inset-4 bg-gradient-to-tr from-main/10 to-transparent rounded-[3rem] blur-2xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative mx-auto aspect-square w-full max-w-[280px] rounded-[2.5rem] overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.05),inset_0_0_40px_rgba(0,0,0,0.1)]">
-                    <canvas id="qr-canvas" class="h-full w-full"></canvas>
-                    <div id="qr-logo-container" class="hidden">
-                        <img id="qr-avatar" src={avatarSrc} alt="" class="h-10 w-10" />
+                <div class="absolute -inset-8 bg-gradient-to-tr from-main/10 to-transparent rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                <div class="relative mx-auto aspect-square w-full max-w-[280px] overflow-hidden">
+                    <canvas class="qr-canvas h-full w-full"></canvas>
+                    <div class="qr-logo-container hidden">
+                        <img class="qr-avatar-img h-10 w-10" src={avatarSrc} alt="" />
                     </div>
                 </div>
             </div>
             
             <!-- Action Area -->
-            <div class="mt-10 flex flex-col gap-4">
-                <div id="vcard-action" class="hidden">
-                    <button id="download-vcard" class="w-full rounded-2xl bg-main text-main-bg px-8 py-4 text-sm font-bold hover:bg-opacity-90 transition-all shadow-xl hover:scale-[1.02] active:scale-95">
+            <div class="mt-10 flex flex-col gap-3">
+                <div class="vcard-action hidden">
+                    <button class="download-vcard-btn w-full rounded-2xl bg-main px-8 py-4 text-[11px] font-black uppercase tracking-[0.2em] text-main-bg hover:opacity-90 transition-all shadow-xl hover:scale-[1.02] active:scale-[0.98]">
                         Save to Contacts
                     </button>
                 </div>
-                <div id="resume-action" class="hidden">
-                    <a href={resumeUrl} target="_blank" class="block w-full rounded-2xl bg-main/10 border border-main/10 px-8 py-4 text-sm font-bold text-main hover:bg-main/20 transition-all">
+                <div class="resume-action hidden">
+                    <a href={resumeUrl} target="_blank" class="block w-full rounded-2xl bg-main px-8 py-4 text-[11px] font-black uppercase tracking-[0.2em] text-main-bg hover:opacity-90 transition-all shadow-xl hover:scale-[1.02] active:scale-[0.98]">
                         Open PDF Directly
                     </a>
                 </div>
-                <p class="text-[10px] text-main/20 uppercase tracking-[0.2em] font-bold">&copy; {new Date().getFullYear()} &bull; Navneet Singh Arora</p>
+                <p class="mt-2 text-[9px] text-main/30 uppercase tracking-[0.3em] font-black">&copy; {new Date().getFullYear()} &bull; Navneet Singh Arora</p>
             </div>
         </div>
     </div>
@@ -106,148 +104,153 @@ const qrTypes = [
 
 <script>
     function initQR() {
-        // ... (previous elements)
-        const toggle = document.getElementById('qr-toggle');
-        const container = document.getElementById('qr-container');
-        const modal = document.getElementById('qr-modal');
-        const close = document.getElementById('qr-close');
-        const canvas = document.getElementById('qr-canvas') as HTMLCanvasElement;
-        const saveBtn = document.getElementById('download-vcard');
-        const avatarImg = document.getElementById('qr-avatar') as HTMLImageElement;
-        const tabBtns = document.querySelectorAll('.qr-tab-btn');
-        
         const qrcodeLib = (window as any).QRCode;
-        if (!toggle || !container || !modal || !canvas || !qrcodeLib) return;
+        if (!qrcodeLib) return;
 
-        let currentType = 'site';
-
-        const drawQR = (value: string) => {
-            const isDark = document.documentElement.classList.contains('dark');
-            const displaySize = 280;
+        const instances = document.querySelectorAll('.qr-instance-container');
+        
+        instances.forEach(instance => {
+            const toggle = instance.querySelector('.qr-toggle-btn');
+            const container = instance.querySelector('.qr-main-container');
+            const modal = instance.querySelector('.qr-modal-box');
+            const close = instance.querySelector('.qr-close-btn');
+            const canvas = instance.querySelector('.qr-canvas') as HTMLCanvasElement;
+            const saveBtn = instance.querySelector('.download-vcard-btn');
+            const avatarImg = instance.querySelector('.qr-avatar-img') as HTMLImageElement;
+            const tabBtns = instance.querySelectorAll('.qr-tab-btn');
             
-            qrcodeLib.toCanvas(canvas, value, {
-                width: displaySize,
-                margin: 4,
-                errorCorrectionLevel: 'H',
-                color: {
-                    dark: '#ffffff', // White modules
-                    light: '#000000' // Black background
+            if (!toggle || !container || !modal || !canvas) return;
+
+            let currentType = 'site';
+
+            const drawQR = (value: string) => {
+                const isDark = document.documentElement.classList.contains('dark');
+                const displaySize = 280;
+                
+                const ctx = canvas.getContext('2d');
+                if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                qrcodeLib.toCanvas(canvas, value, {
+                    width: displaySize,
+                    margin: 2,
+                    errorCorrectionLevel: 'H',
+                    color: {
+                        dark: isDark ? '#ffffff' : '#000000',
+                        light: '#00000000'
+                    }
+                }, (error: any) => {
+                    if (error) return;
+                    if (avatarImg && avatarImg.complete) {
+                        drawCenterImage();
+                    } else if (avatarImg) {
+                        avatarImg.onload = drawCenterImage;
+                    }
+                });
+            };
+
+            const drawCenterImage = () => {
+                const isDark = document.documentElement.classList.contains('dark');
+                const ctx = canvas.getContext('2d');
+                if (!ctx) return;
+
+                const size = canvas.width;
+                const logoSize = size * 0.28;
+                const x = (size - logoSize) / 2;
+                const y = (size - logoSize) / 2;
+
+                ctx.fillStyle = isDark ? '#1a1d23' : '#f9fafb';
+                
+                const r = logoSize * 0.25;
+                ctx.beginPath();
+                ctx.moveTo(x + r, y);
+                ctx.lineTo(x + logoSize - r, y);
+                ctx.quadraticCurveTo(x + logoSize, y, x + logoSize, y + r);
+                ctx.lineTo(x + logoSize, y + logoSize - r);
+                ctx.quadraticCurveTo(x + logoSize, y + logoSize, x + logoSize - r, y + logoSize);
+                ctx.lineTo(x + r, y + logoSize);
+                ctx.quadraticCurveTo(x, y + logoSize, x, y + logoSize - r);
+                ctx.lineTo(x, y + r);
+                ctx.quadraticCurveTo(x, y, x + r, y);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.save();
+                const padding = 2;
+                const clipX = x + padding;
+                const clipY = y + padding;
+                const clipSize = logoSize - (padding * 2);
+                const clipR = clipSize * 0.2;
+
+                ctx.beginPath();
+                ctx.moveTo(clipX + clipR, clipY);
+                ctx.lineTo(clipX + clipSize - clipR, clipY);
+                ctx.quadraticCurveTo(clipX + clipSize, clipY, clipX + clipSize, clipY + clipR);
+                ctx.lineTo(clipX + clipSize, clipY + clipSize - clipR);
+                ctx.quadraticCurveTo(clipX + clipSize, clipY + clipSize, clipX + clipSize - clipR, clipY + clipSize);
+                ctx.lineTo(clipX + clipR, clipY + clipSize);
+                ctx.quadraticCurveTo(clipX, clipY + clipSize, clipX, clipY + clipSize - clipR);
+                ctx.lineTo(clipX, clipY + clipR);
+                ctx.quadraticCurveTo(clipX, clipY, clipX + clipR, clipY);
+                ctx.closePath();
+                ctx.clip();
+                
+                ctx.drawImage(avatarImg, clipX, clipY, clipSize, clipSize);
+                ctx.restore();
+            };
+
+            const updateUI = (type: string) => {
+                currentType = type;
+                tabBtns.forEach(btn => {
+                    const isSelected = btn.getAttribute('data-qr-type') === type;
+                    btn.classList.toggle('bg-main', isSelected);
+                    btn.classList.toggle('text-main-bg', isSelected);
+                    btn.classList.toggle('text-main/50', !isSelected);
+                    btn.classList.toggle('hover:text-main', !isSelected);
+                });
+
+                instance.querySelector('.vcard-action')?.classList.toggle('hidden', type !== 'vcard');
+                instance.querySelector('.resume-action')?.classList.toggle('hidden', type !== 'resume');
+                
+                const selectedBtn = Array.from(tabBtns).find(b => b.getAttribute('data-qr-type') === type);
+                if (selectedBtn) {
+                    drawQR(selectedBtn.getAttribute('data-qr-value') || '');
                 }
-            }, (error: any) => {
-                if (error) return;
-                if (avatarImg && avatarImg.complete) {
-                    drawCenterImage();
-                } else if (avatarImg) {
-                    avatarImg.onload = drawCenterImage;
-                }
+            };
+
+            toggle.addEventListener('click', () => {
+                container.classList.remove('opacity-0', 'pointer-events-none');
+                modal.classList.remove('scale-95');
+                updateUI('resume');
             });
-        };
 
-        const drawCenterImage = () => {
-            const ctx = canvas.getContext('2d');
-            if (!ctx) return;
-
-            const size = canvas.width;
-            const logoSize = size * 0.28;
-            const x = (size - logoSize) / 2;
-            const y = (size - logoSize) / 2;
-
-            ctx.fillStyle = '#000000'; // Dark background for logo area
-            
-            const r = logoSize * 0.25;
-            ctx.beginPath();
-            ctx.moveTo(x + r, y);
-            ctx.lineTo(x + logoSize - r, y);
-            ctx.quadraticCurveTo(x + logoSize, y, x + logoSize, y + r);
-            ctx.lineTo(x + logoSize, y + logoSize - r);
-            ctx.quadraticCurveTo(x + logoSize, y + logoSize, x + logoSize - r, y + logoSize);
-            ctx.lineTo(x + r, y + logoSize);
-            ctx.quadraticCurveTo(x, y + logoSize, x, y + logoSize - r);
-            ctx.lineTo(x, y + r);
-            ctx.quadraticCurveTo(x, y, x + r, y);
-            ctx.closePath();
-            ctx.fill();
-
-            // Draw avatar clipped to circle/rounded rect
-            ctx.save();
-            // Create a slightly smaller clipping region for the image inside the white border
-            const padding = 2;
-            const clipX = x + padding;
-            const clipY = y + padding;
-            const clipSize = logoSize - (padding * 2);
-            const clipR = clipSize * 0.2;
-
-            ctx.beginPath();
-            ctx.moveTo(clipX + clipR, clipY);
-            ctx.lineTo(clipX + clipSize - clipR, clipY);
-            ctx.quadraticCurveTo(clipX + clipSize, clipY, clipX + clipSize, clipY + clipR);
-            ctx.lineTo(clipX + clipSize, clipY + clipSize - clipR);
-            ctx.quadraticCurveTo(clipX + clipSize, clipY + clipSize, clipX + clipSize - clipR, clipY + clipSize);
-            ctx.lineTo(clipX + clipR, clipY + clipSize);
-            ctx.quadraticCurveTo(clipX, clipY + clipSize, clipX, clipY + clipSize - clipR);
-            ctx.lineTo(clipX, clipY + clipR);
-            ctx.quadraticCurveTo(clipX, clipY, clipX + clipR, clipY);
-            ctx.closePath();
-            ctx.clip();
-            
-            ctx.drawImage(avatarImg, clipX, clipY, clipSize, clipSize);
-            ctx.restore();
-        };
-
-        const updateUI = (type: string) => {
-            currentType = type;
             tabBtns.forEach(btn => {
-                const isSelected = btn.getAttribute('data-qr-type') === type;
-                btn.classList.toggle('bg-main', isSelected);
-                btn.classList.toggle('text-main-bg', isSelected);
-                btn.classList.toggle('text-main/50', !isSelected);
-                btn.classList.toggle('hover:text-main', !isSelected);
+                btn.addEventListener('click', () => {
+                    const type = btn.getAttribute('data-qr-type');
+                    if (type) updateUI(type);
+                });
             });
 
-            // Toggle specific action buttons
-            document.getElementById('vcard-action')?.classList.toggle('hidden', type !== 'vcard');
-            document.getElementById('resume-action')?.classList.toggle('hidden', type !== 'resume');
-            
-            const selectedBtn = Array.from(tabBtns).find(b => b.getAttribute('data-qr-type') === type);
-            if (selectedBtn) {
-                drawQR(selectedBtn.getAttribute('data-qr-value') || '');
-            }
-        };
+            const closeModal = () => {
+                container.classList.add('opacity-0', 'pointer-events-none');
+                modal.classList.add('scale-95');
+            };
 
-        // Event Listeners
-        toggle.addEventListener('click', () => {
-            container.classList.remove('opacity-0', 'pointer-events-none');
-            modal.classList.remove('scale-95');
-            updateUI('resume');
-        });
-
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const type = btn.getAttribute('data-qr-type');
-                if (type) updateUI(type);
+            close?.addEventListener('click', closeModal);
+            container.addEventListener('click', (e) => {
+                if (e.target === container) closeModal();
             });
-        });
 
-        const closeModal = () => {
-            container.classList.add('opacity-0', 'pointer-events-none');
-            modal.classList.add('scale-95');
-        };
-
-        close?.addEventListener('click', closeModal);
-        container.addEventListener('click', (e) => {
-            if (e.target === container) closeModal();
-        });
-
-        saveBtn?.addEventListener('click', () => {
-            const vCardData = Array.from(tabBtns).find(b => b.getAttribute('data-qr-type') === 'vcard')?.getAttribute('data-qr-value');
-            if (vCardData) {
-                const blob = new Blob([vCardData], { type: 'text/vcard' });
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'Navneet-Singh-Arora.vcf';
-                a.click();
-            }
+            saveBtn?.addEventListener('click', () => {
+                const vCardData = Array.from(tabBtns).find(b => b.getAttribute('data-qr-type') === 'vcard')?.getAttribute('data-qr-value');
+                if (vCardData) {
+                    const blob = new Blob([vCardData], { type: 'text/vcard' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Navneet-Singh-Arora.vcf';
+                    a.click();
+                }
+            });
         });
     }
 
