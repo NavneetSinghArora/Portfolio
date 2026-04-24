@@ -71,7 +71,7 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                 type="text" 
                 id="project-search" 
                 placeholder="Search projects by name, tag, or technology..." 
-                class="w-full bg-main-bg/5 hover:bg-main-bg/10 border border-main-border/10 rounded-xl py-3 pl-12 pr-4 text-[14px] text-main placeholder:text-main/40 focus:outline-none focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all shadow-sm"
+                class="w-full bg-main-bg/10 backdrop-blur-md border border-main-border/20 rounded-xl py-3 pl-12 pr-4 text-[14px] text-main placeholder:text-main/40 focus:outline-none focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all shadow-sm"
             />
         </div>
 
@@ -79,7 +79,7 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
         <div class="flex flex-wrap items-center gap-3">
             <!-- Category Dropdown -->
             <div class="relative dropdown-container" id="category-dropdown">
-                <button class="dropdown-trigger flex items-center justify-between gap-3 px-4 py-2.5 min-w-[160px] bg-main-bg/5 hover:bg-main-bg/10 border border-main-border/10 rounded-xl text-[14px] font-medium text-main/60 hover:text-main transition-all shadow-sm">
+                <button class="dropdown-trigger flex items-center justify-between gap-3 px-4 py-2.5 min-w-[170px] bg-main-bg/10 backdrop-blur-md border border-main-border/20 rounded-xl text-[14px] font-medium text-main/60 hover:text-main transition-all shadow-sm">
                     <div class="flex items-center gap-2">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
                         <span id="current-category">All Categories</span>
@@ -87,15 +87,16 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-30 chevron transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
                 </button>
                 
-                <div class="dropdown-menu hidden absolute top-full left-0 mt-2 w-64 bg-main-card/95 backdrop-blur-xl border border-main-border/10 rounded-xl shadow-2xl p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                    <button data-tag-filter="all" class="tag-filter-btn flex items-center gap-3 w-full px-3 py-2 rounded-lg text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-all text-left">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>
+                <div class="dropdown-menu hidden absolute top-full left-0 mt-2 min-w-[220px] bg-main-bg/80 backdrop-blur-xl border border-main-border/10 rounded-xl py-1.5 shadow-2xl z-50 origin-top-left transition-all duration-200">
+                    <button class="tag-filter-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-tag-filter="all">
+                        <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path></svg>
                         All Projects
                     </button>
-                    <div class="my-1 border-t border-main-border/5"></div>
                     {allTags.map(tag => (
-                        <button data-tag-filter={tag} class="tag-filter-btn flex items-center gap-3 w-full px-3 py-2 rounded-lg text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-all text-left">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg>
+                        <button class="tag-filter-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors capitalize" data-tag-filter={tag}>
+                            <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="M12 2l3.5 2h4l2 3.5l-2 3.5v4l-2 3.5l-4 2l-3.5-2h-4l-2-3.5l2-3.5v-4l2-3.5l4-2z"></path></svg>
                             {tag}
                         </button>
                     ))}
@@ -104,22 +105,27 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
 
             <!-- Sort Dropdown -->
             <div class="relative dropdown-container" id="sort-dropdown">
-                <button class="dropdown-trigger flex items-center justify-between gap-3 px-5 py-2.5 min-w-[140px] bg-main-bg/5 hover:bg-main-bg/10 border border-main-border/5 rounded-xl text-[14px] font-medium text-main/60 hover:text-main transition-all shadow-sm">
+                <button class="dropdown-trigger flex items-center justify-between gap-3 px-4 py-2.5 min-w-[170px] bg-main-bg/10 backdrop-blur-md border border-main-border/20 rounded-xl text-[14px] font-medium text-main/60 hover:text-main transition-all shadow-sm">
                     <div class="flex items-center gap-2">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><path d="m21 16-4 4-4-4"></path><path d="M17 20V4"></path><path d="m3 8 4-4 4 4"></path><path d="M7 4v16"></path></svg>
-                        <span id="current-sort">Newest</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><path d="m3 16 4 4 4-4"></path><path d="M7 20V4"></path><path d="m21 8-4-4-4 4"></path><path d="M17 4v16"></path></svg>
+                        <span id="current-sort">Newest First</span>
                     </div>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-30 chevron transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
                 </button>
-                
-                <div class="dropdown-menu hidden absolute top-full left-0 mt-2 w-48 bg-main-card/95 backdrop-blur-xl border border-main-border/10 rounded-xl shadow-2xl p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                    <button class="sort-btn flex items-center gap-3 w-full px-3 py-2 rounded-lg text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-all text-left active-sort" data-sort="newest">
+                <div class="dropdown-menu hidden absolute top-full left-0 mt-2 min-w-[200px] bg-main-bg/80 backdrop-blur-xl border border-main-border/10 rounded-xl py-1.5 shadow-2xl z-50 origin-top-left transition-all duration-200">
+                    <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="newest">
+                        <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-100 transition-opacity active-indicator"></div>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="m3 16 4 4 4-4"></path><path d="M7 20V4"></path></svg>
                         Newest First
                     </button>
-                    <button class="sort-btn flex items-center gap-3 w-full px-3 py-2 rounded-lg text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-all text-left" data-sort="oldest">
+                    <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="oldest">
+                        <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="m3 8 4-4 4 4"></path><path d="M7 4v16"></path></svg>
                         Oldest First
                     </button>
-                    <button class="sort-btn flex items-center gap-3 w-full px-3 py-2 rounded-lg text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-all text-left" data-sort="az">
+                    <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="az">
+                        <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="M11 5h10"></path><path d="M11 9h10"></path><path d="M11 13h10"></path><path d="m3 17 3 3 3-3"></path><path d="M6 18V4"></path></svg>
                         Alphabetical (A-Z)
                     </button>
                 </div>
@@ -453,6 +459,20 @@ localStorage.setItem('projects-view', view);
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             currentCategory = (btn as HTMLElement).dataset.tagFilter!;
+            
+            // UI Updates
+            filterButtons.forEach(b => {
+                const indicator = b.querySelector('.active-indicator');
+                b.classList.remove('text-main');
+                b.classList.add('text-main/60');
+                indicator?.classList.remove('opacity-100');
+                indicator?.classList.add('opacity-0');
+            });
+            btn.classList.add('text-main');
+            btn.classList.remove('text-main/60');
+            btn.querySelector('.active-indicator')?.classList.remove('opacity-0');
+            btn.querySelector('.active-indicator')?.classList.add('opacity-100');
+
             const label = document.getElementById('current-category');
             if (label) label.textContent = btn.textContent?.trim() || 'All Categories';
             applyFilters();
@@ -462,6 +482,20 @@ localStorage.setItem('projects-view', view);
     sortButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             currentSort = (btn as HTMLElement).dataset.sort!;
+
+            // UI Updates
+            sortButtons.forEach(b => {
+                const indicator = b.querySelector('.active-indicator');
+                b.classList.remove('text-main');
+                b.classList.add('text-main/60');
+                indicator?.classList.remove('opacity-100');
+                indicator?.classList.add('opacity-0');
+            });
+            btn.classList.add('text-main');
+            btn.classList.remove('text-main/60');
+            btn.querySelector('.active-indicator')?.classList.remove('opacity-0');
+            btn.querySelector('.active-indicator')?.classList.add('opacity-100');
+
             const label = document.getElementById('current-sort');
             if (label) label.textContent = btn.textContent?.trim() || 'Newest';
             applyFilters();
