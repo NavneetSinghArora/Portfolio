@@ -59,30 +59,80 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
         </div>
     </div>
 
-    <!-- Tag Filter Bar -->
-    {allTags.length > 0 && (
-        <div class="mb-8 flex flex-wrap items-center gap-2">
-            <button
-                data-tag-filter="all"
-                class="tag-filter-btn active-tag text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-main-border/20 text-main/80 transition-all hover:border-main-border/60"
-            >
-                All
-            </button>
-            {allTags.map(tag => (
-                <button
-                    data-tag-filter={tag}
-                    class="tag-filter-btn text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-main-border/10 text-main/40 transition-all hover:border-main-border/40 hover:text-main/70"
-                >
-                    {tag}
-                </button>
-            ))}
+    <!-- Premium Filter Console -->
+    <div class="mb-12 space-y-4">
+        <!-- Search Bar -->
+        <div class="relative group">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-main/40 group-focus-within:text-blue-500 transition-colors"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+            <input 
+                type="text" 
+                id="blog-search" 
+                placeholder="Search articles by title, topic, or keyword..." 
+                class="w-full bg-main-bg/5 hover:bg-main-bg/10 border border-main-border/10 rounded-xl py-3 pl-12 pr-4 text-[14px] text-main placeholder:text-main/40 focus:outline-none focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all shadow-sm"
+            />
         </div>
-    )}
 
-    <!-- Gallery View Container (Horizontal Visual List) -->
+        <!-- Dropdowns Row -->
+        <div class="flex flex-wrap items-center gap-3">
+            <!-- Category Dropdown -->
+            <div class="relative dropdown-container" id="category-dropdown">
+                <button class="dropdown-trigger flex items-center justify-between gap-3 px-4 py-2.5 min-w-[160px] bg-main-bg/5 hover:bg-main-bg/10 border border-main-border/10 rounded-xl text-[14px] font-medium text-main/60 hover:text-main transition-all shadow-sm">
+                    <div class="flex items-center gap-2">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
+                        <span id="current-category">All Topics</span>
+                    </div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-30 chevron transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
+                </button>
+                
+                <div class="dropdown-menu hidden absolute top-full left-0 mt-2 w-64 bg-main-card/95 backdrop-blur-xl border border-main-border/10 rounded-xl shadow-2xl p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                    <button data-tag-filter="all" class="tag-filter-btn flex items-center gap-3 w-full px-3 py-2 rounded-lg text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-all text-left">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>
+                        All Articles
+                    </button>
+                    <div class="my-1 border-t border-main-border/5"></div>
+                    {allTags.map(tag => (
+                        <button data-tag-filter={tag} class="tag-filter-btn flex items-center gap-3 w-full px-3 py-2 rounded-lg text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-all text-left">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg>
+                            {tag}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            <!-- Sort Dropdown -->
+            <div class="relative dropdown-container" id="sort-dropdown">
+                <button class="dropdown-trigger flex items-center justify-between gap-3 px-5 py-2.5 min-w-[140px] bg-main-bg/5 hover:bg-main-bg/10 border border-main-border/5 rounded-xl text-[14px] font-medium text-main/60 hover:text-main transition-all shadow-sm">
+                    <div class="flex items-center gap-2">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><path d="m21 16-4 4-4-4"></path><path d="M17 20V4"></path><path d="m3 8 4-4 4 4"></path><path d="M7 4v16"></path></svg>
+                        <span id="current-sort">Newest</span>
+                    </div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-30 chevron transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
+                </button>
+                
+                <div class="dropdown-menu hidden absolute top-full left-0 mt-2 w-48 bg-main-card/95 backdrop-blur-xl border border-main-border/10 rounded-xl shadow-2xl p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                    <button class="sort-btn flex items-center gap-3 w-full px-3 py-2 rounded-lg text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-all text-left active-sort" data-sort="newest">
+                        Newest First
+                    </button>
+                    <button class="sort-btn flex items-center gap-3 w-full px-3 py-2 rounded-lg text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-all text-left" data-sort="oldest">
+                        Oldest First
+                    </button>
+                    <button class="sort-btn flex items-center gap-3 w-full px-3 py-2 rounded-lg text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-all text-left" data-sort="az">
+                        Alphabetical (A-Z)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery View Container -->
     <div id="gallery-container" class="hidden flex flex-col gap-6 transition-all duration-300">
         {blog.map((post) => (
-            <div class="post-card group relative flex flex-col sm:flex-row gap-6 p-6 rounded-2xl border border-main-border/20 bg-main-bg/10 hover:bg-main-bg/20 transition-all backdrop-blur-md shadow-sm overflow-hidden" data-tags={post.data.tags.join(',')}>
+            <div 
+                class="post-card group relative flex flex-col sm:flex-row gap-6 p-6 rounded-2xl border border-main-border/20 bg-main-bg/10 hover:bg-main-bg/20 transition-all backdrop-blur-md shadow-sm" 
+                data-tags={post.data.tags.join(',')}
+                data-date={post.data.publishDate.getTime()}
+                data-title={post.data.title.toLowerCase()}
+            >
                 <div class="w-full sm:w-48 lg:w-64 shrink-0 flex flex-col gap-3">
                     <a href={`/blog/${post.id}/`} class="block aspect-square sm:aspect-video rounded-xl overflow-hidden border border-main-border/5">
                         {post.data.banner || post.data.seo?.image ? (
@@ -118,12 +168,17 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
         ))}
     </div>
 
-    <!-- Cards View Container (Default Grid) -->
+    <!-- Cards View Container -->
     <div id="cards-container" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 transition-all duration-300">
         {blog.map((post) => (
-            <div class="post-card group relative flex flex-col rounded-2xl border border-main-border/20 bg-main-bg/10 p-4 transition-all hover:bg-main-bg/20 backdrop-blur-md shadow-sm" data-tags={post.data.tags.join(',')}>
+            <div 
+                class="post-card group relative flex flex-col rounded-2xl border border-main-border/20 bg-main-bg/10 p-4 transition-all hover:bg-main-bg/20 backdrop-blur-md shadow-sm" 
+                data-tags={post.data.tags.join(',')}
+                data-date={post.data.publishDate.getTime()}
+                data-title={post.data.title.toLowerCase()}
+            >
                 <a href={`/blog/${post.id}/`} class="flex-grow">
-                    <div class="aspect-video w-full overflow-hidden rounded-xl border border-main-border/5 bg-main-bg/10 mb-4">
+                    <div class="aspect-video w-full overflow-hidden rounded-xl border border-main-border/5 bg-main-card/30 mb-4">
                         {post.data.banner || post.data.seo?.image ? (
                             <img 
                                 src={post.data.banner ?? post.data.seo!.image!.src.src} 
@@ -131,17 +186,17 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
                                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                             />
                         ) : (
-                            <div class="flex h-full w-full items-center justify-center text-main/55 text-xs">No preview</div>
+                            <div class="flex h-full w-full items-center justify-center bg-main-bg/10 text-main/55 text-xs">No preview</div>
                         )}
                     </div>
                     <h3 class="font-serif text-base font-bold leading-tight line-clamp-2 mb-2 group-hover:underline group-hover:decoration-dashed text-main">{post.data.title}</h3>
                     {post.data.excerpt && (
-                       <p class="text-xs text-main/90 line-clamp-3 mb-4 leading-relaxed font-sans">{post.data.excerpt}</p>
+                        <p class="text-xs text-main/90 line-clamp-2 mb-4 leading-relaxed font-sans">{post.data.excerpt}</p>
                     )}
                 </a>
                 
-                <div class="mt-auto pt-3 border-t border-main-border/10">
-                    <p class="text-xs font-bold uppercase tracking-widest text-main/55">
+                <div class="mt-auto flex items-center justify-between pt-3 border-t border-main-border/5">
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-main/40">
                         {post.data.publishDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
                     </p>
                 </div>
@@ -149,10 +204,28 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
         ))}
     </div>
 
-    <div id="list-container" class="hidden flex flex-col gap-8 transition-all duration-300">
+    <!-- List View Container -->
+    <div id="list-container" class="hidden flex flex-col border border-main-border/10 rounded-2xl overflow-hidden bg-main-bg/5 transition-all duration-300">
         {blog.map((post) => (
-            <div class="post-card" data-tags={post.data.tags.join(',')}>
-                <PostPreview post={post} />
+            <div 
+                class="post-card group flex items-center justify-between gap-4 p-4 border-b border-main-border/5 last:border-0 hover:bg-main-bg/10 transition-all" 
+                data-tags={post.data.tags.join(',')}
+                data-date={post.data.publishDate.getTime()}
+                data-title={post.data.title.toLowerCase()}
+            >
+                <div class="flex items-center gap-4 min-w-0">
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-main/30 shrink-0 w-20">
+                        {post.data.publishDate.toLocaleDateString('en-US', { month: 'short', 'year': 'numeric' })}
+                    </p>
+                    <a href={`/blog/${post.id}/`} class="truncate">
+                        <h3 class="font-serif text-sm font-bold text-main group-hover:underline decoration-dashed decoration-main/20 truncate">{post.data.title}</h3>
+                    </a>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    {post.data.tags.slice(0, 2).map(tag => (
+                        <span class="text-[9px] px-2 py-0.5 rounded-full border border-main-border/10 text-main/40 uppercase font-bold tracking-tighter bg-main-bg/10">{tag}</span>
+                    ))}
+                </div>
             </div>
         ))}
     </div>
@@ -165,8 +238,14 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
     .active-view {
         @apply bg-main-bg/10 text-main shadow-sm;
     }
+    .tag-filter-btn {
+        @apply bg-main-bg/5 border-main-border/10;
+    }
     .active-tag {
-        @apply border-main-border/60 text-main bg-main-bg/10;
+        @apply bg-blue-500/10 border-blue-500 text-blue-500 shadow-lg shadow-blue-500/10 ring-2 ring-blue-500/20 scale-105;
+    }
+    .active-tag svg {
+        @apply text-blue-500 opacity-100;
     }
 </style>
 
@@ -184,46 +263,125 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
 
         if (buttons.some(b => !b) || containers.some(c => !c)) return;
 
-        const savedView = localStorage.getItem('blog-view') || 'cards';
-        switchTo(savedView as any);
-
-        galleryBtn?.addEventListener('click', () => switchTo('gallery'));
-        cardsBtn?.addEventListener('click', () => switchTo('cards'));
-        listBtn?.addEventListener('click', () => switchTo('list'));
-
-        function switchTo(view: 'gallery' | 'cards' | 'list') {
+        function setView(view: 'cards' | 'gallery' | 'list') {
             containers.forEach(c => c?.classList.add('hidden'));
             buttons.forEach(b => {
                 b?.classList.remove('active-view');
                 b?.classList.add('text-main/40');
             });
+
             const activeContainer = document.getElementById(`${view}-container`);
             const activeBtn = document.getElementById(`view-${view}`);
-            activeContainer?.classList.remove('hidden');
-            activeBtn?.classList.remove('text-main/40');
-            activeBtn?.classList.add('active-view');
+
+            if (activeContainer) {
+                activeContainer.classList.remove('hidden');
+                activeContainer.classList.add(view === 'cards' ? 'grid' : 'flex');
+            }
+            if (activeBtn) {
+                activeBtn.classList.remove('text-main/40');
+                activeBtn.classList.add('active-view');
+            }
             localStorage.setItem('blog-view', view);
         }
 
-        // --- Tag Filter ---
-        const filterBtns = document.querySelectorAll<HTMLButtonElement>('.tag-filter-btn');
+        galleryBtn?.addEventListener('click', () => setView('gallery'));
+        cardsBtn?.addEventListener('click', () => setView('cards'));
+        listBtn?.addEventListener('click', () => setView('list'));
+
+        const savedView = localStorage.getItem('blog-view') as any || 'cards';
+        setView(savedView);
+
+        // --- Dropdowns ---
+        const dropdowns = document.querySelectorAll('.dropdown-container');
+        dropdowns.forEach(dropdown => {
+            const trigger = dropdown.querySelector('.dropdown-trigger');
+            const menu = dropdown.querySelector('.dropdown-menu');
+            const chevron = dropdown.querySelector('.chevron');
+
+            trigger?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isHidden = menu?.classList.contains('hidden');
+                dropdowns.forEach(other => {
+                    other.querySelector('.dropdown-menu')?.classList.add('hidden');
+                    other.querySelector('.chevron')?.classList.remove('rotate-180');
+                });
+                if (isHidden) {
+                    menu?.classList.remove('hidden');
+                    chevron?.classList.add('rotate-180');
+                }
+            });
+        });
+
+        document.addEventListener('click', () => {
+            dropdowns.forEach(dropdown => {
+                dropdown.querySelector('.dropdown-menu')?.classList.add('hidden');
+                dropdown.querySelector('.chevron')?.classList.remove('rotate-180');
+            });
+        });
+
+        // --- Filters & Sorting ---
+        const filterButtons = document.querySelectorAll('.tag-filter-btn');
+        const sortButtons = document.querySelectorAll('.sort-btn');
+        const blogSearch = document.getElementById('blog-search') as HTMLInputElement;
         const postCards = document.querySelectorAll<HTMLElement>('.post-card');
 
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const tag = btn.dataset.tagFilter!;
-                filterBtns.forEach(b => b.classList.remove('active-tag'));
-                btn.classList.add('active-tag');
+        let currentCategory = 'all';
+        let currentSort = 'newest';
+        let searchQuery = '';
 
-                postCards.forEach(card => {
-                    if (tag === 'all') {
-                        card.style.display = '';
-                    } else {
-                        const cardTags = (card.dataset.tags || '').split(',');
-                        card.style.display = cardTags.includes(tag) ? '' : 'none';
-                    }
+        function sortPosts() {
+            containers.forEach(container => {
+                if (!container) return;
+                const cardArray = Array.from(container.querySelectorAll<HTMLElement>('.post-card'));
+                const sorted = cardArray.sort((a, b) => {
+                    if (currentSort === 'az') return (a.dataset.title || '').localeCompare(b.dataset.title || '');
+                    const dateA = parseInt(a.dataset.date || '0');
+                    const dateB = parseInt(b.dataset.date || '0');
+                    return currentSort === 'newest' ? dateB - dateA : dateA - dateB;
                 });
+                sorted.forEach(p => container.appendChild(p));
             });
+        }
+
+        function applyFilters() {
+            postCards.forEach(card => {
+                const tags = (card.dataset.tags || '').split(',');
+                const title = card.querySelector('h3')?.textContent?.toLowerCase() || '';
+                const matchesCategory = currentCategory === 'all' || tags.includes(currentCategory);
+                const matchesSearch = title.includes(searchQuery);
+                
+                if (matchesCategory && matchesSearch) {
+                    card.classList.remove('hidden');
+                    card.style.display = '';
+                } else {
+                    card.classList.add('hidden');
+                    card.style.display = 'none';
+                }
+            });
+            sortPosts();
+        }
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentCategory = (btn as HTMLElement).dataset.tagFilter!;
+                const label = document.getElementById('current-category');
+                if (label) label.textContent = btn.textContent?.trim() || 'All Topics';
+                applyFilters();
+            });
+        });
+
+        sortButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentSort = (btn as HTMLElement).dataset.sort!;
+                const label = document.getElementById('current-sort');
+                if (label) label.textContent = btn.textContent?.trim() || 'Newest';
+                applyFilters();
+            });
+        });
+
+        blogSearch?.addEventListener('input', (e) => {
+            searchQuery = (e.target as HTMLInputElement).value.toLowerCase();
+            applyFilters();
         });
     }
 
