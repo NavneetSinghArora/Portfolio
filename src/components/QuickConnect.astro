@@ -9,6 +9,7 @@ const avatarSrc = typeof siteConfig.avatar.src === 'string' ? siteConfig.avatar.
 // vCard text
 const linkedin = siteConfig.socialLinks?.find(l => l.text.toLowerCase() === 'linkedin')?.href || '';
 const email = siteConfig.socialLinks?.find(l => l.text.toLowerCase() === 'gmail')?.href.replace('mailto:', '') || '';
+const phone = '+49 17668056076';
 const vCardData = `BEGIN:VCARD
 VERSION:3.0
 FN:${siteConfig.title}
@@ -16,6 +17,7 @@ TITLE:${siteConfig.subtitle}
 URL:${websiteUrl}
 URL;type=WORK:${linkedin}
 EMAIL:${email}
+TEL;type=CELL:${phone}
 END:VCARD`;
 
 const qrTypes = [
@@ -95,7 +97,7 @@ const qrTypes = [
                         Open PDF Directly
                     </a>
                 </div>
-                <p class="text-[10px] text-white/30 uppercase tracking-[0.2em] font-bold">Generated via Automated Workflow</p>
+                <p class="text-[10px] text-white/20 uppercase tracking-[0.2em] font-bold">&copy; {new Date().getFullYear()} &bull; Navneet Singh Arora</p>
             </div>
         </div>
     </div>
