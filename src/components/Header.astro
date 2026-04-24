@@ -1,6 +1,7 @@
 ---
 import siteConfig from '../data/site-config';
 import CustomImage from './CustomImage.astro';
+import QuickConnect from './QuickConnect.astro';
 
 // Dynamically import all logos from src/assets/icons to ensure they are bundled correctly
 const logos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/icons/*.{svg,png,webp,jpg,jpeg}', { eager: true });
@@ -89,6 +90,7 @@ const titleClass = 'text-theme-foreground font-serif text-2xl leading-tight font
                     </a>
                 )
             })}
+            <QuickConnect />
         </div>
     </div>
 </header>
