@@ -1,14 +1,28 @@
 ---
 import siteConfig from '../data/site-config';
 
+// Get clean URLs
 const websiteUrl = siteConfig.website;
+const resumeUrl = siteConfig.hero.actions.find(a => a.text.toLowerCase().includes('resume'))?.href || '/Navneet-Resume.pdf';
+const avatarSrc = typeof siteConfig.avatar.src === 'string' ? siteConfig.avatar.src : siteConfig.avatar.src.src;
+
+// vCard text
+const linkedin = siteConfig.socialLinks?.find(l => l.text.toLowerCase() === 'linkedin')?.href || '';
+const email = siteConfig.socialLinks?.find(l => l.text.toLowerCase() === 'gmail')?.href.replace('mailto:', '') || '';
 const vCardData = `BEGIN:VCARD
 VERSION:3.0
 FN:${siteConfig.title}
 TITLE:${siteConfig.subtitle}
 URL:${websiteUrl}
-EMAIL:${siteConfig.socialLinks?.find(l => l.text.toLowerCase() === 'gmail')?.href.replace('mailto:', '')}
+URL;type=WORK:${linkedin}
+EMAIL:${email}
 END:VCARD`;
+
+const qrTypes = [
+    { id: 'resume', label: 'Resume', value: `${websiteUrl}${resumeUrl}`, icon: 'FileText' },
+    { id: 'vcard', label: 'Save V-Card', value: vCardData, icon: 'UserPlus' },
+    { id: 'site', label: 'Visit Site', value: websiteUrl, icon: 'Globe' }
+];
 ---
 
 <div class="relative inline-block">
@@ -32,24 +46,56 @@ END:VCARD`;
 
     <div
         id="qr-container"
-        class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-sm"
+        class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 opacity-0 pointer-events-none transition-opacity duration-400 backdrop-blur-md"
     >
-        <div class="relative mx-4 w-full max-w-sm rounded-[2.5rem] border border-white/10 bg-white/10 p-8 text-center shadow-2xl backdrop-blur-xl transition-transform duration-500 scale-90" id="qr-modal">
-            <button id="qr-close" class="absolute top-4 right-4 p-2 text-white/50 hover:text-white transition-colors">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        <div class="relative mx-4 w-full max-w-md overflow-hidden rounded-[2.5rem] border border-white/10 bg-[#0f1115]/40 p-8 text-center shadow-[0_32px_64px_-12px_rgba(0,0,0,0.5)] backdrop-blur-2xl transition-all duration-500 scale-95" id="qr-modal">
+            <!-- Close Button -->
+            <button id="qr-close" class="absolute top-6 right-6 z-10 p-2 text-white/30 hover:text-white transition-colors rounded-full hover:bg-white/5">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
             
-            <h3 class="mb-2 font-serif text-2xl font-medium text-white">Quick Connect</h3>
-            <p class="mb-8 text-sm text-white/60">Scan to add Navneet to your contacts or visit the mobile site.</p>
-            
-            <div class="mx-auto flex aspect-square w-full max-w-[240px] items-center justify-center rounded-3xl bg-white p-4 shadow-inner">
-                <canvas id="qr-canvas" class="h-full w-full"></canvas>
+            <div class="mb-8">
+                <h3 class="font-serif text-3xl font-medium text-white mb-2 tracking-tight">Quick Connect</h3>
+                <p class="text-sm text-white/50">Modern artifacts for the agentic era.</p>
+            </div>
+
+            <!-- Custom Tab Switcher -->
+            <div class="mb-8 flex justify-center p-1 rounded-2xl bg-white/5 border border-white/5">
+                {qrTypes.map((type) => (
+                    <button
+                        data-qr-type={type.id}
+                        data-qr-value={type.value}
+                        class="qr-tab-btn flex-1 flex flex-col items-center gap-1.5 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all duration-300 text-white/40 hover:text-white/70"
+                    >
+                        <span>{type.label}</span>
+                    </button>
+                ))}
             </div>
             
-            <div class="mt-8 flex justify-center gap-4">
-                <button id="download-vcard" class="rounded-full bg-white/10 px-6 py-2 text-sm font-medium text-white hover:bg-white/20 transition-colors border border-white/5">
-                    Save V-Card
-                </button>
+            <!-- QR Display Area -->
+            <div class="relative group">
+                <div class="absolute -inset-4 bg-gradient-to-tr from-white/10 to-transparent rounded-[3rem] blur-2xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                <div class="relative mx-auto aspect-square w-full max-w-[280px] rounded-[2.5rem] bg-white overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.1),inset_0_0_40px_rgba(0,0,0,0.1)]">
+                    <canvas id="qr-canvas" class="h-full w-full"></canvas>
+                    <div id="qr-logo-container" class="hidden">
+                        <img id="qr-avatar" src={avatarSrc} alt="" class="h-10 w-10" />
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Area -->
+            <div class="mt-10 flex flex-col gap-4">
+                <div id="vcard-action" class="hidden">
+                    <button id="download-vcard" class="w-full rounded-2xl bg-white px-8 py-4 text-sm font-bold text-black hover:bg-opacity-90 transition-all shadow-xl hover:scale-[1.02] active:scale-95">
+                        Save to Contacts
+                    </button>
+                </div>
+                <div id="resume-action" class="hidden">
+                    <a href={resumeUrl} target="_blank" class="block w-full rounded-2xl bg-white/10 border border-white/10 px-8 py-4 text-sm font-bold text-white hover:bg-white/20 transition-all">
+                        Open PDF Directly
+                    </a>
+                </div>
+                <p class="text-[10px] text-white/30 uppercase tracking-[0.2em] font-bold">Generated via Automated Workflow</p>
             </div>
         </div>
     </div>
@@ -63,35 +109,131 @@ END:VCARD`;
         const container = document.getElementById('qr-container');
         const modal = document.getElementById('qr-modal');
         const close = document.getElementById('qr-close');
-        const canvas = document.getElementById('qr-canvas');
+        const canvas = document.getElementById('qr-canvas') as HTMLCanvasElement;
         const saveBtn = document.getElementById('download-vcard');
-
-        // Access QRCode from the global winwow (loaded via CDN)
+        const avatarImg = document.getElementById('qr-avatar') as HTMLImageElement;
+        const tabBtns = document.querySelectorAll('.qr-tab-btn');
+        
         const qrcodeLib = (window as any).QRCode;
-
         if (!toggle || !container || !modal || !canvas || !qrcodeLib) return;
 
-        const websiteUrl = window.location.origin;
-        
-        toggle.addEventListener('click', () => {
-            qrcodeLib.toCanvas(canvas, websiteUrl, {
-                width: 240,
-                margin: 1,
+        let currentType = 'site';
+
+        const drawQR = (value: string) => {
+            // Use a resolution that matches the display size (280px)
+            const displaySize = 280;
+            
+            qrcodeLib.toCanvas(canvas, value, {
+                width: displaySize,
+                margin: 4, // Increased margin for safety and better look
+                errorCorrectionLevel: 'H',
                 color: {
                     dark: '#000000',
                     light: '#ffffff'
                 }
             }, (error: any) => {
-                if (error) console.error('QR Code error:', error);
+                if (error) {
+                    console.error('QR Error:', error);
+                    return;
+                }
+                
+                // Draw Center Image after QR is rendered
+                if (avatarImg && avatarImg.complete) {
+                    drawCenterImage();
+                } else if (avatarImg) {
+                    avatarImg.onload = drawCenterImage;
+                }
             });
+        };
+
+        const drawCenterImage = () => {
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+
+            const size = canvas.width;
+            const logoSize = size * 0.28; // Increased for better visibility
+            const x = (size - logoSize) / 2;
+            const y = (size - logoSize) / 2;
+
+            // Draw white background for logo (square with rounded corners)
+            ctx.fillStyle = '#ffffff';
             
+            const r = logoSize * 0.25;
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.lineTo(x + logoSize - r, y);
+            ctx.quadraticCurveTo(x + logoSize, y, x + logoSize, y + r);
+            ctx.lineTo(x + logoSize, y + logoSize - r);
+            ctx.quadraticCurveTo(x + logoSize, y + logoSize, x + logoSize - r, y + logoSize);
+            ctx.lineTo(x + r, y + logoSize);
+            ctx.quadraticCurveTo(x, y + logoSize, x, y + logoSize - r);
+            ctx.lineTo(x, y + r);
+            ctx.quadraticCurveTo(x, y, x + r, y);
+            ctx.closePath();
+            ctx.fill();
+
+            // Draw avatar clipped to circle/rounded rect
+            ctx.save();
+            // Create a slightly smaller clipping region for the image inside the white border
+            const padding = 2;
+            const clipX = x + padding;
+            const clipY = y + padding;
+            const clipSize = logoSize - (padding * 2);
+            const clipR = clipSize * 0.2;
+
+            ctx.beginPath();
+            ctx.moveTo(clipX + clipR, clipY);
+            ctx.lineTo(clipX + clipSize - clipR, clipY);
+            ctx.quadraticCurveTo(clipX + clipSize, clipY, clipX + clipSize, clipY + clipR);
+            ctx.lineTo(clipX + clipSize, clipY + clipSize - clipR);
+            ctx.quadraticCurveTo(clipX + clipSize, clipY + clipSize, clipX + clipSize - clipR, clipY + clipSize);
+            ctx.lineTo(clipX + clipR, clipY + clipSize);
+            ctx.quadraticCurveTo(clipX, clipY + clipSize, clipX, clipY + clipSize - clipR);
+            ctx.lineTo(clipX, clipY + clipR);
+            ctx.quadraticCurveTo(clipX, clipY, clipX + clipR, clipY);
+            ctx.closePath();
+            ctx.clip();
+            
+            ctx.drawImage(avatarImg, clipX, clipY, clipSize, clipSize);
+            ctx.restore();
+        };
+
+        const updateUI = (type: string) => {
+            currentType = type;
+            tabBtns.forEach(btn => {
+                const isSelected = btn.getAttribute('data-qr-type') === type;
+                btn.classList.toggle('bg-white/10', isSelected);
+                btn.classList.toggle('text-white', isSelected);
+                btn.classList.toggle('text-white/40', !isSelected);
+            });
+
+            // Toggle specific action buttons
+            document.getElementById('vcard-action')?.classList.toggle('hidden', type !== 'vcard');
+            document.getElementById('resume-action')?.classList.toggle('hidden', type !== 'resume');
+            
+            const selectedBtn = Array.from(tabBtns).find(b => b.getAttribute('data-qr-type') === type);
+            if (selectedBtn) {
+                drawQR(selectedBtn.getAttribute('data-qr-value') || '');
+            }
+        };
+
+        // Event Listeners
+        toggle.addEventListener('click', () => {
             container.classList.remove('opacity-0', 'pointer-events-none');
-            modal.classList.remove('scale-90');
+            modal.classList.remove('scale-95');
+            updateUI('resume');
+        });
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const type = btn.getAttribute('data-qr-type');
+                if (type) updateUI(type);
+            });
         });
 
         const closeModal = () => {
             container.classList.add('opacity-0', 'pointer-events-none');
-            modal.classList.add('scale-90');
+            modal.classList.add('scale-95');
         };
 
         close?.addEventListener('click', closeModal);
@@ -100,21 +242,15 @@ END:VCARD`;
         });
 
         saveBtn?.addEventListener('click', () => {
-            const linkedin = 'https://www.linkedin.com/in/navneet-singh-arora';
-            const vCardData = `BEGIN:VCARD
-VERSION:3.0
-FN:Navneet Singh Arora
-TITLE:Machine Learning & Full Stack Engineer
-URL:${websiteUrl}
-URL;type=WORK:${linkedin}
-EMAIL:aroranavneetsingh.de@gmail.com
-END:VCARD`;
-            const blob = new Blob([vCardData], { type: 'text/vcard' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Navneet-Singh-Arora.vcf';
-            a.click();
+            const vCardData = Array.from(tabBtns).find(b => b.getAttribute('data-qr-type') === 'vcard')?.getAttribute('data-qr-value');
+            if (vCardData) {
+                const blob = new Blob([vCardData], { type: 'text/vcard' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Navneet-Singh-Arora.vcf';
+                a.click();
+            }
         });
     }
 
@@ -124,6 +260,9 @@ END:VCARD`;
 
 <style>
     #qr-canvas {
-        image-rendering: pixelated;
+        image-rendering: auto;
+    }
+    .qr-tab-btn {
+        outline: none;
     }
 </style>
