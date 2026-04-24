@@ -31,65 +31,76 @@ const navLinks = siteConfig.footerNavLinks ?? [];
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="mx-auto w-full max-w-3xl pt-12 pb-10 sm:pt-24 sm:pb-14">
-    {
-        navLinks.length > 0 && (
-            <nav class="mb-4 flex flex-wrap gap-x-6 gap-y-1" aria-label="Footer navigation">
-                {navLinks.map((link) => (
-                    <a class="font-serif" href={link.href} target={link.target}>
-                        <span class="premium-line-hover">{link.text}</span>
-                    </a>
-                ))}
-            </nav>
-        )
-    }
-    <div
-        class:list={[
-            'flex flex-col gap-8 border-t border-main-border/10 pt-8',
-            { 'sm:flex-row-reverse sm:items-center sm:justify-between': socialLinks.length > 0 }
-        ]}
-    >
-        {
-            socialLinks.length > 0 && (
-                <div class="flex flex-wrap items-center gap-1.5">
-                    {socialLinks.map((link) => {
-                        const iconName = link.text.toLowerCase();
-                        const iconPath = resolveIcon(iconName);
-                        const isGithub = iconName === 'github';
-                        const isResume = iconName === 'resume';
-                        const resumeIcon = 'https://img.icons8.com/color/48/parse-from-clipboard.png';
-
-                        return (
-                            <a
-                                class="group/social premium-tooltip relative flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
-                                href={link.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                data-tooltip={link.text}
-                            >
-                                <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/social:opacity-100 group-hover/social:scale-110 group-hover/social:bg-main/10 ring-1 ring-main/10" />
-                                {isGithub ? (
-                                    <>
-                                        <img src={resolveIcon('github-dark')} alt="" class="relative z-10 h-3.5 w-3.5 opacity-90 transition-all dark:hidden" />
-                                        <img src={resolveIcon('github-light')} alt="" class="relative z-10 hidden h-3.5 w-3.5 opacity-90 transition-all dark:block" />
-                                    </>
-                                ) : isResume ? (
-                                    <img src={resumeIcon} alt="" class="relative z-10 h-3.5 w-3.5 opacity-90 transition-all" />
-                                ) : (
-                                    <img src={iconPath} alt="" class="relative z-10 h-3.5 w-3.5 opacity-90 transition-all" />
-                                )}
+<footer class="mx-auto w-full max-w-3xl pb-6 px-4 sm:pb-10">
+    <div class="relative rounded-2xl border border-main-border/10 bg-main-bg/40 backdrop-blur-xl shadow-lg p-4 sm:p-5 overflow-hidden ring-1 ring-white/5 dark:ring-white/10 flex flex-col gap-4">
+        
+        <!-- Row 1: Split Layout -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <!-- Left: Navigation Links -->
+            {
+                navLinks.length > 0 && (
+                    <nav class="flex flex-wrap items-center gap-x-5 gap-y-2 order-2 sm:order-1" aria-label="Footer navigation">
+                        {navLinks.map((link) => (
+                            <a class="font-serif text-sm font-medium text-main/60 transition-colors hover:text-main" href={link.href} target={link.target}>
+                                <span class="premium-line-hover">{link.text}</span>
                             </a>
-                        );
-                    })}
-                    <div class="flex items-center">
-                        <QuickConnect />
+                        ))}
+                    </nav>
+                )
+            }
+
+            <!-- Right: Socials & QuickConnect -->
+            {
+                socialLinks.length > 0 && (
+                    <div class="flex flex-wrap items-center gap-1.5 order-1 sm:order-2">
+                        {socialLinks.map((link) => {
+                            const iconName = link.text.toLowerCase();
+                            const iconPath = resolveIcon(iconName);
+                            const isGithub = iconName === 'github';
+                            const isResume = iconName === 'resume';
+                            const resumeIcon = 'https://img.icons8.com/color/48/parse-from-clipboard.png';
+
+                            return (
+                                <a
+                                    class="group/social premium-tooltip relative flex h-7.5 w-7.5 items-center justify-center transition-all duration-300 hover:scale-110"
+                                    href={link.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    data-tooltip={link.text}
+                                >
+                                    <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/social:opacity-100 group-hover/social:bg-main/10 ring-1 ring-main/10" />
+                                    {isGithub ? (
+                                        <>
+                                            <img src={resolveIcon('github-dark')} alt="" class="relative z-10 h-4 w-4 opacity-70 transition-all dark:hidden group-hover/social:opacity-100" />
+                                            <img src={resolveIcon('github-light')} alt="" class="relative z-10 hidden h-4 w-4 opacity-70 transition-all dark:block group-hover/social:opacity-100" />
+                                        </>
+                                    ) : isResume ? (
+                                        <img src={resumeIcon} alt="" class="relative z-10 h-4 w-4 opacity-70 transition-all group-hover/social:opacity-100" />
+                                    ) : (
+                                        <img src={iconPath} alt="" class="relative z-10 h-4 w-4 opacity-70 transition-all group-hover/social:opacity-100" />
+                                    )}
+                                </a>
+                            );
+                        })}
+                        <div class="w-px h-4 bg-main-border/10 mx-1"></div>
+                        <div class="flex items-center pl-1">
+                            <QuickConnect />
+                        </div>
                     </div>
-                </div>
-            )
-        }
-        <p class="text-sm opacity-60">
-            &copy; {currentYear}
-            <a href="/"><span class="premium-line-hover">{siteConfig.title}</span></a>. All rights reserved.
-        </p>
+                )
+            }
+        </div>
+
+        <!-- Divider -->
+        <div class="w-full h-px bg-main-border/5"></div>
+
+        <!-- Row 2: Copyright -->
+        <div class="text-center">
+            <p class="text-[11px] font-bold tracking-[0.1em] uppercase text-main/30">
+                &copy; {currentYear}
+                <a href="/"><span class="premium-line-hover text-main/40">{siteConfig.title}</span></a>.
+                All rights reserved.
+            </p>
+        </div>
     </div>
 </footer>
