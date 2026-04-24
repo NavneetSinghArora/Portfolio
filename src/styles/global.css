@@ -119,30 +119,20 @@ html.dark {
     @apply opacity-100 scale-100 translate-y-1;
 }
 
-/* Premium Animated Underline */
+/* Premium Animated Underline - Solid & Elegant */
 .premium-line-hover {
-    position: relative;
     text-decoration: none !important;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0 1.5px;
+    transition: background-size 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    padding-bottom: 2px;
 }
 
-.premium-line-hover::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 1px;
-    bottom: -1px;
-    left: 0;
-    background-color: currentColor;
-    transform-origin: bottom right;
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-    opacity: 0.5;
-}
-
-.group:hover .premium-line-hover::after,
-.premium-line-hover:hover::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
+.group:hover .premium-line-hover,
+.premium-line-hover:hover {
+    background-size: 100% 1.5px;
 }
 
 .experience-card, .project-card, .education-card {

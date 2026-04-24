@@ -24,9 +24,7 @@ const spotColor = spotlightColors[title.length % spotlightColors.length];
     {/* Content Section */}
     <div class="flex-1 min-w-0">
         <a href={`/blog/${post.id}/`} class="block">
-            <TitleTag
-                class="font-serif text-xl leading-tight font-bold sm:text-2xl text-main"
-            >
+            <TitleTag class="mb-3 font-serif text-2xl font-bold leading-tight line-clamp-2 text-main">
                 <span class="premium-line-hover">{title}</span>
             </TitleTag>
             {excerpt && <div class="mt-2 text-sm leading-relaxed text-main/90 font-sans max-w-2xl">{excerpt}</div>}

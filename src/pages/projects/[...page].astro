@@ -171,7 +171,9 @@ const spotlightColors = [
                 <div class="flex-grow flex flex-col justify-between py-1">
                     <div>
                         <a href={`/projects/${project.id}/`}>
-                            <h3 class="font-serif text-2xl font-bold leading-tight mb-3 group-hover:underline group-hover:decoration-dashed decoration-main/20 text-main">{project.data.title}</h3>
+                            <h3 class="font-serif text-2xl font-bold leading-tight mb-3 text-main">
+                                <span class="premium-line-hover">{project.data.title}</span>
+                            </h3>
                         </a>
                         <p class="text-sm text-main/60 leading-relaxed font-sans line-clamp-3">
                             {project.data.description}
@@ -274,7 +276,9 @@ const spotlightColors = [
                             <div class="flex h-full w-full items-center justify-center text-main/55 text-xs">No preview</div>
                         )}
                     </div>
-                    <h3 class="font-serif text-base font-bold leading-tight line-clamp-2 mb-2 group-hover:underline group-hover:decoration-dashed text-main">{project.data.title}</h3>
+                    <h3 class="font-serif text-base font-bold leading-tight line-clamp-2 py-0.5 mb-2 text-main">
+                        <span class="premium-line-hover">{project.data.title}</span>
+                    </h3>
                     {project.data.description && (
                         <p class="text-xs text-main/90 line-clamp-3 mb-4 leading-relaxed font-sans">{project.data.description}</p>
                     )}
