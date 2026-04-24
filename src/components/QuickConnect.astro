@@ -118,7 +118,7 @@ const qrTypes = [
         
         instances.forEach(instance => {
             const toggle = instance.querySelector('.qr-toggle-btn');
-            const container = instance.querySelector('.qr-main-container');
+            const container = instance.querySelector('.qr-main-container') as HTMLElement;
             const modal = instance.querySelector('.qr-modal-box');
             const close = instance.querySelector('.qr-close-btn');
             const canvas = instance.querySelector('.qr-canvas') as HTMLCanvasElement;
@@ -127,6 +127,11 @@ const qrTypes = [
             const tabBtns = instance.querySelectorAll('.qr-tab-btn');
             
             if (!toggle || !container || !modal || !canvas) return;
+
+            // Portal the modal to the body to avoid stacking context issues (clipping by blurred footer)
+            if (container.parentElement !== document.body) {
+                document.body.appendChild(container);
+            }
 
             let currentType = 'site';
 
@@ -207,7 +212,7 @@ const qrTypes = [
 
             const updateUI = (type: string) => {
                 currentType = type;
-                const highlight = instance.querySelector('.qr-tab-highlight') as HTMLElement;
+                const highlight = container.querySelector('.qr-tab-highlight') as HTMLElement;
                 
                 tabBtns.forEach(btn => {
                     const isSelected = btn.getAttribute('data-qr-type') === type;
@@ -227,10 +232,11 @@ const qrTypes = [
                     }
                 });
 
-                instance.querySelector('.vcard-action')?.classList.toggle('hidden', type !== 'vcard');
-                instance.querySelector('.resume-action')?.classList.toggle('hidden', type !== 'resume');
-                instance.querySelector('.n8n-action')?.classList.toggle('hidden', type !== 'n8n');
+                container.querySelector('.vcard-action')?.classList.toggle('hidden', type !== 'vcard');
+                container.querySelector('.resume-action')?.classList.toggle('hidden', type !== 'resume');
+                container.querySelector('.n8n-action')?.classList.toggle('hidden', type !== 'n8n');
                 
+                const portalContainer = container;
                 const selectedBtn = Array.from(tabBtns).find(b => b.getAttribute('data-qr-type') === type);
                 if (selectedBtn) {
                     drawQR(selectedBtn.getAttribute('data-qr-value') || '');
@@ -240,6 +246,7 @@ const qrTypes = [
             toggle.addEventListener('click', () => {
                 container.classList.remove('opacity-0', 'pointer-events-none');
                 modal.classList.remove('scale-95');
+                document.body.style.overflow = 'hidden';
                 requestAnimationFrame(() => {
                     updateUI('resume');
                 });
@@ -255,6 +262,7 @@ const qrTypes = [
             const closeModal = () => {
                 container.classList.add('opacity-0', 'pointer-events-none');
                 modal.classList.add('scale-95');
+                document.body.style.overflow = '';
             };
 
             close?.addEventListener('click', closeModal);
