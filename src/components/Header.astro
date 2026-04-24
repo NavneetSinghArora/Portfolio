@@ -21,27 +21,28 @@ function resolveIcon(name: string | undefined) {
     return '';
 }
 
-const titleClass = 'text-theme-foreground font-serif text-2xl leading-tight font-medium sm:text-3xl';
+const titleClass = 'text-theme-foreground font-serif text-3xl leading-tight font-medium sm:text-4xl lg:text-5xl';
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html';
 ---
 
-<header class="mx-auto mb-12 flex w-full max-w-3xl items-center gap-4 sm:mb-16">
+<header class={`relative mx-auto flex w-full max-w-3xl flex-col items-center text-center gap-6 ${isHome ? 'min-h-[calc(100vh-8rem)] justify-center mb-8' : 'mb-12 sm:mb-16'}`}>
     {
         siteConfig.avatar?.src && (
-            <a href="/">
+            <a href="/" class="mb-2">
                 <CustomImage
-                    class="aspect-square w-16 rounded-full object-cover sm:w-20"
+                    class="aspect-square w-32 rounded-full object-cover sm:w-40 shadow-xl ring-2 ring-main-border/10 transition-transform duration-500 hover:scale-105"
                     {...siteConfig.avatar}
                     loading="eager"
                     fetchpriority="high"
-                    width={80}
-                    height={80}
-                    widths={[80, 160]}
-                    sizes="80px"
+                    width={160}
+                    height={160}
+                    widths={[160, 320]}
+                    sizes="160px"
                 />
             </a>
         )
     }
-    <div class="grow">
+    <div class="flex flex-col items-center w-full">
         {
             siteConfig.avatar?.src ? (
                 <p class={titleClass}>{siteConfig.title}</p>
@@ -51,9 +52,9 @@ const titleClass = 'text-theme-foreground font-serif text-2xl leading-tight font
                 </a>
             )
         }
-        {siteConfig.subtitle && <p class="text-sm leading-tight opacity-70 mb-3">{siteConfig.subtitle}</p>}
+        <p class="text-base sm:text-lg leading-tight opacity-70 mt-2 mb-6 font-medium">{siteConfig.subtitle}</p>
         
-        <div class="flex items-center gap-1.5">
+        <div class="flex flex-wrap justify-center items-center gap-3">
             {siteConfig.socialLinks?.map((link) => {
                 let iconName = link.text.toLowerCase();
                 
@@ -72,27 +73,57 @@ const titleClass = 'text-theme-foreground font-serif text-2xl leading-tight font
                         href={link.href} 
                         target="_blank" 
                         rel="noopener noreferrer" 
-                        class="group/social premium-tooltip relative flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
+                        class="group/social premium-tooltip relative flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center transition-all duration-300 hover:scale-115"
                         data-tooltip={link.text}
                     >
                         <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/social:opacity-100 group-hover/social:scale-110 group-hover/social:bg-main/10 ring-1 ring-main/10"></div>
                         
                         {isGithub ? (
                             <>
-                                <img src={resolveIcon('github-dark')} alt="" width="20" height="20" class="relative z-10 h-5 w-5 opacity-90 transition-all dark:hidden" />
-                                <img src={resolveIcon('github-light')} alt="" width="20" height="20" class="relative z-10 hidden h-5 w-5 opacity-90 transition-all dark:block" />
+                                <img src={resolveIcon('github-dark')} alt="" width="24" height="24" class="relative z-10 h-6 w-6 sm:h-7 sm:w-7 opacity-90 transition-all dark:hidden" />
+                                <img src={resolveIcon('github-light')} alt="" width="24" height="24" class="relative z-10 hidden h-6 w-6 sm:h-7 sm:w-7 opacity-90 transition-all dark:block" />
                             </>
                         ) : isResume ? (
-                            <img src={resumeIcon} alt="" width="20" height="20" class="relative z-10 h-5 w-5 opacity-90 transition-all" />
+                            <img src={resumeIcon} alt="" width="24" height="24" class="relative z-10 h-6 w-6 sm:h-7 sm:w-7 opacity-90 transition-all" />
                         ) : (
-                            <img src={iconPath} alt="" width="20" height="20" class="relative z-10 h-5 w-5 opacity-90 transition-all" />
+                            <img src={iconPath} alt="" width="24" height="24" class="relative z-10 h-6 w-6 sm:h-7 sm:w-7 opacity-90 transition-all" />
                         )}
                     </a>
                 )
             })}
-            <div class="flex items-center">
+            <div class="flex items-center ml-2">
                 <QuickConnect />
             </div>
         </div>
     </div>
+    
+    {isHome && (
+        <div id="scroll-indicator" class="absolute bottom-4 left-1/2 -translate-x-1/2 animate-bounce flex flex-col items-center gap-2 opacity-50 transition-opacity duration-500 hover:opacity-100">
+            <span class="text-[10px] sm:text-xs uppercase tracking-[0.2em] font-medium opacity-70">Explore More</span>
+            <svg class="w-5 h-5 text-main/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    )}
 </header>
+
+<script>
+    function scrollHandler() {
+        const indicator = document.getElementById('scroll-indicator');
+        if (!indicator) return;
+        
+        if (window.scrollY > 50) {
+            indicator.style.opacity = '0';
+            indicator.style.pointerEvents = 'none';
+        } else {
+            indicator.style.opacity = '0.5';
+            indicator.style.pointerEvents = 'auto';
+        }
+    }
+    
+    // Attach listener
+    window.addEventListener('scroll', scrollHandler, { passive: true });
+    
+    // Check initial state
+    scrollHandler();
+</script>

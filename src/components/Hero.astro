@@ -36,14 +36,19 @@ const { title, image, text, actions } = Astro.props;
                         {image.caption && <figcaption class="mt-1.5 text-xs sm:text-sm relative z-10">{image.caption}</figcaption>}
                     </figure>
                 )}
-                {text && <div class="relative z-10 prose sm:prose-lg max-w-none drop-shadow-sm" set:html={marked.parse(text)} />}
-                {actions && actions.length > 0 && (
-                    <div class="relative z-10 flex flex-wrap gap-4 mt-4">
-                        {actions.map((action) => (
-                            <Button href={action.href} target={action.target}>
-                                {action.text}
-                            </Button>
-                        ))}
+                {(text || (actions && actions.length > 0)) && (
+                    <div class="spotlight-card group relative flex flex-col p-6 sm:p-8 mt-2">
+                        <div class="spotlight-glow"></div>
+                        {text && <div class="relative z-10 prose dark:prose-invert sm:prose-lg max-w-none prose-p:text-main/90 prose-p:leading-relaxed font-sans" set:html={marked.parse(text)} />}
+                        {actions && actions.length > 0 && (
+                            <div class="relative z-10 flex flex-wrap gap-4 mt-8">
+                                {actions.map((action) => (
+                                    <Button href={action.href} target={action.target}>
+                                        {action.text}
+                                    </Button>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
