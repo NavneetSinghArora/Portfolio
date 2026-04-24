@@ -77,8 +77,22 @@ const { Content } = await render(project);
                             </a>
                         )}
                         {project.data.external && (
-                            <a href={project.data.external} target="_blank" rel="noopener noreferrer" aria-label="External Link" title="External Link" class="group transition-transform hover:-translate-y-1">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-6 w-6 opacity-40 group-hover:opacity-100 transition-opacity"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            <a 
+                                href={project.data.external} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                aria-label={project.data.tags.includes('n8n') ? "Official n8n Workflow" : "External Link"} 
+                                title={project.data.tags.includes('n8n') ? "Official n8n Workflow" : "External Link"} 
+                                class="group transition-transform hover:-translate-y-1"
+                            >
+                                {project.data.tags.includes('n8n') ? (
+                                    <>
+                                        <img src="https://cdn.simpleicons.org/n8n" alt="" class="h-6 w-6 opacity-40 group-hover:opacity-100 transition-opacity dark:hidden" />
+                                        <img src="https://cdn.simpleicons.org/n8n/white" alt="" class="h-6 w-6 opacity-40 group-hover:opacity-100 transition-opacity hidden dark:block" />
+                                    </>
+                                ) : (
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-6 w-6 opacity-40 group-hover:opacity-100 transition-opacity"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                )}
                             </a>
                         )}
                     </div>

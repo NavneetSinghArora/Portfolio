@@ -1,12 +1,12 @@
 # Navneet Singh Arora
-Machine Learning & Full Stack Engineer
+Machine Learning & Full Stack Engineer | n8n Creator
 
 Expertise in AI, Machine Learning, and Full Stack Development with over 6 years of industry experience.
 
 ## Technical Expertise
 - **AI Engineering**: HuggingFace, PyTorch, LangChain, Google Vertex AI, Gemini, Ollama.
 - **Backend & APIs**: Python, FastAPI, Hasura, PostgreSQL, Docker, GCP.
-- **Automation**: n8n, GitHub Actions, Bash scripting.
+- **Automation**: n8n (Recognized n8n Creator), GitHub Actions, Bash scripting.
 
 ## Career Summary
 Navneet is a professional with deep specialization in creating intelligent automation and scalable backend architectures.
@@ -20,6 +20,7 @@ Navneet is a professional with deep specialization in creating intelligent autom
 - LinkedIn: https://www.linkedin.com/in/navneet-singh-arora
 - GitHub: https://www.github.com/NavneetSinghArora
 - Gmail: aroranavneetsingh.de@gmail.com
+- n8n Creator: https://n8n.io/creators/navneet-singh-arora/
 
 ## Site Structure
 - /projects: Detailed case studies of technical work.

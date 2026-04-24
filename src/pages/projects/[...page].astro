@@ -127,8 +127,21 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                                 </a>
                             )}
                             {project.data.external && (
-                                <a href={project.data.external} target="_blank" rel="noopener noreferrer" class="opacity-40 hover:opacity-100 transition-opacity" title="External Link">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                <a 
+                                    href={project.data.external} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    class="opacity-40 hover:opacity-100 transition-opacity" 
+                                    title={project.data.tags.includes('n8n') ? "Technical implementation and research artifacts associated with this project." : "External Link"}
+                                >
+                                    {project.data.tags.includes('n8n') ? (
+                                        <div class="flex items-center">
+                                            <img src="https://cdn.simpleicons.org/n8n" class="h-3.5 w-3.5 dark:hidden" alt="n8n" />
+                                            <img src="https://cdn.simpleicons.org/n8n/white" class="h-3.5 w-3.5 hidden dark:block" alt="n8n" />
+                                        </div>
+                                    ) : (
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                    )}
                                 </a>
                             )}
                         </div>
@@ -204,8 +217,21 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                             </a>
                         )}
                         {project.data.external && (
-                            <a href={project.data.external} target="_blank" rel="noopener noreferrer" class="opacity-40 hover:opacity-100 transition-opacity" title="External Link">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            <a 
+                                href={project.data.external} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                class="opacity-40 hover:opacity-100 transition-opacity" 
+                                title={project.data.tags.includes('n8n') ? "Technical implementation and research artifacts associated with this project." : "External Link"}
+                            >
+                                {project.data.tags.includes('n8n') ? (
+                                    <div class="flex items-center">
+                                        <img src="https://cdn.simpleicons.org/n8n" class="h-3.5 w-3.5 dark:hidden" alt="n8n" />
+                                        <img src="https://cdn.simpleicons.org/n8n/white" class="h-3.5 w-3.5 hidden dark:block" alt="n8n" />
+                                    </div>
+                                ) : (
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                )}
                             </a>
                         )}
                     </div>

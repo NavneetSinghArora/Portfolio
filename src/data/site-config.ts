@@ -9,22 +9,22 @@ const siteConfig: SiteConfig = {
         alt: 'Navneet Singh Arora'
     },
     title: 'Navneet Singh Arora',
-    subtitle: 'Machine Learning & Full Stack Engineer',
+    subtitle: 'Machine Learning & Full Stack Engineer | n8n Creator',
     description: 'Expertise in AI, Machine Learning, and Full Stack Development with a focus on architecting intelligent automation workflows and high-performance backend systems.',
     keywords: [
-        'Navneet Singh Arora', 
-        'Machine Learning Engineer', 
-        'AI Automation Expert', 
-        'n8n Developer', 
-        'Self-Hosted Automation', 
-        'Full Stack Developer Hamburg', 
-        'Deep Learning', 
-        'Computer Vision', 
-        'Generative AI', 
-        'Python Developer', 
-        'TypeScript', 
-        'Docker', 
-        'Google Gemini AI', 
+        'Navneet Singh Arora',
+        'Machine Learning Engineer',
+        'AI Automation Expert',
+        'n8n Developer',
+        'Self-Hosted Automation',
+        'Full Stack Developer Hamburg',
+        'Deep Learning',
+        'Computer Vision',
+        'Generative AI',
+        'Python Developer',
+        'TypeScript',
+        'Docker',
+        'Google Gemini AI',
         'Agentic Workflows'
     ],
     image: {
@@ -87,6 +87,10 @@ const siteConfig: SiteConfig = {
         {
             text: 'Gmail',
             href: 'mailto:aroranavneetsingh.de@gmail.com'
+        },
+        {
+            text: 'n8n Creator',
+            href: 'https://n8n.io/creators/navneet-singh-arora/'
         },
         {
             text: 'Resume',
