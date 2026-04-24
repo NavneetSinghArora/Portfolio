@@ -6,6 +6,7 @@
 
 [![Portfolio](https://img.shields.io/badge/Live_Portfolio-000?style=for-the-badge&logo=react&logoColor=white)](https://www.navneetsingharora.com/)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/navneet-singh-arora)
+[![n8n Creator](https://img.shields.io/badge/n8n_Creator-FF6C37?style=for-the-badge&logo=n8n&logoColor=white)](https://n8n.io/creators/navneet-singh-arora/)
 [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:aroranavneetsingh.de@gmail.com)
 
 ---
