@@ -6,132 +6,105 @@ import siteConfig from '../data/site-config';
 const navLinks = siteConfig.headerNavLinks ?? [];
 ---
 
-<nav id="main-nav" class="sticky top-0 z-50 transition-all duration-500" aria-label="Primary navigation">
-    <div id="nav-content" class="relative min-h-10 px-4 md:px-8 pt-4 pb-10 sm:min-h-14 sm:pb-16 md:pt-8 transition-all duration-500">
-        {
-            navLinks.length > 0 && (
-                <div class="relative mx-auto w-full max-w-3xl">
-                    <button
-                        class="menu-toggle relative z-30 -ml-1 flex h-8 w-8 cursor-pointer items-center justify-center md:hidden"
-                        aria-label="Open Menu"
-                        aria-expanded="false"
-                        aria-controls="menu-items"
+<nav id="main-nav" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-fit px-4 pointer-events-none" aria-label="Primary navigation">
+    <div id="nav-container" class="relative rounded-2xl border border-main-border/10 bg-main-bg/40 backdrop-blur-xl shadow-lg transition-all duration-500 overflow-hidden flex items-center gap-2 p-1.5 ring-1 ring-white/5 dark:ring-white/10 pointer-events-auto">
+        <!-- Desktop Nav -->
+        <ul class="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+                <li>
+                    <NavLink
+                        class="px-5 py-2.5 rounded-xl text-sm font-medium text-main transition-all duration-300 block hover:bg-main-bg/10"
+                        href={link.href}
+                        target={link.target}
                     >
-                        <span class="menu-toggle-icon relative h-px w-6 bg-current" />
-                    </button>
-                    <ul
-                        id="menu-items"
-                        class="menu max-md:bg-main-bg/80 max-md:backdrop-blur-md max-md:border-main-border/20 flex gap-6 max-md:absolute max-md:-top-2.5 max-md:-left-2.5 max-md:z-20 max-md:max-w-64 max-md:flex-col max-md:gap-1 max-md:border max-md:border-dashed max-md:px-3 max-md:pt-16 max-md:pb-10 rounded-2xl"
-                    >
-                        {navLinks.map((link) => (
-                            <li class="py-1">
-                                <NavLink
-                                    class="text-main font-serif text-xl hover:underline hover:decoration-1 hover:underline-offset-2 md:text-base transition-opacity duration-300"
-                                    href={link.href}
-                                    target={link.target}
-                                >
-                                    {link.text}
-                                </NavLink>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )
-        }
-        <div class="absolute top-4 right-4 z-10 md:top-8 md:right-8 transition-all duration-500" id="theme-toggle-wrapper">
+                        {link.text}
+                    </NavLink>
+                </li>
+            ))}
+        </ul>
+
+        <!-- Mobile Toggle Wrapper -->
+        <div class="md:hidden flex items-center">
+            <button
+                class="menu-toggle relative z-30 flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl hover:bg-main-bg/10 transition-colors"
+                aria-label="Open Menu"
+                aria-expanded="false"
+                aria-controls="menu-items"
+            >
+                <span class="menu-toggle-icon relative h-px w-5 bg-current" />
+            </button>
+        </div>
+
+        <div class="w-px h-5 bg-main-border/10 mx-1"></div>
+
+        <!-- Theme Toggle Wrapper -->
+        <div class="flex items-center px-1">
             <ThemeToggle />
         </div>
     </div>
+
+    <!-- Mobile Menu (Floating Panel) -->
+    <ul
+        id="menu-items"
+        class="menu mt-3 invisible opacity-0 scale-95 translate-y-2 flex flex-col gap-1 p-2 rounded-2xl border border-main-border/10 bg-main-bg/80 backdrop-blur-xl shadow-2xl transition-all duration-300 origin-top pointer-events-none"
+    >
+        {navLinks.map((link) => (
+            <li>
+                <NavLink
+                    class="px-4 py-3 rounded-xl text-base font-medium text-main/70 hover:text-main hover:bg-main-bg/10 transition-all duration-300 block"
+                    href={link.href}
+                    target={link.target}
+                >
+                    {link.text}
+                </NavLink>
+            </li>
+        ))}
+    </ul>
 </nav>
 
 <style>
     @reference "tailwindcss";
 
-    #main-nav {
-        @apply border-b border-transparent;
+    .menu.is-visible {
+        @apply visible opacity-100 scale-100 translate-y-0 pointer-events-auto;
     }
 
-    #main-nav.is-scrolled {
-        background-color: color-mix(in srgb, var(--bg-main-bg) 85%, transparent);
-        backdrop-filter: blur(16px);
-        border-bottom-color: color-mix(in srgb, var(--border-main-border) 15%, transparent);
-        @apply shadow-2xl;
+    .menu-toggle-icon {
+        transition: width 0.15s ease-out;
     }
-
-    #main-nav.is-scrolled #nav-content {
-        @apply pb-6 md:pt-6;
+    
+    .menu-toggle.is-active .menu-toggle-icon {
+        @apply w-0;
     }
-
-    #main-nav.is-scrolled #theme-toggle-wrapper {
-        @apply top-6 md:top-6;
+    
+    .menu-toggle-icon:before,
+    .menu-toggle-icon:after {
+        @apply absolute left-1/2 h-px w-5 origin-center -translate-x-1/2 bg-current;
+        content: '';
+        transition: transform 0.3s ease, margin 0.3s ease;
     }
-
-    @media (max-width: 767px) {
-        .menu {
-            @apply invisible opacity-0;
-            width: calc(100% + 1.25rem);
-        }
-        .menu.is-visible {
-            @apply visible opacity-100;
-            transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
-        }
-        .menu-toggle-icon {
-            transition: width 0.1s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
-        }
-        .menu-toggle.is-active .menu-toggle-icon {
-            @apply w-0;
-            transition: width 0.1s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .menu-toggle-icon:before,
-        .menu-toggle-icon:after {
-            @apply absolute top-0 left-1/2 h-px w-6 origin-center -translate-x-1/2 bg-current;
-            content: '';
-            transition:
-                rotate 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-                margin 0.2s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
-        }
-        .menu-toggle-icon:before {
-            @apply -mt-1.5;
-        }
-        .menu-toggle-icon:after {
-            @apply mt-1.5;
-        }
-        .menu-toggle.is-active .menu-toggle-icon:before,
-        .menu-toggle.is-active .menu-toggle-icon:after {
-            @apply mt-0;
-            transition:
-                margin 0.2s cubic-bezier(0.4, 0, 0.2, 1) 0.1s,
-                rotate 0.2s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
-        }
-        .menu-toggle.is-active .menu-toggle-icon:before {
-            @apply rotate-45;
-        }
-        .menu-toggle.is-active .menu-toggle-icon:after {
-            @apply -rotate-45;
-        }
+    
+    .menu-toggle-icon:before {
+        @apply -mt-1.5;
+    }
+    
+    .menu-toggle-icon:after {
+        @apply mt-1.5;
+    }
+    
+    .menu-toggle.is-active .menu-toggle-icon:before {
+        @apply mt-0 rotate-45;
+    }
+    
+    .menu-toggle.is-active .menu-toggle-icon:after {
+        @apply mt-0 -rotate-45;
     }
 </style>
 
 <script>
     function initNav() {
-        const nav = document.getElementById('main-nav');
-        const menu = document.querySelector('.menu');
+        const menu = document.getElementById('menu-items');
         const menuToggleBtn = document.querySelector('.menu-toggle');
-
-        let isScrolled = false;
-        const handleScroll = () => {
-            const scrollY = window.scrollY;
-            if (scrollY > 50 && !isScrolled) {
-                nav?.classList.add('is-scrolled');
-                isScrolled = true;
-            } else if (scrollY < 20 && isScrolled) {
-                nav?.classList.remove('is-scrolled');
-                isScrolled = false;
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        handleScroll();
 
         menuToggleBtn?.addEventListener('click', () => {
             const isMenuExpanded = menuToggleBtn.getAttribute('aria-expanded') === 'true';
@@ -139,6 +112,15 @@ const navLinks = siteConfig.headerNavLinks ?? [];
             menuToggleBtn.setAttribute('aria-expanded', isMenuExpanded ? 'false' : 'true');
             menuToggleBtn.setAttribute('aria-label', isMenuExpanded ? 'Open Menu' : 'Close Menu');
             menu?.classList.toggle('is-visible');
+        });
+
+        // Close menu on click outside
+        document.addEventListener('click', (e) => {
+            if (menu?.classList.contains('is-visible') && !menu.contains(e.target as Node) && !menuToggleBtn?.contains(e.target as Node)) {
+                menuToggleBtn?.classList.remove('is-active');
+                menuToggleBtn?.setAttribute('aria-expanded', 'false');
+                menu?.classList.remove('is-visible');
+            }
         });
     }
 

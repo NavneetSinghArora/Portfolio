@@ -114,24 +114,25 @@ const spotlightColors = [
             </div>
 
             <!-- Integrated View Switcher -->
-            <div class="flex items-center gap-1.5 bg-main-bg/10 backdrop-blur-md border border-main-border/20 p-1 rounded-xl shadow-sm">
+            <div class="flex items-center gap-1.5 bg-main-bg/10 backdrop-blur-md border border-main-border/20 p-1 rounded-xl shadow-sm relative view-switcher-container">
+                <div class="view-highlight absolute transition-all duration-500 ease-out bg-main rounded-lg shadow-md"></div>
                 <button 
                     id="view-cards"
-                    class="view-mode-btn premium-tooltip flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-main-bg/10 text-main active-view relative" 
+                    class="view-mode-btn premium-tooltip flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-main-bg/10 text-main active-view relative z-10" 
                     data-tooltip="Grid"
                 >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
                 </button>
                 <button 
                     id="view-gallery"
-                    class="view-mode-btn premium-tooltip flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-main-bg/10 text-main/40 relative" 
+                    class="view-mode-btn premium-tooltip flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-main-bg/10 text-main/40 relative z-10" 
                     data-tooltip="Gallery"
                 >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
                 </button>
                 <button 
                     id="view-list"
-                    class="view-mode-btn premium-tooltip flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-main-bg/10 text-main/40 relative" 
+                    class="view-mode-btn premium-tooltip flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-main-bg/10 text-main/40 relative z-10" 
                     data-tooltip="List"
                 >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
@@ -371,16 +372,16 @@ const spotlightColors = [
 <style>
     @reference "../../styles/global.css";
     .active-view {
-        @apply bg-main-bg/10 text-main shadow-sm;
+        @apply bg-main text-main-bg shadow-md scale-105;
     }
     .tag-filter-btn {
-        @apply bg-main-bg/5 border-main-border/10;
+        @apply bg-main-bg/5 border-main-border/10 transition-all hover:bg-main-bg/10;
     }
     .active-tag {
-        @apply bg-blue-500/10 border-blue-500 text-blue-500 shadow-lg shadow-blue-500/10 ring-2 ring-blue-500/20 scale-105;
+        @apply bg-main text-main-bg border-main shadow-lg shadow-main/20 scale-105;
     }
     .active-tag svg {
-        @apply text-blue-500 opacity-100;
+        @apply text-main-bg opacity-100;
     }
 </style>
 
@@ -410,18 +411,32 @@ const spotlightColors = [
         function switchTo(view: 'gallery' | 'cards' | 'list') {
             containers.forEach(c => c?.classList.add('hidden'));
             buttons.forEach(b => {
-                b?.classList.remove('active-view');
-                b?.classList.add('text-main/40');
+                if (b) {
+                    b.classList.remove('active-view');
+                    b.classList.add('text-main/40');
+                }
             });
 
             const activeContainer = document.getElementById(`${view}-container`);
             const activeBtn = document.getElementById(`view-${view}`);
+            const highlight = document.querySelector('.view-highlight') as HTMLElement;
+
+            if (activeBtn && highlight) {
+                const bRect = activeBtn.getBoundingClientRect();
+                const cRect = highlight.parentElement!.getBoundingClientRect();
+                highlight.style.width = `${bRect.width}px`;
+                highlight.style.height = `${bRect.height}px`;
+                highlight.style.left = `${bRect.left - cRect.left}px`;
+                highlight.style.top = `${bRect.top - cRect.top}px`;
+            }
 
             activeContainer?.classList.remove('hidden');
-            activeBtn?.classList.remove('text-main/40');
-            activeBtn?.classList.add('active-view');
+            if (activeBtn) {
+                activeBtn.classList.remove('text-main/40');
+                activeBtn.classList.add('active-view');
+            }
             
-localStorage.setItem('projects-view', view);
+            localStorage.setItem('projects-view', view);
         }
     }
 

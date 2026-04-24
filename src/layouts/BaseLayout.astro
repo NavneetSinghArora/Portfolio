@@ -29,7 +29,7 @@ const { showHeader = true, ...head } = Astro.props;
     <body class="text-main bg-transparent">
         <AuroraBackground />
         <Nav />
-        <div class="flex min-h-screen flex-col px-4 md:px-8">
+        <div class="flex min-h-screen flex-col px-4 md:px-8 pt-24 sm:pt-32">
             {showHeader && <Header />}
             <main class="mx-auto w-full max-w-3xl grow">
                 <slot />
