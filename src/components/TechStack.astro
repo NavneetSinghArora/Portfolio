@@ -82,12 +82,12 @@ const bentoCategories = [...categories].sort(
 
             return (
                 <div 
-                    class={`spotlight-card group/card relative flex flex-col justify-between overflow-hidden rounded-[2rem] border border-main-border/5 bg-black/[0.015] dark:bg-white/[0.015] p-6 sm:p-8 transition-all hover:border-main-border/15 hover:bg-black/[0.03] hover:dark:bg-white/[0.03] backdrop-blur-[6px] ${colSpan}`}
+                    class={`spotlight-card group/card relative flex flex-col justify-between overflow-hidden rounded-[2rem] border border-main-border/20 bg-main-bg/10 p-6 sm:p-8 transition-all hover:bg-main-bg/20 backdrop-blur-md shadow-sm ${colSpan}`}
                     style={`--spotlight-color: ${spotColor};`}
                 >
                     <div class="relative z-10 mb-8 sm:mb-12">
                         <h3 class="font-serif text-[1.35rem] leading-tight opacity-90 sm:text-2xl">{category.title}</h3>
-                        <p class="mt-1.5 text-xs opacity-50 sm:text-sm">{desc}</p>
+                        <p class="mt-1.5 text-xs opacity-80 sm:text-sm">{desc}</p>
                     </div>
                     
                     <div class="relative z-10 flex flex-wrap gap-2">

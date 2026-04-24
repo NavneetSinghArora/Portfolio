@@ -17,8 +17,7 @@ const { username } = Astro.props;
     <div 
         id="github-contributions"
         data-username={username}
-        class="spotlight-card group/card relative overflow-hidden rounded-2xl border border-main-border/10 p-6 transition-all hover:border-main-border/20 backdrop-blur-[2px]"
-        style="background-color: rgba(var(--text-main-rgb, 23, 23, 23), 0.01);"
+        class="spotlight-card group/card relative overflow-hidden rounded-2xl border border-main-border/20 bg-main-bg/10 p-6 transition-all hover:bg-main-bg/20 backdrop-blur-md shadow-sm"
     >
         <!-- Skeleton Loading Sketch -->
         <div id="contributions-loading" class="flex flex-col gap-[18px] h-[200px] w-full p-2 opacity-20">

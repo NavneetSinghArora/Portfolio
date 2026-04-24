@@ -9,7 +9,7 @@ const { title, description, seo } = project.data;
 const image = seo?.image;
 ---
 
-<a class:list={['group block relative flex flex-col rounded-2xl border border-main-border/10 bg-main-bg/5 p-4 transition-all hover:border-main-border/20 hover:bg-main-bg/10', className]} href={`/projects/${project.id}/`}>
+<a class:list={['group block relative flex flex-col rounded-2xl border border-main-border/20 bg-main-bg/10 p-4 transition-all hover:bg-main-bg/20 backdrop-blur-md shadow-sm', className]} href={`/projects/${project.id}/`}>
     <div class="aspect-video w-full overflow-hidden rounded-xl border border-main-border/5 bg-main-bg/10 mb-4">
         {image ? (
             <CustomImage 
@@ -28,7 +28,7 @@ const image = seo?.image;
         <h3 class="font-serif text-base font-bold leading-tight line-clamp-2 mb-2 group-hover:underline group-hover:decoration-dashed text-main">
             {title}
         </h3>
-        {description && <p class="text-xs text-main/80 line-clamp-3 mb-4 leading-relaxed font-sans">{description}</p>}
+        {description && <p class="text-xs text-main/90 line-clamp-3 mb-4 leading-relaxed font-sans">{description}</p>}
     </div>
     
     <!-- Card Meta -->
