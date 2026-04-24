@@ -23,6 +23,7 @@ END:VCARD`;
 const qrTypes = [
     { id: 'resume', label: 'Resume', value: `${websiteUrl}${resumeUrl}`, icon: 'FileText' },
     { id: 'vcard', label: 'Save V-Card', value: vCardData, icon: 'UserPlus' },
+    { id: 'n8n', label: 'Workflows', value: siteConfig.socialLinks?.find(l => l.text.toLowerCase().includes('n8n'))?.href || '', icon: 'Activity' },
     { id: 'site', label: 'Visit Site', value: websiteUrl, icon: 'Globe' }
 ];
 ---
@@ -92,6 +93,11 @@ const qrTypes = [
                 <div class="resume-action hidden">
                     <a href={resumeUrl} target="_blank" class="block w-full rounded-2xl bg-main px-8 py-4 text-[11px] font-black uppercase tracking-[0.2em] text-main-bg hover:opacity-90 transition-all shadow-xl hover:scale-[1.02] active:scale-[0.98]">
                         Open PDF Directly
+                    </a>
+                </div>
+                <div class="n8n-action hidden">
+                    <a href={siteConfig.socialLinks?.find(l => l.text.toLowerCase().includes('n8n'))?.href || ''} target="_blank" class="block w-full rounded-2xl bg-main px-8 py-4 text-[11px] font-black uppercase tracking-[0.2em] text-main-bg hover:opacity-90 transition-all shadow-xl hover:scale-[1.02] active:scale-[0.98]">
+                        View My Workflows
                     </a>
                 </div>
                 <p class="mt-2 text-[9px] text-main/30 uppercase tracking-[0.3em] font-black">&copy; {new Date().getFullYear()} &bull; Navneet Singh Arora</p>
@@ -210,6 +216,7 @@ const qrTypes = [
 
                 instance.querySelector('.vcard-action')?.classList.toggle('hidden', type !== 'vcard');
                 instance.querySelector('.resume-action')?.classList.toggle('hidden', type !== 'resume');
+                instance.querySelector('.n8n-action')?.classList.toggle('hidden', type !== 'n8n');
                 
                 const selectedBtn = Array.from(tabBtns).find(b => b.getAttribute('data-qr-type') === type);
                 if (selectedBtn) {
