@@ -87,6 +87,24 @@ html.dark {
     }
 }
 
+/* Custom Tooltip System */
+.premium-tooltip {
+    position: relative;
+}
+
+.premium-tooltip::after {
+    content: attr(data-tooltip);
+    @apply absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1.5 
+           bg-main-bg/80 backdrop-blur-md border border-main-border/20 
+           text-main text-[11px] font-medium whitespace-nowrap rounded-lg 
+           opacity-0 pointer-events-none transition-all duration-300 transform scale-90 origin-top shadow-xl;
+    z-index: 1000;
+}
+
+.premium-tooltip:hover::after {
+    @apply opacity-100 scale-100 translate-y-1;
+}
+
 /* Base Body Weight */
 body {
     font-weight: 400;

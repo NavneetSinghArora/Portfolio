@@ -51,7 +51,7 @@ const currentYear = new Date().getFullYear();
     >
         {
             socialLinks.length > 0 && (
-                <div class="flex flex-wrap gap-5">
+                <div class="flex flex-wrap items-center gap-1.5">
                     {socialLinks.map((link) => {
                         const iconName = link.text.toLowerCase();
                         const iconPath = resolveIcon(iconName);
@@ -61,27 +61,29 @@ const currentYear = new Date().getFullYear();
 
                         return (
                             <a
-                                class="group/social relative flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5"
+                                class="group/social premium-tooltip relative flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
                                 href={link.href}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                title={link.text}
+                                data-tooltip={link.text}
                             >
-                                <div class="absolute -inset-2 rounded-full bg-main-bg/5 opacity-0 transition-opacity group-hover/social:opacity-100" />
+                                <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/social:opacity-100 group-hover/social:scale-110 group-hover/social:bg-main/10 ring-1 ring-main/10" />
                                 {isGithub ? (
                                     <>
-                                        <img src={resolveIcon('github-dark')} alt="" class="h-5 w-5 opacity-50 transition-opacity group-hover/social:opacity-100 dark:hidden" />
-                                        <img src={resolveIcon('github-light')} alt="" class="hidden h-5 w-5 opacity-50 transition-opacity group-hover/social:opacity-100 dark:block" />
+                                        <img src={resolveIcon('github-dark')} alt="" class="relative z-10 h-5 w-5 opacity-90 transition-all dark:hidden" />
+                                        <img src={resolveIcon('github-light')} alt="" class="relative z-10 hidden h-5 w-5 opacity-90 transition-all dark:block" />
                                     </>
                                 ) : isResume ? (
-                                    <img src={resumeIcon} alt="" class="h-6 w-6 opacity-70 transition-opacity group-hover/social:opacity-100" />
+                                    <img src={resumeIcon} alt="" class="relative z-10 h-5 w-5 opacity-90 transition-all" />
                                 ) : (
-                                    <img src={iconPath} alt="" class="h-5 w-5 opacity-50 transition-opacity group-hover/social:opacity-100" />
+                                    <img src={iconPath} alt="" class="relative z-10 h-5 w-5 opacity-90 transition-all" />
                                 )}
                             </a>
                         );
                     })}
-                    <QuickConnect />
+                    <div class="flex items-center">
+                        <QuickConnect />
+                    </div>
                 </div>
             )
         }

@@ -53,7 +53,7 @@ const titleClass = 'text-theme-foreground font-serif text-2xl leading-tight font
         }
         {siteConfig.subtitle && <p class="text-sm leading-tight opacity-70 mb-3">{siteConfig.subtitle}</p>}
         
-        <div class="flex gap-4">
+        <div class="flex items-center gap-1.5">
             {siteConfig.socialLinks?.map((link) => {
                 let iconName = link.text.toLowerCase();
                 
@@ -72,25 +72,27 @@ const titleClass = 'text-theme-foreground font-serif text-2xl leading-tight font
                         href={link.href} 
                         target="_blank" 
                         rel="noopener noreferrer" 
-                        class="group/social relative flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5"
-                        title={link.text}
+                        class="group/social premium-tooltip relative flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
+                        data-tooltip={link.text}
                     >
-                        <div class="absolute -inset-2 rounded-full bg-main-bg/5 opacity-0 transition-opacity group-hover/social:opacity-100"></div>
+                        <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/social:opacity-100 group-hover/social:scale-110 group-hover/social:bg-main/10 ring-1 ring-main/10"></div>
                         
                         {isGithub ? (
                             <>
-                                <img src={resolveIcon('github-dark')} alt="" width="20" height="20" class="h-5 w-5 opacity-60 transition-opacity group-hover/social:opacity-100 dark:hidden" />
-                                <img src={resolveIcon('github-light')} alt="" width="20" height="20" class="hidden h-5 w-5 opacity-60 transition-opacity group-hover/social:opacity-100 dark:block" />
+                                <img src={resolveIcon('github-dark')} alt="" width="20" height="20" class="relative z-10 h-5 w-5 opacity-90 transition-all dark:hidden" />
+                                <img src={resolveIcon('github-light')} alt="" width="20" height="20" class="relative z-10 hidden h-5 w-5 opacity-90 transition-all dark:block" />
                             </>
                         ) : isResume ? (
-                            <img src={resumeIcon} alt="" width="24" height="24" class="h-6 w-6 opacity-80 transition-opacity group-hover/social:opacity-100" />
+                            <img src={resumeIcon} alt="" width="20" height="20" class="relative z-10 h-5 w-5 opacity-90 transition-all" />
                         ) : (
-                            <img src={iconPath} alt="" width="20" height="20" class="h-5 w-5 opacity-60 transition-opacity group-hover/social:opacity-100" />
+                            <img src={iconPath} alt="" width="20" height="20" class="relative z-10 h-5 w-5 opacity-90 transition-all" />
                         )}
                     </a>
                 )
             })}
-            <QuickConnect />
+            <div class="flex items-center">
+                <QuickConnect />
+            </div>
         </div>
     </div>
 </header>
