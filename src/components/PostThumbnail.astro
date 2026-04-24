@@ -27,8 +27,8 @@ const imageSrc = banner ?? seo?.image?.src?.src;
     </div>
     
     <div class="relative z-1 flex-grow">
-        <h3 class="font-serif text-base font-bold leading-tight line-clamp-2 mb-2 group-hover:underline group-hover:decoration-dashed text-main">
-            {title}
+        <h3 class="font-serif text-base font-bold leading-tight line-clamp-2 mb-2 text-main">
+            <span class="premium-line-hover">{title}</span>
         </h3>
         {excerpt && <p class="text-xs text-main/90 line-clamp-3 mb-4 leading-relaxed font-sans">{excerpt}</p>}
     </div>

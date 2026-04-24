@@ -110,6 +110,32 @@ html.dark {
     @apply opacity-100 scale-100 translate-y-1;
 }
 
+/* Premium Animated Underline */
+.premium-line-hover {
+    position: relative;
+    text-decoration: none !important;
+}
+
+.premium-line-hover::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1px;
+    bottom: -1px;
+    left: 0;
+    background-color: currentColor;
+    transform-origin: bottom right;
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    opacity: 0.5;
+}
+
+.group:hover .premium-line-hover::after,
+.premium-line-hover:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
 .experience-card, .project-card, .education-card {
     isolation: isolate;
 }

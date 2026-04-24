@@ -14,9 +14,9 @@ const TitleTag = headingLevel;
     <div class="flex-1 min-w-0">
         <a href={`/projects/${project.id}/`} class="block">
             <TitleTag
-                class="font-serif text-xl leading-tight font-bold group-hover:underline group-hover:decoration-dashed group-hover:decoration-1 group-hover:underline-offset-4 sm:text-2xl text-main"
+                class="font-serif text-xl leading-tight font-bold sm:text-2xl text-main"
             >
-                {title}
+                <span class="premium-line-hover">{title}</span>
             </TitleTag>
             {description && <div class="mt-2 text-sm leading-relaxed text-main/90 font-sans max-w-2xl">{description}</div>}
         </a>
