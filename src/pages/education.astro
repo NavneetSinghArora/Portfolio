@@ -29,6 +29,15 @@ const allLevels = [...new Set(education.map(ed => ed.degree.split('.')[0]))];
 // Dynamic icon resolution
 const logos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/{icons,images}/*.{svg,png,webp,jpg,jpeg}', { eager: true });
 
+const spotlightColors = [
+    'rgba(56, 189, 248, 0.15)', // Blue
+    'rgba(139, 92, 246, 0.15)', // Purple
+    'rgba(16, 185, 129, 0.15)', // Emerald
+    'rgba(245, 158, 11, 0.15)', // Amber
+    'rgba(236, 72, 153, 0.15)', // Pink
+    'rgba(244, 63, 94, 0.15)',  // Rose
+];
+
 function resolveIcon(name: string | undefined) {
     if (!name) return '';
     const extensions = ['.svg', '.png', '.webp', '.jpg', '.jpeg'];
@@ -120,11 +129,14 @@ function resolveIcon(name: string | undefined) {
     <div class="grid grid-cols-1 gap-8" id="education-container">
         {education.map((item, index) => (
             <div 
-                class="education-card group relative flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-10 transition-all duration-500 p-8 rounded-[2rem] border border-main-border/20 bg-main-bg/10 backdrop-blur-md shadow-sm hover:bg-main-bg/20 hover:z-20"
+                class="education-card spotlight-card group relative flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-10 p-8"
+                style={`--spotlight-color: ${spotlightColors[index % spotlightColors.length]};`}
                 data-level={item.degree.split('.')[0]}
                 data-date={index}
                 data-search={`${item.institution} ${item.degree} ${item.focus}`.toLowerCase()}
             >
+                <div class="spotlight-glow"></div>
+                
                 {/* SVG Icon Container */}
                 <div class="flex-shrink-0">
                     <div class="flex h-16 w-16 items-center justify-center rounded-2xl border border-main-border/20 bg-main-bg/10 text-main/70 shadow-sm transition-colors group-hover:border-main-border/30 group-hover:text-main overflow-hidden">

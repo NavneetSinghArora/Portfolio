@@ -18,6 +18,15 @@ type Props = { page: Page<CollectionEntry<'blog'>> };
 const { page } = Astro.props;
 const blog = page.data;
 const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
+
+const spotlightColors = [
+    'rgba(56, 189, 248, 0.15)', // Blue
+    'rgba(139, 92, 246, 0.15)', // Purple
+    'rgba(16, 185, 129, 0.15)', // Emerald
+    'rgba(245, 158, 11, 0.15)', // Amber
+    'rgba(236, 72, 153, 0.15)', // Pink
+    'rgba(244, 63, 94, 0.15)',  // Rose
+];
 ---
 
 <BaseLayout title="Blog" description="Embark on a journey of personal insights and experiences through my blog">
@@ -131,11 +140,13 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
     <div id="gallery-container" class="hidden flex flex-col gap-6 transition-all duration-300">
         {blog.map((post) => (
             <div 
-                class="post-card group relative flex flex-col sm:flex-row gap-6 p-6 rounded-2xl border border-main-border/20 bg-main-bg/10 hover:bg-main-bg/20 transition-all backdrop-blur-md shadow-sm" 
+                class="post-card spotlight-card group relative flex flex-col sm:flex-row gap-6 p-6" 
+                style={`--spotlight-color: ${spotlightColors[post.data.title.length % spotlightColors.length]};`}
                 data-tags={post.data.tags.join(',')}
                 data-date={post.data.publishDate.getTime()}
                 data-title={post.data.title.toLowerCase()}
             >
+                <div class="spotlight-glow"></div>
                 <!-- Visual Column (Left) -->
                 <div class="w-full sm:w-64 shrink-0">
                     <a href={`/blog/${post.id}/`} class="block aspect-video sm:aspect-square rounded-xl overflow-hidden border border-main-border/5">
@@ -193,11 +204,13 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
     <div id="cards-container" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 transition-all duration-300">
         {blog.map((post) => (
             <div 
-                class="post-card group relative flex flex-col rounded-2xl border border-main-border/20 bg-main-bg/10 p-4 transition-all hover:bg-main-bg/20 backdrop-blur-md shadow-sm" 
+                class="post-card spotlight-card group relative flex flex-col p-4 shadow-sm" 
+                style={`--spotlight-color: ${spotlightColors[post.data.title.length % spotlightColors.length]};`}
                 data-tags={post.data.tags.join(',')}
                 data-date={post.data.publishDate.getTime()}
                 data-title={post.data.title.toLowerCase()}
             >
+                <div class="spotlight-glow"></div>
                 <a href={`/blog/${post.id}/`} class="flex-grow">
                     <div class="aspect-video w-full overflow-hidden rounded-xl border border-main-border/5 bg-main-card/30 mb-4">
                         {post.data.banner || post.data.seo?.image ? (

@@ -7,7 +7,7 @@ type ButtonProps = HTMLAttributes<'button'> & { href?: never };
 type Props = ButtonProps | AnchorProps;
 
 const { href, class: className, ...rest } = Astro.props;
-const buttonClasses = 'inline-flex items-center justify-center p-2 text-main bg-transparent border border-main-border rounded-full transition-colors hover:bg-muted';
+const buttonClasses = 'inline-flex items-center justify-center p-2.5 text-main bg-main/5 border border-main-border/20 rounded-xl transition-all duration-300 hover:bg-main/10 hover:border-main-border/40 hover:scale-105 backdrop-blur-sm';
 ---
 
 {

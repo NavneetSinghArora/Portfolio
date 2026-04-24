@@ -108,6 +108,15 @@ const experiences = [
 
 // Extract unique locations for filtering
 const allLocations = [...new Set(experiences.flatMap(exp => exp.roles.map(role => role.location.split(', ').pop())))];
+
+const spotlightColors = [
+    'rgba(56, 189, 248, 0.15)', // Blue
+    'rgba(139, 92, 246, 0.15)', // Purple
+    'rgba(16, 185, 129, 0.15)', // Emerald
+    'rgba(245, 158, 11, 0.15)', // Amber
+    'rgba(236, 72, 153, 0.15)', // Pink
+    'rgba(244, 63, 94, 0.15)',  // Rose
+];
 ---
 
 <BaseLayout title={`Experience - ${siteConfig.title}`} description="Professional experience and career journey.">
@@ -161,14 +170,15 @@ const allLocations = [...new Set(experiences.flatMap(exp => exp.roles.map(role =
                     <button class="dropdown-trigger flex items-center justify-between gap-3 px-4 py-2.5 min-w-[160px] bg-main-bg/10 backdrop-blur-md border border-main-border/20 rounded-xl text-[14px] font-medium text-main/60 hover:text-main transition-all shadow-sm">
                         <div class="flex items-center gap-2">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><path d="m3 16 4 4 4-4"></path><path d="M7 20V4"></path><path d="m21 8-4-4-4 4"></path><path d="M17 4v16"></path></svg>
-                            <span id="current-sort">Recent First</span>
+                            <span id="current-sort">Newest First</span>
                         </div>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-30 chevron transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
                     </button>
-                    <div class="dropdown-menu hidden absolute top-full left-0 mt-2 min-w-[180px] bg-main-bg/80 backdrop-blur-xl border border-main-border/10 rounded-xl py-1.5 shadow-2xl z-50 origin-top-left transition-all duration-200">
+                    
+                    <div class="dropdown-menu hidden absolute top-full left-0 mt-2 min-w-[200px] bg-main-bg/80 backdrop-blur-xl border border-main-border/10 rounded-xl py-1.5 shadow-2xl z-50 origin-top-left transition-all duration-200">
                         <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="newest">
                             <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-100 transition-opacity active-indicator"></div>
-                            Recent First
+                            Newest First
                         </button>
                         <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="oldest">
                             <div class="h-1.5 w-1.5 rounded-full bg-blue-500 opacity-0 transition-opacity active-indicator"></div>
@@ -184,12 +194,15 @@ const allLocations = [...new Set(experiences.flatMap(exp => exp.roles.map(role =
         {experiences.length > 0 ? (
             experiences.map((item, index) => (
                 <div 
-                    class="experience-card group relative flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8 transition-all duration-500 p-6 rounded-[2rem] border border-main-border/20 bg-main-bg/10 backdrop-blur-md shadow-sm hover:bg-main-bg/20 hover:z-20"
+                    class="experience-card spotlight-card group relative flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8 p-6"
+                    style={`--spotlight-color: ${spotlightColors[index % spotlightColors.length]};`}
                     data-company={item.company.toLowerCase()}
                     data-location={item.roles[0].location.split(', ').pop()}
                     data-date={index}
                     data-search={`${item.company} ${item.roles.map(r => r.title + ' ' + r.description).join(' ')}`.toLowerCase()}
                 >
+                    <div class="spotlight-glow"></div>
+                    
                     {/* SVG Icon Container */}
                     <div class="flex-shrink-0">
                         <div class="flex h-16 w-16 items-center justify-center rounded-2xl border border-main-border/20 bg-main-bg/10 text-main/70 shadow-sm transition-colors group-hover:border-main-border/30 group-hover:text-main overflow-hidden p-0" set:html={item.icon} />

@@ -7,9 +7,20 @@ type Props = { post: CollectionEntry<'blog'>; class?: string };
 const { post, class: className } = Astro.props;
 const { title, excerpt, publishDate, seo, banner } = post.data;
 const imageSrc = banner ?? seo?.image?.src?.src;
+
+const spotlightColors = [
+    'rgba(56, 189, 248, 0.15)', // Blue
+    'rgba(139, 92, 246, 0.15)', // Purple
+    'rgba(16, 185, 129, 0.15)', // Emerald
+    'rgba(245, 158, 11, 0.15)', // Amber
+    'rgba(236, 72, 153, 0.15)', // Pink
+    'rgba(244, 63, 94, 0.15)',  // Rose
+];
+const spotColor = spotlightColors[title.length % spotlightColors.length];
 ---
 
-<div class:list={['group block relative flex flex-col rounded-2xl border border-main-border/20 bg-main-bg/10 p-4 transition-all hover:bg-main-bg/20 backdrop-blur-md shadow-sm', className]}>
+<div class:list={['post-card spotlight-card group block relative flex flex-col p-4', className]} style={`--spotlight-color: ${spotColor};`}>
+    <div class="spotlight-glow"></div>
     <!-- Base Link Overlay -->
     <a href={`/blog/${post.id}/`} class="absolute inset-0 z-0" aria-label={`Read ${title}`}></a>
 

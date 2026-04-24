@@ -47,6 +47,14 @@ const contactMethods = [
         iconPath: "xing"
     }
 ];
+const spotlightColors = [
+    'rgba(56, 189, 248, 0.3)', // Blue
+    'rgba(139, 92, 246, 0.3)', // Purple
+    'rgba(16, 185, 129, 0.3)', // Emerald
+    'rgba(245, 158, 11, 0.3)', // Amber
+    'rgba(236, 72, 153, 0.3)', // Pink
+    'rgba(244, 63, 94, 0.3)',  // Rose
+];
 ---
 
 <BaseLayout 
@@ -63,15 +71,15 @@ const contactMethods = [
 
     <!-- Contact Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-16">
-        {contactMethods.map((method) => (
+        {contactMethods.map((method, index) => (
             <a 
                 href={method.link}
                 target={method.link.startsWith('http') ? "_blank" : "_self"}
                 rel={method.link.startsWith('http') ? "noopener noreferrer" : ""}
-                class="group relative overflow-hidden rounded-2xl border border-main-border/20 bg-main-bg/10 p-6 transition-all duration-300 hover:border-main-border/30 hover:bg-main-bg/20 backdrop-blur-md shadow-sm hover:-translate-y-1 block"
+                class="spotlight-card group relative p-6 block"
+                style={`--spotlight-color: ${spotlightColors[index % spotlightColors.length]};`}
             >
-                <!-- Subtle Gradient Hover Layer -->
-                <div class="absolute inset-0 bg-gradient-to-br from-main/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
+                <div class="spotlight-glow"></div>
                 
                 <div class="relative flex items-center justify-between gap-4">
                     <div class="flex items-center gap-4">

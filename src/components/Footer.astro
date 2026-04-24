@@ -36,8 +36,8 @@ const currentYear = new Date().getFullYear();
         navLinks.length > 0 && (
             <nav class="mb-4 flex flex-wrap gap-x-6 gap-y-1" aria-label="Footer navigation">
                 {navLinks.map((link) => (
-                    <a class="font-serif hover:underline hover:underline-offset-2" href={link.href} target={link.target}>
-                        {link.text}
+                    <a class="font-serif" href={link.href} target={link.target}>
+                        <span class="premium-line-hover">{link.text}</span>
                     </a>
                 ))}
             </nav>
@@ -89,7 +89,7 @@ const currentYear = new Date().getFullYear();
         }
         <p class="text-sm opacity-60">
             &copy; {currentYear}
-            <a class="hover:underline hover:underline-offset-2" href="/">{siteConfig.title}</a>. All rights reserved.
+            <a href="/"><span class="premium-line-hover">{siteConfig.title}</span></a>. All rights reserved.
         </p>
     </div>
 </footer>

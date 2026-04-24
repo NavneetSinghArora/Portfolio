@@ -60,7 +60,7 @@ const bentoCategories = [...categories].sort(
 
             if (category.title === 'AI Engineering') {
                 colSpan = 'md:col-span-2 row-span-1';
-                spotColor = 'rgba(139, 92, 246, 0.18)'; // Violet
+                spotColor = 'rgba(139, 92, 246, 0.15)'; // Violet
                 desc = 'LLM tooling, local inference, and agent workflows';
             } else if (category.title === 'Backend & APIs') {
                 colSpan = 'md:col-span-1 row-span-1';
@@ -68,23 +68,24 @@ const bentoCategories = [...categories].sort(
                 desc = 'APIs, data models, and backend systems';
             } else if (category.title === 'Infrastructure') {
                 colSpan = 'md:col-span-1';
-                spotColor = 'rgba(245, 158, 11, 0.12)'; // Amber
+                spotColor = 'rgba(245, 158, 11, 0.15)'; // Amber
                 desc = 'Deployment, networking, and runtime environments';
             } else if (category.title === 'Automation & Workflow') {
                 colSpan = 'md:col-span-1';
-                spotColor = 'rgba(163, 163, 163, 0.12)'; // Neutral
+                spotColor = 'rgba(14, 165, 233, 0.15)'; // Neutral -> Sky
                 desc = 'CI/CD, version control, and team orchestration';
             } else if (category.title === 'Languages & Data') {
                 colSpan = 'md:col-span-1';
-                spotColor = 'rgba(16, 185, 129, 0.12)'; // Green
+                spotColor = 'rgba(16, 185, 129, 0.15)'; // Green
                 desc = 'Core programming and data manipulation';
             }
 
             return (
                 <div 
-                    class={`spotlight-card group/card relative flex flex-col justify-between overflow-hidden rounded-[2rem] border border-main-border/20 bg-main-bg/10 p-6 sm:p-8 transition-all hover:bg-main-bg/20 backdrop-blur-md shadow-sm ${colSpan}`}
+                    class={`spotlight-card group/card relative flex flex-col justify-between p-6 sm:p-8 ${colSpan}`}
                     style={`--spotlight-color: ${spotColor};`}
                 >
+                    <div class="spotlight-glow"></div>
                     <div class="relative z-10 mb-8 sm:mb-12">
                         <h3 class="font-serif text-[1.35rem] leading-tight opacity-90 sm:text-2xl">{category.title}</h3>
                         <p class="mt-1.5 text-xs opacity-80 sm:text-sm">{desc}</p>
@@ -97,7 +98,7 @@ const bentoCategories = [...categories].sort(
                             const isDualIcon = typeof icon === 'object' && icon !== null && 'light' in icon;
                             
                             return (
-                                <div class="relative flex items-center gap-1.5 overflow-hidden rounded-full border border-main-border/5 bg-black/[0.03] dark:bg-white/[0.03] px-3 py-1.5 transition-all hover:border-main-border/20 hover:bg-black/[0.06] hover:dark:bg-white/[0.06] backdrop-blur-md">
+                                <div class="spotlight-chip relative flex items-center gap-1.5 overflow-hidden rounded-full border border-main-border/5 bg-black/[0.03] dark:bg-white/[0.03] px-3 py-1.5 transition-all hover:border-main-border/20 hover:bg-black/[0.06] hover:dark:bg-white/[0.06] backdrop-blur-md">
                                     {isDualIcon ? (
                                         <>
                                             <img 
@@ -134,19 +135,6 @@ const bentoCategories = [...categories].sort(
     </div>
 </section>
 
-<style>
-    .spotlight-card {
-        transform: translateZ(0); /* Force GPU acceleration */
-    }
-
-    .spotlight-glow {
-        background: radial-gradient(
-            650px circle at var(--mx, 50%) var(--my, 50%),
-            var(--spotlight-color),
-            transparent 80%
-        );
-    }
-</style>
 
 <script>
     function setupSpotlight() {

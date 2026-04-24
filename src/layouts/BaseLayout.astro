@@ -37,5 +37,40 @@ const { showHeader = true, ...head } = Astro.props;
             <Footer />
         </div>
         <SpeedInsights />
+        <script>
+            // Single global listener to handle all cards
+            let handleMouseMove;
+            
+            function initSpotlight() {
+                if (handleMouseMove) {
+                    window.removeEventListener('mousemove', handleMouseMove);
+                }
+
+                handleMouseMove = (e) => {
+                    const cards = document.querySelectorAll('.spotlight-card');
+                    if (cards.length === 0) return;
+                    
+                    cards.forEach((card) => {
+                        const rect = card.getBoundingClientRect();
+                        // Only update if mouse is reasonably close (performance optimization)
+                        const dx = e.clientX - (rect.left + rect.width / 2);
+                        const dy = e.clientY - (rect.top + rect.height / 2);
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        
+                        if (dist < 1000) {
+                            const x = e.clientX - rect.left;
+                            const y = e.clientY - rect.top;
+                            card.style.setProperty('--mx', `${x}px`);
+                            card.style.setProperty('--my', `${y}px`);
+                        }
+                    });
+                };
+
+                window.addEventListener('mousemove', handleMouseMove, { passive: true });
+            }
+
+            initSpotlight();
+            document.addEventListener('astro:page-load', initSpotlight);
+        </script>
     </body>
 </html>

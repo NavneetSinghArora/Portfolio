@@ -72,8 +72,9 @@ const { Content } = await render(post);
                 </div>
                 <div class="flex items-center gap-6">
                     {medium && (
-                        <a href={medium} target="_blank" rel="noopener noreferrer" aria-label="Read on Medium" title="Read on Medium" class="group transition-transform hover:-translate-y-1">
-                            <img src="https://img.icons8.com/sf-black-filled/64/medium-logo.png" alt="Medium" class="h-8 w-8 opacity-40 group-hover:opacity-100 transition-opacity dark:invert" />
+                        <a href={medium} target="_blank" rel="noopener noreferrer" aria-label="Read on Medium" class="group/social premium-tooltip relative flex h-10 w-10 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip="Read on Medium">
+                            <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/social:opacity-100 group-hover/social:scale-110 group-hover/social:bg-main/10 ring-1 ring-main/10"></div>
+                            <img src="https://img.icons8.com/sf-black-filled/64/medium-logo.png" alt="Medium" class="h-6 w-6 opacity-40 group-hover/social:opacity-100 transition-opacity dark:invert relative z-10" />
                         </a>
                     )}
                 </div>
@@ -88,8 +89,8 @@ const { Content } = await render(post);
                 tags.length > 0 && (
                     <div class="flex flex-wrap gap-x-5 gap-y-1 text-sm">
                         {tags.map((tag) => (
-                            <a class="text-main hover:underline" href={`/tags/${slugify(tag)}`}>
-                                #{tag}
+                            <a class="text-main" href={`/tags/${slugify(tag)}`}>
+                                <span class="premium-line-hover font-medium">#{tag}</span>
                             </a>
                         ))}
                     </div>

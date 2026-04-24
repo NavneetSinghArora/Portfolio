@@ -86,17 +86,17 @@ const qrTypes = [
             <!-- Action Area -->
             <div class="mt-10 flex flex-col gap-3">
                 <div class="vcard-action hidden">
-                    <button class="download-vcard-btn w-full rounded-2xl bg-main px-8 py-4 text-[11px] font-black uppercase tracking-[0.2em] text-main-bg hover:opacity-90 transition-all shadow-xl hover:scale-[1.02] active:scale-[0.98]">
+                    <button class="download-vcard-btn w-full rounded-2xl bg-black px-8 py-4 text-[11px] font-black uppercase tracking-[0.2em] text-white hover:bg-neutral-800 transition-all shadow-xl hover:scale-[1.02] active:scale-[0.98]">
                         Save to Contacts
                     </button>
                 </div>
                 <div class="resume-action hidden">
-                    <a href={resumeUrl} target="_blank" class="block w-full rounded-2xl bg-main px-8 py-4 text-[11px] font-black uppercase tracking-[0.2em] text-main-bg hover:opacity-90 transition-all shadow-xl hover:scale-[1.02] active:scale-[0.98]">
+                    <a href={resumeUrl} target="_blank" class="block w-full rounded-2xl bg-black px-8 py-4 text-[11px] font-black uppercase tracking-[0.2em] text-white hover:bg-neutral-800 transition-all shadow-xl hover:scale-[1.02] active:scale-[0.98]">
                         Open PDF Directly
                     </a>
                 </div>
                 <div class="n8n-action hidden">
-                    <a href={siteConfig.socialLinks?.find(l => l.text.toLowerCase().includes('n8n'))?.href || ''} target="_blank" class="block w-full rounded-2xl bg-main px-8 py-4 text-[11px] font-black uppercase tracking-[0.2em] text-main-bg hover:opacity-90 transition-all shadow-xl hover:scale-[1.02] active:scale-[0.98]">
+                    <a href={siteConfig.socialLinks?.find(l => l.text.toLowerCase().includes('n8n'))?.href || ''} target="_blank" class="block w-full rounded-2xl bg-black px-8 py-4 text-[11px] font-black uppercase tracking-[0.2em] text-white hover:bg-neutral-800 transition-all shadow-xl hover:scale-[1.02] active:scale-[0.98]">
                         View My Workflows
                     </a>
                 </div>

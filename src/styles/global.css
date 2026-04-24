@@ -71,7 +71,16 @@ html.dark {
     }
 
     .prose a {
-        @apply underline font-normal decoration-1 underline-offset-2 decoration-dashed hover:decoration-solid;
+        @apply relative inline-block text-main/90 no-underline transition-colors hover:text-main;
+    }
+
+    .prose a::after {
+        content: '';
+        @apply absolute left-0 bottom-0.5 h-[1.5px] w-full origin-right scale-x-0 bg-current opacity-40 transition-transform duration-500 ease-out;
+    }
+
+    .prose a:hover::after {
+        @apply origin-left scale-x-100;
     }
 
     .prose :where(h1, h2, h3, h4, h5, h6) {
@@ -156,4 +165,47 @@ nav, h1, h2, h3, h4, h5, h6 {
 
 h1, h2 {
     @apply font-bold;
+}
+
+/* Spotlight Card System */
+.spotlight-card {
+    position: relative;
+    transform: translateZ(0);
+    @apply rounded-[2.5rem] border border-main-border/20 bg-main-bg/10 transition-all duration-500 backdrop-blur-xl shadow-sm overflow-hidden;
+}
+
+.spotlight-card:hover {
+    @apply border-main-border/60;
+    background-color: var(--spotlight-color) !important;
+    box-shadow: 0 20px 50px -20px var(--spotlight-color, rgba(0,0,0,0));
+    transform: translateY(-2px);
+}
+
+/* Glass Top-Fill Highlight */
+.spotlight-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 40%);
+    z-index: 1;
+}
+
+.spotlight-glow {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.7s ease;
+    pointer-events: none;
+    background: radial-gradient(
+        600px circle at var(--mx, 50%) var(--my, 50%),
+        var(--spotlight-color),
+        transparent 80%
+    );
+}
+
+.spotlight-card:hover .spotlight-glow {
+    opacity: 1;
 }
