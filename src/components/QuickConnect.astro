@@ -3,8 +3,8 @@ import siteConfig from '../data/site-config';
 
 // Get clean URLs
 const websiteUrl = siteConfig.website;
-const resumeUrl = siteConfig.hero.actions.find(a => a.text.toLowerCase().includes('resume'))?.href || '/Navneet-Resume.pdf';
-const avatarSrc = typeof siteConfig.avatar.src === 'string' ? siteConfig.avatar.src : siteConfig.avatar.src.src;
+const resumeUrl = siteConfig.hero?.actions?.find(a => a.text?.toLowerCase().includes('resume'))?.href || '/Navneet-Resume.pdf';
+const avatarSrc = typeof siteConfig.avatar?.src === 'string' ? siteConfig.avatar.src : siteConfig.avatar?.src?.src || '';
 
 // vCard text
 const linkedin = siteConfig.socialLinks?.find(l => l.text.toLowerCase() === 'linkedin')?.href || '';
