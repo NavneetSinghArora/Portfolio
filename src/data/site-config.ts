@@ -67,8 +67,8 @@ const siteConfig: SiteConfig = {
             href: '/knowledge-graph'
         },
         {
-            text: 'Uses',
-            href: '/uses'
+            text: 'Stack',
+            href: '/stack'
         },
         {
             text: 'Now',

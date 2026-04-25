@@ -3,110 +3,84 @@ import siteConfig from '../data/site-config';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const updatedAt = 'April 2026';
+
+const sections = [
+    {
+        title: 'Building',
+        icon: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+        items: [
+            { name: 'Repath AI Initiative', description: 'Architecting a multi-agent climate resilience platform using FastMCP and LangChain on GCP. Focusing on autonomous data collection and processing pipelines.' },
+            { name: 'Agentic Portfolio v2', description: 'Overhauling this digital workbench with the Knowledge Nexus, Neural Map, and experimenting with GLSL shader backgrounds.' },
+            { name: 'n8n Creator Hub', description: 'Expanding my public library of automation templates, specifically for AI-assisted research and technical data workflows.' },
+        ],
+    },
+    {
+        title: 'Learning',
+        icon: '<path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>',
+        items: [
+            { name: 'Agentic Orchestration', description: 'Deep-diving into advanced multi-agent coordination patterns—exploring how autonomous routines can handle complex handoffs.' },
+            { name: 'High-Perf Visuals', description: 'Refining GPU-rendered visual effects using GLSL shaders for interactive data visualisation and portfolio aesthetics.' },
+            { name: 'Local Inference Patterns', description: 'Optimising offline model execution using Ollama and high-performance terminals like Ghostty for privacy-first dev workflows.' },
+        ],
+    },
+    {
+        title: 'Life & Focus',
+        icon: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+        items: [
+            { name: 'Hamburg Schanzenvierel', description: 'Exploring the local espresso and ramen scene. Currently working through the best specialty coffee roasters in the city.' },
+            { name: 'Technical Community', description: 'Engaging with the agentic AI community and contributing to the emerging Model Context Protocol (MCP) tool ecosystem.' },
+            { name: 'F1 2026 Season', description: 'Following the latest technical regulation changes and race dynamics closely during weekend sprints.' },
+        ],
+    },
+];
 ---
 
 <BaseLayout title={`Now — ${siteConfig.title}`} description="What Navneet Singh Arora is focused on right now — projects, learning, and life.">
     <div class="mb-12">
         <h1 class="font-serif text-3xl leading-tight font-bold sm:text-4xl mb-4 text-main">Now</h1>
         <p class="text-main/60 max-w-xl leading-relaxed">
-            A snapshot of what I'm focused on right now. Inspired by <a href="https://nownownow.com/about" target="_blank" rel="noopener noreferrer" class="text-main/80 underline underline-offset-2 hover:text-main transition-colors">nownownow.com</a>.
-            Last updated: <span class="font-medium text-main/80">{updatedAt}</span>.
+            An active telemetry feed of my current engineering priorities, ongoing research loops, and personal milestones. Consider this a high-fidelity snapshot of my focus—inspired by the <a href="https://nownownow.com/about" target="_blank" rel="noopener noreferrer" class="text-main/80 underline underline-offset-2 hover:text-main transition-colors">/now</a> movement.
+            <br />
+            <span class="text-[11px] uppercase tracking-widest text-main/40">Last updated: {updatedAt}</span>
         </p>
     </div>
 
-    <div class="space-y-10 mb-20 max-w-2xl">
-
-        <!-- Building -->
-        <div class="spotlight-card group relative p-7">
-            <div class="spotlight-glow"></div>
-            <div class="flex items-center gap-3 mb-5">
-                <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500">
-                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-                    </svg>
-                </span>
-                <h2 class="font-serif text-lg font-bold text-main">Building</h2>
-            </div>
-            <ul class="space-y-4 text-sm text-main/75 leading-relaxed">
-                <li class="flex gap-3">
-                    <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500"></span>
-                    <span>Leading the AI initiative at <strong class="text-main font-semibold">Repath</strong> — architecting a multi-agent Climate Resilience platform using FastMCP, LangChain, and Google Cloud. Focus is on autonomous data collection, processing, and insight delivery pipelines.</span>
-                </li>
-                <li class="flex gap-3">
-                    <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500"></span>
-                    <span>Overhauling this portfolio — adding command palette, testimonials, uses/now pages, and experimenting with GLSL shader backgrounds and terminal-style hero blocks.</span>
-                </li>
-                <li class="flex gap-3">
-                    <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500"></span>
-                    <span>Expanding my <strong class="text-main font-semibold">n8n Creator</strong> profile — publishing automation workflow templates for AI-assisted research and data workflows.</span>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Learning -->
-        <div class="spotlight-card group relative p-7">
-            <div class="spotlight-glow"></div>
-            <div class="flex items-center gap-3 mb-5">
-                <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-violet-500/10 text-violet-500">
-                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
-                    </svg>
-                </span>
-                <h2 class="font-serif text-lg font-bold text-main">Learning</h2>
-            </div>
-            <ul class="space-y-4 text-sm text-main/75 leading-relaxed">
-                <li class="flex gap-3">
-                    <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-500"></span>
-                    <span><strong class="text-main font-semibold">Multi-agent orchestration patterns</strong> — specifically how autonomous agent handoffs work in complex, asynchronous environments without human-in-the-loop.</span>
-                </li>
-                <li class="flex gap-3">
-                    <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-500"></span>
-                    <span><strong class="text-main font-semibold">GLSL shaders and WebGL</strong> — exploring GPU-rendered visual effects for portfolio and data visualisation work. Currently working through The Book of Shaders.</span>
-                </li>
-                <li class="flex gap-3">
-                    <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-500"></span>
-                    <span><strong class="text-main font-semibold">Retrieval-Augmented Generation (RAG)</strong> — evaluating vector database strategies (pgvector vs Weaviate) for domain-specific AI grounding at scale.</span>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Reading / Watching -->
-        <div class="spotlight-card group relative p-7">
-            <div class="spotlight-glow"></div>
-            <div class="flex items-center gap-3 mb-5">
-                <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500">
-                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-                    </svg>
-                </span>
-                <h2 class="font-serif text-lg font-bold text-main">Reading / Watching</h2>
-            </div>
-            <ul class="space-y-4 text-sm text-main/75 leading-relaxed">
-                <li class="flex gap-3">
-                    <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500"></span>
-                    <span><em>Agentic AI — design patterns for autonomous systems</em> by various authors on arXiv — excellent collection of papers on how production agent systems actually fail and recover.</span>
-                </li>
-                <li class="flex gap-3">
-                    <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500"></span>
-                    <span><strong class="text-main font-semibold">Formula 1 2025 season</strong> — following closely from Hamburg. New regs make for genuinely unpredictable races this year.</span>
-                </li>
-                <li class="flex gap-3">
-                    <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500"></span>
-                    <span>Exploring Hamburg's food scene — currently working through the Schanzenviertel neighbourhood. Good espresso and surprisingly good ramen.</span>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Status -->
-        <div class="flex items-start gap-4 px-6 py-5 rounded-2xl border border-emerald-500/20 bg-emerald-500/5">
-            <span class="mt-0.5 flex h-2 w-2 shrink-0 rounded-full bg-emerald-400" style="animation: model-blink 2.2s ease-in-out infinite;"></span>
+    <div class="space-y-14 mb-16">
+        {sections.map(section => (
             <div>
-                <p class="text-sm font-semibold text-main mb-1">Open to opportunities</p>
-                <p class="text-sm text-main/60 leading-relaxed">
-                    Particularly interested in senior AI/ML engineering roles, technical leadership, and ambitious climate or systems-focused products. Based in Hamburg — open to hybrid or remote arrangements across Europe.
-                </p>
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="flex h-8 w-8 items-center justify-center rounded-lg border border-main-border/20 bg-main-bg/20 text-main/60">
+                        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" set:html={section.icon}></svg>
+                    </div>
+                    <h2 class="font-serif text-xl font-bold text-main">{section.title}</h2>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    {section.items.map(item => (
+                        <div class="spotlight-card group relative flex flex-col gap-2 p-5">
+                            <div class="spotlight-glow"></div>
+                            <p class="text-sm font-semibold text-main">{item.name}</p>
+                            <p class="text-sm text-main/60 leading-relaxed">{item.description}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        ))}
+    </div>
+
+    <!-- Status Card -->
+    <div class="mb-20">
+        <div class="spotlight-card relative p-6 border-emerald-500/10 bg-emerald-500/5">
+            <div class="spotlight-glow opacity-30"></div>
+            <div class="flex items-start gap-4">
+                <span class="mt-1 flex h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" style="animation: model-blink 2s ease-in-out infinite;"></span>
+                <div>
+                    <h3 class="text-sm font-bold text-main mb-1">Open to Strategic Collaborations</h3>
+                    <p class="text-sm text-main/60 leading-relaxed max-w-2xl">
+                        Interested in senior AI/ML engineering roles, technical leadership, and ambitious climate or systems-focused products. Based in Hamburg—open to hybrid or remote arrangements across Europe.
+                    </p>
+                </div>
             </div>
         </div>
-
     </div>
 </BaseLayout>

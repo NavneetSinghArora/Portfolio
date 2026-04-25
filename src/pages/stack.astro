@@ -1,0 +1,100 @@
+---
+import siteConfig from '../data/site-config';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const sections = [
+    {
+        title: 'Hardware',
+        icon: '<path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M12 17v4"/><path d="M8 21h8"/>',
+        items: [
+            { name: 'Macbook Pro', description: 'Powerhouse for professional work, handling heavy Docker stacks and multi-agent simulations.' },
+            { name: 'Mac Mini', description: 'Dedicated station for personal projects, experimentation, and always-on services.' },
+            { name: 'Apple Airpods Pro', description: 'Essential for deep-focus sessions and seamless transition between devices.' },
+            { name: 'LG Ergo Monitor', description: 'Flexible ergonomic display setup providing the vertical real estate needed for complex debugging.' },
+            { name: 'Logitech MX Keys Combo', description: 'Precision peripherals designed for comfort during extended engineering sessions.' },
+            { name: 'Xiaomi Screen Lights', description: 'Atmospheric and functional lighting to reduce eye strain during late-night sprints.' },
+            { name: 'Maidesite Standing Desk & Chair', description: 'The ergonomic foundation of my workspace, enabling a healthy balance of standing and sitting flow.' },
+        ],
+    },
+    {
+        title: 'Development',
+        icon: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+        items: [
+            { name: 'Cursor / Antigravity', description: 'Next-generation AI code editors used interchangeably for predictive engineering and rapid prototyping.' },
+            { name: 'Claude Code / Ollama + Gemini', description: 'A hybrid setup of CLI agentic assistants and local/managed LLMs for versatile problem solving.' },
+            { name: 'Ghostty Terminal', description: 'Lightning-fast terminal experience paired with a custom high-contrast theme for maximum clarity.' },
+            { name: 'PgAdmin', description: 'Robust administration and development platform for PostgreSQL database clusters.' },
+            { name: 'Postman', description: 'Complete API development environment for testing and documenting backend endpoints.' },
+        ],
+    },
+    {
+        title: 'AI & Machine Learning',
+        icon: '<circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>',
+        items: [
+            { name: 'LangChain & LangSmith', description: 'Core framework for building and observing complex multi-agent pipelines and traces.' },
+            { name: 'FastAPI', description: 'The default choice for building high-performance, asynchronous AI service endpoints.' },
+            { name: 'FastMCP', description: 'MCP protocol implementation for building standardized tool interfaces for AI agents.' },
+            { name: 'Google Vertex AI / Gemini', description: 'Enterprise-grade cloud inference stack for large-scale reasoning and multimodal tasks.' },
+            { name: 'Hugging Face', description: 'Indispensable hub for model discovery, fine-tuning, and open-source ML research.' },
+            { name: 'Jupyter / Google Colab', description: 'Unified notebook environment for data exploration and experimental model training.' },
+        ],
+    },
+    {
+        title: 'Automation & Orchestration',
+        icon: '<path d="M9 3H5a2 2 0 0 0-2 2v4"/><path d="M21 3h-4a2 2 0 0 1-2 2v4"/><path d="M3 9v6"/><path d="M21 9v6"/><path d="M9 21H5a2 2 0 0 1-2-2v-4"/><path d="M21 21h-4a2 2 0 0 1-2-2v-4"/>',
+        items: [
+            { name: 'n8n (Self-Hosted)', description: 'Central engine for my personal and professional automation, powering 200+ agentic workflows.' },
+            { name: 'GitHub Actions', description: 'Standardized CI/CD pipelines for automated testing, building, and multi-platform deployment.' },
+            { name: 'Notion', description: 'Consolidated workspace for project management, technical documentation, and knowledge base.' },
+            { name: 'Slack', description: 'Primary channel for team coordination and asynchronous operational alerts.' },
+            { name: 'Miro', description: 'Visual collaboration platform used for system architecture, whiteboarding, and project mapping.' },
+            { name: 'Claude Routines', description: 'Experimental boundary for exploring autonomous task execution and agentic sequences.' },
+        ],
+    },
+    {
+        title: 'Infrastructure',
+        icon: '<rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>',
+        items: [
+            { name: 'Docker / Docker Compose', description: 'Containerization standard for consistent development, testing, and production environments.' },
+            { name: 'Google Cloud Platform (GCP)', description: 'Primary cloud provider for managed ML services, compute, and serverless architectures.' },
+            { name: 'Cloudflare', description: 'Multi-layer security, DNS management, and edge performance optimization.' },
+            { name: 'Tailscale', description: 'Zero-config Mesh VPN for secure, simplified connectivity across distributed infrastructure.' },
+            { name: 'Caddy', description: 'Modern reverse proxy with automatic SSL, perfect for securing self-hosted services.' },
+            { name: 'Vercel', description: 'Optimized deployment platform for high-performance frontend applications and this portfolio.' },
+        ],
+    },
+];
+---
+
+<BaseLayout title={`Stack — ${siteConfig.title}`} description="The high-performance hardware and software stack I use to build AI-driven solutions and autonomous workflows.">
+    <div class="mb-12">
+        <h1 class="font-serif text-3xl leading-tight font-bold sm:text-4xl mb-4 text-main">The Stack</h1>
+        <p class="text-main/60 max-w-xl leading-relaxed">
+            A curated ecosystem of hardware, software, and tools that power my daily engineering workflow—from local ML inference to globally distributed infrastructure.
+        </p>
+    </div>
+
+    <div class="space-y-14 mb-20">
+        {sections.map(section => (
+            <div>
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="flex h-8 w-8 items-center justify-center rounded-lg border border-main-border/20 bg-main-bg/20 text-main/60">
+                        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" set:html={section.icon}></svg>
+                    </div>
+                    <h2 class="font-serif text-xl font-bold text-main">{section.title}</h2>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    {section.items.map(item => (
+                        <div class="spotlight-card group relative flex flex-col gap-2 p-5">
+                            <div class="spotlight-glow"></div>
+                            <p class="text-sm font-semibold text-main">{item.name}</p>
+                            <p class="text-sm text-main/60 leading-relaxed">{item.description}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        ))}
+    </div>
+</BaseLayout>
+
