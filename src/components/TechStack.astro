@@ -46,7 +46,7 @@ const bentoCategories = [...categories].sort(
 );
 ---
 
-<section class="mb-16 sm:mb-24">
+<section class="mb-16 sm:mb-24" data-nn-layer="1">
     <div class="mb-10 sm:mb-14">
         <h2 class="mb-3 font-serif text-xl sm:text-2xl">{title}</h2>
         <p class="max-w-2xl text-sm opacity-60 sm:text-base">{description}</p>
@@ -75,8 +75,8 @@ const bentoCategories = [...categories].sort(
             }
 
             return (
-                <div 
-                    class={`spotlight-card group/card relative flex flex-col justify-between p-6 sm:p-8 ${colSpan}`}
+                <div
+                    class={`bento-tilt spotlight-card group/card relative flex flex-col justify-between p-6 sm:p-8 ${colSpan}`}
                 >
                     <div class="spotlight-glow"></div>
                     <div class="relative z-10 mb-8 sm:mb-12">
@@ -85,13 +85,13 @@ const bentoCategories = [...categories].sort(
                     </div>
                     
                     <div class="relative z-10 flex flex-wrap gap-2">
-                        {category.items.map((item) => {
+                        {category.items.map((item, chipIndex) => {
                             if (!item.icon) return null;
                             const icon = item.icon;
                             const isDualIcon = typeof icon === 'object' && icon !== null && 'light' in icon;
-                            
+
                             return (
-                                <div class="spotlight-chip relative flex items-center gap-1.5 overflow-hidden rounded-full border border-main-border/5 bg-black/[0.03] dark:bg-white/[0.03] px-3 py-1.5 transition-all hover:border-main-border/20 hover:bg-black/[0.06] hover:dark:bg-white/[0.06] backdrop-blur-md">
+                                <div class="spotlight-chip relative flex items-center gap-1.5 overflow-hidden rounded-full border border-main-border/5 bg-black/[0.03] dark:bg-white/[0.03] px-3 py-1.5 transition-all hover:border-main-border/20 hover:bg-black/[0.06] hover:dark:bg-white/[0.06] backdrop-blur-md" style={`--chip-index: ${chipIndex}`}>
                                     {isDualIcon ? (
                                         <>
                                             <img 

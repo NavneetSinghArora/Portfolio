@@ -6,11 +6,15 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import Nav from '../components/Nav.astro';
 import AuroraBackground from '../components/AuroraBackground.astro';
+import CommandPalette from '../components/CommandPalette.astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
+import StarfieldBackground from '../components/StarfieldBackground.astro';
+import PageLoader from '../components/PageLoader.astro';
+import ScrollToTop from '../components/ScrollToTop.astro';
 
 export type Props = HeadProps & { showHeader?: boolean };
 
-const { showHeader = true, ...head } = Astro.props;
+const { showHeader = false, ...head } = Astro.props;
 ---
 
 <!doctype html>
@@ -26,17 +30,48 @@ const { showHeader = true, ...head } = Astro.props;
         <script is:inline src="/theme-toggle.js"></script>
         <Analytics />
     </head>
-    <body class="text-main bg-transparent">
+    <body class="text-main bg-transparent overflow-x-hidden">
+        <PageLoader />
+        
+        <!-- Live Neon Cursor Effect (lightweight approximation of 3D tubes) -->
+        <div id="neon-cursor" class="pointer-events-none fixed top-0 left-0 w-8 h-8 rounded-full mix-blend-screen z-[9999] opacity-0 transition-opacity duration-300 hidden md:block">
+             <div class="absolute inset-0 rounded-full bg-fuchsia-500 blur-xl animate-pulse"></div>
+             <div class="absolute inset-2 rounded-full bg-cyan-400 blur-md"></div>
+        </div>
+
+        <StarfieldBackground />
+
         <AuroraBackground />
+        <CommandPalette />
+        <div id="nn-progress-bar"><div id="nn-progress-fill"></div></div>
         <Nav />
-        <div class="flex min-h-screen flex-col px-4 md:px-8 pt-24 sm:pt-32">
+        <div class="flex min-h-screen flex-col px-4 md:px-8 pt-24 sm:pt-32 relative z-10 w-full">
             {showHeader && <Header />}
             <main class="mx-auto w-full max-w-3xl grow">
                 <slot />
             </main>
             <Footer />
         </div>
+
+        <ScrollToTop />
         <SpeedInsights />
+        
+        <script>
+            const cursor = document.getElementById('neon-cursor');
+            let timeout;
+            
+            document.addEventListener('mousemove', (e) => {
+                if(cursor) {
+                    cursor.style.opacity = '0.8';
+                    cursor.style.transform = `translate(${e.clientX - 16}px, ${e.clientY - 16}px) scale(1.5)`;
+                    
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => {
+                        cursor.style.opacity = '0';
+                    }, 500);
+                }
+            });
+        </script>
         <script>
             // Single global listener to handle all cards
             let handleMouseMove;
@@ -71,6 +106,99 @@ const { showHeader = true, ...head } = Astro.props;
 
             initSpotlight();
             document.addEventListener('astro:page-load', initSpotlight);
+        </script>
+
+        <script>
+            function initNeuralActivation() {
+                document.body.classList.add('nn-ready');
+
+                const targets = document.querySelectorAll(
+                    '[data-nn-layer], .experience-card, .education-card'
+                );
+                if (!targets.length) return;
+
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry) => {
+                            if (!entry.isIntersecting) return;
+                            const el = entry.target as HTMLElement;
+                            const delay = parseInt(el.dataset.nnDelay || '0');
+                            setTimeout(() => el.classList.add('nn-activated'), delay);
+                            observer.unobserve(el);
+                        });
+                    },
+                    { threshold: 0.07, rootMargin: '0px 0px -30px 0px' }
+                );
+
+                targets.forEach((el) => {
+                    el.classList.add('nn-layer');
+                    observer.observe(el);
+                });
+            }
+
+            initNeuralActivation();
+            document.addEventListener('astro:page-load', initNeuralActivation);
+        </script>
+
+        <script>
+            // Phase 3: 3D Magnetic Tilt for project + bento cards
+            let tiltAbortController: AbortController | null = null;
+            function initTiltCards() {
+                if (tiltAbortController) tiltAbortController.abort();
+                tiltAbortController = new AbortController();
+                const { signal } = tiltAbortController;
+
+                const cards = document.querySelectorAll('.spotlight-card, .bento-tilt');
+                cards.forEach((card) => {
+                    const el = card as HTMLElement;
+                    
+                    el.addEventListener('mousemove', (e: MouseEvent) => {
+                        // Skip if card is hidden via view switcher
+                        if (el.closest('.hidden')) return;
+                        
+                        const rect = el.getBoundingClientRect();
+                        const isWide = rect.width > 500;
+                        const maxR = el.classList.contains('bento-tilt') ? 4 : (isWide ? 4 : 8);
+
+                        const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+                        const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+                        el.style.transform = `perspective(900px) rotateX(${ny * -maxR * 0.8}deg) rotateY(${nx * maxR}deg) translateY(-3px)`;
+                        el.style.transition = 'transform 0.12s ease-out';
+                    }, { passive: true, signal });
+
+                    el.addEventListener('mouseleave', () => {
+                        el.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0)';
+                        el.style.transition = 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)';
+                        setTimeout(() => {
+                            if (el.style.transform.includes('0deg')) {
+                                el.style.transform = '';
+                                el.style.transition = '';
+                            }
+                        }, 560);
+                    }, { signal });
+                });
+            }
+            initTiltCards();
+            document.addEventListener('astro:page-load', initTiltCards);
+        </script>
+
+        <script>
+            // Phase 7: Neural scroll progress bar
+            function initProgressBar() {
+                const fill = document.getElementById('nn-progress-fill');
+                if (!fill) return;
+
+                function update() {
+                    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                    if (maxScroll <= 0) { fill.style.transform = 'scaleY(0)'; return; }
+                    fill.style.transform = `scaleY(${Math.min(1, window.scrollY / maxScroll)})`;
+                }
+
+                window.addEventListener('scroll', update, { passive: true });
+                update();
+            }
+            initProgressBar();
+            document.addEventListener('astro:page-load', initProgressBar);
         </script>
     </body>
 </html>

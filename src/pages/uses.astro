@@ -1,0 +1,105 @@
+---
+import siteConfig from '../data/site-config';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const sections = [
+    {
+        title: 'Hardware',
+        icon: '<path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M12 17v4"/><path d="M8 21h8"/>',
+        items: [
+            { name: 'MacBook Pro', description: 'My primary machine — handles local model inference, Docker stacks, and multi-tab dev sessions without breaking a sweat.' },
+            { name: 'LG UltraWide Monitor', description: 'A wide canvas for terminal + IDE + docs side by side. Vertical real estate matters when debugging multi-agent traces.' },
+            { name: 'Sony WH-1000XM5', description: 'ANC headphones for deep-focus work and F1 race-day audio. Worth every penny.' },
+            { name: 'Logitech MX Keys', description: 'Comfortable for long typing sessions. The backlight actually helps at 2am.' },
+        ],
+    },
+    {
+        title: 'Development',
+        icon: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+        items: [
+            { name: 'Cursor IDE', description: 'AI-first code editor. Tab-completion that actually understands context. My default since early 2024.' },
+            { name: 'Claude Code', description: 'CLI agentic assistant. For larger refactors, multi-file changes, and when Cursor needs a second opinion.' },
+            { name: 'iTerm2 + Zsh + Oh My Zsh', description: 'Terminal with Powerlevel10k prompt. Plugins: zsh-autosuggestions, zsh-syntax-highlighting, fzf.' },
+            { name: 'TablePlus', description: 'PostgreSQL client. Much better than pgAdmin for quick inspection and query work.' },
+            { name: 'Insomnia', description: 'REST and GraphQL client. Lightweight alternative to Postman for testing FastAPI endpoints.' },
+        ],
+    },
+    {
+        title: 'AI & ML',
+        icon: '<circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>',
+        items: [
+            { name: 'LangChain + LangSmith', description: 'For building and observing multi-agent pipelines. LangSmith traces are invaluable for debugging agentic workflows.' },
+            { name: 'FastMCP', description: 'The MCP protocol implementation I use daily at Repath for tool integration across AI agents.' },
+            { name: 'Google Vertex AI / Gemini', description: 'Primary cloud inference stack. Gemini Flash for speed-critical paths, Gemini Pro for complex reasoning.' },
+            { name: 'Ollama', description: 'Local model runner. Llama 3, Mistral, and CodeLlama for offline work and privacy-sensitive tasks.' },
+            { name: 'HuggingFace', description: 'Model hub for fine-tuning experiments and specialised CV/NLP models.' },
+            { name: 'Jupyter + Google Colab', description: 'Notebooks for data exploration and training experiments before productionising.' },
+        ],
+    },
+    {
+        title: 'Infrastructure & DevOps',
+        icon: '<rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>',
+        items: [
+            { name: 'Docker + Docker Compose', description: 'Everything runs in containers. One docker-compose up to get the full stack running locally.' },
+            { name: 'Google Cloud Platform', description: 'Cloud Run for containerised services, Vertex AI for managed ML, Cloud Storage for datasets.' },
+            { name: 'Cloudflare', description: 'DNS, CDN, and Zero Trust tunnels. Excellent free tier for portfolio and side projects.' },
+            { name: 'Tailscale', description: 'Mesh VPN for connecting self-hosted services. Makes remote access to my home server seamless.' },
+            { name: 'Caddy', description: 'Reverse proxy with automatic HTTPS. Much simpler than Nginx for self-hosted setups.' },
+            { name: 'Vercel', description: 'Deployment for frontend and this portfolio. Zero-config CI from GitHub pushes.' },
+        ],
+    },
+    {
+        title: 'Automation & Workflow',
+        icon: '<path d="M9 3H5a2 2 0 0 0-2 2v4"/><path d="M21 3h-4a2 2 0 0 1-2 2v4"/><path d="M3 9v6"/><path d="M21 9v6"/><path d="M9 21H5a2 2 0 0 1-2-2v-4"/><path d="M21 21h-4a2 2 0 0 1-2-2v-4"/>',
+        items: [
+            { name: 'n8n (self-hosted)', description: 'My automation engine. 200+ workflows for everything from AI pipelines to personal productivity. I\'m also an n8n Creator.' },
+            { name: 'GitHub Actions', description: 'CI/CD for all projects. Build, test, and deploy on every push.' },
+            { name: 'Notion', description: 'Project management, notes, and personal knowledge base. Works well as a lightweight CMS too.' },
+            { name: 'Slack', description: 'Team communication at Repath and async coordination across timezones.' },
+        ],
+    },
+    {
+        title: 'Design & Fonts',
+        icon: '<circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>',
+        items: [
+            { name: 'Satoshi', description: 'Used on this portfolio. Geometric sans-serif with personality — great for headings and body text alike.' },
+            { name: 'SF Mono', description: 'My terminal and code font. Monospaced, readable, ships with macOS.' },
+            { name: 'Miro', description: 'System architecture diagrams, whiteboarding, and project planning with the team.' },
+            { name: 'Figma', description: 'UI mockups and design hand-off. Mostly for reviewing designs from collaborators.' },
+        ],
+    },
+];
+---
+
+<BaseLayout title={`Uses — ${siteConfig.title}`} description="The hardware, software, and tools I use daily as an ML and Full Stack engineer.">
+    <div class="mb-12">
+        <h1 class="font-serif text-3xl leading-tight font-bold sm:text-4xl mb-4 text-main">Uses</h1>
+        <p class="text-main/60 max-w-xl leading-relaxed">
+            Hardware, software, and tools that make up my daily engineering environment. Inspired by <a href="https://uses.tech" target="_blank" rel="noopener noreferrer" class="text-main/80 underline underline-offset-2 hover:text-main transition-colors">uses.tech</a>.
+        </p>
+    </div>
+
+    <div class="space-y-14 mb-20">
+        {sections.map(section => (
+            <div>
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="flex h-8 w-8 items-center justify-center rounded-lg border border-main-border/20 bg-main-bg/20 text-main/60">
+                        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" set:html={section.icon}></svg>
+                    </div>
+                    <h2 class="font-serif text-xl font-bold text-main">{section.title}</h2>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    {section.items.map(item => (
+                        <div class="spotlight-card group relative flex flex-col gap-2 p-5">
+                            <div class="spotlight-glow"></div>
+                            <p class="text-sm font-semibold text-main">{item.name}</p>
+                            <p class="text-sm text-main/60 leading-relaxed">{item.description}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        ))}
+    </div>
+</BaseLayout>
+

@@ -201,3 +201,186 @@ h1, h2 {
 .spotlight-card:hover .spotlight-glow {
     opacity: 1;
 }
+
+/* ─── Neural Network Scroll Activation ─── */
+body.nn-ready .nn-layer {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+        opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.nn-ready .nn-layer.nn-activated {
+    opacity: 1;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.nn-ready .nn-layer {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* ── Phase 2: Experience Timeline Neural Flow ──────────────────── */
+@keyframes synapse-travel {
+    0%   { top: -60%; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { top: 160%; opacity: 0; }
+}
+
+@keyframes neuron-pulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12); }
+    50%       { box-shadow: 0 0 0 9px rgba(59, 130, 246, 0); }
+}
+
+.roles-timeline::after {
+    content: '';
+    position: absolute;
+    top: -60%;
+    left: -24.5px;
+    width: 1px;
+    height: 50%;
+    background: linear-gradient(to bottom, transparent, rgba(59, 130, 246, 0.9) 50%, transparent);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.nn-activated .roles-timeline::after {
+    opacity: 1;
+    animation: synapse-travel 2.8s ease-in-out 0.5s infinite;
+}
+
+.nn-activated .neuron-dot {
+    animation: neuron-pulse 2.2s ease-out 0.4s infinite;
+}
+
+/* ── Phase 4: Hero Inference Card ──────────────────────────────── */
+@keyframes hero-scan {
+    0%   { left: -55%; opacity: 0; }
+    8%   { opacity: 1; }
+    92%  { opacity: 1; }
+    100% { left: 105%; opacity: 0; }
+}
+
+@keyframes model-blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.25; }
+}
+
+.hero-inference-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -55%;
+    width: 55%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(59, 130, 246, 0.7) 50%, transparent);
+    animation: hero-scan 5s linear 1.5s infinite;
+    z-index: 20;
+    border-radius: 9999px;
+    pointer-events: none;
+}
+
+/* ── Phase 6: Tech Stack Chip Activation ───────────────────────── */
+@keyframes chip-fire {
+    0%   { opacity: 0.35; transform: scale(0.88); }
+    55%  { opacity: 1;    transform: scale(1.04); }
+    100% { opacity: 1;    transform: scale(1); }
+}
+
+.spotlight-card:hover .spotlight-chip {
+    animation: chip-fire 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--chip-index, 0) * 28ms);
+}
+
+/* ── Phase 7: Neural Scroll Progress Bar ───────────────────────── */
+#nn-progress-bar {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 2px;
+    height: 100vh;
+    z-index: 200;
+    pointer-events: none;
+    background: rgba(59, 130, 246, 0.05);
+}
+
+#nn-progress-fill {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(59, 130, 246, 0.75), rgba(168, 85, 247, 0.55));
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.45);
+    transform: scaleY(0);
+    transform-origin: top;
+    will-change: transform;
+}
+
+@media (max-width: 640px) {
+    #nn-progress-bar { display: none; }
+}
+
+/* ── Feature 6: Background Gradient Morphing ───────────────────── */
+@keyframes gradient-morph {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+        135deg,
+        var(--bg-main) 0%,
+        color-mix(in srgb, var(--bg-main) 92%, #3b82f6) 25%,
+        var(--bg-main) 50%,
+        color-mix(in srgb, var(--bg-main) 92%, #a855f7) 75%,
+        var(--bg-main) 100%
+    );
+    background-size: 400% 400%;
+    animation: gradient-morph 25s ease infinite;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body::before { animation: none; }
+}
+
+/* ── Feature 8: Icon Hover Glow Effect ─────────────────────────── */
+.group\/social {
+    position: relative;
+}
+
+.group\/social::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 1rem;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.15), transparent 70%);
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.group\/social:hover::after {
+    opacity: 1;
+    transform: scale(1.3);
+}
+
+html.dark .group\/social::after {
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.2), transparent 70%);
+}
+
+/* ── Smooth dark-mode body transition ──────────────────────────── */
+html {
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+

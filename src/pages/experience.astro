@@ -109,6 +109,9 @@ const experiences = [
 // Extract unique locations for filtering
 const allLocations = [...new Set(experiences.flatMap(exp => exp.roles.map(role => role.location.split(', ').pop())))];
 
+// Neural layer labels (newest = Output, oldest = Input)
+const layerLabels = ['Output Layer', 'Hidden Layer 4', 'Hidden Layer 3', 'Hidden Layer 2', 'Hidden Layer 1', 'Input Layer'];
+
 ---
 
 <BaseLayout title={`Experience - ${siteConfig.title}`} description="Professional experience and career journey.">
@@ -185,13 +188,16 @@ const allLocations = [...new Set(experiences.flatMap(exp => exp.roles.map(role =
     <div class="grid grid-cols-1 gap-10" id="experience-container">
         {experiences.length > 0 ? (
             experiences.map((item, index) => (
-                <div 
+                <div
                     class="experience-card spotlight-card group relative flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8 p-6"
                     data-company={item.company.toLowerCase()}
                     data-location={item.roles[0].location.split(', ').pop()}
                     data-date={index}
                     data-search={`${item.company} ${item.roles.map(r => r.title + ' ' + r.description).join(' ')}`.toLowerCase()}
                 >
+                    <div class="absolute top-4 right-5 pointer-events-none z-20">
+                        <span class="text-[9px] font-mono uppercase tracking-widest text-blue-400/50">▸ {layerLabels[index] ?? `Layer ${index}`}</span>
+                    </div>
                     <div class="spotlight-glow"></div>
                     
                     {/* SVG Icon Container */}
@@ -222,10 +228,10 @@ const allLocations = [...new Set(experiences.flatMap(exp => exp.roles.map(role =
                             <span class="text-xs font-bold uppercase tracking-widest text-main/60">{item.period}</span>
                         </div>
                         
-                        <div class="space-y-6 relative before:absolute before:inset-y-1 before:-left-[24px] before:w-[1px] before:bg-main-border/20 ml-6 sm:ml-0">
+                        <div class="roles-timeline space-y-6 relative before:absolute before:inset-y-1 before:-left-[24px] before:w-[1px] before:bg-main-border/20 ml-6 sm:ml-0">
                             {item.roles.map(role => (
                                 <div class="relative">
-                                    <span class="absolute top-1.5 -left-[27.5px] h-2 w-2 rounded-full bg-blue-500 ring-4 ring-blue-500/10 backdrop-blur-md"></span>
+                                    <span class="neuron-dot absolute top-1.5 -left-[27.5px] h-2 w-2 rounded-full bg-blue-500 ring-4 ring-blue-500/10 backdrop-blur-md"></span>
                                     <h3 class="text-base font-semibold text-main/90">{role.title}</h3>
                                     
                                     <div class="flex items-center gap-3 text-xs font-medium text-main/60 mt-1 mb-3">

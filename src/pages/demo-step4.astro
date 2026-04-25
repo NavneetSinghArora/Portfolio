@@ -1,0 +1,215 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Demo — Step 4 Options" showHeader={false}>
+    <div class="max-w-3xl mx-auto py-12 space-y-20">
+
+        <div>
+            <a href="/" class="text-sm text-main/50 hover:text-main transition-colors font-mono">← Back home</a>
+            <h1 class="mt-6 font-serif text-3xl font-bold mb-3">Step 4 — Visual Demos</h1>
+            <p class="text-main/60 text-sm leading-relaxed max-w-xl">Three optional enhancements. Each is independent — pick any combination.</p>
+        </div>
+
+        <!-- ─── Option A: Terminal JSON Hero ──────────────────── -->
+        <div>
+            <div class="mb-4 flex items-center gap-3">
+                <span class="flex h-6 w-6 items-center justify-center rounded-md bg-blue-500/10 text-blue-500 text-[11px] font-bold font-mono">A</span>
+                <h2 class="font-serif text-xl font-bold">Terminal JSON Hero Block</h2>
+            </div>
+            <p class="text-sm text-main/55 mb-6 leading-relaxed max-w-xl">
+                Replaces the current plain bio paragraph with a typed JSON terminal block in the hero card. Immediately signals "developer" and looks great on the landing page.
+            </p>
+
+            <!-- Live preview -->
+            <div class="rounded-2xl overflow-hidden border border-main-border/15 bg-[#0d1117] shadow-2xl">
+                <!-- Terminal chrome -->
+                <div class="flex items-center gap-2 px-4 py-3 bg-[#161b22] border-b border-white/5">
+                    <div class="h-3 w-3 rounded-full bg-[#ff5f57]"></div>
+                    <div class="h-3 w-3 rounded-full bg-[#febc2e]"></div>
+                    <div class="h-3 w-3 rounded-full bg-[#28c840]"></div>
+                    <span class="ml-3 text-[11px] font-mono text-white/30">~/navneet — zsh</span>
+                </div>
+                <!-- Terminal body -->
+                <div class="p-6 font-mono text-[13px] leading-[1.8]">
+                    <p class="text-[#7ee787]">❯ <span class="text-white/80">cat profile.json</span></p>
+                    <div id="json-output" class="mt-2 text-white/75"></div>
+                    <p class="mt-3 text-[#7ee787]">❯ <span class="inline-block w-[7px] h-[14px] bg-[#7ee787] align-middle animate-pulse ml-0.5"></span></p>
+                </div>
+            </div>
+
+            <div class="mt-3 flex gap-2 text-[11px] font-mono text-main/40">
+                <span class="px-2 py-0.5 rounded border border-main-border/20 bg-main-bg/10">Typing animation</span>
+                <span class="px-2 py-0.5 rounded border border-main-border/20 bg-main-bg/10">Replaces hero bio card</span>
+                <span class="px-2 py-0.5 rounded border border-main-border/20 bg-main-bg/10">~40 lines of code</span>
+            </div>
+        </div>
+
+        <!-- ─── Option B: Coding Stats Badge ─────────────────── -->
+        <div>
+            <div class="mb-4 flex items-center gap-3">
+                <span class="flex h-6 w-6 items-center justify-center rounded-md bg-violet-500/10 text-violet-500 text-[11px] font-bold font-mono">B</span>
+                <h2 class="font-serif text-xl font-bold">Live Coding Stats Badge</h2>
+            </div>
+            <p class="text-sm text-main/55 mb-6 leading-relaxed max-w-xl">
+                A dynamic badge showing real coding-time data — either from WakaTime API (requires account) or GitHub API. Adds a live "proof of work" signal to the hero.
+            </p>
+
+            <div class="spotlight-card group relative p-6 max-w-sm">
+                <div class="spotlight-glow"></div>
+                <div class="flex items-start gap-4">
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-500/10 text-violet-500">
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-[11px] font-mono uppercase tracking-widest text-main/40 mb-1">Coding Activity</p>
+                        <p class="text-2xl font-bold font-serif text-main tabular-nums" id="wakatime-hours">7,240</p>
+                        <p class="text-xs text-main/50 mt-0.5">hours coded since 2020</p>
+                    </div>
+                </div>
+                <div class="mt-4 grid grid-cols-3 gap-3 border-t border-main-border/10 pt-4">
+                    <div class="text-center">
+                        <p class="text-base font-bold text-main font-serif">Python</p>
+                        <p class="text-[10px] text-main/40 uppercase tracking-wider">Top language</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-base font-bold text-main font-serif">6h 12m</p>
+                        <p class="text-[10px] text-main/40 uppercase tracking-wider">Daily avg</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-base font-bold text-main font-serif">Cursor</p>
+                        <p class="text-[10px] text-main/40 uppercase tracking-wider">Top editor</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-3 flex gap-2 text-[11px] font-mono text-main/40">
+                <span class="px-2 py-0.5 rounded border border-main-border/20 bg-main-bg/10">Requires WakaTime account</span>
+                <span class="px-2 py-0.5 rounded border border-main-border/20 bg-main-bg/10">Or use static numbers</span>
+                <span class="px-2 py-0.5 rounded border border-main-border/20 bg-main-bg/10">Adds to hero section</span>
+            </div>
+        </div>
+
+        <!-- ─── Option C: Project Filter Tabs ─────────────────── -->
+        <div>
+            <div class="mb-4 flex items-center gap-3">
+                <span class="flex h-6 w-6 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-500 text-[11px] font-bold font-mono">C</span>
+                <h2 class="font-serif text-xl font-bold">Project Filter Tabs</h2>
+            </div>
+            <p class="text-sm text-main/55 mb-6 leading-relaxed max-w-xl">
+                Adds category tabs above the projects grid so visitors can filter by domain — AI Systems, Backend, Automation, Full Stack. Already built into /projects search; this makes it prominent on the homepage too.
+            </p>
+
+            <!-- Preview -->
+            <div>
+                <div class="flex flex-wrap gap-2 mb-6" id="filter-btns">
+                    {['All', 'AI Systems', 'Backend', 'Automation', 'Full Stack'].map((cat, i) => (
+                        <button
+                            class={`filter-tab px-4 py-1.5 rounded-full text-sm font-medium border transition-all duration-200 ${i === 0 ? 'bg-main text-main-bg border-main' : 'border-main-border/20 text-main/60 hover:text-main hover:border-main-border/40 bg-main-bg/10'}`}
+                            data-cat={cat}
+                        >{cat}</button>
+                    ))}
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                    {[
+                        { title: 'Climate AI Platform', cat: 'AI Systems', color: 'blue' },
+                        { title: 'n8n Workflow Suite', cat: 'Automation', color: 'violet' },
+                        { title: 'FastAPI Backend', cat: 'Backend', color: 'emerald' },
+                        { title: 'Multi-Agent System', cat: 'AI Systems', color: 'blue' },
+                        { title: 'Full Stack Dashboard', cat: 'Full Stack', color: 'amber' },
+                        { title: 'LangChain Pipeline', cat: 'AI Systems', color: 'blue' },
+                    ].map(p => (
+                        <div class={`project-card-demo rounded-xl border border-main-border/15 bg-main-bg/20 p-4 transition-all duration-300`} data-cat={p.cat}>
+                            <div class={`mb-2 inline-block px-2 py-0.5 rounded text-[10px] font-mono text-${p.color}-500 bg-${p.color}-500/10`}>{p.cat}</div>
+                            <p class="text-sm font-medium text-main">{p.title}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <div class="mt-3 flex gap-2 text-[11px] font-mono text-main/40">
+                <span class="px-2 py-0.5 rounded border border-main-border/20 bg-main-bg/10">Requires tag in project frontmatter</span>
+                <span class="px-2 py-0.5 rounded border border-main-border/20 bg-main-bg/10">Works with existing content</span>
+            </div>
+        </div>
+
+    </div>
+</BaseLayout>
+
+<script>
+    // JSON typing animation
+    const jsonLines = [
+        '{',
+        '  "name": "Navneet Singh Arora",',
+        '  "role": "ML & Full Stack Engineer",',
+        '  "location": "Hamburg, Germany 🇩🇪",',
+        '  "company": "Repath",',
+        '  "status": "open_to_work",',
+        '  "experience": "10+ years",',
+        '  "domains": ["AI/ML", "Backend", "Automation"],',
+        '  "github": "NavneetSinghArora",',
+        '  "n8n_creator": true',
+        '}',
+    ];
+
+    const colors: Record<string, string> = {
+        '{':  'text-white/60',
+        '}':  'text-white/60',
+        '"name"':        'text-[#79c0ff]',
+        '"role"':        'text-[#79c0ff]',
+        '"location"':    'text-[#79c0ff]',
+        '"company"':     'text-[#79c0ff]',
+        '"status"':      'text-[#79c0ff]',
+        '"experience"':  'text-[#79c0ff]',
+        '"domains"':     'text-[#79c0ff]',
+        '"github"':      'text-[#79c0ff]',
+        '"n8n_creator"': 'text-[#79c0ff]',
+    };
+
+    const output = document.getElementById('json-output');
+    if (output) {
+        let lineIdx = 0;
+        function addLine() {
+            if (lineIdx >= jsonLines.length) return;
+            const line = jsonLines[lineIdx++];
+            const p = document.createElement('p');
+            const key = line.match(/"[^"]+"/)?.[0] || '';
+            const colorClass = colors[key] || (line.trim() === '{' || line.trim() === '}' ? 'text-white/60' : 'text-white/75');
+            p.innerHTML = line
+                .replace(/"([^"]+)"(?=\s*:)/, '<span class="text-[#79c0ff]">"$1"</span>')
+                .replace(/:\s*"([^"]+)"/, ': <span class="text-[#a5d6ff]">"$1"</span>')
+                .replace(/:\s*(true|false|\d+)/, ': <span class="text-[#ff7b72]">$1</span>')
+                .replace(/:\s*\[/, ': <span class="text-white/60">[</span>')
+                .replace(/\]$/, '<span class="text-white/60">]</span>')
+                .replace(/\{/, '<span class="text-white/60">{</span>')
+                .replace(/\}$/, '<span class="text-white/60">}</span>');
+            output.appendChild(p);
+            setTimeout(addLine, 90);
+        }
+        setTimeout(addLine, 600);
+    }
+
+    // Filter tabs
+    const tabs = document.querySelectorAll<HTMLButtonElement>('.filter-tab');
+    const cards = document.querySelectorAll<HTMLElement>('.project-card-demo');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const cat = tab.dataset.cat!;
+            tabs.forEach(t => {
+                t.classList.remove('bg-main', 'text-main-bg', 'border-main');
+                t.classList.add('border-main-border/20', 'text-main/60', 'bg-main-bg/10');
+            });
+            tab.classList.add('bg-main', 'text-main-bg', 'border-main');
+            tab.classList.remove('border-main-border/20', 'text-main/60', 'bg-main-bg/10');
+
+            cards.forEach(card => {
+                const show = cat === 'All' || card.dataset.cat === cat;
+                card.style.opacity = show ? '1' : '0.2';
+                card.style.transform = show ? 'scale(1)' : 'scale(0.97)';
+            });
+        });
+    });
+</script>

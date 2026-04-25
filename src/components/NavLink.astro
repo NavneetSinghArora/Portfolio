@@ -12,7 +12,7 @@ const isActive = href === pathname || href === pathname.replace(/\/$/, '');
 <a 
     class:list={[
         className, 
-        { 'active-nav-link bg-main text-main-bg shadow-lg shadow-main/20 scale-[1.02]': isActive }
+        { 'active-nav-link !bg-main hover:!bg-main/90 !text-main-bg shadow-lg shadow-main/20 scale-[1.02]': isActive }
     ]} 
     style={isActive ? "view-transition-name: active-nav-marker" : ""}
     href={href} 

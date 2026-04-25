@@ -1,0 +1,128 @@
+---
+/**
+ * SVG Draw-In Hero Decoration
+ * Renders an animated circuit-board SVG pattern behind the hero title.
+ * Paths draw themselves in on page load using stroke-dashoffset animation.
+ */
+---
+
+<div class="hero-svg-decoration" aria-hidden="true">
+    <svg viewBox="0 0 600 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="hero-circuit-svg">
+        <!-- Main horizontal line -->
+        <path class="circuit-path circuit-path-1" d="M0 100 H150 L180 60 H300 L330 100 H450 L480 140 H600" stroke="currentColor" stroke-width="1"/>
+        <!-- Branch 1 -->
+        <path class="circuit-path circuit-path-2" d="M150 100 V40 H250 V80" stroke="currentColor" stroke-width="1"/>
+        <!-- Branch 2 -->
+        <path class="circuit-path circuit-path-3" d="M330 100 V160 H430 V120" stroke="currentColor" stroke-width="1"/>
+        <!-- Branch 3 -->
+        <path class="circuit-path circuit-path-4" d="M450 100 V50 H550" stroke="currentColor" stroke-width="1"/>
+        <!-- Nodes -->
+        <circle class="circuit-node circuit-node-1" cx="150" cy="100" r="3" fill="currentColor"/>
+        <circle class="circuit-node circuit-node-2" cx="250" cy="80" r="3" fill="currentColor"/>
+        <circle class="circuit-node circuit-node-3" cx="330" cy="100" r="3" fill="currentColor"/>
+        <circle class="circuit-node circuit-node-4" cx="430" cy="120" r="3" fill="currentColor"/>
+        <circle class="circuit-node circuit-node-5" cx="450" cy="100" r="3" fill="currentColor"/>
+        <circle class="circuit-node circuit-node-6" cx="550" cy="50" r="3" fill="currentColor"/>
+        <!-- Pulse dots that travel along paths -->
+        <circle class="circuit-pulse circuit-pulse-1" cx="0" cy="100" r="2" fill="currentColor"/>
+        <circle class="circuit-pulse circuit-pulse-2" cx="150" cy="100" r="2" fill="currentColor"/>
+    </svg>
+</div>
+
+<style>
+    .hero-svg-decoration {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+        opacity: 0.12;
+    }
+
+    html.dark .hero-svg-decoration {
+        opacity: 0.08;
+    }
+
+    .hero-circuit-svg {
+        width: 100%;
+        height: 100%;
+        color: var(--text-main);
+    }
+
+    /* Draw-in animation for paths */
+    .circuit-path {
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+        animation: circuit-draw 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    .circuit-path-1 { animation-delay: 0.3s; }
+    .circuit-path-2 { animation-delay: 0.8s; stroke-dasharray: 400; stroke-dashoffset: 400; }
+    .circuit-path-3 { animation-delay: 1.1s; stroke-dasharray: 400; stroke-dashoffset: 400; }
+    .circuit-path-4 { animation-delay: 1.4s; stroke-dasharray: 300; stroke-dashoffset: 300; }
+
+    @keyframes circuit-draw {
+        to { stroke-dashoffset: 0; }
+    }
+
+    /* Nodes fade in after their connecting path draws */
+    .circuit-node {
+        opacity: 0;
+        transform-origin: center;
+        animation: node-appear 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .circuit-node-1 { animation-delay: 0.9s; }
+    .circuit-node-2 { animation-delay: 1.3s; }
+    .circuit-node-3 { animation-delay: 1.4s; }
+    .circuit-node-4 { animation-delay: 1.7s; }
+    .circuit-node-5 { animation-delay: 1.5s; }
+    .circuit-node-6 { animation-delay: 2.0s; }
+
+    @keyframes node-appear {
+        0%   { opacity: 0; r: 0; }
+        60%  { opacity: 1; r: 4.5; }
+        100% { opacity: 0.7; r: 3; }
+    }
+
+    /* Pulse dots traveling along paths */
+    .circuit-pulse {
+        opacity: 0;
+    }
+    .circuit-pulse-1 {
+        animation: pulse-travel-1 4s ease-in-out 2.5s infinite;
+    }
+    .circuit-pulse-2 {
+        animation: pulse-travel-2 5s ease-in-out 3.5s infinite;
+    }
+
+    @keyframes pulse-travel-1 {
+        0%   { cx: 0; cy: 100; opacity: 0; }
+        5%   { opacity: 1; }
+        25%  { cx: 150; cy: 100; }
+        40%  { cx: 180; cy: 60; }
+        60%  { cx: 300; cy: 60; }
+        75%  { cx: 330; cy: 100; }
+        90%  { cx: 450; cy: 100; }
+        95%  { opacity: 1; }
+        100% { cx: 600; cy: 100; opacity: 0; }
+    }
+
+    @keyframes pulse-travel-2 {
+        0%   { cx: 150; cy: 100; opacity: 0; }
+        5%   { opacity: 0.8; }
+        40%  { cx: 150; cy: 40; }
+        70%  { cx: 250; cy: 40; }
+        95%  { cx: 250; cy: 80; opacity: 0.8; }
+        100% { cx: 250; cy: 80; opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .circuit-path,
+        .circuit-node,
+        .circuit-pulse {
+            animation: none;
+            opacity: 0.5;
+            stroke-dashoffset: 0;
+        }
+        .circuit-pulse { opacity: 0; }
+    }
+</style>

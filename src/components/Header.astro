@@ -52,7 +52,15 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
                 </a>
             )
         }
-        <p class="text-base sm:text-lg leading-tight opacity-70 mt-2 mb-6 font-medium">{siteConfig.subtitle}</p>
+        <div class="flex flex-col items-center gap-3 mb-6">
+            <p id="header-subtitle" class="text-base sm:text-lg leading-tight opacity-70 font-medium" aria-label={siteConfig.subtitle}>
+                <span id="typewriter-text">{siteConfig.subtitle}</span><span id="typewriter-cursor" class="inline-block w-[2px] h-[1.1em] bg-current align-middle ml-[2px] opacity-70" aria-hidden="true"></span>
+            </p>
+            <div class="flex items-center gap-1.5 text-main/90 font-medium text-xs tracking-wide">
+                <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <span>Hamburg, Germany</span>
+            </div>
+        </div>
         
         <div class="flex flex-wrap justify-center items-center gap-3">
             {siteConfig.socialLinks?.map((link) => {
@@ -108,6 +116,79 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
 </header>
 
 <script>
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function initTypewriter() {
+        const textEl = document.getElementById('typewriter-text');
+        const cursor = document.getElementById('typewriter-cursor');
+        if (!textEl || !cursor) return;
+
+        const phrases = [
+            'Machine Learning & Full Stack Engineer',
+            'AI Systems Architect',
+            'n8n Creator & Workflow Automator',
+            'Climate Tech Builder',
+            'Backend Systems Engineer',
+        ];
+
+        // Ensure blink uses CSS for perfect hardware-accelerated timing
+        cursor.style.animation = 'blink 1s step-end infinite';
+        
+        // Add the keyframes if they don't exist
+        if (!document.getElementById('typewriter-style')) {
+            const style = document.createElement('style');
+            style.id = 'typewriter-style';
+            style.innerHTML = `
+                @keyframes blink {
+                    0%, 100% { opacity: 1; }
+                    50% { opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        let phraseIdx = 0;
+        let isRunning = true;
+
+        // Cleanup handler for Astro view transitions
+        document.addEventListener('astro:before-swap', () => { isRunning = false; }, { once: true });
+
+        // Initial hold
+        await sleep(3000);
+
+        while (isRunning) {
+            const current = phrases[phraseIdx];
+            
+            // Delete current word
+            while (textEl.textContent?.length !== 0 && isRunning) {
+                textEl.textContent = current.slice(0, textEl.textContent.length - 1);
+                await sleep(30); // Fast delete
+            }
+            
+            if (!isRunning) break;
+            
+            // Move to next word
+            phraseIdx = (phraseIdx + 1) % phrases.length;
+            const next = phrases[phraseIdx];
+            
+            // Type next word
+            for (let i = 1; i <= next.length && isRunning; i++) {
+                textEl.textContent = next.slice(0, i);
+                await sleep(60); // Natural typing speed
+            }
+            
+            if (!isRunning) break;
+            
+            // Hold the word
+            await sleep(3000);
+        }
+    }
+
+    initTypewriter();
+    document.addEventListener('astro:page-load', initTypewriter);
+
     function scrollHandler() {
         const indicator = document.getElementById('scroll-indicator');
         if (!indicator) return;

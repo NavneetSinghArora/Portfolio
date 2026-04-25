@@ -3,6 +3,7 @@ import { marked } from 'marked';
 import type { Hero as HeroProps } from '../types';
 import Button from './Button.astro';
 import CustomImage from './CustomImage.astro';
+import HeroDecoration from './LottieHero.astro';
 
 type Props = HeroProps;
 
@@ -11,7 +12,8 @@ const { title, image, text, actions } = Astro.props;
 
 {
     (title || image?.src || text || (actions && actions.length > 0)) && (
-        <section class="relative mb-16 flex w-full flex-col gap-8 sm:mb-24 py-10 sm:py-16 px-4 sm:px-8">
+        <section id="hero-parallax" class="relative mb-16 flex w-full flex-col gap-8 sm:mb-24 py-10 sm:py-16 px-4 sm:px-8" data-nn-layer="0" data-nn-delay="60">
+            <HeroDecoration />
             <div class="relative z-10 flex w-full flex-col gap-8">
                 {title && (
                     <div class="relative">
@@ -37,9 +39,20 @@ const { title, image, text, actions } = Astro.props;
                     </figure>
                 )}
                 {(text || (actions && actions.length > 0)) && (
-                    <div class="spotlight-card group relative flex flex-col p-6 sm:p-8 mt-2">
+                    <div class="hero-inference-card spotlight-card group relative flex flex-col p-6 sm:p-8 mt-2 overflow-hidden">
                         <div class="spotlight-glow"></div>
+                        <div class="flex flex-col items-end gap-2 mb-4 pointer-events-none z-20 w-full">
+                            <div class="flex items-center gap-1.5">
+                                <span class="h-1.5 w-1.5 rounded-full bg-emerald-400" style="animation: model-blink 2.2s ease-in-out infinite;"></span>
+                                <span class="text-[9px] font-mono uppercase tracking-widest text-emerald-400/70">Open to Opportunities</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-main/40">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                <span class="text-[9px] font-mono uppercase tracking-widest">Hamburg, Germany</span>
+                            </div>
+                        </div>
                         {text && <div class="relative z-10 prose dark:prose-invert sm:prose-lg max-w-none prose-p:text-main/90 prose-p:leading-relaxed font-sans" set:html={marked.parse(text)} />}
+                        
                         {actions && actions.length > 0 && (
                             <div class="relative z-10 flex flex-wrap gap-4 mt-8">
                                 {actions.map((action) => (
@@ -49,9 +62,13 @@ const { title, image, text, actions } = Astro.props;
                                 ))}
                             </div>
                         )}
+                        {/* <div class="relative z-10 mt-4 flex w-full">
+                            <LiveCodingBadge />
+                        </div> */}
                     </div>
                 )}
             </div>
         </section>
     )
 }
+

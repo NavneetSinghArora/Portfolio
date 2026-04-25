@@ -1,0 +1,59 @@
+---
+/**
+ * ScrollToTop
+ * A floating button that appears after scrolling down 300px
+ * and smoothly scrolls back to top on click.
+ */
+---
+
+<button
+    id="scroll-to-top"
+    class="fixed bottom-8 right-8 z-50 flex h-10 w-10 items-center justify-center rounded-full border border-main-border/20 bg-main-bg/60 backdrop-blur-xl shadow-lg text-main/60 opacity-0 pointer-events-none transition-all duration-500 hover:scale-110 hover:text-main hover:border-main-border/40 hover:shadow-xl"
+    aria-label="Scroll to top"
+>
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/>
+    </svg>
+    <!-- Subtle glow ring on hover -->
+    <div class="absolute inset-0 rounded-full bg-blue-500/0 transition-all duration-300 group-hover:bg-blue-500/5"></div>
+</button>
+
+<style>
+    #scroll-to-top {
+        transform: translateY(20px);
+    }
+    #scroll-to-top.visible {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+    @media (max-width: 640px) {
+        #scroll-to-top {
+            bottom: 1.25rem;
+            right: 1.25rem;
+            height: 2.25rem;
+            width: 2.25rem;
+        }
+    }
+</style>
+
+<script>
+    function initScrollToTop() {
+        const btn = document.getElementById('scroll-to-top');
+        if (!btn) return;
+
+        const handleScroll = () => {
+            btn.classList.toggle('visible', window.scrollY > 300);
+        };
+
+        btn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+    }
+
+    initScrollToTop();
+    document.addEventListener('astro:page-load', initScrollToTop);
+</script>

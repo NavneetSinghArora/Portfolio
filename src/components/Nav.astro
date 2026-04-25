@@ -37,6 +37,20 @@ const navLinks = siteConfig.headerNavLinks ?? [];
 
         <div class="w-px h-5 bg-main-border/10 mx-1"></div>
 
+        <!-- Command Palette Trigger -->
+        <button
+            id="cmd-trigger"
+            class="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-main-border/15 bg-main-bg/10 text-main/40 hover:text-main/70 hover:border-main-border/30 transition-all duration-200 text-[11px] font-mono"
+            aria-label="Open command palette"
+        >
+            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <span>⌘K</span>
+        </button>
+
+        <div class="w-px h-5 bg-main-border/10 mx-1"></div>
+
         <!-- Theme Toggle Wrapper -->
         <div class="flex items-center px-1">
             <ThemeToggle />
@@ -102,7 +116,13 @@ const navLinks = siteConfig.headerNavLinks ?? [];
 </style>
 
 <script>
+    let navAbortController: AbortController | null = null;
+
     function initNav() {
+        if (navAbortController) navAbortController.abort();
+        navAbortController = new AbortController();
+        const { signal } = navAbortController;
+
         const menu = document.getElementById('menu-items');
         const menuToggleBtn = document.querySelector('.menu-toggle');
 
@@ -112,7 +132,7 @@ const navLinks = siteConfig.headerNavLinks ?? [];
             menuToggleBtn.setAttribute('aria-expanded', isMenuExpanded ? 'false' : 'true');
             menuToggleBtn.setAttribute('aria-label', isMenuExpanded ? 'Open Menu' : 'Close Menu');
             menu?.classList.toggle('is-visible');
-        });
+        }, { signal });
 
         // Close menu on click outside
         document.addEventListener('click', (e) => {
@@ -121,9 +141,13 @@ const navLinks = siteConfig.headerNavLinks ?? [];
                 menuToggleBtn?.setAttribute('aria-expanded', 'false');
                 menu?.classList.remove('is-visible');
             }
-        });
+        }, { signal });
+
+        // Cmd trigger button wires into the global palette listener securely
+        document.getElementById('cmd-trigger')?.addEventListener('click', () => {
+            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true, bubbles: true }));
+        }, { signal });
     }
 
-    initNav();
-    document.addEventListener('astro:after-swap', initNav);
+    document.addEventListener('astro:page-load', initNav);
 </script>

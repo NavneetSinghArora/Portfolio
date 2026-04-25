@@ -136,7 +136,7 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
     <div id="gallery-container" class="hidden flex flex-col gap-6 transition-all duration-300">
         {portfolio.map((project) => (
             <div 
-                class="project-card spotlight-card group relative flex flex-col sm:flex-row gap-6 p-6" 
+                class="project-item project-card spotlight-card group relative flex flex-col sm:flex-row gap-6 p-6" 
                 data-tags={project.data.tags.join(',')}
                 data-date={project.data.publishDate.getTime()}
                 data-title={project.data.title.toLowerCase()}
@@ -247,7 +247,7 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
     <div id="cards-container" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 transition-all duration-300">
         {portfolio.map((project) => (
             <div 
-                class="project-card spotlight-card group relative flex flex-col p-4 shadow-sm" 
+                class="project-item project-card spotlight-card group relative flex flex-col p-4 shadow-sm" 
                 data-tags={project.data.tags.join(',')}
                 data-date={project.data.publishDate.getTime()}
                 data-title={project.data.title.toLowerCase()}
@@ -348,7 +348,7 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
 
     <div id="list-container" class="hidden flex flex-col gap-4 transition-all duration-300">
         {portfolio.map((project) => (
-            <div class="project-card" data-tags={project.data.tags.join(',')}>
+            <div class="project-item group" data-tags={project.data.tags.join(',')}>
                 <ProjectPreview project={project} />
             </div>
         ))}
@@ -464,7 +464,7 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
     const filterButtons = document.querySelectorAll('.tag-filter-btn');
     const sortButtons = document.querySelectorAll('.sort-btn');
     const projectSearch = document.getElementById('project-search') as HTMLInputElement;
-    const projectCards = document.querySelectorAll<HTMLElement>('.project-card');
+    const projectCards = document.querySelectorAll<HTMLElement>('.project-item');
 
     let currentCategory = 'all';
     let currentSort = 'newest';
@@ -473,13 +473,14 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
     function sortProjects() {
         const containers = [
             document.getElementById('cards-container'),
-            document.getElementById('gallery-container')
+            document.getElementById('gallery-container'),
+            document.getElementById('list-container')
         ];
         
         containers.forEach(container => {
             if (!container) return;
             
-            const cardArray = Array.from(container.querySelectorAll<HTMLElement>('.project-card'));
+            const cardArray = Array.from(container.querySelectorAll<HTMLElement>('.project-item'));
             const sorted = cardArray.sort((a, b) => {
                 if (currentSort === 'az') {
                     return (a.dataset.title || '').localeCompare(b.dataset.title || '');

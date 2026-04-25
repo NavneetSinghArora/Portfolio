@@ -1,0 +1,429 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const blogPosts = (await getCollection('blog')).slice(0, 3);
+const projects = (await getCollection('projects')).slice(0, 4);
+
+const layers = [
+    {
+        id: 'input',
+        label: 'Input',
+        title: 'Navneet Singh Arora',
+        subtitle: 'ML & Full Stack Engineer',
+        href: '/',
+        color: '#fff',
+        accent: '#3b82f6',
+        items: [
+            { text: 'MSc Intelligent Adaptive Systems', sub: 'Universität Hamburg' },
+            { text: '7+ Years Engineering', sub: 'ML · Full Stack · DevOps' },
+        ]
+    },
+    {
+        id: 'hidden-1',
+        label: 'Hidden L1',
+        title: 'Education & Experience',
+        subtitle: 'The Training Data',
+        href: '/experience',
+        color: '#a78bfa',
+        accent: '#7c3aed',
+        items: [
+            { text: 'Repath — ML & FS Engineer', sub: 'Climate AI · Hamburg' },
+            { text: 'Omdena — Chapter Lead', sub: 'Open Source AI · Remote' },
+            { text: 'Universität Hamburg', sub: 'MSc IAS · Computer Vision' },
+        ]
+    },
+    {
+        id: 'hidden-2',
+        label: 'Hidden L2',
+        title: 'Projects',
+        subtitle: 'The Forward Pass',
+        href: '/projects',
+        color: '#34d399',
+        accent: '#10b981',
+        items: projects.map(p => ({ text: p.data.title, sub: (p.data.tags || []).slice(0, 3).join(' · ') })),
+    },
+    {
+        id: 'hidden-3',
+        label: 'Hidden L3',
+        title: 'Writing',
+        subtitle: 'The Gradients',
+        href: '/blog',
+        color: '#fb7185',
+        accent: '#e11d48',
+        items: blogPosts.map(p => ({ text: p.data.title, sub: (p.data.tags || []).slice(0, 2).join(' · ') })),
+    },
+    {
+        id: 'output',
+        label: 'Output',
+        title: 'Connect',
+        subtitle: "Let's Build Together",
+        href: '/contact',
+        color: '#fbbf24',
+        accent: '#f59e0b',
+        items: [
+            { text: 'navneet.arora1@gmail.com', sub: 'Email' },
+            { text: 'Hamburg, Germany', sub: 'Location' },
+        ]
+    },
+];
+---
+
+<BaseLayout showHeader={false} title="Neural Map — Navneet Singh Arora" description="Navigate through Navneet's portfolio as a neural network — fly through layers of education, projects, and experiences.">
+    <div class="fixed inset-0 z-40 overflow-hidden" id="nm-container" style="background: #06060f;">
+        <canvas id="nm-canvas"></canvas>
+
+        <!-- Layer cards rendered on top -->
+        <div id="nm-layers" class="fixed inset-0 z-10 pointer-events-none">
+            {layers.map((layer, i) => (
+                <div
+                    class="nm-layer absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-700"
+                    data-index={i}
+                    data-href={layer.href}
+                    data-color={layer.color}
+                    data-accent={layer.accent}
+                >
+                    <div class="nm-card relative max-w-lg w-full mx-6 pointer-events-auto">
+                        <!-- Layer badge -->
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="inline-block w-2 h-2 rounded-full" style={`background: ${layer.color}`}></span>
+                            <span class="text-[10px] font-mono uppercase tracking-[0.3em] opacity-50" style={`color: ${layer.color}`}>
+                                {layer.label} — Layer {i}
+                            </span>
+                        </div>
+
+                        <!-- Title -->
+                        <h2 class="text-4xl sm:text-5xl font-bold mb-1 leading-tight" style={`color: ${layer.color}`}>
+                            {layer.title}
+                        </h2>
+                        <p class="text-sm font-mono uppercase tracking-widest mb-6 opacity-40" style={`color: ${layer.color}`}>
+                            {layer.subtitle}
+                        </p>
+
+                        <!-- Items -->
+                        <div class="flex flex-col gap-2 mb-6">
+                            {layer.items.map((item, j) => (
+                                <div
+                                    class="nm-item flex items-start gap-3 px-4 py-3 rounded-xl border transition-all duration-300"
+                                    style={`border-color: ${layer.color}15; background: ${layer.color}08;`}
+                                    data-delay={j * 80}
+                                >
+                                    <span class="w-1 h-1 rounded-full mt-2 shrink-0" style={`background: ${layer.accent}`}></span>
+                                    <div>
+                                        <p class="text-sm font-medium" style={`color: ${layer.color}dd`}>{item.text}</p>
+                                        <p class="text-[11px] opacity-40" style={`color: ${layer.color}`}>{item.sub}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <!-- CTA -->
+                        <a
+                            href={layer.href}
+                            class="nm-cta inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 border"
+                            style={`color: ${layer.color}; border-color: ${layer.color}30; background: ${layer.color}10;`}
+                        >
+                            Explore {layer.title === 'Connect' ? '' : layer.title}
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            ))}
+        </div>
+
+        <!-- HUD -->
+        <div class="fixed top-[7rem] left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-4 py-2.5 bg-black/60 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl">
+            <a href="/" class="text-white/40 hover:text-white transition-colors text-xs font-mono">Home</a>
+            <div class="w-px h-4 bg-white/10"></div>
+            <p class="text-[11px] font-bold text-white tracking-widest uppercase leading-none">Neural Map</p>
+            <div class="w-px h-4 bg-white/10"></div>
+            <span id="nm-layer-label" class="text-[10px] font-mono text-white/40 uppercase tracking-widest">Layer 0</span>
+        </div>
+
+        <!-- Layer dots nav -->
+        <div class="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">
+            {layers.map((layer, i) => (
+                <button
+                    class="nm-dot w-3 h-3 rounded-full border border-white/20 bg-white/5 transition-all duration-300 hover:scale-150 cursor-pointer"
+                    data-target={i}
+                    title={layer.title}
+                ></button>
+            ))}
+        </div>
+
+        <!-- Progress bar -->
+        <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3">
+            <div class="h-1 w-40 rounded-full bg-white/5 overflow-hidden">
+                <div id="nm-progress" class="h-full rounded-full transition-all duration-500" style="width: 0%; background: linear-gradient(to right, #3b82f6, #a855f7, #10b981, #fb7185, #fbbf24);"></div>
+            </div>
+            <span class="text-[10px] font-mono text-white/30" id="nm-counter">1 / 5</span>
+        </div>
+
+        <!-- Keyboard hint -->
+        <div class="fixed bottom-6 left-6 z-50 text-[10px] font-mono text-white/20 hidden sm:block">
+            ↑↓ or scroll to navigate · Enter to visit
+        </div>
+    </div>
+
+    <script>
+        // ── State ───────────────────────────────────────────────────
+        const LAYER_COUNT = document.querySelectorAll('.nm-layer').length;
+        let currentLayer = 0;
+        let targetLayer = 0;
+        let isTransitioning = false;
+        let scrollAccum = 0;
+        const SCROLL_THRESHOLD = 80;
+
+        // ── Canvas background ───────────────────────────────────────
+        const canvas = document.getElementById('nm-canvas') as HTMLCanvasElement;
+        const ctx = canvas.getContext('2d')!;
+        const dpr = window.devicePixelRatio || 1;
+        let W = window.innerWidth, H = window.innerHeight;
+        canvas.width = W * dpr; canvas.height = H * dpr;
+        canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+        ctx.scale(dpr, dpr);
+
+        // Particles
+        interface Particle { x: number; y: number; z: number; speed: number; size: number; }
+        const particles: Particle[] = [];
+        for (let i = 0; i < 200; i++) {
+            particles.push({
+                x: Math.random() * W,
+                y: Math.random() * H,
+                z: Math.random(),
+                speed: 0.2 + Math.random() * 0.8,
+                size: 0.5 + Math.random() * 1.5,
+            });
+        }
+
+        // Connection lines between random particle pairs
+        const connections: [number, number][] = [];
+        for (let i = 0; i < 30; i++) {
+            connections.push([
+                Math.floor(Math.random() * particles.length),
+                Math.floor(Math.random() * particles.length),
+            ]);
+        }
+
+        let layerColor = '#3b82f6';
+        let targetColor = '#3b82f6';
+        let animTime = 0;
+
+        function lerpColor(a: string, b: string, t: number): string {
+            const ah = parseInt(a.slice(1), 16);
+            const bh = parseInt(b.slice(1), 16);
+            const ar = (ah >> 16) & 0xff, ag = (ah >> 8) & 0xff, ab = ah & 0xff;
+            const br = (bh >> 16) & 0xff, bg = (bh >> 8) & 0xff, bb = bh & 0xff;
+            const rr = Math.round(ar + (br - ar) * t);
+            const rg = Math.round(ag + (bg - ag) * t);
+            const rb = Math.round(ab + (bb - ab) * t);
+            return `rgb(${rr},${rg},${rb})`;
+        }
+
+        function drawBackground() {
+            animTime += 0.016;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            ctx.fillStyle = '#06060f';
+            ctx.fillRect(0, 0, W, H);
+
+            // Lerp color
+            layerColor = lerpColor(
+                layerColor.startsWith('#') ? layerColor : '#3b82f6',
+                targetColor,
+                0.05
+            );
+
+            // Subtle radial gradient from center
+            const grad = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(W, H) * 0.6);
+            grad.addColorStop(0, layerColor.replace('rgb', 'rgba').replace(')', ',0.06)'));
+            grad.addColorStop(1, 'rgba(6,6,15,0)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, W, H);
+
+            // Particles
+            const moveDir = isTransitioning ? (targetLayer > currentLayer ? 1 : -1) : 0;
+            particles.forEach(p => {
+                p.y += p.speed * (1 + moveDir * 3);
+                if (p.y > H + 10) { p.y = -10; p.x = Math.random() * W; }
+                if (p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
+
+                const alpha = 0.15 + p.z * 0.3;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+                ctx.fill();
+            });
+
+            // Connection lines
+            connections.forEach(([i, j]) => {
+                const a = particles[i], b = particles[j];
+                const dx = b.x - a.x, dy = b.y - a.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist > 200) return;
+
+                ctx.beginPath();
+                ctx.moveTo(a.x, a.y);
+                ctx.lineTo(b.x, b.y);
+                ctx.strokeStyle = `rgba(255,255,255,${0.04 * (1 - dist / 200)})`;
+                ctx.lineWidth = 0.5;
+                ctx.stroke();
+            });
+
+            // Horizontal neural layer lines
+            for (let i = 0; i < LAYER_COUNT; i++) {
+                const y = ((i + 0.5) / LAYER_COUNT) * H;
+                const wave = Math.sin(animTime * 0.5 + i) * 20;
+                ctx.beginPath();
+                ctx.moveTo(0, y + wave);
+                for (let x = 0; x < W; x += 20) {
+                    ctx.lineTo(x, y + wave + Math.sin(animTime + x * 0.01 + i * 2) * 8);
+                }
+                ctx.strokeStyle = i === currentLayer
+                    ? `rgba(255,255,255,0.06)`
+                    : `rgba(255,255,255,0.015)`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+        }
+
+        // ── Layer management ────────────────────────────────────────
+        const layerEls = Array.from(document.querySelectorAll('.nm-layer')) as HTMLElement[];
+        const dotEls = Array.from(document.querySelectorAll('.nm-dot')) as HTMLElement[];
+        const progressEl = document.getElementById('nm-progress') as HTMLElement;
+        const counterEl = document.getElementById('nm-counter') as HTMLElement;
+        const labelEl = document.getElementById('nm-layer-label') as HTMLElement;
+
+        function showLayer(index: number) {
+            currentLayer = index;
+
+            // Update accent color
+            const el = layerEls[index];
+            targetColor = el?.dataset.accent || '#3b82f6';
+
+            layerEls.forEach((layer, i) => {
+                const items = layer.querySelectorAll('.nm-item') as NodeListOf<HTMLElement>;
+                if (i === index) {
+                    layer.style.opacity = '1';
+                    layer.style.transform = 'translateY(0) scale(1)';
+                    layer.style.filter = 'blur(0px)';
+                    // Stagger items
+                    items.forEach((item, j) => {
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'translateX(0)';
+                        }, 150 + j * 80);
+                    });
+                } else {
+                    const dir = i < index ? -1 : 1;
+                    layer.style.opacity = '0';
+                    layer.style.transform = `translateY(${dir * 60}px) scale(0.95)`;
+                    layer.style.filter = 'blur(8px)';
+                    items.forEach(item => {
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateX(-20px)';
+                    });
+                }
+            });
+
+            // Dots
+            dotEls.forEach((dot, i) => {
+                if (i === index) {
+                    dot.style.background = layerEls[index]?.dataset.color || '#fff';
+                    dot.style.borderColor = layerEls[index]?.dataset.color || '#fff';
+                    dot.style.transform = 'scale(1.5)';
+                } else {
+                    dot.style.background = 'rgba(255,255,255,0.05)';
+                    dot.style.borderColor = 'rgba(255,255,255,0.2)';
+                    dot.style.transform = 'scale(1)';
+                }
+            });
+
+            // Progress
+            const pct = (index / (LAYER_COUNT - 1)) * 100;
+            if (progressEl) progressEl.style.width = `${pct}%`;
+            if (counterEl) counterEl.textContent = `${index + 1} / ${LAYER_COUNT}`;
+            if (labelEl) labelEl.textContent = `Layer ${index}`;
+        }
+
+        function goToLayer(index: number) {
+            if (index < 0 || index >= LAYER_COUNT || index === currentLayer || isTransitioning) return;
+            isTransitioning = true;
+            targetLayer = index;
+            showLayer(index);
+            setTimeout(() => { isTransitioning = false; }, 600);
+        }
+
+        // ── Scroll wheel navigation ─────────────────────────────────
+        document.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            scrollAccum += e.deltaY;
+            if (Math.abs(scrollAccum) > SCROLL_THRESHOLD) {
+                const dir = scrollAccum > 0 ? 1 : -1;
+                scrollAccum = 0;
+                goToLayer(currentLayer + dir);
+            }
+        }, { passive: false });
+
+        // ── Keyboard navigation ─────────────────────────────────────
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'j') {
+                e.preventDefault();
+                goToLayer(currentLayer + 1);
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'k') {
+                e.preventDefault();
+                goToLayer(currentLayer - 1);
+            } else if (e.key === 'Enter') {
+                const href = layerEls[currentLayer]?.dataset.href;
+                if (href) window.location.href = href;
+            } else if (e.key === 'Escape') {
+                window.location.href = '/';
+            }
+        });
+
+        // ── Dot navigation ──────────────────────────────────────────
+        dotEls.forEach((dot, i) => {
+            dot.addEventListener('click', () => goToLayer(i));
+        });
+
+        // ── Touch swipe ─────────────────────────────────────────────
+        let touchStartY = 0;
+        document.addEventListener('touchstart', e => {
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        document.addEventListener('touchend', e => {
+            const dy = touchStartY - e.changedTouches[0].clientY;
+            if (Math.abs(dy) > 50) {
+                goToLayer(currentLayer + (dy > 0 ? 1 : -1));
+            }
+        });
+
+        // ── Resize ──────────────────────────────────────────────────
+        window.addEventListener('resize', () => {
+            W = window.innerWidth; H = window.innerHeight;
+            canvas.width = W * dpr; canvas.height = H * dpr;
+            canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.scale(dpr, dpr);
+        });
+
+        // ── Init & loop ─────────────────────────────────────────────
+        // Style items for animation
+        document.querySelectorAll('.nm-item').forEach((el) => {
+            const item = el as HTMLElement;
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(-20px)';
+            item.style.transition = 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+        });
+
+        showLayer(0);
+
+        function loop() {
+            drawBackground();
+            requestAnimationFrame(loop);
+        }
+        loop();
+    </script>
+</BaseLayout>

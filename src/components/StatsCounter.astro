@@ -1,0 +1,56 @@
+---
+const stats = [
+    { value: 10, suffix: '+', label: 'Years in Tech' },
+    { value: 50, suffix: '+', label: 'Projects Shipped' },
+    { value: 15, suffix: '+', label: 'Engineers Mentored' },
+    { value: 200, suffix: '+', label: 'n8n Workflows' },
+];
+---
+
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-px bg-main-border/10 rounded-2xl overflow-hidden mb-16 sm:mb-24" data-nn-layer="stats">
+    {stats.map((stat, i) => (
+        <div class="flex flex-col items-center justify-center gap-1 py-8 px-4 bg-main-bg/30 backdrop-blur-sm text-center">
+            <span
+                class="font-serif text-3xl sm:text-4xl font-bold text-main tabular-nums"
+                data-count-to={stat.value}
+                data-suffix={stat.suffix}
+            >0{stat.suffix}</span>
+            <span class="text-[11px] uppercase tracking-widest text-main/45 font-medium">{stat.label}</span>
+        </div>
+    ))}
+</div>
+
+<script>
+    function initCounters() {
+        const counters = document.querySelectorAll<HTMLElement>('[data-count-to]');
+        if (!counters.length) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                const el = entry.target as HTMLElement;
+                const target = parseInt(el.dataset.countTo || '0');
+                const suffix = el.dataset.suffix || '';
+                observer.unobserve(el);
+
+                const duration = 1400;
+                const start = performance.now();
+
+                function tick(now: number) {
+                    const elapsed = now - start;
+                    const progress = Math.min(elapsed / duration, 1);
+                    // ease-out cubic
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    el.textContent = Math.round(eased * target) + suffix;
+                    if (progress < 1) requestAnimationFrame(tick);
+                }
+                requestAnimationFrame(tick);
+            });
+        }, { threshold: 0.4 });
+
+        counters.forEach(el => observer.observe(el));
+    }
+
+    initCounters();
+    document.addEventListener('astro:page-load', initCounters);
+</script>

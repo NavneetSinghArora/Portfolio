@@ -55,9 +55,29 @@ const siteConfig: SiteConfig = {
         {
             text: 'Contact',
             href: '/contact'
+        },
+        {
+            text: 'Nexus',
+            href: '/knowledge-graph'
+        },
+        {
+            text: 'Neural Map',
+            href: '/neural-map'
         }
     ],
     footerNavLinks: [
+        {
+            text: 'Nexus',
+            href: '/knowledge-graph'
+        },
+        {
+            text: 'Uses',
+            href: '/uses'
+        },
+        {
+            text: 'Now',
+            href: '/now'
+        },
         {
             text: 'Contact',
             href: '/contact'

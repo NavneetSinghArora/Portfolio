@@ -1,0 +1,110 @@
+---
+/**
+ * StarfieldBackground
+ * Lightweight canvas-based starfield that renders behind all content.
+ * Uses vanilla JS — no dependencies.
+ */
+---
+
+<canvas id="starfield-canvas" aria-hidden="true"></canvas>
+
+<style>
+    #starfield-canvas {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.35;
+    }
+    html.dark #starfield-canvas {
+        opacity: 0.5;
+    }
+    @media (prefers-reduced-motion: reduce) {
+        #starfield-canvas { display: none; }
+    }
+</style>
+
+<script>
+    function initStarfield() {
+        const canvas = document.getElementById('starfield-canvas') as HTMLCanvasElement;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        let animationId: number;
+        let stars: { x: number; y: number; z: number; opacity: number; size: number }[] = [];
+        const STAR_COUNT = 120;
+        const SPEED = 0.15;
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function createStars() {
+            stars = [];
+            for (let i = 0; i < STAR_COUNT; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    z: Math.random(),
+                    opacity: Math.random() * 0.6 + 0.2,
+                    size: Math.random() * 1.5 + 0.5,
+                });
+            }
+        }
+
+        function getStarColor(): string {
+            const isDark = document.documentElement.classList.contains('dark');
+            return isDark ? '242, 241, 236' : '23, 23, 23';
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const color = getStarColor();
+
+            for (const star of stars) {
+                // Gentle twinkling
+                star.opacity += (Math.random() - 0.5) * 0.02;
+                star.opacity = Math.max(0.1, Math.min(0.8, star.opacity));
+
+                // Slow upward drift
+                star.y -= SPEED * (star.z * 0.5 + 0.5);
+                if (star.y < -5) {
+                    star.y = canvas.height + 5;
+                    star.x = Math.random() * canvas.width;
+                }
+
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size * (star.z * 0.5 + 0.5), 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${color}, ${star.opacity})`;
+                ctx.fill();
+            }
+
+            animationId = requestAnimationFrame(draw);
+        }
+
+        // Cleanup previous instance
+        if ((window as any).__starfieldCleanup) {
+            (window as any).__starfieldCleanup();
+        }
+
+        resize();
+        createStars();
+        draw();
+
+        const handleResize = () => {
+            resize();
+            createStars();
+        };
+        window.addEventListener('resize', handleResize);
+
+        (window as any).__starfieldCleanup = () => {
+            cancelAnimationFrame(animationId);
+            window.removeEventListener('resize', handleResize);
+        };
+    }
+
+    initStarfield();
+    document.addEventListener('astro:page-load', initStarfield);
+</script>

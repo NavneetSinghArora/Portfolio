@@ -6,6 +6,9 @@ import TechStack from '../components/TechStack.astro';
 import ProjectThumbnail from '../components/ProjectThumbnail.astro';
 import PostThumbnail from '../components/PostThumbnail.astro';
 import GithubContributions from '../components/GithubContributions.astro';
+import StatsCounter from '../components/StatsCounter.astro';
+import WorkedWith from '../components/WorkedWith.astro';
+import Testimonials from '../components/Testimonials.astro';
 import siteConfig from '../data/site-config';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { sortItemsByDateDesc } from '../utils/data-utils';
@@ -19,19 +22,46 @@ const nonFeaturedProjects = projects.filter(({ data }) => !data.isFeatured);
 const displayProjects = [...featuredProjects, ...nonFeaturedProjects].slice(0, 3);
 ---
 
-<BaseLayout description={siteConfig.description}>
+<BaseLayout description={siteConfig.description} showHeader={true}>
     <Hero {...siteConfig.hero} />
-    {siteConfig.stack && <TechStack {...siteConfig.stack} />}
-    {siteConfig.github && <GithubContributions username={siteConfig.github} />}
-    
-    <div class="mb-16 sm:mb-24">
-        <div class="mb-12 flex items-baseline justify-between sm:mb-16">
-            <h2 class="font-serif text-2xl sm:text-3xl">Featured Projects</h2>
-            <a href="/projects" class="text-sm font-medium text-main/60 hover:text-main transition-colors">
-                See all projects →
+
+    <!-- Stats -->
+    <StatsCounter />
+
+    <!-- Worked With -->
+    <WorkedWith />
+
+    <!-- 01 — Tech Stack -->
+    <div data-nn-layer="1">
+        <div class="mb-2 flex items-center gap-3">
+            <span class="text-[10px] font-mono uppercase tracking-[0.22em] text-main/30">01 ——</span>
+        </div>
+        {siteConfig.stack && <TechStack {...siteConfig.stack} />}
+    </div>
+
+    <!-- 02 — Contributions -->
+    <div data-nn-layer="2">
+        <div class="mb-2 flex items-center gap-3">
+            <span class="text-[10px] font-mono uppercase tracking-[0.22em] text-main/30">02 ——</span>
+        </div>
+        {siteConfig.github && <GithubContributions username={siteConfig.github} />}
+    </div>
+
+    <!-- 03 — Testimonials -->
+    <Testimonials />
+
+    <!-- 04 — Featured Projects -->
+    <div class="mb-16 sm:mb-24" data-nn-layer="3">
+        <div class="mb-10 flex items-baseline justify-between">
+            <div>
+                <p class="mb-2 text-[10px] font-mono uppercase tracking-[0.22em] text-main/30">04 ——</p>
+                <h2 class="font-serif text-2xl sm:text-3xl font-bold">Featured Projects</h2>
+            </div>
+            <a href="/projects" class="text-sm font-medium text-main/60 hover:text-main transition-colors shrink-0">
+                See all →
             </a>
         </div>
-        
+
         {displayProjects.length > 0 ? (
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
                 {displayProjects.map((project) => (
@@ -43,14 +73,18 @@ const displayProjects = [...featuredProjects, ...nonFeaturedProjects].slice(0, 3
         )}
     </div>
 
-    <div class="mb-16 sm:mb-24">
-        <div class="mb-12 flex items-baseline justify-between sm:mb-16">
-            <h2 class="font-serif text-2xl sm:text-3xl">Recent Writing</h2>
-            <a href="/blog" class="text-sm font-medium text-main/60 hover:text-main transition-colors">
-                See all posts →
+    <!-- 05 — Recent Writing -->
+    <div class="mb-16 sm:mb-24" data-nn-layer="4">
+        <div class="mb-10 flex items-baseline justify-between">
+            <div>
+                <p class="mb-2 text-[10px] font-mono uppercase tracking-[0.22em] text-main/30">05 ——</p>
+                <h2 class="font-serif text-2xl sm:text-3xl font-bold">Recent Writing</h2>
+            </div>
+            <a href="/blog" class="text-sm font-medium text-main/60 hover:text-main transition-colors shrink-0">
+                See all →
             </a>
         </div>
-        
+
         {displayPosts.length > 0 ? (
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
                 {displayPosts.map((post) => (

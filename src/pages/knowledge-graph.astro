@@ -1,0 +1,730 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+// Gather all content at build time
+const blogPosts = await getCollection('blog');
+const projects = await getCollection('projects');
+
+// Build the graph data as JSON for the client
+const graphData = {
+    nodes: [] as { id: string; label: string; type: string; href: string; group: string; size: number }[],
+    edges: [] as { source: string; target: string; weight: number }[]
+};
+
+// ── Core section nodes ──────────────────────────────────────────
+const sections = [
+    { id: 'home',       label: 'Home',       href: '/',           group: 'core', size: 34 },
+    { id: 'experience', label: 'Experience',  href: '/experience', group: 'core', size: 28 },
+    { id: 'education',  label: 'Education',   href: '/education',  group: 'core', size: 28 },
+    { id: 'projects',   label: 'Projects',    href: '/projects',   group: 'core', size: 28 },
+    { id: 'blog',       label: 'Blog',        href: '/blog',       group: 'core', size: 28 },
+    { id: 'contact',    label: 'Contact',     href: '/contact',    group: 'core', size: 22 },
+    { id: 'uses',       label: 'Uses',        href: '/uses',       group: 'secondary', size: 16 },
+    { id: 'now',        label: 'Now',         href: '/now',        group: 'secondary', size: 16 },
+];
+
+sections.forEach(s => graphData.nodes.push({ ...s, type: 'section' }));
+
+// Core → Home edges
+['experience', 'education', 'projects', 'blog', 'contact', 'uses', 'now'].forEach(id => {
+    graphData.edges.push({ source: 'home', target: id, weight: 3 });
+});
+
+// Cross-link related sections
+graphData.edges.push({ source: 'experience', target: 'education', weight: 2 });
+graphData.edges.push({ source: 'projects', target: 'blog', weight: 1.5 });
+
+// ── Blog post nodes ─────────────────────────────────────────────
+const allTags = new Set<string>();
+blogPosts.forEach(post => {
+    const slug = post.id || post.slug;
+    const nodeId = `blog-${slug}`;
+    graphData.nodes.push({
+        id: nodeId,
+        label: post.data.title,
+        type: 'blog',
+        href: `/blog/${slug}`,
+        group: 'blog',
+        size: 14,
+    });
+    graphData.edges.push({ source: 'blog', target: nodeId, weight: 2 });
+
+    (post.data.tags || []).forEach((tag: string) => {
+        const tagId = `tag-${tag.toLowerCase().replace(/\s+/g, '-')}`;
+        allTags.add(tag);
+        graphData.edges.push({ source: nodeId, target: tagId, weight: 1 });
+    });
+});
+
+// ── Project nodes ───────────────────────────────────────────────
+projects.forEach(proj => {
+    const slug = proj.id || proj.slug;
+    const nodeId = `proj-${slug}`;
+    graphData.nodes.push({
+        id: nodeId,
+        label: proj.data.title,
+        type: 'project',
+        href: `/projects/${slug}`,
+        group: 'project',
+        size: 16,
+    });
+    graphData.edges.push({ source: 'projects', target: nodeId, weight: 2 });
+
+    (proj.data.tags || []).forEach((tag: string) => {
+        const tagId = `tag-${tag.toLowerCase().replace(/\s+/g, '-')}`;
+        allTags.add(tag);
+        graphData.edges.push({ source: nodeId, target: tagId, weight: 1 });
+    });
+});
+
+// ── Tag nodes ───────────────────────────────────────────────────
+allTags.forEach(tag => {
+    const tagId = `tag-${tag.toLowerCase().replace(/\s+/g, '-')}`;
+    graphData.nodes.push({
+        id: tagId,
+        label: tag,
+        type: 'tag',
+        href: '',
+        group: 'tag',
+        size: 10,
+    });
+});
+
+// ── Tech stack category nodes ───────────────────────────────────
+const techCategories = ['Languages & Data', 'Backend & APIs', 'Infrastructure', 'Automation & Workflow', 'AI Engineering'];
+techCategories.forEach(cat => {
+    const catId = `tech-${cat.toLowerCase().replace(/[\s&]+/g, '-')}`;
+    graphData.nodes.push({
+        id: catId,
+        label: cat,
+        type: 'tech',
+        href: '/uses',
+        group: 'tech',
+        size: 13,
+    });
+    graphData.edges.push({ source: 'home', target: catId, weight: 1 });
+});
+
+// Cross-link experience/education with relevant tags
+['Deep Learning', 'Computer Vision', 'Machine Learning', 'NLP'].forEach(tag => {
+    const tagId = `tag-${tag.toLowerCase().replace(/\s+/g, '-')}`;
+    if (allTags.has(tag)) {
+        graphData.edges.push({ source: 'experience', target: tagId, weight: 1 });
+        graphData.edges.push({ source: 'education', target: tagId, weight: 1 });
+    }
+});
+---
+
+<BaseLayout showHeader={false} title="Nexus — Navneet Singh Arora" description="Explore the interconnected nexus of Navneet's portfolio — navigate projects, blog posts, tags, and skills visually.">
+    <div class="fixed inset-0 z-40" id="kg-container">
+        <canvas id="kg-canvas"></canvas>
+
+        <!-- HUD — compact single bar -->
+        <div class="absolute top-[7rem] left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-4 py-2.5 bg-main-bg/75 backdrop-blur-xl rounded-2xl border border-main-border/12 shadow-2xl">
+            <div class="flex flex-col items-center shrink-0">
+                <p class="text-[11px] font-bold text-main tracking-widest uppercase leading-none">Nexus</p>
+                <p class="text-[9px] text-main/40 mt-0.5 tracking-wide hidden sm:block">Drag nodes · Scroll to zoom · Click to navigate</p>
+            </div>
+            <div class="w-px h-5 bg-main-border/10 shrink-0"></div>
+            <input
+                id="kg-search"
+                type="text"
+                placeholder="Search…"
+                class="w-32 sm:w-44 px-3 py-1.5 text-[11px] bg-main-bg/40 border border-main-border/10 rounded-lg text-main placeholder:text-main/25 focus:outline-none focus:border-main-border/30 focus:w-52 transition-all"
+            />
+            <div class="w-px h-5 bg-main-border/10 shrink-0"></div>
+            <!-- Fit-to-view button -->
+            <button id="kg-fit" class="flex items-center gap-1 text-main/40 hover:text-main transition-colors shrink-0" title="Fit to view">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Hover tooltip -->
+        <div id="kg-tooltip" class="fixed z-[60] pointer-events-none opacity-0 transition-all duration-200 px-4 py-2.5 bg-main-bg/92 backdrop-blur-xl border border-main-border/15 rounded-xl shadow-2xl max-w-[280px]">
+            <div id="kg-tooltip-label" class="font-bold text-sm text-main"></div>
+            <div id="kg-tooltip-type" class="text-[10px] font-mono uppercase tracking-widest text-main/40 mt-0.5"></div>
+            <div id="kg-tooltip-conns" class="text-[10px] text-main/30 mt-1"></div>
+        </div>
+
+        <!-- Legend — compact bottom-left -->
+        <div class="absolute bottom-6 left-6 z-50 bg-main-bg/50 backdrop-blur-xl border border-main-border/8 rounded-xl px-3 py-2.5 shadow-lg">
+            <div class="flex items-center gap-3 text-[10px] text-main/60">
+                <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#3b82f6]"></span>Pages</div>
+                <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#10b981]"></span>Projects</div>
+                <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#fb7185]"></span>Blog</div>
+                <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#f59e0b]"></span>Tags</div>
+                <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#a855f7]"></span>Tech</div>
+            </div>
+        </div>
+
+        <!-- Stats — bottom-right -->
+        <div class="absolute bottom-6 right-6 z-50 bg-main-bg/50 backdrop-blur-xl border border-main-border/8 rounded-xl px-3 py-2 shadow-lg">
+            <p class="text-[10px] text-main/40 font-mono">
+                <span id="kg-stats"></span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Pass graph data to client -->
+    <script id="kg-data" type="application/json" set:html={JSON.stringify(graphData)}></script>
+
+    <script>
+        const raw = document.getElementById('kg-data')?.textContent;
+        if (!raw) throw new Error('No graph data found');
+        const graph: {
+            nodes: { id: string; label: string; type: string; href: string; group: string; size: number }[];
+            edges: { source: string; target: string; weight: number }[];
+        } = JSON.parse(raw);
+
+        // ── Canvas ──────────────────────────────────────────────────
+        const canvas = document.getElementById('kg-canvas') as HTMLCanvasElement;
+        const ctx = canvas.getContext('2d')!;
+        const tooltip = document.getElementById('kg-tooltip')!;
+        const tooltipLabel = document.getElementById('kg-tooltip-label')!;
+        const tooltipType = document.getElementById('kg-tooltip-type')!;
+        const tooltipConns = document.getElementById('kg-tooltip-conns')!;
+        const searchInput = document.getElementById('kg-search') as HTMLInputElement;
+        const fitBtn = document.getElementById('kg-fit');
+        const statsEl = document.getElementById('kg-stats');
+
+        let W = window.innerWidth;
+        let H = window.innerHeight;
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        canvas.style.width = W + 'px';
+        canvas.style.height = H + 'px';
+        ctx.scale(dpr, dpr);
+
+        // ── Node simulation ─────────────────────────────────────────
+        interface SimNode {
+            id: string; label: string; type: string; href: string; group: string; size: number;
+            x: number; y: number; vx: number; vy: number;
+            fx?: number; fy?: number;
+            highlighted: boolean;
+            connections: number;
+        }
+
+        const groupColors: Record<string, [string, string]> = {
+            core:      ['#3b82f6', '#60a5fa'],
+            secondary: ['#6b7280', '#9ca3af'],
+            blog:      ['#fb7185', '#fda4af'],
+            project:   ['#10b981', '#34d399'],
+            tag:       ['#f59e0b', '#fbbf24'],
+            tech:      ['#a855f7', '#c084fc'],
+        };
+
+        // Count connections per node
+        const connCount = new Map<string, number>();
+        graph.edges.forEach(e => {
+            connCount.set(e.source, (connCount.get(e.source) || 0) + 1);
+            connCount.set(e.target, (connCount.get(e.target) || 0) + 1);
+        });
+
+        const nodes: SimNode[] = graph.nodes.map((n, i) => {
+            const angle = (i / graph.nodes.length) * Math.PI * 2;
+            const radius = 100 + Math.random() * 150;
+            return {
+                ...n,
+                x: W / 2 + Math.cos(angle) * radius,
+                y: H / 2 + Math.sin(angle) * radius,
+                vx: 0, vy: 0,
+                highlighted: false,
+                connections: connCount.get(n.id) || 0,
+            };
+        });
+
+        const nodeMap = new Map<string, SimNode>();
+        nodes.forEach(n => nodeMap.set(n.id, n));
+
+        const edges = graph.edges.map(e => ({
+            source: nodeMap.get(e.source)!,
+            target: nodeMap.get(e.target)!,
+            weight: e.weight,
+        })).filter(e => e.source && e.target);
+
+        // Stats
+        if (statsEl) statsEl.textContent = `${nodes.length} nodes · ${edges.length} edges`;
+
+        // ── Camera ──────────────────────────────────────────────────
+        let camX = 0, camY = 0, camZoom = 1;
+        let targetCamX = 0, targetCamY = 0, targetZoom = 1;
+        let isDragging = false;
+        let dragStartX = 0, dragStartY = 0;
+        let dragCamX = 0, dragCamY = 0;
+        let hoveredNode: SimNode | null = null;
+        let draggedNode: SimNode | null = null;
+        let frameCount = 0;
+
+        // ── Physics ─────────────────────────────────────────────────
+        const REPULSION = 4500;
+        const ATTRACTION = 0.012;
+        const REST_LENGTH = 100;
+        const DAMPING = 0.85;
+        const CENTER_GRAVITY = 0.003;
+        let alpha = 1;
+
+        function simulate() {
+            // Repulsion
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const a = nodes[i], b = nodes[j];
+                    let dx = b.x - a.x;
+                    let dy = b.y - a.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                    if (dist > 800) continue; // Skip far nodes
+                    let force = REPULSION / (dist * dist);
+                    let fx = (dx / dist) * force * alpha;
+                    let fy = (dy / dist) * force * alpha;
+                    a.vx -= fx; a.vy -= fy;
+                    b.vx += fx; b.vy += fy;
+                }
+            }
+
+            // Attraction
+            edges.forEach(e => {
+                let dx = e.target.x - e.source.x;
+                let dy = e.target.y - e.source.y;
+                let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                let force = (dist - REST_LENGTH) * ATTRACTION * e.weight * alpha;
+                let fx = (dx / dist) * force;
+                let fy = (dy / dist) * force;
+                e.source.vx += fx; e.source.vy += fy;
+                e.target.vx -= fx; e.target.vy -= fy;
+            });
+
+            // Center gravity
+            nodes.forEach(n => {
+                n.vx += (W / 2 - n.x) * CENTER_GRAVITY * alpha;
+                n.vy += (H / 2 - n.y) * CENTER_GRAVITY * alpha;
+            });
+
+            // Integrate
+            nodes.forEach(n => {
+                if (n === draggedNode) return;
+                if (n.fx !== undefined) { n.x = n.fx; n.vx = 0; }
+                else { n.vx *= DAMPING; n.x += n.vx; }
+                if (n.fy !== undefined) { n.y = n.fy; n.vy = 0; }
+                else { n.vy *= DAMPING; n.y += n.vy; }
+            });
+
+            alpha = Math.max(0.001, alpha * 0.996);
+        }
+
+        // ── Fit to view ─────────────────────────────────────────────
+        function fitToView() {
+            if (nodes.length === 0) return;
+            let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+            nodes.forEach(n => {
+                minX = Math.min(minX, n.x); maxX = Math.max(maxX, n.x);
+                minY = Math.min(minY, n.y); maxY = Math.max(maxY, n.y);
+            });
+            const gw = maxX - minX + 100;
+            const gh = maxY - minY + 100;
+            targetZoom = Math.min(W / gw, H / gh, 1.5) * 0.85;
+            const cx = (minX + maxX) / 2;
+            const cy = (minY + maxY) / 2;
+            targetCamX = W / 2 - cx;
+            targetCamY = H / 2 - cy;
+        }
+
+        fitBtn?.addEventListener('click', fitToView);
+
+        // ── Rendering ───────────────────────────────────────────────
+        function isDarkMode(): boolean {
+            return document.documentElement.classList.contains('dark');
+        }
+
+        function draw() {
+            frameCount++;
+            const dark = isDarkMode();
+
+            // Smooth camera
+            camX += (targetCamX - camX) * 0.08;
+            camY += (targetCamY - camY) * 0.08;
+            camZoom += (targetZoom - camZoom) * 0.08;
+
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            ctx.clearRect(0, 0, W, H);
+
+            // Background
+            ctx.fillStyle = dark ? '#0a0a0f' : '#f2f1ec';
+            ctx.fillRect(0, 0, W, H);
+
+            // Subtle grid
+            ctx.save();
+            ctx.translate(W / 2, H / 2);
+            ctx.scale(camZoom, camZoom);
+            ctx.translate(-W / 2 + camX, -H / 2 + camY);
+
+            const gridSize = 80;
+            const gridColor = dark ? 'rgba(255,255,255,0.018)' : 'rgba(0,0,0,0.025)';
+            ctx.strokeStyle = gridColor;
+            ctx.lineWidth = 0.5;
+            const startX = Math.floor((-camX + -W / 2 / camZoom) / gridSize) * gridSize;
+            const endX = startX + (W / camZoom) + gridSize * 2;
+            const startY = Math.floor((-camY + -H / 2 / camZoom) / gridSize) * gridSize;
+            const endY = startY + (H / camZoom) + gridSize * 2;
+            for (let x = startX; x < endX; x += gridSize) {
+                ctx.beginPath(); ctx.moveTo(x, startY); ctx.lineTo(x, endY); ctx.stroke();
+            }
+            for (let y = startY; y < endY; y += gridSize) {
+                ctx.beginPath(); ctx.moveTo(startX, y); ctx.lineTo(endX, y); ctx.stroke();
+            }
+
+            // ── Edges ───────────────────────────────────────────────
+            edges.forEach(e => {
+                const bothHL = e.source.highlighted && e.target.highlighted;
+                const anyHL = e.source.highlighted || e.target.highlighted;
+
+                // Curved edges
+                const mx = (e.source.x + e.target.x) / 2;
+                const my = (e.source.y + e.target.y) / 2;
+                const dx = e.target.x - e.source.x;
+                const dy = e.target.y - e.source.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const curvature = Math.min(dist * 0.08, 20);
+                const nx = -dy / dist * curvature;
+                const ny = dx / dist * curvature;
+                const cpx = mx + nx;
+                const cpy = my + ny;
+
+                ctx.beginPath();
+                ctx.moveTo(e.source.x, e.source.y);
+                ctx.quadraticCurveTo(cpx, cpy, e.target.x, e.target.y);
+
+                if (bothHL) {
+                    const grad = ctx.createLinearGradient(e.source.x, e.source.y, e.target.x, e.target.y);
+                    const sc = groupColors[e.source.group]?.[0] || '#888';
+                    const tc = groupColors[e.target.group]?.[0] || '#888';
+                    grad.addColorStop(0, sc + '60');
+                    grad.addColorStop(1, tc + '60');
+                    ctx.strokeStyle = grad;
+                    ctx.lineWidth = 2;
+                } else if (anyHL) {
+                    ctx.strokeStyle = dark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.12)';
+                    ctx.lineWidth = 1;
+                } else {
+                    ctx.strokeStyle = dark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.05)';
+                    ctx.lineWidth = 0.5;
+                }
+                ctx.stroke();
+
+                // Animated particle along highlighted edges
+                if (bothHL && frameCount % 2 === 0) {
+                    const t = ((frameCount * 0.008) % 1);
+                    const px = (1 - t) * (1 - t) * e.source.x + 2 * (1 - t) * t * cpx + t * t * e.target.x;
+                    const py = (1 - t) * (1 - t) * e.source.y + 2 * (1 - t) * t * cpy + t * t * e.target.y;
+                    ctx.beginPath();
+                    ctx.arc(px, py, 2, 0, Math.PI * 2);
+                    ctx.fillStyle = dark ? '#fff' : '#000';
+                    ctx.globalAlpha = 0.6;
+                    ctx.fill();
+                    ctx.globalAlpha = 1;
+                }
+            });
+
+            // ── Nodes ───────────────────────────────────────────────
+            nodes.forEach(n => {
+                const r = n.size * (n.highlighted ? 1.25 : 1);
+                const [c1, c2] = groupColors[n.group] || ['#888', '#aaa'];
+                const isHover = n === hoveredNode;
+                const isDrag = n === draggedNode;
+
+                // Outer glow for highlighted/hovered
+                if (n.highlighted || isHover) {
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, r * 3, 0, Math.PI * 2);
+                    const glow = ctx.createRadialGradient(n.x, n.y, r * 0.3, n.x, n.y, r * 3);
+                    glow.addColorStop(0, c1 + '30');
+                    glow.addColorStop(1, c1 + '00');
+                    ctx.fillStyle = glow;
+                    ctx.fill();
+                }
+
+                // Node body — gradient circle
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+                const grad = ctx.createRadialGradient(n.x - r * 0.3, n.y - r * 0.3, 0, n.x, n.y, r);
+                grad.addColorStop(0, c2 + (n.highlighted ? 'ff' : (dark ? 'dd' : 'cc')));
+                grad.addColorStop(1, c1 + (n.highlighted ? 'ff' : (dark ? 'bb' : '99')));
+                ctx.fillStyle = grad;
+                ctx.fill();
+
+                // Subtle inner highlight
+                ctx.beginPath();
+                ctx.arc(n.x - r * 0.2, n.y - r * 0.25, r * 0.5, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255,255,255,0.15)';
+                ctx.fill();
+
+                // Ring for hover/drag
+                if (isHover || isDrag) {
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, r + 3, 0, Math.PI * 2);
+                    ctx.strokeStyle = dark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.5)';
+                    ctx.lineWidth = 1.5;
+                    ctx.stroke();
+                }
+
+                // Label
+                const showLabel = camZoom > 0.5 || n.type === 'section' || n.highlighted || isHover;
+                if (showLabel) {
+                    const fontSize = Math.max(8, Math.min(12, n.size * 0.7));
+                    ctx.font = `600 ${fontSize}px 'Satoshi', system-ui, sans-serif`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'top';
+
+                    let label = n.label;
+                    if (label.length > 28) label = label.substring(0, 26) + '…';
+
+                    const textY = n.y + r + 5;
+                    const metrics = ctx.measureText(label);
+                    const tw = metrics.width + 8;
+                    const th = fontSize + 6;
+
+                    // Label background pill
+                    if (n.highlighted || isHover) {
+                        ctx.fillStyle = dark ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.8)';
+                        ctx.beginPath();
+                        const rx = n.x - tw / 2;
+                        const ry = textY - 2;
+                        ctx.roundRect(rx, ry, tw, th, 4);
+                        ctx.fill();
+                    }
+
+                    ctx.fillStyle = n.highlighted || isHover
+                        ? (dark ? '#fff' : '#111')
+                        : (dark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.35)');
+                    ctx.fillText(label, n.x, textY + 1);
+                }
+            });
+
+            ctx.restore();
+        }
+
+        // ── Coordinate transforms ───────────────────────────────────
+        function screenToWorld(sx: number, sy: number): [number, number] {
+            const wx = (sx - W / 2) / camZoom + W / 2 - camX;
+            const wy = (sy - H / 2) / camZoom + H / 2 - camY;
+            return [wx, wy];
+        }
+
+        function findNodeAt(sx: number, sy: number): SimNode | null {
+            const [wx, wy] = screenToWorld(sx, sy);
+            let closest: SimNode | null = null;
+            let minDist = Infinity;
+            for (let i = nodes.length - 1; i >= 0; i--) {
+                const n = nodes[i];
+                const dx = wx - n.x, dy = wy - n.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const hitR = n.size * 2;
+                if (dist < hitR && dist < minDist) {
+                    closest = n;
+                    minDist = dist;
+                }
+            }
+            return closest;
+        }
+
+        // ── Mouse interactions ──────────────────────────────────────
+        canvas.addEventListener('mousedown', e => {
+            const node = findNodeAt(e.clientX, e.clientY);
+            if (node) {
+                draggedNode = node;
+                alpha = Math.max(alpha, 0.3); // Reheat to let graph adjust
+                canvas.style.cursor = 'grabbing';
+            } else {
+                isDragging = true;
+                dragStartX = e.clientX;
+                dragStartY = e.clientY;
+                dragCamX = targetCamX;
+                dragCamY = targetCamY;
+                canvas.style.cursor = 'grabbing';
+            }
+        });
+
+        canvas.addEventListener('mousemove', e => {
+            if (draggedNode) {
+                const [wx, wy] = screenToWorld(e.clientX, e.clientY);
+                draggedNode.x = wx;
+                draggedNode.y = wy;
+                draggedNode.vx = 0;
+                draggedNode.vy = 0;
+                return;
+            }
+
+            if (isDragging) {
+                targetCamX = dragCamX + (e.clientX - dragStartX) / camZoom;
+                targetCamY = dragCamY + (e.clientY - dragStartY) / camZoom;
+                return;
+            }
+
+            const node = findNodeAt(e.clientX, e.clientY);
+            if (node) {
+                hoveredNode = node;
+                canvas.style.cursor = 'pointer';
+                tooltip.style.opacity = '1';
+                tooltip.style.transform = 'translateY(0)';
+                tooltip.style.left = `${Math.min(e.clientX + 16, W - 240)}px`;
+                tooltip.style.top = `${e.clientY - 10}px`;
+                tooltipLabel.textContent = node.label;
+                tooltipType.textContent = node.type === 'section' ? '📄 Page' : node.type === 'blog' ? '✏️ Blog Post' : node.type === 'project' ? '🚀 Project' : node.type === 'tag' ? '🏷️ Tag' : node.type === 'tech' ? '⚙️ Tech Stack' : node.type;
+                tooltipConns.textContent = `${node.connections} connection${node.connections !== 1 ? 's' : ''}`;
+
+                // Highlight connected subgraph
+                const connected = new Set<string>([node.id]);
+                edges.forEach(ed => {
+                    if (ed.source.id === node.id) connected.add(ed.target.id);
+                    if (ed.target.id === node.id) connected.add(ed.source.id);
+                });
+                nodes.forEach(n => n.highlighted = connected.has(n.id));
+            } else {
+                hoveredNode = null;
+                canvas.style.cursor = 'grab';
+                tooltip.style.opacity = '0';
+                tooltip.style.transform = 'translateY(4px)';
+                nodes.forEach(n => n.highlighted = false);
+            }
+        });
+
+        canvas.addEventListener('mouseup', e => {
+            if (draggedNode) {
+                // If it was a click (barely moved), navigate
+                draggedNode = null;
+                canvas.style.cursor = hoveredNode ? 'pointer' : 'grab';
+                return;
+            }
+
+            if (isDragging) {
+                const dx = Math.abs(e.clientX - dragStartX);
+                const dy = Math.abs(e.clientY - dragStartY);
+                if (dx < 5 && dy < 5) {
+                    const node = findNodeAt(e.clientX, e.clientY);
+                    if (node?.href) window.location.href = node.href;
+                }
+            }
+            isDragging = false;
+            canvas.style.cursor = hoveredNode ? 'pointer' : 'grab';
+        });
+
+        // Double-click to navigate
+        canvas.addEventListener('dblclick', e => {
+            const node = findNodeAt(e.clientX, e.clientY);
+            if (node?.href) window.location.href = node.href;
+        });
+
+        canvas.addEventListener('wheel', e => {
+            e.preventDefault();
+            const delta = e.deltaY > 0 ? 0.92 : 1.08;
+            targetZoom = Math.max(0.15, Math.min(5, targetZoom * delta));
+        }, { passive: false });
+
+        // ── Touch ───────────────────────────────────────────────────
+        let lastTouchDist = 0;
+        canvas.addEventListener('touchstart', e => {
+            if (e.touches.length === 1) {
+                const node = findNodeAt(e.touches[0].clientX, e.touches[0].clientY);
+                if (node) {
+                    draggedNode = node;
+                    alpha = Math.max(alpha, 0.3);
+                } else {
+                    isDragging = true;
+                    dragStartX = e.touches[0].clientX;
+                    dragStartY = e.touches[0].clientY;
+                    dragCamX = targetCamX;
+                    dragCamY = targetCamY;
+                }
+            } else if (e.touches.length === 2) {
+                lastTouchDist = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+            }
+        }, { passive: true });
+
+        canvas.addEventListener('touchmove', e => {
+            e.preventDefault();
+            if (draggedNode && e.touches.length === 1) {
+                const [wx, wy] = screenToWorld(e.touches[0].clientX, e.touches[0].clientY);
+                draggedNode.x = wx;
+                draggedNode.y = wy;
+            } else if (e.touches.length === 1 && isDragging) {
+                targetCamX = dragCamX + (e.touches[0].clientX - dragStartX) / camZoom;
+                targetCamY = dragCamY + (e.touches[0].clientY - dragStartY) / camZoom;
+            } else if (e.touches.length === 2) {
+                const dist = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                targetZoom = Math.max(0.15, Math.min(5, targetZoom * (dist / lastTouchDist)));
+                lastTouchDist = dist;
+            }
+        }, { passive: false });
+
+        canvas.addEventListener('touchend', e => {
+            if (draggedNode) { draggedNode = null; return; }
+            isDragging = false;
+            if (e.changedTouches.length === 1) {
+                const t = e.changedTouches[0];
+                const node = findNodeAt(t.clientX, t.clientY);
+                if (node?.href) window.location.href = node.href;
+            }
+        });
+
+        // ── Search ──────────────────────────────────────────────────
+        searchInput?.addEventListener('input', () => {
+            const q = searchInput.value.toLowerCase().trim();
+            if (!q) {
+                nodes.forEach(n => n.highlighted = false);
+                return;
+            }
+            const matches = new Set<string>();
+            nodes.forEach(n => {
+                if (n.label.toLowerCase().includes(q) || n.type.toLowerCase().includes(q)) {
+                    matches.add(n.id);
+                    // Also highlight connected
+                    edges.forEach(ed => {
+                        if (ed.source.id === n.id) matches.add(ed.target.id);
+                        if (ed.target.id === n.id) matches.add(ed.source.id);
+                    });
+                }
+            });
+            nodes.forEach(n => n.highlighted = matches.has(n.id));
+
+            // Smooth pan to first match
+            const match = nodes.find(n => n.label.toLowerCase().includes(q));
+            if (match) {
+                targetCamX = W / 2 - match.x;
+                targetCamY = H / 2 - match.y;
+            }
+        });
+
+        // ── Resize ──────────────────────────────────────────────────
+        window.addEventListener('resize', () => {
+            W = window.innerWidth;
+            H = window.innerHeight;
+            canvas.width = W * dpr;
+            canvas.height = H * dpr;
+            canvas.style.width = W + 'px';
+            canvas.style.height = H + 'px';
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.scale(dpr, dpr);
+        });
+
+        // ── Loop ────────────────────────────────────────────────────
+        canvas.style.cursor = 'grab';
+
+        // Auto-fit after initial stabilization
+        setTimeout(fitToView, 500);
+
+        function loop() {
+            simulate();
+            draw();
+            requestAnimationFrame(loop);
+        }
+        loop();
+    </script>
+</BaseLayout>

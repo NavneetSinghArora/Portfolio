@@ -1,0 +1,40 @@
+---
+import { Image } from 'astro:assets';
+import repathImg   from '../assets/images/repath.jpeg';
+import omdenaImg   from '../assets/images/omdena.png';
+import niceImg     from '../assets/images/nice.jpeg';
+import cognizantImg from '../assets/images/cognizant.png';
+import uhhImg      from '../assets/images/uhh.jpeg';
+
+const companies = [
+    { name: 'Repath',             img: repathImg,    href: 'https://www.repath.ai/' },
+    { name: 'Omdena',             img: omdenaImg,    href: 'https://omdena.com/' },
+    { name: 'NICE Ltd.',          img: niceImg,      href: 'https://www.nice.com/' },
+    { name: 'Cognizant',          img: cognizantImg, href: 'https://www.cognizant.com/' },
+    { name: 'Universität Hamburg', img: uhhImg,      href: 'https://www.uni-hamburg.de/en.html' },
+];
+---
+
+<div class="mb-16 sm:mb-24" data-nn-layer="worked-with">
+    <p class="mb-6 text-[11px] font-mono uppercase tracking-[0.2em] text-main/35">Worked with</p>
+    <div class="flex flex-wrap items-center gap-5 sm:gap-8">
+        {companies.map(c => (
+            <a
+                href={c.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group relative flex items-center justify-center h-10 w-10 sm:h-12 sm:w-12 rounded-xl overflow-hidden border border-main-border/15 bg-main-bg/20 backdrop-blur-sm transition-all duration-300 hover:border-main-border/40 hover:scale-110 hover:shadow-lg premium-tooltip"
+                data-tooltip={c.name}
+                aria-label={c.name}
+            >
+                <Image
+                    src={c.img}
+                    alt={c.name}
+                    width={48}
+                    height={48}
+                    class="h-full w-full object-cover"
+                />
+            </a>
+        ))}
+    </div>
+</div>

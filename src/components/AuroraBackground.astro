@@ -113,6 +113,12 @@
         let currentParallaxX = 0;
         let currentParallaxY = 0;
 
+        // Phase 5: Cursor trail
+        interface TrailDot { x: number; y: number; age: number; }
+        const cursorTrail: TrailDot[] = [];
+        let lastTrailX = -9999, lastTrailY = -9999;
+        const isTouch = window.matchMedia('(pointer: coarse)').matches;
+
         // Precalculated global physics constants
         const PI2 = Math.PI * 2;
         let mouseRadiusSq = CONFIG.mouseRadius * CONFIG.mouseRadius;
@@ -358,6 +364,21 @@
             ctx.fillStyle = `rgba(${dotRGB}, ${dotA})`;
             ctx.fill();
 
+            // Phase 5: Cursor trail rendering
+            if (!isTouch && cursorTrail.length > 0) {
+                for (let i = cursorTrail.length - 1; i >= 0; i--) {
+                    cursorTrail[i].age += 0.04;
+                    if (cursorTrail[i].age >= 1) { cursorTrail.splice(i, 1); continue; }
+                    const a = (1 - cursorTrail[i].age) * (isDark ? 0.5 : 0.32);
+                    const r = (1 - cursorTrail[i].age) * 2.4;
+                    const trailRgb = isDark ? '110, 185, 255' : '55, 125, 215';
+                    ctx.beginPath();
+                    ctx.arc(cursorTrail[i].x, cursorTrail[i].y, r, 0, PI2);
+                    ctx.fillStyle = `rgba(${trailRgb}, ${a})`;
+                    ctx.fill();
+                }
+            }
+
             // Process parallax for CSS background aurora blobs
             currentParallaxX += (targetX - currentParallaxX) * 0.15;
             currentParallaxY += (targetY - currentParallaxY) * 0.15;
@@ -375,12 +396,23 @@
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
-            
+
             // Normalized coordinates for Aurora blob parallax
             const nx = e.clientX / window.innerWidth - 0.5;
             const ny = e.clientY / window.innerHeight - 0.5;
-            targetX = nx * -200; 
+            targetX = nx * -200;
             targetY = ny * -200;
+
+            // Phase 5: Cursor trail — append on sufficient movement
+            if (!isTouch) {
+                const dist = Math.hypot(e.clientX - lastTrailX, e.clientY - lastTrailY);
+                if (dist > 10) {
+                    cursorTrail.push({ x: e.clientX, y: e.clientY, age: 0 });
+                    if (cursorTrail.length > 20) cursorTrail.shift();
+                    lastTrailX = e.clientX;
+                    lastTrailY = e.clientY;
+                }
+            }
         });
 
         // Initialize!
