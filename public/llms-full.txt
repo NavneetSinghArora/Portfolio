@@ -1,0 +1,81 @@
+# Full Technical Context - Navneet Singh Arora
+
+This document provides a comprehensive, markdown-formatted version of Navneet Singh Arora's professional portfolio for LLM analysis and indexing.
+
+---
+
+## 👨‍💻 Biography
+Navneet is a Machine Learning & Full Stack Engineer with a focus on architecting intelligent automation and high-performance backend systems. He is a recognized n8n Creator and has extensive experience in both corporate (NICE, Cognizant) and startup (Repath) environments.
+
+---
+
+## 🛠 Tech Stack Details
+
+### AI & Machine Learning
+- NLP: Word Embeddings (Word2Vec, FastText), Transformers (BERT, RoBERTa), Sequence Models.
+- Computer Vision: Object Detection, Segmentation, CNNs.
+- Frameworks: PyTorch, TensorFlow, Scikit-learn, OpenCV.
+- LLM Tools: LangChain, LangSmith, FastMCP, Google Vertex AI, Gemini, Ollama.
+
+### Backend & Infrastructure
+- Languages: Python, JavaScript/TypeScript, Java, C++, Bash.
+- Databases: PostgreSQL, MongoDB, Pinecone (Vector DB), Redis.
+- APIs: FastAPI, Hasura, GraphQL, REST.
+- DevOps: Docker, Docker Compose, GitHub Actions, Vercel, GCP, Caddy.
+
+### Automation
+- n8n: Power user, creating complex multi-service workflows and AI agents.
+- Logic: Event-driven architectures, Cron-based synchronization.
+
+---
+
+## 💼 Professional Experience
+
+### Repath | Hamburg, DE | Dec 2021 — Present
+**Machine Learning & Full Stack Engineer**
+- Leading AI initiative for Climate Resilience solutions.
+- Architecting solutions using FastMCP, LangChain, and GCP.
+- Managing data integration infrastructure and CI/CD pipelines.
+
+### Omdena | Remote | Jun 2021 — Present
+**Chapter Lead (Hamburg)**
+- Hosting open-source AI projects for social impact.
+- Orchestrating global community collaboration.
+
+### NICE Ltd. | Pune, IN | Jan 2018 — Oct 2020
+**Tech Lead & Software Engineer**
+- Technical Scrum Master for a major banking product platform.
+- Full-stack developer (Client-side and Server-side).
+- Led Tableau development for enterprise data visualization.
+
+### Cognizant | Pune, IN | Jul 2015 — Jan 2018
+**Program Analyst**
+- Developed software for Credit Suisse.
+- Extensively used Java and Shell scripting.
+- Awarded Kudos Award for team contributions.
+
+---
+
+## 🎓 Education
+- **MSc Computer Science**: Universität Hamburg (2020 — 2024). Specialization: AI, Computer Vision.
+- **BE Computer Engineering**: Pune Institute of Computer Technology (2011 — 2015).
+
+---
+
+## 🚀 Key Projects
+
+### IndoRE (NLP)
+Relation Extraction for low-resource Indian languages. Achieved state-of-the-art results using transformer-based models (mBERT, RoBERTa).
+
+### COLMAN (Embodied AI)
+Collaborative Multi-Agent Navigation. Leveraged visual-textual CLIP embeddings for agent coordination in complex environments.
+
+### Personal Portfolio
+Built with Astro, high-fidelity engineering aesthetic, GLSL shaders, and full SEO/AI-agent optimization.
+
+---
+
+## 📡 Metadata & Semantic Context
+- Keywords: Navneet Singh Arora, n8n Expert, AI Automation, Machine Learning Hamburg, Full Stack Python, Intelligent Workflows.
+- Primary Trajectory: AI Agency, Senior AI Engineering, Tech Leadership.
+- Tone: Highly technical, structured, innovation-focused.

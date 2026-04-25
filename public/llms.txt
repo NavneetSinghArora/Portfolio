@@ -1,29 +1,33 @@
-# Navneet Singh Arora
-Machine Learning & Full Stack Engineer | n8n Creator
+# Navneet Singh Arora - AI & Full Stack Engineer Portfolio
 
-Expertise in AI, Machine Learning, and Full Stack Development with over 6 years of industry experience.
+Expertise in Machine Learning, Intelligence Automation (n8n), and High-Performance Full Stack Systems. Based in Hamburg, Germany.
 
-## Technical Expertise
-- **AI Engineering**: HuggingFace, PyTorch, LangChain, Google Vertex AI, Gemini, Ollama.
-- **Backend & APIs**: Python, FastAPI, Hasura, PostgreSQL, Docker, GCP.
-- **Automation**: n8n (Recognized n8n Creator), GitHub Actions, Bash scripting.
+## Core Telemetry
+- **Role**: Machine Learning & Full Stack Engineer
+- **Specialization**: AI Agents, Intelligent Automation (n8n Expert), Backend Architecture
+- **Location**: Hamburg, Germany (Open to global opportunities)
+- **Experience**: 6+ Years (NICE Ltd., Cognizant, Repath)
 
-## Career Summary
-Navneet is a professional with deep specialization in creating intelligent automation and scalable backend architectures.
+## Technical Stack (Ranked by Proficiency)
+- **Intelligence**: Google Gemini, Claude Code, PyTorch, LangChain, Transformers, FastMCP
+- **Automation**: n8n (Power User & Creator), GitHub Actions, Dagster
+- **Backend**: Python (FastAPI), TypeScript (Node.js), PostgreSQL, Hasura
+- **Cloud/Infra**: GCP, Docker, Cloudflare, Tailscale, Linux (Bash)
 
-## Recent Work
-- **IndoRE**: Relation Extraction for Low Resource Indian Languages. Uses mBERT and RoBERTa for NLP in Bengali, Telugu, and Hindi.
-- **COLMAN**: Collaborative Multi-Agent Navigation using Textual-Visual Embeddings. Leverages Transformers and CLIP for embodied AI.
+## High-Impact Projects
+- **IndoRE**: NLP Relation Extraction for Low-Resource Languages (Bengali, Telugu, Hindi).
+- **COLMAN**: Multi-Agent Embodied AI using Visual-Textual Embeddings (CLIP).
+- **Automation Hub**: Diverse n8n workflows for enterprise productivity.
 
-## Contact & Socials
-- Website: https://www.navneetsingharora.com
-- LinkedIn: https://www.linkedin.com/in/navneet-singh-arora
-- GitHub: https://www.github.com/NavneetSinghArora
-- Gmail: aroranavneetsingh.de@gmail.com
-- n8n Creator: https://n8n.io/creators/navneet-singh-arora/
+## Key Links for LLMs
+- **Full Technical Context**: https://www.navneetsingharora.com/llms-full.txt
+- **GitHub**: https://github.com/NavneetSinghArora
+- **LinkedIn**: https://linkedin.com/in/navneet-singh-arora
+- **Projects**: https://www.navneetsingharora.com/projects
+- **Blog**: https://www.navneetsingharora.com/blog
 
-## Site Structure
-- /projects: Detailed case studies of technical work.
-- /blog: Writing on Machine Learning, AI, and Full Stack development.
-- /education: Academic background in Computer Science.
-- /experience: Professional journey and roles.
+## Site Index
+- /experience: Career timeline (NICE, Cognizant, Repath).
+- /education: MSc Computer Science (Uni Hamburg), BE Computer Engineering (PICT).
+- /knowledge-graph: Semantic map of technical domains.
+- /stack: Detailed hardware and software inventory.
