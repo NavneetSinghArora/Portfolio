@@ -1,0 +1,78 @@
+---
+// Neon cursor trail — desktop only, respects reduced-motion
+---
+
+<canvas id="cursor-trail-canvas" class="fixed inset-0 pointer-events-none" style="z-index: 45; opacity: 0; transition: opacity 0.5s;"></canvas>
+
+<script>
+function initCursorTrail() {
+    const canvas = document.getElementById('cursor-trail-canvas') as HTMLCanvasElement;
+    if (!canvas) return;
+
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const resize = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    interface TrailPoint { x: number; y: number; age: number; hue: number; }
+    const trail: TrailPoint[] = [];
+    const MAX = 40;
+    let hue = 195;
+
+    canvas.style.opacity = '1';
+
+    document.addEventListener('mousemove', (e) => {
+        trail.push({ x: e.clientX, y: e.clientY, age: 0, hue });
+        hue = (hue + 2.5) % 360;
+        if (trail.length > MAX) trail.shift();
+    }, { passive: true });
+
+    let raf: number;
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (let i = trail.length - 1; i >= 0; i--) {
+            trail[i].age += 0.04;
+            if (trail[i].age >= 1) { trail.splice(i, 1); continue; }
+
+            const p = trail[i];
+            const a = 1 - p.age;
+            const r = a * 8;
+
+            const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r * 3);
+            g.addColorStop(0, `hsla(${p.hue}, 100%, 65%, ${a * 0.45})`);
+            g.addColorStop(1, `hsla(${p.hue}, 100%, 65%, 0)`);
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, r * 3, 0, Math.PI * 2);
+            ctx.fillStyle = g;
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, r * 0.45, 0, Math.PI * 2);
+            ctx.fillStyle = `hsla(${p.hue}, 100%, 85%, ${a})`;
+            ctx.fill();
+        }
+
+        raf = requestAnimationFrame(draw);
+    }
+    draw();
+
+    document.addEventListener('astro:before-swap', () => {
+        cancelAnimationFrame(raf);
+        window.removeEventListener('resize', resize);
+    }, { once: true });
+}
+
+initCursorTrail();
+document.addEventListener('astro:page-load', initCursorTrail);
+</script>

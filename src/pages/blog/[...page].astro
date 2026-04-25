@@ -139,8 +139,11 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
                 data-title={post.data.title.toLowerCase()}
             >
                 <div class="spotlight-glow"></div>
+                <!-- Base Link Overlay -->
+                <a href={`/blog/${post.id}/`} class="absolute inset-0 z-10" aria-label={`Read ${post.data.title}`}></a>
+                
                 <!-- Visual Column (Left) -->
-                <div class="w-full sm:w-64 shrink-0">
+                <div class="w-full sm:w-64 shrink-0 relative z-1">
                     <a href={`/blog/${post.id}/`} class="block aspect-video sm:aspect-square rounded-xl overflow-hidden border border-main-border/5">
                         {post.data.banner || post.data.seo?.image ? (
                             <img 
@@ -176,7 +179,7 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
                                     href={post.data.medium} 
                                     target="_blank" 
                                     rel="noopener noreferrer" 
-                                    class="group/icon premium-tooltip relative flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
+                                    class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
                                     data-tooltip="Read on Medium"
                                 >
                                     <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
@@ -204,7 +207,10 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
                 data-title={post.data.title.toLowerCase()}
             >
                 <div class="spotlight-glow"></div>
-                <a href={`/blog/${post.id}/`} class="flex-grow">
+                <!-- Base Link Overlay -->
+                <a href={`/blog/${post.id}/`} class="absolute inset-0 z-10" aria-label={`Read ${post.data.title}`}></a>
+                
+                <div class="flex-grow relative z-1">
                     <div class="aspect-video w-full overflow-hidden rounded-xl border border-main-border/5 bg-main-card/30 mb-4">
                         {post.data.banner || post.data.seo?.image ? (
                             <img 
@@ -222,7 +228,7 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
                     {post.data.excerpt && (
                         <p class="text-xs text-main/90 line-clamp-2 mb-4 leading-relaxed font-sans">{post.data.excerpt}</p>
                     )}
-                </a>
+                </div>
                 
                 <div class="mt-auto flex items-center justify-between pt-3 border-t border-main-border/5">
                     <div class="flex items-center gap-1.5">
@@ -231,7 +237,7 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
                                 href={post.data.medium} 
                                 target="_blank" 
                                 rel="noopener noreferrer" 
-                                class="group/icon premium-tooltip relative flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115" 
+                                class="group/icon premium-tooltip relative z-20 flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115" 
                                 data-tooltip="Read on Medium"
                             >
                                 <div class="absolute inset-0 rounded-lg bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>

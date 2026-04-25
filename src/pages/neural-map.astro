@@ -2,129 +2,138 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-const blogPosts = (await getCollection('blog')).slice(0, 3);
-const projects = (await getCollection('projects')).slice(0, 4);
+const blogPosts = (await getCollection('blog')).slice(0, 4);
+const projects  = (await getCollection('projects')).slice(0, 5);
 
+// Node labels per layer — shown on the canvas topology
+const topology = [
+    { id: 'input',    label: 'Inputs',          nodes: ['Machine Learning', 'Full Stack', 'DevOps & Infra'] },
+    { id: 'h1',       label: 'Specialisations',  nodes: ['Computer Vision', 'Workflow Automation', 'Climate AI', 'API Design', 'Research'] },
+    { id: 'h2',       label: 'Work',             nodes: projects.map(p => p.data.title.length > 20 ? p.data.title.slice(0, 18) + '…' : p.data.title) },
+    { id: 'h3',       label: 'Writing',          nodes: blogPosts.map(p => p.data.title.length > 22 ? p.data.title.slice(0, 20) + '…' : p.data.title) },
+    { id: 'output',   label: 'Outcomes',         nodes: ['AI-Powered Products', 'Scalable Systems'] },
+];
+
+// Card content per layer
 const layers = [
     {
         id: 'input',
-        label: 'Input',
-        title: 'Navneet Singh Arora',
-        subtitle: 'ML & Full Stack Engineer',
+        label: 'Layer 0 — Inputs',
+        title: 'Core Domains',
+        subtitle: 'The raw signals that feed the network',
         href: '/',
-        color: '#fff',
         accent: '#3b82f6',
         items: [
-            { text: 'MSc Intelligent Adaptive Systems', sub: 'Universität Hamburg' },
-            { text: '7+ Years Engineering', sub: 'ML · Full Stack · DevOps' },
-        ]
+            { text: 'Machine Learning & AI', sub: 'Deep Learning · CV · NLP · MLOps' },
+            { text: 'Full Stack Engineering', sub: 'Python · FastAPI · React · Astro' },
+            { text: 'DevOps & Infrastructure', sub: 'Docker · K8s · GCP · CI/CD' },
+        ],
     },
     {
-        id: 'hidden-1',
-        label: 'Hidden L1',
-        title: 'Education & Experience',
-        subtitle: 'The Training Data',
+        id: 'h1',
+        label: 'Layer 1 — Processing',
+        title: 'Specialisations',
+        subtitle: 'How domains activate into capabilities',
         href: '/experience',
-        color: '#a78bfa',
-        accent: '#7c3aed',
+        accent: '#a78bfa',
         items: [
-            { text: 'Repath — ML & FS Engineer', sub: 'Climate AI · Hamburg' },
-            { text: 'Omdena — Chapter Lead', sub: 'Open Source AI · Remote' },
-            { text: 'Universität Hamburg', sub: 'MSc IAS · Computer Vision' },
-        ]
+            { text: 'Computer Vision Systems', sub: 'Object detection · Segmentation · Tracking' },
+            { text: 'Workflow Automation', sub: 'n8n · LLM pipelines · API orchestration' },
+            { text: 'Climate AI', sub: 'Repath — carbon-aware engineering' },
+            { text: 'API Design', sub: 'REST · GraphQL · real-time systems' },
+            { text: 'Research & Experimentation', sub: 'Omdena · Universität Hamburg' },
+        ],
     },
     {
-        id: 'hidden-2',
-        label: 'Hidden L2',
+        id: 'h2',
+        label: 'Layer 2 — Forward Pass',
         title: 'Projects',
-        subtitle: 'The Forward Pass',
+        subtitle: 'Capabilities applied to real problems',
         href: '/projects',
-        color: '#34d399',
-        accent: '#10b981',
-        items: projects.map(p => ({ text: p.data.title, sub: (p.data.tags || []).slice(0, 3).join(' · ') })),
+        accent: '#34d399',
+        items: projects.map(p => ({ text: p.data.title, sub: (p.data.tags || []).slice(0, 3).join(' · ') || '' })),
     },
     {
-        id: 'hidden-3',
-        label: 'Hidden L3',
+        id: 'h3',
+        label: 'Layer 3 — Gradients',
         title: 'Writing',
-        subtitle: 'The Gradients',
+        subtitle: 'Insights propagated back to the community',
         href: '/blog',
-        color: '#fb7185',
-        accent: '#e11d48',
-        items: blogPosts.map(p => ({ text: p.data.title, sub: (p.data.tags || []).slice(0, 2).join(' · ') })),
+        accent: '#fb7185',
+        items: blogPosts.map(p => ({ text: p.data.title, sub: (p.data.tags || []).slice(0, 2).join(' · ') || '' })),
     },
     {
         id: 'output',
-        label: 'Output',
+        label: 'Layer 4 — Output',
         title: 'Connect',
-        subtitle: "Let's Build Together",
+        subtitle: "What you get when you run inference on Navneet",
         href: '/contact',
-        color: '#fbbf24',
-        accent: '#f59e0b',
+        accent: '#fbbf24',
         items: [
-            { text: 'navneet.arora1@gmail.com', sub: 'Email' },
-            { text: 'Hamburg, Germany', sub: 'Location' },
-        ]
+            { text: 'AI-Powered Products', sub: 'From prototype to production in weeks' },
+            { text: 'Scalable Systems', sub: 'Architecture that grows with you' },
+            { text: 'Hamburg, Germany', sub: 'Open to remote & on-site' },
+            { text: 'navneet.arora1@gmail.com', sub: 'Reach out any time' },
+        ],
     },
 ];
 ---
 
-<BaseLayout showHeader={false} title="Neural Map — Navneet Singh Arora" description="Navigate through Navneet's portfolio as a neural network — fly through layers of education, projects, and experiences.">
-    <div class="fixed inset-0 z-40 overflow-hidden" id="nm-container" style="background: #06060f;">
-        <canvas id="nm-canvas"></canvas>
+<BaseLayout showHeader={false} title="Neural Map — Navneet Singh Arora" description="Explore Navneet's expertise visualised as a neural network — inputs, hidden layers, and outputs of a career in ML and engineering.">
 
-        <!-- Layer cards rendered on top -->
+    <div class="fixed inset-0 z-40 overflow-hidden" id="nm-container">
+        <!-- Neural network topology canvas -->
+        <canvas id="nm-canvas" class="absolute inset-0 w-full h-full pointer-events-none"></canvas>
+
+        <!-- Layer card — always centered below the network strip -->
         <div id="nm-layers" class="fixed inset-0 z-10 pointer-events-none">
             {layers.map((layer, i) => (
                 <div
-                    class="nm-layer absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-700"
+                    class="nm-layer absolute inset-x-0 bottom-0 top-[400px]
+                           flex items-start justify-center pt-3 px-4
+                           opacity-0 transition-all duration-700"
                     data-index={i}
                     data-href={layer.href}
-                    data-color={layer.color}
                     data-accent={layer.accent}
                 >
-                    <div class="nm-card relative max-w-lg w-full mx-6 pointer-events-auto">
-                        <!-- Layer badge -->
-                        <div class="flex items-center gap-2 mb-4">
-                            <span class="inline-block w-2 h-2 rounded-full" style={`background: ${layer.color}`}></span>
-                            <span class="text-[10px] font-mono uppercase tracking-[0.3em] opacity-50" style={`color: ${layer.color}`}>
-                                {layer.label} — Layer {i}
-                            </span>
+                    <div class="nm-card relative w-full max-w-lg pointer-events-auto
+                                bg-main-bg/92 backdrop-blur-2xl border border-main-border/20
+                                rounded-2xl shadow-2xl p-5 sm:p-6
+                                max-h-[calc(100vh-400px)] overflow-y-auto">
+
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="inline-block w-2 h-2 rounded-full flex-shrink-0" style={`background:${layer.accent}`}></span>
+                            <span class="text-[10px] font-mono uppercase tracking-[0.28em] text-main/40">{layer.label}</span>
                         </div>
 
-                        <!-- Title -->
-                        <h2 class="text-4xl sm:text-5xl font-bold mb-1 leading-tight" style={`color: ${layer.color}`}>
-                            {layer.title}
-                        </h2>
-                        <p class="text-sm font-mono uppercase tracking-widest mb-6 opacity-40" style={`color: ${layer.color}`}>
-                            {layer.subtitle}
-                        </p>
+                        <h2 class="text-2xl sm:text-3xl font-bold mb-1 leading-tight text-main">{layer.title}</h2>
+                        <p class="text-[11px] font-mono uppercase tracking-widest mb-4 text-main/40">{layer.subtitle}</p>
 
-                        <!-- Items -->
-                        <div class="flex flex-col gap-2 mb-6">
+                        <div class="flex flex-col gap-1.5 mb-4">
                             {layer.items.map((item, j) => (
                                 <div
-                                    class="nm-item flex items-start gap-3 px-4 py-3 rounded-xl border transition-all duration-300"
-                                    style={`border-color: ${layer.color}15; background: ${layer.color}08;`}
-                                    data-delay={j * 80}
+                                    class="nm-item flex items-start gap-3 px-3 py-2 rounded-lg
+                                           border border-main-border/10 bg-main-bg/40
+                                           transition-all duration-300"
+                                    data-delay={j * 70}
                                 >
-                                    <span class="w-1 h-1 rounded-full mt-2 shrink-0" style={`background: ${layer.accent}`}></span>
+                                    <span class="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={`background:${layer.accent}`}></span>
                                     <div>
-                                        <p class="text-sm font-medium" style={`color: ${layer.color}dd`}>{item.text}</p>
-                                        <p class="text-[11px] opacity-40" style={`color: ${layer.color}`}>{item.sub}</p>
+                                        <p class="text-sm font-medium text-main leading-snug">{item.text}</p>
+                                        {item.sub && <p class="text-[11px] text-main/40">{item.sub}</p>}
                                     </div>
                                 </div>
                             ))}
                         </div>
 
-                        <!-- CTA -->
                         <a
                             href={layer.href}
-                            class="nm-cta inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 border"
-                            style={`color: ${layer.color}; border-color: ${layer.color}30; background: ${layer.color}10;`}
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium
+                                   border border-main-border/20 bg-main-bg/60 text-main/60
+                                   hover:text-main hover:bg-main-bg transition-all duration-200"
                         >
-                            Explore {layer.title === 'Connect' ? '' : layer.title}
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            {layer.title === 'Connect' ? 'Get in touch' : `Open ${layer.title}`}
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                             </svg>
                         </a>
@@ -133,297 +142,360 @@ const layers = [
             ))}
         </div>
 
-        <!-- HUD -->
-        <div class="fixed top-[7rem] left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-4 py-2.5 bg-black/60 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl">
-            <a href="/" class="text-white/40 hover:text-white transition-colors text-xs font-mono">Home</a>
-            <div class="w-px h-4 bg-white/10"></div>
-            <p class="text-[11px] font-bold text-white tracking-widest uppercase leading-none">Neural Map</p>
-            <div class="w-px h-4 bg-white/10"></div>
-            <span id="nm-layer-label" class="text-[10px] font-mono text-white/40 uppercase tracking-widest">Layer 0</span>
+        <!-- HUD — compact on mobile -->
+        <div class="fixed top-20 sm:top-[7rem] left-1/2 -translate-x-1/2 z-50
+                    flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-2.5
+                    bg-main-bg/80 backdrop-blur-xl rounded-2xl
+                    border border-main-border/15 shadow-xl whitespace-nowrap">
+            <a href="/" class="text-main/40 hover:text-main transition-colors text-[10px] sm:text-xs font-mono">← Home</a>
+            <div class="w-px h-4 bg-main-border/15"></div>
+            <p class="text-[10px] sm:text-[11px] font-bold text-main tracking-widest uppercase">Neural Map</p>
+            <div class="w-px h-4 bg-main-border/15 hidden sm:block"></div>
+            <span id="nm-layer-label" class="text-[10px] font-mono text-main/40 uppercase tracking-widest hidden sm:block">Layer 0</span>
         </div>
 
-        <!-- Layer dots nav -->
-        <div class="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">
+        <!-- Dot nav — always right side, vertical -->
+        <div class="fixed right-4 sm:right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">
             {layers.map((layer, i) => (
                 <button
-                    class="nm-dot w-3 h-3 rounded-full border border-white/20 bg-white/5 transition-all duration-300 hover:scale-150 cursor-pointer"
+                    class="nm-dot w-3 h-3 rounded-full border border-main-border/30 bg-main-bg/20
+                           transition-all duration-300 hover:scale-125 cursor-pointer touch-manipulation"
                     data-target={i}
                     title={layer.title}
                 ></button>
             ))}
         </div>
 
-        <!-- Progress bar -->
-        <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3">
-            <div class="h-1 w-40 rounded-full bg-white/5 overflow-hidden">
-                <div id="nm-progress" class="h-full rounded-full transition-all duration-500" style="width: 0%; background: linear-gradient(to right, #3b82f6, #a855f7, #10b981, #fb7185, #fbbf24);"></div>
+        <!-- Progress + hint — bottom center -->
+        <div class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-1.5">
+            <div class="h-0.5 w-28 sm:w-36 rounded-full bg-main/10 overflow-hidden">
+                <div id="nm-progress" class="h-full rounded-full transition-all duration-500" style="width:0%"></div>
             </div>
-            <span class="text-[10px] font-mono text-white/30" id="nm-counter">1 / 5</span>
-        </div>
-
-        <!-- Keyboard hint -->
-        <div class="fixed bottom-6 left-6 z-50 text-[10px] font-mono text-white/20 hidden sm:block">
-            ↑↓ or scroll to navigate · Enter to visit
+            <span class="text-[9px] font-mono text-main/25" id="nm-counter">1 / 5</span>
+            <span class="text-[9px] font-mono text-main/20 hidden sm:block">↑↓ scroll · Enter to visit</span>
+            <span class="text-[9px] font-mono text-main/20 sm:hidden">swipe to navigate</span>
         </div>
     </div>
 
+    <!-- Topology data for canvas -->
+    <script id="nm-topology" type="application/json" set:html={JSON.stringify(topology)}></script>
+
     <script>
-        // ── State ───────────────────────────────────────────────────
+        function initNeuralMap() {
+        // ── Data ────────────────────────────────────────────────────────────────
+        const topoRaw = document.getElementById('nm-topology')?.textContent || '[]';
+        const topo: { id: string; label: string; nodes: string[] }[] = JSON.parse(topoRaw);
+
+        if (!topo.length) return;
+
         const LAYER_COUNT = document.querySelectorAll('.nm-layer').length;
+        if (!LAYER_COUNT) return;
+
         let currentLayer = 0;
-        let targetLayer = 0;
         let isTransitioning = false;
         let scrollAccum = 0;
         const SCROLL_THRESHOLD = 80;
 
-        // ── Canvas background ───────────────────────────────────────
+        // ── Canvas setup ────────────────────────────────────────────────────────
         const canvas = document.getElementById('nm-canvas') as HTMLCanvasElement;
-        const ctx = canvas.getContext('2d')!;
-        const dpr = window.devicePixelRatio || 1;
+        const ctx    = canvas.getContext('2d')!;
+        const dpr    = window.devicePixelRatio || 1;
         let W = window.innerWidth, H = window.innerHeight;
-        canvas.width = W * dpr; canvas.height = H * dpr;
-        canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
-        ctx.scale(dpr, dpr);
 
-        // Particles
-        interface Particle { x: number; y: number; z: number; speed: number; size: number; }
-        const particles: Particle[] = [];
-        for (let i = 0; i < 200; i++) {
-            particles.push({
-                x: Math.random() * W,
-                y: Math.random() * H,
-                z: Math.random(),
-                speed: 0.2 + Math.random() * 0.8,
-                size: 0.5 + Math.random() * 1.5,
+        function resizeCanvas() {
+            W = window.innerWidth; H = window.innerHeight;
+            canvas.width  = W * dpr; canvas.height = H * dpr;
+            canvas.style.width  = W + 'px'; canvas.style.height = H + 'px';
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.scale(dpr, dpr);
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // ── Neural network node positions ───────────────────────────────────────
+        // Compact strip centered below navbar — same layout on mobile & desktop
+        const NETWORK_TOP    = 220;   // px from viewport top (below HUD + breathing room)
+        const NETWORK_BOTTOM = 355;   // px from viewport top
+        const NETWORK_ROW_H  = NETWORK_BOTTOM - NETWORK_TOP;  // 135px tall
+
+        function buildPositions(): { x: number; y: number; label: string; layer: number }[][] {
+            const MAX_NET_W = Math.min(W - 48, 720);   // capped at 720px, 24px side padding minimum
+            const LEFT  = (W - MAX_NET_W) / 2;
+            const RIGHT = LEFT + MAX_NET_W;
+            const colW  = (RIGHT - LEFT) / (topo.length - 1);
+
+            return topo.map((col, ci) => {
+                const n = col.nodes.length;
+                return col.nodes.map((label, ni) => ({
+                    x: LEFT + ci * colW,
+                    y: NETWORK_TOP + (n === 1 ? NETWORK_ROW_H / 2 : (ni / (n - 1)) * NETWORK_ROW_H),
+                    label,
+                    layer: ci,
+                }));
             });
         }
 
-        // Connection lines between random particle pairs
-        const connections: [number, number][] = [];
-        for (let i = 0; i < 30; i++) {
-            connections.push([
-                Math.floor(Math.random() * particles.length),
-                Math.floor(Math.random() * particles.length),
-            ]);
+        // ── Synapse pulses ──────────────────────────────────────────────────────
+        interface Pulse { ax: number; ay: number; bx: number; by: number; t: number; speed: number; fromLayer: number; }
+        const pulses: Pulse[] = [];
+
+        function spawnPulse(positions: { x: number; y: number; layer: number }[][]) {
+            const fromIdx = Math.floor(Math.random() * (topo.length - 1));
+            const toIdx   = fromIdx + 1;
+            const a = positions[fromIdx][Math.floor(Math.random() * positions[fromIdx].length)];
+            const b = positions[toIdx][Math.floor(Math.random() * positions[toIdx].length)];
+            pulses.push({ ax: a.x, ay: a.y, bx: b.x, by: b.y, t: 0, speed: 0.006 + Math.random() * 0.006, fromLayer: fromIdx });
         }
 
-        let layerColor = '#3b82f6';
-        let targetColor = '#3b82f6';
+        // ── Draw loop ───────────────────────────────────────────────────────────
         let animTime = 0;
 
-        function lerpColor(a: string, b: string, t: number): string {
-            const ah = parseInt(a.slice(1), 16);
-            const bh = parseInt(b.slice(1), 16);
-            const ar = (ah >> 16) & 0xff, ag = (ah >> 8) & 0xff, ab = ah & 0xff;
-            const br = (bh >> 16) & 0xff, bg = (bh >> 8) & 0xff, bb = bh & 0xff;
-            const rr = Math.round(ar + (br - ar) * t);
-            const rg = Math.round(ag + (bg - ag) * t);
-            const rb = Math.round(ab + (bb - ab) * t);
-            return `rgb(${rr},${rg},${rb})`;
-        }
-
-        function drawBackground() {
+        function draw() {
             animTime += 0.016;
+            const dark = document.documentElement.classList.contains('dark');
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-            ctx.fillStyle = '#06060f';
-            ctx.fillRect(0, 0, W, H);
+            ctx.clearRect(0, 0, W, H);
 
-            // Lerp color
-            layerColor = lerpColor(
-                layerColor.startsWith('#') ? layerColor : '#3b82f6',
-                targetColor,
-                0.05
-            );
+            const positions = buildPositions();
 
-            // Subtle radial gradient from center
-            const grad = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(W, H) * 0.6);
-            grad.addColorStop(0, layerColor.replace('rgb', 'rgba').replace(')', ',0.06)'));
-            grad.addColorStop(1, 'rgba(6,6,15,0)');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, W, H);
+            // ── Edges ────────────────────────────────────────────────────────────
+            const LAYER_ACCENTS = ['#3b82f6', '#a78bfa', '#34d399', '#fb7185', '#fbbf24'];
 
-            // Particles
-            const moveDir = isTransitioning ? (targetLayer > currentLayer ? 1 : -1) : 0;
-            particles.forEach(p => {
-                p.y += p.speed * (1 + moveDir * 3);
-                if (p.y > H + 10) { p.y = -10; p.x = Math.random() * W; }
-                if (p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
+            for (let li = 0; li < positions.length - 1; li++) {
+                const fromNodes = positions[li];
+                const toNodes   = positions[li + 1];
+                const isActive  = li === currentLayer || li + 1 === currentLayer;
+                const alpha     = isActive ? (dark ? 0.55 : 0.45) : (dark ? 0.18 : 0.14);
+                const accent    = LAYER_ACCENTS[li] || '#3b82f6';
+                // Parse accent hex to rgb for rgba()
+                const r16 = parseInt(accent.slice(1,3),16);
+                const g16 = parseInt(accent.slice(3,5),16);
+                const b16 = parseInt(accent.slice(5,7),16);
 
-                const alpha = 0.15 + p.z * 0.3;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255,255,255,${alpha})`;
-                ctx.fill();
-            });
-
-            // Connection lines
-            connections.forEach(([i, j]) => {
-                const a = particles[i], b = particles[j];
-                const dx = b.x - a.x, dy = b.y - a.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist > 200) return;
-
-                ctx.beginPath();
-                ctx.moveTo(a.x, a.y);
-                ctx.lineTo(b.x, b.y);
-                ctx.strokeStyle = `rgba(255,255,255,${0.04 * (1 - dist / 200)})`;
-                ctx.lineWidth = 0.5;
-                ctx.stroke();
-            });
-
-            // Horizontal neural layer lines
-            for (let i = 0; i < LAYER_COUNT; i++) {
-                const y = ((i + 0.5) / LAYER_COUNT) * H;
-                const wave = Math.sin(animTime * 0.5 + i) * 20;
-                ctx.beginPath();
-                ctx.moveTo(0, y + wave);
-                for (let x = 0; x < W; x += 20) {
-                    ctx.lineTo(x, y + wave + Math.sin(animTime + x * 0.01 + i * 2) * 8);
-                }
-                ctx.strokeStyle = i === currentLayer
-                    ? `rgba(255,255,255,0.06)`
-                    : `rgba(255,255,255,0.015)`;
-                ctx.lineWidth = 1;
-                ctx.stroke();
+                fromNodes.forEach(a => {
+                    toNodes.forEach(b => {
+                        ctx.beginPath();
+                        ctx.moveTo(a.x, a.y);
+                        ctx.lineTo(b.x, b.y);
+                        ctx.strokeStyle = `rgba(${r16},${g16},${b16},${alpha})`;
+                        ctx.lineWidth = isActive ? 1.2 : 0.7;
+                        ctx.stroke();
+                    });
+                });
             }
+
+            // ── Synapse pulses ────────────────────────────────────────────────────
+            if (Math.random() < 0.04) spawnPulse(positions);
+            for (let i = pulses.length - 1; i >= 0; i--) {
+                const p = pulses[i];
+                p.t += p.speed;
+                if (p.t >= 1) { pulses.splice(i, 1); continue; }
+
+                const px = p.ax + (p.bx - p.ax) * p.t;
+                const py = p.ay + (p.by - p.ay) * p.t;
+                const fa = Math.sin(p.t * Math.PI);
+                const isActivePulse = p.fromLayer === currentLayer || p.fromLayer + 1 === currentLayer;
+                const col = LAYER_ACCENTS[p.fromLayer] || '#3b82f6';
+
+                ctx.beginPath();
+                ctx.arc(px, py, isActivePulse ? 3 : 1.5, 0, Math.PI * 2);
+                ctx.fillStyle = col;
+                ctx.globalAlpha = fa * (isActivePulse ? 0.9 : 0.35);
+                ctx.fill();
+
+                if (isActivePulse) {
+                    const grd = ctx.createRadialGradient(px, py, 0, px, py, 10);
+                    grd.addColorStop(0, col + '55');
+                    grd.addColorStop(1, col + '00');
+                    ctx.beginPath();
+                    ctx.arc(px, py, 10, 0, Math.PI * 2);
+                    ctx.fillStyle = grd;
+                    ctx.globalAlpha = fa * 0.6;
+                    ctx.fill();
+                }
+                ctx.globalAlpha = 1;
+            }
+
+            // ── Nodes ─────────────────────────────────────────────────────────────
+            positions.forEach((col, li) => {
+                const isActive = li === currentLayer;
+                const accent   = LAYER_ACCENTS[li] || '#888';
+                const pulse    = 0.75 + 0.25 * Math.sin(animTime * 1.8 + li * 1.1);
+
+                col.forEach((n, ni) => {
+                    const r = isActive ? 6 : 3.5;
+                    const alpha = isActive ? 1 : (dark ? 0.35 : 0.28);
+
+                    // Glow for active layer
+                    if (isActive) {
+                        const glowR = r * 4.5 * pulse;
+                        const grd = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, glowR);
+                        grd.addColorStop(0, accent + '45');
+                        grd.addColorStop(1, accent + '00');
+                        ctx.beginPath();
+                        ctx.arc(n.x, n.y, glowR, 0, Math.PI * 2);
+                        ctx.fillStyle = grd;
+                        ctx.fill();
+                    }
+
+                    // Core node
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+                    ctx.fillStyle = accent;
+                    ctx.globalAlpha = alpha;
+                    ctx.fill();
+                    ctx.globalAlpha = 1;
+
+                    // Labels: active layer always shown; inactive shown if there's enough space
+                    if (isActive || W > 500) {
+                        const fontSize = isActive ? 10 : 8.5;
+                        ctx.font = `${isActive ? 600 : 400} ${fontSize}px 'SF Mono', 'Fira Code', monospace`;
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillStyle = dark
+                            ? (isActive ? 'rgba(255,255,255,0.90)' : 'rgba(255,255,255,0.26)')
+                            : (isActive ? 'rgba(0,0,0,0.85)'       : 'rgba(0,0,0,0.24)');
+                        // Truncate to fit compact strip
+                        let lbl = n.label;
+                        if (lbl.length > 16) lbl = lbl.slice(0, 14) + '…';
+                        ctx.fillText(lbl, n.x + r + 5, n.y);
+                    }
+                });
+
+                // Layer header label — sits just above the network strip
+                const cx = positions[li][0]?.x ?? 0;
+                ctx.font = `600 8px 'SF Mono', monospace`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillStyle = isActive ? accent : (dark ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.2)');
+                ctx.fillText(topo[li]?.label?.toUpperCase() || '', cx, NETWORK_TOP - 8);
+            });
         }
 
-        // ── Layer management ────────────────────────────────────────
-        const layerEls = Array.from(document.querySelectorAll('.nm-layer')) as HTMLElement[];
-        const dotEls = Array.from(document.querySelectorAll('.nm-dot')) as HTMLElement[];
-        const progressEl = document.getElementById('nm-progress') as HTMLElement;
-        const counterEl = document.getElementById('nm-counter') as HTMLElement;
-        const labelEl = document.getElementById('nm-layer-label') as HTMLElement;
+        // ── Layer card management ───────────────────────────────────────────────
+        const layerEls   = Array.from(document.querySelectorAll('.nm-layer')) as HTMLElement[];
+        const dotEls     = Array.from(document.querySelectorAll('.nm-dot'))   as HTMLElement[];
+        const progressEl = document.getElementById('nm-progress')!;
+        const counterEl  = document.getElementById('nm-counter')!;
+        const labelEl    = document.getElementById('nm-layer-label')!;
+        const ACCENTS    = ['#3b82f6','#a78bfa','#34d399','#fb7185','#fbbf24'];
 
         function showLayer(index: number) {
             currentLayer = index;
+            const accent = ACCENTS[index] || '#3b82f6';
 
-            // Update accent color
-            const el = layerEls[index];
-            targetColor = el?.dataset.accent || '#3b82f6';
-
-            layerEls.forEach((layer, i) => {
-                const items = layer.querySelectorAll('.nm-item') as NodeListOf<HTMLElement>;
+            layerEls.forEach((el, i) => {
+                const items = el.querySelectorAll('.nm-item') as NodeListOf<HTMLElement>;
                 if (i === index) {
-                    layer.style.opacity = '1';
-                    layer.style.transform = 'translateY(0) scale(1)';
-                    layer.style.filter = 'blur(0px)';
-                    // Stagger items
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0) scale(1)';
+                    el.style.filter = 'blur(0px)';
                     items.forEach((item, j) => {
                         setTimeout(() => {
                             item.style.opacity = '1';
                             item.style.transform = 'translateX(0)';
-                        }, 150 + j * 80);
+                        }, 120 + j * 70);
                     });
                 } else {
                     const dir = i < index ? -1 : 1;
-                    layer.style.opacity = '0';
-                    layer.style.transform = `translateY(${dir * 60}px) scale(0.95)`;
-                    layer.style.filter = 'blur(8px)';
+                    el.style.opacity = '0';
+                    el.style.transform = `translateY(${dir * 50}px) scale(0.96)`;
+                    el.style.filter = 'blur(6px)';
                     items.forEach(item => {
                         item.style.opacity = '0';
-                        item.style.transform = 'translateX(-20px)';
+                        item.style.transform = 'translateX(-16px)';
                     });
                 }
             });
 
-            // Dots
             dotEls.forEach((dot, i) => {
                 if (i === index) {
-                    dot.style.background = layerEls[index]?.dataset.color || '#fff';
-                    dot.style.borderColor = layerEls[index]?.dataset.color || '#fff';
-                    dot.style.transform = 'scale(1.5)';
+                    dot.style.background = accent;
+                    dot.style.borderColor = accent;
+                    dot.style.transform = 'scale(1.6)';
                 } else {
-                    dot.style.background = 'rgba(255,255,255,0.05)';
-                    dot.style.borderColor = 'rgba(255,255,255,0.2)';
-                    dot.style.transform = 'scale(1)';
+                    dot.style.background = '';
+                    dot.style.borderColor = '';
+                    dot.style.transform = '';
                 }
             });
 
-            // Progress
-            const pct = (index / (LAYER_COUNT - 1)) * 100;
-            if (progressEl) progressEl.style.width = `${pct}%`;
-            if (counterEl) counterEl.textContent = `${index + 1} / ${LAYER_COUNT}`;
-            if (labelEl) labelEl.textContent = `Layer ${index}`;
+            const pct = index / (LAYER_COUNT - 1) * 100;
+            progressEl.style.width = `${pct}%`;
+            progressEl.style.background = accent;
+            counterEl.textContent = `${index + 1} / ${LAYER_COUNT}`;
+            labelEl.textContent   = `Layer ${index}`;
         }
 
         function goToLayer(index: number) {
             if (index < 0 || index >= LAYER_COUNT || index === currentLayer || isTransitioning) return;
             isTransitioning = true;
-            targetLayer = index;
             showLayer(index);
-            setTimeout(() => { isTransitioning = false; }, 600);
+            setTimeout(() => { isTransitioning = false; }, 550);
         }
 
-        // ── Scroll wheel navigation ─────────────────────────────────
-        document.addEventListener('wheel', (e) => {
+        // ── Input handlers ──────────────────────────────────────────────────────
+        const onWheel = (e: WheelEvent) => {
             e.preventDefault();
             scrollAccum += e.deltaY;
             if (Math.abs(scrollAccum) > SCROLL_THRESHOLD) {
-                const dir = scrollAccum > 0 ? 1 : -1;
+                goToLayer(currentLayer + (scrollAccum > 0 ? 1 : -1));
                 scrollAccum = 0;
-                goToLayer(currentLayer + dir);
             }
-        }, { passive: false });
+        };
+        document.addEventListener('wheel', onWheel, { passive: false });
 
-        // ── Keyboard navigation ─────────────────────────────────────
-        document.addEventListener('keydown', (e) => {
+        const onKeydown = (e: KeyboardEvent) => {
             if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'j') {
-                e.preventDefault();
-                goToLayer(currentLayer + 1);
+                e.preventDefault(); goToLayer(currentLayer + 1);
             } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'k') {
-                e.preventDefault();
-                goToLayer(currentLayer - 1);
+                e.preventDefault(); goToLayer(currentLayer - 1);
             } else if (e.key === 'Enter') {
                 const href = layerEls[currentLayer]?.dataset.href;
                 if (href) window.location.href = href;
             } else if (e.key === 'Escape') {
                 window.location.href = '/';
             }
-        });
+        };
+        document.addEventListener('keydown', onKeydown);
 
-        // ── Dot navigation ──────────────────────────────────────────
-        dotEls.forEach((dot, i) => {
-            dot.addEventListener('click', () => goToLayer(i));
-        });
+        dotEls.forEach((dot, i) => dot.addEventListener('click', () => goToLayer(i)));
 
-        // ── Touch swipe ─────────────────────────────────────────────
         let touchStartY = 0;
-        document.addEventListener('touchstart', e => {
-            touchStartY = e.touches[0].clientY;
-        }, { passive: true });
-
-        document.addEventListener('touchend', e => {
+        const onTouchStart = (e: TouchEvent) => { touchStartY = e.touches[0].clientY; };
+        const onTouchEnd   = (e: TouchEvent) => {
             const dy = touchStartY - e.changedTouches[0].clientY;
-            if (Math.abs(dy) > 50) {
-                goToLayer(currentLayer + (dy > 0 ? 1 : -1));
-            }
-        });
+            if (Math.abs(dy) > 50) goToLayer(currentLayer + (dy > 0 ? 1 : -1));
+        };
+        document.addEventListener('touchstart', onTouchStart, { passive: true });
+        document.addEventListener('touchend',   onTouchEnd);
 
-        // ── Resize ──────────────────────────────────────────────────
-        window.addEventListener('resize', () => {
-            W = window.innerWidth; H = window.innerHeight;
-            canvas.width = W * dpr; canvas.height = H * dpr;
-            canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
-            ctx.scale(dpr, dpr);
-        });
-
-        // ── Init & loop ─────────────────────────────────────────────
-        // Style items for animation
-        document.querySelectorAll('.nm-item').forEach((el) => {
+        // ── Init ────────────────────────────────────────────────────────────────
+        document.querySelectorAll('.nm-item').forEach(el => {
             const item = el as HTMLElement;
             item.style.opacity = '0';
-            item.style.transform = 'translateX(-20px)';
-            item.style.transition = 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+            item.style.transform = 'translateX(-16px)';
+            item.style.transition = 'all 0.4s cubic-bezier(0.16,1,0.3,1)';
         });
 
         showLayer(0);
 
-        function loop() {
-            drawBackground();
-            requestAnimationFrame(loop);
-        }
-        loop();
+        let rafId: number;
+        function loop() { draw(); rafId = requestAnimationFrame(loop); }
+        rafId = requestAnimationFrame(loop);
+
+        // ── Cleanup on navigation ────────────────────────────────────────────────
+        document.addEventListener('astro:before-swap', () => {
+            cancelAnimationFrame(rafId);
+            window.removeEventListener('resize', resizeCanvas);
+            document.removeEventListener('wheel', onWheel);
+            document.removeEventListener('keydown', onKeydown);
+            document.removeEventListener('touchstart', onTouchStart);
+            document.removeEventListener('touchend', onTouchEnd);
+        }, { once: true });
+
+        } // end initNeuralMap
+
+        document.addEventListener('astro:page-load', initNeuralMap);
     </script>
 </BaseLayout>

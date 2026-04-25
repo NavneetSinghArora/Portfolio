@@ -1,50 +1,134 @@
 ---
 ---
-<div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none transition-colors duration-1000 bg-main-bg" id="aurora-container" transition:persist>
-    
-    <!-- Deep Background Layer: Soft CSS Aurora Blobs -->
-    <div id="layer-slow" class="absolute inset-[-10%] w-[120%] h-[120%] transition-transform will-change-transform">
-        <div class="absolute top-[5%] left-[5%] w-[50vw] h-[50vw] max-w-[800px] max-h-[800px] rounded-full bg-blue-400/15 dark:bg-blue-600/10 blur-[100px] animate-aurora-1 mix-blend-screen opacity-90"></div>
-        <div class="absolute top-[20%] right-[5%] w-[45vw] h-[45vw] max-w-[700px] max-h-[700px] rounded-full bg-purple-400/15 dark:bg-purple-600/10 blur-[120px] animate-aurora-2 mix-blend-screen opacity-90"></div>
-        <div class="absolute top-[40%] left-[20%] w-[60vw] h-[60vw] max-w-[900px] max-h-[900px] rounded-full bg-cyan-300/15 dark:bg-cyan-800/10 blur-[120px] animate-aurora-3 mix-blend-screen opacity-90"></div>
-    </div>
+<div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none bg-main-bg" id="aurora-container" transition:persist>
 
-    <!-- Foreground Layer: Anchored Point mesh -->
+    <!-- GLSL WebGL Fluid Shader (dark mode) -->
+    <canvas id="glsl-bg" class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-1000"></canvas>
+
+    <!-- Neural Network Particle Mesh -->
     <canvas id="parallax-bg" class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-1000"></canvas>
-    
+
 </div>
 
 <style>
-    /* Continuous soft drift for Aurora */
-    @keyframes bg-drift {
-        0% { transform: translateY(0px) translateX(0px) scale(1); }
-        50% { transform: translateY(-15px) translateX(15px) scale(1.02); }
-        100% { transform: translateY(0px) translateX(0px) scale(1); }
-    }
-    
-    #layer-slow {
-        animation: bg-drift 40s infinite ease-in-out;
-        translate: calc(var(--mouseX, 0px) * 0.4) calc(var(--mouseY, 0px) * 0.4);
-    }
-
-    /* Aurora blob movements */
-    @keyframes aurora-1 {
-        0%, 100% { transform: translate(0, 0) scale(1); }
-        50% { transform: translate(4%, 6%) scale(1.05); }
-    }
-    @keyframes aurora-2 {
-        0%, 100% { transform: translate(0, 0) scale(1); }
-        50% { transform: translate(-4%, 5%) scale(0.95); }
-    }
-    @keyframes aurora-3 {
-        0%, 100% { transform: translate(0, 0) scale(1); }
-        50% { transform: translate(5%, -3%) scale(1.02); }
-    }
-
-    .animate-aurora-1 { animation: aurora-1 22s infinite ease-in-out; }
-    .animate-aurora-2 { animation: aurora-2 26s infinite ease-in-out; }
-    .animate-aurora-3 { animation: aurora-3 30s infinite ease-in-out; }
+    :global(html.dark) #glsl-bg  { opacity: 1   !important; }
+    :global(html:not(.dark)) #glsl-bg { opacity: 0.85 !important; }
 </style>
+
+<script>
+    function initGlslBackground() {
+        const canvas = document.getElementById('glsl-bg') as HTMLCanvasElement | null;
+        if (!canvas) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        const gl = (canvas.getContext('webgl') ?? canvas.getContext('experimental-webgl')) as WebGLRenderingContext | null;
+        if (!gl) return;
+
+        const resize = () => {
+            const dpr = Math.min(window.devicePixelRatio ?? 1, 1.5);
+            canvas.width = window.innerWidth * dpr;
+            canvas.height = window.innerHeight * dpr;
+            gl.viewport(0, 0, canvas.width, canvas.height);
+        };
+        resize();
+        window.addEventListener('resize', resize, { passive: true });
+
+        const vert = `attribute vec2 a_pos; void main(){ gl_Position=vec4(a_pos,0.,1.); }`;
+
+        const frag = `
+            precision mediump float;
+            uniform float u_time;
+            uniform float u_dark;
+            uniform vec2  u_res;
+            float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
+            float noise(vec2 p){
+                vec2 i=floor(p), f=fract(p), u=f*f*(3.-2.*f);
+                return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);
+            }
+            void main(){
+                vec2 uv=gl_FragCoord.xy/u_res;
+                float t=u_time*0.15;
+                float n=0.;
+                n+=.50*noise(uv*3.+vec2(t*.7,t*.5));
+                n+=.25*noise(uv*6.+vec2(t*1.3,t*.9));
+                n+=.125*noise(uv*12.+vec2(t*.4,t*1.7));
+                n+=.062*noise(uv*24.+vec2(t*2.1,t*.3));
+                float pulse=0.;
+                for(int i=0;i<4;i++){
+                    float fi=float(i);
+                    vec2 o=vec2(.2+fi*.2+sin(t*.6+fi)*.12,.3+cos(t*.4+fi*1.3)*.22);
+                    float d=length(uv-o);
+                    pulse+=exp(-d*8.)*(sin(t*2.+fi*1.7)*.5+.5);
+                }
+                // Dark palette: deep navy → blue → violet
+                vec3 dark=mix(vec3(.01,.03,.10),vec3(.04,.08,.30),smoothstep(.3,.7,n));
+                dark=mix(dark,vec3(.18,.06,.45),smoothstep(.55,.85,n)*.7);
+                dark+=vec3(.08,.50,.95)*pulse*.30;
+                dark+=vec3(.55,.15,.95)*smoothstep(.72,1.,n)*.20;
+                dark=clamp(dark*.88,0.,1.);
+                // Light palette: warm cream → soft lavender → muted blue
+                vec3 lite=mix(vec3(.949,.941,.925),vec3(.91,.90,.97),smoothstep(.3,.7,n));
+                lite=mix(lite,vec3(.86,.88,.99),smoothstep(.55,.85,n)*.55);
+                lite+=vec3(.62,.76,.99)*pulse*.09;
+                lite+=vec3(.78,.70,.99)*smoothstep(.72,1.,n)*.07;
+                lite=clamp(lite,0.,1.);
+                gl_FragColor=vec4(mix(lite,dark,u_dark),1.);
+            }
+        `;
+
+        function compile(type: number, src: string) {
+            const s = gl.createShader(type)!;
+            gl.shaderSource(s, src);
+            gl.compileShader(s);
+            return s;
+        }
+
+        const prog = gl.createProgram()!;
+        gl.attachShader(prog, compile(gl.VERTEX_SHADER, vert));
+        gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, frag));
+        gl.linkProgram(prog);
+        gl.useProgram(prog);
+
+        const buf = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+
+        const aPos = gl.getAttribLocation(prog, 'a_pos');
+        gl.enableVertexAttribArray(aPos);
+        gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+        const uTime = gl.getUniformLocation(prog, 'u_time');
+        const uRes  = gl.getUniformLocation(prog, 'u_res');
+        const uDark = gl.getUniformLocation(prog, 'u_dark');
+
+        const isMobile = window.innerWidth < 768;
+        const frameMs = isMobile ? 66 : 0;
+        let lastT = 0, raf: number;
+        const start = performance.now();
+
+        function frame(ts: number) {
+            if (ts - lastT >= frameMs) {
+                lastT = ts;
+                if (!document.hidden) {
+                    gl.uniform1f(uTime, (performance.now() - start) / 1000);
+                    gl.uniform1f(uDark, document.documentElement.classList.contains('dark') ? 1.0 : 0.0);
+                    gl.uniform2f(uRes, canvas.width, canvas.height);
+                    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+                }
+            }
+            raf = requestAnimationFrame(frame);
+        }
+        raf = requestAnimationFrame(frame);
+
+        document.addEventListener('astro:before-swap', () => {
+            cancelAnimationFrame(raf);
+            window.removeEventListener('resize', resize);
+        }, { once: true });
+    }
+
+    initGlslBackground();
+    document.addEventListener('astro:page-load', initGlslBackground);
+</script>
 
 <script>
     function initParallax() {

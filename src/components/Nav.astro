@@ -6,8 +6,8 @@ import siteConfig from '../data/site-config';
 const navLinks = siteConfig.headerNavLinks ?? [];
 ---
 
-<nav id="main-nav" class="fixed top-6 left-1/2 -translate-x-1/2 z-[999] w-fit px-4 pointer-events-none" aria-label="Primary navigation">
-    <div id="nav-container" class="relative rounded-2xl border border-main-border/10 bg-main-bg/40 backdrop-blur-xl shadow-lg transition-all duration-500 overflow-hidden flex items-center gap-2 p-1.5 ring-1 ring-white/5 dark:ring-white/10 pointer-events-auto">
+<nav id="main-nav" class="fixed top-6 left-1/2 -translate-x-1/2 z-[999] w-full max-w-4xl px-4 pointer-events-none" aria-label="Primary navigation">
+    <div id="nav-container" class="relative rounded-2xl border border-main-border/10 bg-main-bg/40 backdrop-blur-xl shadow-lg transition-all duration-500 overflow-hidden flex items-center justify-between gap-2 p-1.5 ring-1 ring-white/5 dark:ring-white/10 pointer-events-auto">
         <!-- Desktop Nav -->
         <ul class="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (

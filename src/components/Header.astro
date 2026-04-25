@@ -25,7 +25,7 @@ const titleClass = 'text-theme-foreground font-serif text-3xl leading-tight font
 const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html';
 ---
 
-<header class={`relative mx-auto flex w-full max-w-3xl flex-col items-center text-center gap-6 ${isHome ? 'min-h-[calc(100vh-8rem)] justify-center mb-8' : 'mb-12 sm:mb-16'}`}>
+<header class={`relative mx-auto flex w-full max-w-4xl flex-col items-center text-center gap-6 ${isHome ? 'min-h-[calc(100vh-8rem)] justify-center mb-8' : 'mb-12 sm:mb-16'}`}>
     {
         siteConfig.avatar?.src && (
             <a href="/" class="mb-2">
@@ -116,14 +116,20 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
 </header>
 
 <script>
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
+    // Module-level guard — prevents two async loops running concurrently.
+    // astro:page-load fires on initial load AND navigations, so we never
+    // call initTypewriter() directly — only via the event listener.
+    let twActive = false;
+
+    const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
 
     async function initTypewriter() {
-        const textEl = document.getElementById('typewriter-text');
-        const cursor = document.getElementById('typewriter-cursor');
-        if (!textEl || !cursor) return;
+        if (twActive) return;
+        twActive = true;
+
+        const textEl = document.getElementById('typewriter-text') as HTMLElement | null;
+        const cursor  = document.getElementById('typewriter-cursor') as HTMLElement | null;
+        if (!textEl || !cursor) { twActive = false; return; }
 
         const phrases = [
             'Machine Learning & Full Stack Engineer',
@@ -133,61 +139,62 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
             'Backend Systems Engineer',
         ];
 
-        // Ensure blink uses CSS for perfect hardware-accelerated timing
-        cursor.style.animation = 'blink 1s step-end infinite';
-        
-        // Add the keyframes if they don't exist
-        if (!document.getElementById('typewriter-style')) {
-            const style = document.createElement('style');
-            style.id = 'typewriter-style';
-            style.innerHTML = `
-                @keyframes blink {
-                    0%, 100% { opacity: 1; }
-                    50% { opacity: 0; }
-                }
-            `;
-            document.head.appendChild(style);
+        // Cursor blink via CSS
+        if (!document.getElementById('tw-style')) {
+            const s = document.createElement('style');
+            s.id = 'tw-style';
+            s.textContent = '@keyframes tw-blink{0%,100%{opacity:1}50%{opacity:0}}';
+            document.head.appendChild(s);
         }
+        cursor.style.animation = 'tw-blink 1s step-end infinite';
 
+        let alive = true;
         let phraseIdx = 0;
-        let isRunning = true;
 
-        // Cleanup handler for Astro view transitions
-        document.addEventListener('astro:before-swap', () => { isRunning = false; }, { once: true });
+        // Stop loop on page navigation
+        document.addEventListener('astro:before-swap', () => {
+            alive = false;
+            twActive = false;
+        }, { once: true });
 
-        // Initial hold
-        await sleep(3000);
+        // Initial hold — show the first phrase fully before starting
+        await sleep(2800);
 
-        while (isRunning) {
+        while (alive) {
             const current = phrases[phraseIdx];
-            
-            // Delete current word
-            while (textEl.textContent?.length !== 0 && isRunning) {
-                textEl.textContent = current.slice(0, textEl.textContent.length - 1);
-                await sleep(30); // Fast delete
+
+            // Delete char by char using an explicit counter (not textContent.length)
+            for (let len = current.length; len >= 0 && alive; len--) {
+                textEl.textContent = current.slice(0, len);
+                await sleep(28);
             }
-            
-            if (!isRunning) break;
-            
-            // Move to next word
+
+            if (!alive) break;
+
+            // Advance to next phrase
             phraseIdx = (phraseIdx + 1) % phrases.length;
             const next = phrases[phraseIdx];
-            
-            // Type next word
-            for (let i = 1; i <= next.length && isRunning; i++) {
+
+            // Type char by char
+            for (let i = 1; i <= next.length && alive; i++) {
                 textEl.textContent = next.slice(0, i);
-                await sleep(60); // Natural typing speed
+                await sleep(62);
             }
-            
-            if (!isRunning) break;
-            
-            // Hold the word
-            await sleep(3000);
+
+            if (!alive) break;
+
+            // Hold the completed phrase
+            await sleep(2800);
         }
+
+        twActive = false;
     }
 
-    initTypewriter();
-    document.addEventListener('astro:page-load', initTypewriter);
+    // astro:page-load covers both initial load (with ClientRouter) and navigations
+    document.addEventListener('astro:page-load', () => {
+        twActive = false; // reset in case previous instance leaked
+        initTypewriter();
+    });
 
     function scrollHandler() {
         const indicator = document.getElementById('scroll-indicator');

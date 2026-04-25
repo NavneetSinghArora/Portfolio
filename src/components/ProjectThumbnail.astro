@@ -12,7 +12,7 @@ const image = seo?.image;
 <div class:list={['project-card spotlight-card group block relative flex flex-col p-4', className]}>
     <div class="spotlight-glow"></div>
     <!-- Base Link Overlay -->
-    <a href={`/projects/${project.id}/`} class="absolute inset-0 z-0" aria-label={`View ${title}`}></a>
+    <a href={`/projects/${project.id}/`} class="absolute inset-0 z-10" aria-label={`View ${title}`}></a>
 
     <div class="relative z-1 aspect-video w-full overflow-hidden rounded-xl border border-main-border/5 bg-main-bg/10 mb-4">
         {image ? (
@@ -32,21 +32,28 @@ const image = seo?.image;
         <h3 class="font-serif text-base font-bold leading-tight line-clamp-2 py-0.5 mb-2 text-main">
             <span class="premium-line-hover">{title}</span>
         </h3>
-        {description && <p class="text-xs text-main/90 line-clamp-3 mb-4 leading-relaxed font-sans">{description}</p>}
+        {description && <p class="text-xs text-main/90 line-clamp-2 mb-3 leading-relaxed font-sans">{description}</p>}
+        {project.data.tags && project.data.tags.length > 0 && (
+            <div class="flex flex-wrap gap-1 mb-3">
+                {project.data.tags.slice(0, 3).map((tag: string) => (
+                    <span class="px-2 py-0.5 text-[9px] font-mono font-medium rounded-full border border-main-border/20 bg-main/5 text-main/50 tracking-wide">{tag}</span>
+                ))}
+            </div>
+        )}
     </div>
     
     <!-- Card Meta -->
     <div class="relative z-10 mt-auto flex items-center justify-between pt-3 border-t border-main-border/5">
         <div class="flex items-center gap-3">
             {project.data.github && (
-                <a href={project.data.github} target="_blank" rel="noopener noreferrer" class="group/icon premium-tooltip relative flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip="GitHub Repository">
+                <a href={project.data.github} target="_blank" rel="noopener noreferrer" class="group/icon premium-tooltip relative z-20 flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip="GitHub Repository">
                     <div class="absolute inset-0 rounded-lg bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
                     <img src="https://cdn.simpleicons.org/github" class="h-3.5 w-3.5 dark:hidden relative z-10 opacity-70 group-hover/icon:opacity-100" alt="GitHub" />
                     <img src="https://cdn.simpleicons.org/github/white" class="h-3.5 w-3.5 hidden dark:block relative z-10 opacity-70 group-hover/icon:opacity-100" alt="GitHub" />
                 </a>
             )}
             {project.data.paper && (
-                <a href={project.data.paper} target="_blank" rel="noopener noreferrer" class="group/icon premium-tooltip relative flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip={project.data.paper.includes('kaggle.com') ? "Kaggle Competition" : "Research/Project Document"}>
+                <a href={project.data.paper} target="_blank" rel="noopener noreferrer" class="group/icon premium-tooltip relative z-20 flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip={project.data.paper.includes('kaggle.com') ? "Kaggle Competition" : "Research/Project Document"}>
                     <div class="absolute inset-0 rounded-lg bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
                     {project.data.paper.includes('kaggle.com') ? (
                         <div class="flex items-center relative z-10 opacity-70 group-hover/icon:opacity-100">
@@ -59,13 +66,13 @@ const image = seo?.image;
                 </a>
             )}
             {project.data.demo && (
-                <a href={project.data.demo} target="_blank" rel="noopener noreferrer" class="group/icon premium-tooltip relative flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip="Live Demo">
+                <a href={project.data.demo} target="_blank" rel="noopener noreferrer" class="group/icon premium-tooltip relative z-20 flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip="Live Demo">
                     <div class="absolute inset-0 rounded-lg bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5 relative z-10 opacity-70 group-hover/icon:opacity-100"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                 </a>
             )}
             {project.data.external && (
-                <a href={project.data.external} target="_blank" rel="noopener noreferrer" class="group/icon premium-tooltip relative flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip={project.data.tags?.includes('n8n') ? "View n8n Workflow" : "External Link"}>
+                <a href={project.data.external} target="_blank" rel="noopener noreferrer" class="group/icon premium-tooltip relative z-20 flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip={project.data.tags?.includes('n8n') ? "View n8n Workflow" : "External Link"}>
                     <div class="absolute inset-0 rounded-lg bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
                     {project.data.tags?.includes('n8n') ? (
                         <div class="flex items-center relative z-10 opacity-70 group-hover/icon:opacity-100">

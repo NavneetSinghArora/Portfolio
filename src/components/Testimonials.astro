@@ -1,25 +1,36 @@
 ---
 const testimonials = [
     {
-        quote: "Navneet is the type of developer we like working with. He knows his stuff, is responsive, and communicable. When an error or issue popes up as is to be expected, he is quick to work towards a resolution.",
-        name: "Upwork Client",
-        title: "Data Scraping Application",
-        initials: "UP",
-        color: "from-[#14a800] to-[#0e7c00]",
+        quote: "Navneet works as a Full Stack Developer and leads most of the development activities in the team. He is really good at his work and takes on new challenges and roles positively. A quick learner and brilliant at managing tasks at hand — he assumed the role of Scrum Master as well, and proactively worked with other teams when required. It is a pleasant experience to work with Navneet.",
+        name: "Anupam Awal",
+        title: "Senior Engineering Manager",
+        source: "LinkedIn",
+        initials: "AA",
+        color: "from-blue-500 to-indigo-600",
     },
     {
-        quote: "Navneet was responsible for creating some test programming for us in Python and Java for internal use. He was very easy to work with, and responsive. Clear and concise communication is important to our organization.",
-        name: "Upwork Client",
-        title: "Python & Java Web Development",
-        initials: "UP",
-        color: "from-[#14a800] to-[#0e7c00]",
+        quote: "Navneet is a full stack developer who works on multiple technologies and completes tasks with full ownership and responsibility. He is one of the quickest learners and excels from rookie to specialist very quickly. A great thinker who develops out-of-the-box solutions. He goes out of his way to help the team. Happiest to work with Navneet.",
+        name: "Sameer Makadia",
+        title: "Senior Software Engineer",
+        source: "LinkedIn",
+        initials: "SM",
+        color: "from-violet-500 to-purple-600",
     },
     {
-        quote: "Navneet brings an exceptional blend of technical expertise and reliable execution. His work on data structuring and backend systems has consistently proven invaluable.",
-        name: "LinkedIn Colleague",
-        title: "Professional Connection",
-        initials: "IN",
-        color: "from-[#0a66c2] to-[#004182]",
+        quote: "Navneet is the type of developer we like working with. He knows his stuff, is responsive, and communicable. When an error or issue pops up — as is to be expected — he is quick to work towards a resolution.",
+        name: "Upwork Client",
+        title: "Python Automation Project · ★★★★★",
+        source: "Upwork",
+        initials: "★",
+        color: "from-amber-500 to-orange-500",
+    },
+    {
+        quote: "This is not our first time working with Navneet. We had hired him for some coding work previously and were happy to hire him once again to complete additional tasks. He is easy to work with and we appreciate his coding skills.",
+        name: "Repeat Upwork Client",
+        title: "Web Development Project · ★★★★★",
+        source: "Upwork",
+        initials: "★",
+        color: "from-emerald-500 to-teal-600",
     },
 ];
 ---
@@ -30,22 +41,30 @@ const testimonials = [
             <p class="mb-2 text-[11px] font-mono uppercase tracking-[0.2em] text-main/35">03 ——</p>
             <h2 class="font-serif text-2xl sm:text-3xl font-bold">What Colleagues Say</h2>
         </div>
+        <div class="flex items-center gap-2">
+            <span class="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-[10px] font-mono text-main/40 uppercase tracking-widest">Verified</span>
+        </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-5 sm:grid-cols-3">
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
         {testimonials.map(t => (
             <div class="spotlight-card group relative flex flex-col gap-5 p-6">
                 <div class="spotlight-glow"></div>
 
-                <!-- Quote mark -->
-                <svg class="w-6 h-6 text-main/15" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.338-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.338-3.996 5.849h3.983v10h-9.983z"/>
-                </svg>
+                <div class="flex items-start justify-between">
+                    <svg class="w-6 h-6 text-main/15" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.338-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.338-3.996 5.849h3.983v10h-9.983z"/>
+                    </svg>
+                    <span class={`text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full border ${t.source === 'LinkedIn' ? 'border-blue-500/20 text-blue-400/70 bg-blue-500/5' : 'border-amber-500/20 text-amber-400/70 bg-amber-500/5'}`}>
+                        {t.source}
+                    </span>
+                </div>
 
                 <p class="flex-1 text-sm leading-relaxed text-main/75 font-serif italic">"{t.quote}"</p>
 
-                <div class="flex items-center gap-3 pt-1 border-t border-main-border/10">
-                    <div class={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${t.color} text-[11px] font-bold text-white`}>
+                <div class="flex items-center gap-3 pt-3 border-t border-main-border/10">
+                    <div class={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${t.color} text-[12px] font-bold text-white`}>
                         {t.initials}
                     </div>
                     <div>

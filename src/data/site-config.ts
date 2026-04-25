@@ -59,10 +59,6 @@ const siteConfig: SiteConfig = {
         {
             text: 'Nexus',
             href: '/knowledge-graph'
-        },
-        {
-            text: 'Neural Map',
-            href: '/neural-map'
         }
     ],
     footerNavLinks: [

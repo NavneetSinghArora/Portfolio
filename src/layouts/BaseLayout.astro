@@ -7,9 +7,9 @@ import Header from '../components/Header.astro';
 import Nav from '../components/Nav.astro';
 import AuroraBackground from '../components/AuroraBackground.astro';
 import CommandPalette from '../components/CommandPalette.astro';
+import CursorTrail from '../components/CursorTrail.astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 import StarfieldBackground from '../components/StarfieldBackground.astro';
-import PageLoader from '../components/PageLoader.astro';
 import ScrollToTop from '../components/ScrollToTop.astro';
 
 export type Props = HeadProps & { showHeader?: boolean };
@@ -31,8 +31,6 @@ const { showHeader = false, ...head } = Astro.props;
         <Analytics />
     </head>
     <body class="text-main bg-transparent overflow-x-hidden">
-        <PageLoader />
-        
         <!-- Live Neon Cursor Effect (lightweight approximation of 3D tubes) -->
         <div id="neon-cursor" class="pointer-events-none fixed top-0 left-0 w-8 h-8 rounded-full mix-blend-screen z-[9999] opacity-0 transition-opacity duration-300 hidden md:block">
              <div class="absolute inset-0 rounded-full bg-fuchsia-500 blur-xl animate-pulse"></div>
@@ -43,11 +41,12 @@ const { showHeader = false, ...head } = Astro.props;
 
         <AuroraBackground />
         <CommandPalette />
+        <CursorTrail />
         <div id="nn-progress-bar"><div id="nn-progress-fill"></div></div>
         <Nav />
         <div class="flex min-h-screen flex-col px-4 md:px-8 pt-24 sm:pt-32 relative z-10 w-full">
             {showHeader && <Header />}
-            <main class="mx-auto w-full max-w-3xl grow">
+            <main class="mx-auto w-full max-w-4xl grow">
                 <slot />
             </main>
             <Footer />

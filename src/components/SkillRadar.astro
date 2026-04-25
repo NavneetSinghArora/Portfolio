@@ -1,0 +1,187 @@
+---
+const skills = [
+    { label: 'Automation',      value: 95, angle: -90,  sub: 'n8n · GitHub Actions · CI/CD'},
+    { label: 'ML / AI',         value: 92, angle: -30,  sub: 'LangChain · Vertex · PyTorch'},
+    { label: 'Backend',         value: 87, angle:  30,  sub: 'FastAPI · PostgreSQL · Hasura'},
+    { label: 'Computer Vision', value: 72, angle:  90,  sub: 'OpenCV · YOLO · Deep Learning'},
+    { label: 'Infrastructure',  value: 78, angle: 150,  sub: 'GCP · Docker · Cloudflare'},
+    { label: 'Leadership',      value: 70, angle: 210,  sub: 'Tech Lead · Scrum · Mentoring' },
+];
+
+const R = 90;
+const toRad = (d: number) => d * Math.PI / 180;
+const pt = (v: number, a: number) => ({
+    x: (v / 100) * R * Math.cos(toRad(a)),
+    y: (v / 100) * R * Math.sin(toRad(a)),
+});
+
+const gridLevels = [25, 50, 75, 100];
+const gridPolys = gridLevels.map(lvl =>
+    skills.map(s => pt(lvl, s.angle)).map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ')
+);
+const axisEnds = skills.map(s => pt(100, s.angle));
+const skillPoly = skills.map(s => pt(s.value, s.angle)).map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+const dotPositions = skills.map(s => pt(s.value, s.angle));
+
+const LR = R + 24;
+const labelPositions = skills.map(s => {
+    const cos = Math.cos(toRad(s.angle));
+    const sin = Math.sin(toRad(s.angle));
+    return {
+        ...s,
+        lx: (LR * cos).toFixed(1),
+        ly: (LR * sin).toFixed(1),
+        anchor: cos > 0.25 ? 'start' : cos < -0.25 ? 'end' : 'middle',
+        dyExtra: sin > 0.5 ? 14 : sin < -0.5 ? -6 : 4,
+    };
+});
+---
+
+<div class="mb-16 sm:mb-24" data-nn-layer="skill-radar">
+    <div class="mb-10">
+        <p class="mb-2 text-[10px] font-mono uppercase tracking-[0.22em] text-main/30">Expertise ——</p>
+        <h2 class="font-serif text-2xl sm:text-3xl font-bold">Domain Proficiency</h2>
+        <p class="mt-2 text-sm text-main/55 max-w-xl">Relative depth across engineering domains — based on years of professional experience and shipped work.</p>
+    </div>
+
+    <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+
+        <!-- SVG Radar -->
+        <div class="w-full max-w-[340px] mx-auto md:mx-0 flex-shrink-0">
+            <svg viewBox="-175 -145 350 285" class="w-full" aria-label="Skill radar chart" id="skill-radar-svg">
+                <defs>
+                    <linearGradient id="radarFill" x1="0" y1="-1" x2="0" y2="1" gradientUnits="objectBoundingBox">
+                        <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.30"/>
+                        <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0.18"/>
+                    </linearGradient>
+                    <linearGradient id="radarStroke" x1="0" y1="-1" x2="0" y2="1" gradientUnits="objectBoundingBox">
+                        <stop offset="0%" stop-color="#60a5fa"/>
+                        <stop offset="100%" stop-color="#a78bfa"/>
+                    </linearGradient>
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="2" result="blur"/>
+                        <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                    </filter>
+                </defs>
+
+                <!-- Grid rings -->
+                {gridPolys.map((poly, i) => (
+                    <polygon points={poly} fill="none" stroke="currentColor" stroke-width="0.6"
+                        class={i === 3 ? 'text-main/20' : 'text-main/8'}/>
+                ))}
+
+                <!-- Axis lines -->
+                {axisEnds.map((end, i) => (
+                    <line x1="0" y1="0" x2={end.x.toFixed(1)} y2={end.y.toFixed(1)}
+                        stroke="currentColor" stroke-width="0.5" class="text-main/15"/>
+                ))}
+
+                <!-- Skill polygon fill -->
+                <polygon id="radar-fill" points={skillPoly} fill="url(#radarFill)"
+                    style="transform-origin: 0 0; transform: scale(0); transition: transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);"/>
+
+                <!-- Skill polygon stroke -->
+                <polygon id="radar-stroke" points={skillPoly} fill="none"
+                    stroke="url(#radarStroke)" stroke-width="1.8" stroke-linejoin="round"
+                    style="transform-origin: 0 0; transform: scale(0); transition: transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);"/>
+
+                <!-- Corner dots -->
+                {dotPositions.map((p, i) => (
+                    <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="3.5"
+                        class="radar-dot fill-blue-400 dark:fill-blue-300"
+                        style={`opacity: 0; transition: opacity 0.3s ${300 + i * 80}ms;`}/>
+                ))}
+
+                <!-- Labels -->
+                {labelPositions.map(s => (
+                    <text x={s.lx} y={s.ly} text-anchor={s.anchor}
+                        dy={s.dyExtra} font-size="9.5" font-weight="600"
+                        fill="currentColor" class="text-main/65 select-none">{s.label}</text>
+                ))}
+
+                <!-- Level % hints -->
+                {gridLevels.map(lvl => (
+                    <text x="3" y={-((lvl / 100) * R) + 3} font-size="6.5"
+                        fill="currentColor" class="text-main/25 font-mono select-none">{lvl}%</text>
+                ))}
+            </svg>
+        </div>
+
+        <!-- Skill bars -->
+        <div class="w-full grid grid-cols-1 sm:grid-cols-2 gap-3" id="skill-bars">
+            {skills.map((s, i) => (
+                <div class="flex items-center gap-3 p-3.5 rounded-xl border border-main-border/10 bg-main-bg/10 backdrop-blur-sm">
+                    <div class="w-9 text-right flex-shrink-0">
+                        <span class="text-sm font-bold font-mono text-main radar-val" data-target={s.value}>0</span>
+                        <span class="text-[10px] text-main/35">%</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-[13px] font-semibold text-main">{s.label}</p>
+                        <div class="mt-1.5 h-1 w-full rounded-full bg-main/8 overflow-hidden">
+                            <div class="h-full rounded-full bg-gradient-to-r from-blue-500 to-violet-500 radar-bar"
+                                style="width: 0%; transition: width 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);"
+                                data-target={s.value}></div>
+                        </div>
+                        <p class="text-[10px] text-main/35 mt-1 truncate">{s.sub}</p>
+                    </div>
+                </div>
+            ))}
+        </div>
+    </div>
+</div>
+
+<script>
+function initSkillRadar() {
+    const svg = document.getElementById('skill-radar-svg');
+    if (!svg) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            observer.disconnect();
+            animateRadar();
+        });
+    }, { threshold: 0.25 });
+
+    observer.observe(svg);
+
+    function animateRadar() {
+        // Scale in the polygon
+        const fill = document.getElementById('radar-fill') as SVGElement | null;
+        const stroke = document.getElementById('radar-stroke') as SVGElement | null;
+        if (fill) fill.style.transform = 'scale(1)';
+        if (stroke) stroke.style.transform = 'scale(1)';
+
+        // Fade in dots
+        document.querySelectorAll('.radar-dot').forEach(dot => {
+            (dot as HTMLElement).style.opacity = '1';
+        });
+
+        // Animate percentage bars and counters
+        const bars = document.querySelectorAll('.radar-bar') as NodeListOf<HTMLElement>;
+        const vals = document.querySelectorAll('.radar-val') as NodeListOf<HTMLElement>;
+
+        bars.forEach((bar, i) => {
+            const target = parseInt(bar.dataset.target || '0');
+            setTimeout(() => { bar.style.width = `${target}%`; }, 100 + i * 60);
+        });
+
+        vals.forEach((el, i) => {
+            const target = parseInt(el.dataset.target || '0');
+            setTimeout(() => {
+                const duration = 900;
+                const start = performance.now();
+                function tick(now: number) {
+                    const p = Math.min((now - start) / duration, 1);
+                    el.textContent = Math.round(p * target).toString();
+                    if (p < 1) requestAnimationFrame(tick);
+                }
+                requestAnimationFrame(tick);
+            }, 100 + i * 60);
+        });
+    }
+}
+
+initSkillRadar();
+document.addEventListener('astro:page-load', initSkillRadar);
+</script>

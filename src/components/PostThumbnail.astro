@@ -12,7 +12,7 @@ const imageSrc = banner ?? seo?.image?.src?.src;
 <div class:list={['post-card spotlight-card group block relative flex flex-col p-4', className]}>
     <div class="spotlight-glow"></div>
     <!-- Base Link Overlay -->
-    <a href={`/blog/${post.id}/`} class="absolute inset-0 z-0" aria-label={`Read ${title}`}></a>
+    <a href={`/blog/${post.id}/`} class="absolute inset-0 z-10" aria-label={`Read ${title}`}></a>
 
     <div class="relative z-1 aspect-video w-full overflow-hidden rounded-xl border border-main-border/5 bg-main-bg/10 mb-4">
         {imageSrc ? (
@@ -42,7 +42,7 @@ const imageSrc = banner ?? seo?.image?.src?.src;
                     target="_blank" 
                     rel="noopener noreferrer" 
                     data-tooltip="Read on Medium"
-                    class="group/icon premium-tooltip relative flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115"
+                    class="group/icon premium-tooltip relative z-20 flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115"
                 >
                     <div class="absolute inset-0 rounded-lg bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
                     <img src="https://cdn.simpleicons.org/medium" class="h-3.5 w-3.5 dark:hidden relative z-10 opacity-70 group-hover/icon:opacity-100" alt="Medium" />
