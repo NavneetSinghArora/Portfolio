@@ -1,0 +1,16 @@
+{
+  "name": "Navneet Singh Arora",
+  "short_name": "Navneet",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#171717",
+  "background_color": "#171717",
+  "display": "standalone",
+  "start_url": "/"
+}

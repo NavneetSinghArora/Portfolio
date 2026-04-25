@@ -109,9 +109,6 @@ const experiences = [
 // Extract unique locations for filtering
 const allLocations = [...new Set(experiences.flatMap(exp => exp.roles.map(role => role.location.split(', ').pop())))];
 
-// Neural layer labels (newest = Output, oldest = Input)
-const layerLabels = ['Output Layer', 'Hidden Layer 4', 'Hidden Layer 3', 'Hidden Layer 2', 'Hidden Layer 1', 'Input Layer'];
-
 ---
 
 <BaseLayout title={`Experience - ${siteConfig.title}`} description="Professional experience and career journey.">
@@ -195,9 +192,6 @@ const layerLabels = ['Output Layer', 'Hidden Layer 4', 'Hidden Layer 3', 'Hidden
                     data-date={index}
                     data-search={`${item.company} ${item.roles.map(r => r.title + ' ' + r.description).join(' ')}`.toLowerCase()}
                 >
-                    <div class="absolute top-4 right-5 pointer-events-none z-20">
-                        <span class="text-[9px] font-mono uppercase tracking-widest text-blue-400/50">▸ {layerLabels[index] ?? `Layer ${index}`}</span>
-                    </div>
                     <div class="spotlight-glow"></div>
                     
                     {/* SVG Icon Container */}
