@@ -56,8 +56,8 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
             <p id="header-subtitle" class="text-base sm:text-lg leading-tight opacity-70 font-medium" aria-label={siteConfig.subtitle}>
                 <span id="typewriter-text">{siteConfig.subtitle}</span><span id="typewriter-cursor" class="inline-block w-[2px] h-[1.1em] bg-current align-middle ml-[2px] opacity-70" aria-hidden="true"></span>
             </p>
-            <div class="flex items-center gap-1.5 text-main/90 font-medium text-xs tracking-wide">
-                <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            <div class="flex items-center gap-1.5 text-main/60 font-medium text-[10px] uppercase tracking-[0.2em] mt-1 mb-2">
+                <svg class="w-3.5 h-3.5 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 <span>Hamburg, Germany</span>
             </div>
         </div>
@@ -101,6 +101,43 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
             })}
             <div class="flex items-center ml-2">
                 <QuickConnect />
+            </div>
+        </div>
+
+        <!-- Unified Presence Dashboard -->
+        <div class="mt-10 flex justify-center">
+            <div class="group/bar relative flex items-center gap-4 px-5 py-2 rounded-xl border border-white/5 bg-white/[0.03] backdrop-blur-xl shadow-2xl shadow-black/20 overflow-hidden transition-all duration-700 hover:border-white/10 hover:bg-white/[0.05]">
+                <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none"></div>
+                
+                <!-- Status: Opportunity -->
+                <div class="flex items-center gap-2.5">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400/40"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    <span class="text-[10px] font-mono leading-none font-medium uppercase tracking-[0.2em] text-emerald-500/90 whitespace-nowrap">Open to Opportunities</span>
+                </div>
+
+                <div class="h-3 w-px bg-white/10"></div>
+
+                <!-- Status: Now -->
+                <a href="/now" class="group/now relative -my-2 -mr-5 px-5 py-2 flex items-center gap-2.5 transition-all duration-300 hover:bg-white/5">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400/40"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500 group-hover/now:scale-110 transition-transform"></span>
+                    </span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] font-mono leading-none font-medium uppercase tracking-[0.2em] text-blue-500/90 group-hover/now:text-blue-400 transition-colors whitespace-nowrap">Currently: Climate AI</span>
+                        <svg class="w-2.5 h-2.5 text-blue-500/40 group-hover/now:text-blue-500 group-hover/now:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </div>
+                </a>
+
+                <!-- Corner Accent -->
+                <div class="absolute top-0 right-0 p-1 opacity-20">
+                    <svg width="6" height="6" viewBox="0 0 6 6" fill="none" class="text-white"><path d="M6 0V6H0" stroke="currentColor" stroke-width="0.5"/></svg>
+                </div>
             </div>
         </div>
     </div>
