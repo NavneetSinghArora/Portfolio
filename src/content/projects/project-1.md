@@ -9,6 +9,8 @@ tags:
   - Computer Vision
 paper: '/papers/Deep-Imitation-Learning-for-Complex-Manipulation-Task-from-Virtual-Reality-Teleoperation.pdf'
 seo:
+  title: 'Deep Imitation Learning for Robot Manipulation via VR Teleoperation'
+  description: 'Robot skill acquisition via deep imitation learning and VR teleoperation — mapping raw pixel inputs to complex robotic manipulation actions.'
   image:
     src: '../../assets/images/imitation.png'
     alt: 'Deep Imitation Learning - Robot Manipulation'

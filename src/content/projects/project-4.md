@@ -10,6 +10,8 @@ tags:
 github: 'https://github.com/NavneetSinghArora/COLMAN'
 paper: '/papers/colman.pdf'
 seo:
+  title: 'COLMAN: Multi-Agent Object-Goal Navigation with CLIP Embeddings'
+  description: 'COLMAN: object-goal navigation using embodied AI agents, Transformer architectures, and CLIP semantic embeddings for improved scene understanding.'
   image:
     src: '../../assets/images/colman.png'
     alt: 'COLMAN Project - Multi-Agent Navigation'

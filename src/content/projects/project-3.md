@@ -10,6 +10,8 @@ tags:
 github: 'https://github.com/NavneetSinghArora/Audio-Visual-Emotion-Recognition-In-Continuous-Domain'
 paper: '/papers/Master-Thesis.pdf'
 seo:
+  title: 'Audio-Visual Emotion Recognition in Continuous Domain — MSc Thesis'
+  description: 'MSc thesis on multi-modal emotion recognition using self-supervised learning on audio and visual streams — valence-arousal continuous prediction.'
   image:
     src: '../../assets/images/emotions.png'
     alt: 'Valence-Arousal Emotion Wheel - Master Thesis Research'

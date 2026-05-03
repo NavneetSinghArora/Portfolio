@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /demo-step4
+Disallow: /demo-step5
 
 Sitemap: https://www.navneetsingharora.com/sitemap-index.xml

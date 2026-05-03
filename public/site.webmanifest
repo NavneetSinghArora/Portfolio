@@ -1,6 +1,7 @@
 {
   "name": "Navneet Singh Arora",
   "short_name": "Navneet",
+  "description": "ML & Full Stack Engineer — AI automation, computer vision, and intelligent systems.",
   "icons": [
     {
       "src": "/favicon.svg",
@@ -10,7 +11,7 @@
     }
   ],
   "theme_color": "#171717",
-  "background_color": "#171717",
+  "background_color": "#f0f7ff",
   "display": "standalone",
   "start_url": "/"
 }

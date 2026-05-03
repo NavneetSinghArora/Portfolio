@@ -11,9 +11,10 @@ export type Props = {
     image?: ImageInput | undefined;
     pageType?: 'website' | 'article';
     publishDate?: Date | string;
+    noindex?: boolean;
 };
 
-const { description = '', pageType = 'website' } = Astro.props;
+const { description = '', pageType = 'website', noindex = false } = Astro.props;
 const title = [Astro.props.title, siteConfig.title].filter(Boolean).join(' | ');
 const image = Astro.props.image ?? siteConfig.image;
 let resolvedImage: { src: string; alt?: string } | undefined;
@@ -64,7 +65,7 @@ const isBlog = Astro.url.pathname.startsWith('/blog/') && Astro.url.pathname !==
 <meta name="generator" content={Astro.generator} />
 <meta name="author" content={siteConfig.title} />
 {siteConfig.keywords && <meta name="keywords" content={siteConfig.keywords.join(', ')} />}
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'} />
 <meta name="theme-color" content="#f0f7ff" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#171717" media="(prefers-color-scheme: dark)" />
 
@@ -75,7 +76,7 @@ const isBlog = Astro.url.pathname.startsWith('/blog/') && Astro.url.pathname !==
 
 <!-- Icons -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="apple-touch-icon" href="/favicon.svg" />
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="RSS" />
@@ -121,33 +122,14 @@ const isBlog = Astro.url.pathname.startsWith('/blog/') && Astro.url.pathname !==
         "addressCountry": "Germany"
       },
       "knowsAbout": siteConfig.keywords,
-      "sameAs": siteConfig.socialLinks?.map(link => link.href) || []
-    },
-    {
-      "@type": "ProfessionalService",
-      "@id": `${siteConfig.website}#service`,
-      "name": `${siteConfig.title} - AI & Full Stack Engineering`,
-      "image": resolvedImage?.src,
-      "description": "Architecting high-performance intelligent automation and machine learning solutions.",
-      "url": siteConfig.website,
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Hamburg",
-        "addressCountry": "Germany"
-      },
-      "priceRange": "$$$"
+      "sameAs": (siteConfig.socialLinks?.map(link => link.href) || []).filter(href => href.startsWith('http'))
     },
     {
       "@type": "WebSite",
       "@id": `${siteConfig.website}#website`,
       "url": siteConfig.website,
       "name": siteConfig.title,
-      "publisher": { "@id": `${siteConfig.website}#person` },
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": `${siteConfig.website}/search?q={search_term_string}`,
-        "query-input": "required name=search_term_string"
-      }
+      "publisher": { "@id": `${siteConfig.website}#person` }
     },
     {
       "@type": isBlog ? "BlogPosting" : isProject ? "CreativeWork" : "WebPage",

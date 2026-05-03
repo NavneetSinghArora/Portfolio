@@ -13,5 +13,7 @@ export default defineConfig({
     vite: {
         plugins: [tailwindcss()]
     },
-    integrations: [mdx(), sitemap()]
+    integrations: [mdx(), sitemap({
+        filter: (page) => !page.includes('/demo-step')
+    })]
 });

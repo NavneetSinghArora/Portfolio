@@ -10,6 +10,8 @@ tags:
 github: 'https://github.com/NavneetSinghArora/Gaze-Estimatiom'
 paper: '/papers/Few-Shot-Adaptive-Gaze-Estimation.pdf'
 seo:
+  title: 'FAZE: Few-Shot Adaptive Gaze Estimation with Meta-Learning'
+  description: 'FAZE — a personalized gaze estimation system using DT-ED networks and meta-learning for high accuracy with minimal per-user calibration data.'
   image:
     src: '../../assets/images/gaze.png'
     alt: 'FAZE Gaze Estimation Framework'

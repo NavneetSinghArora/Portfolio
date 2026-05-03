@@ -11,6 +11,8 @@ tags:
 link: 'https://n8n.io/workflows/14983-extract-job-titles-from-resumes-with-google-gemini/'
 external: 'https://n8n.io/workflows/14983-extract-job-titles-from-resumes-with-google-gemini/'
 seo:
+  title: 'AI Resume Parser: Extract Job Titles with Google Gemini & n8n'
+  description: 'An n8n workflow using Google Gemini to automatically extract job titles from resumes at scale — part of a zero-cost AI automation stack for recruitment.'
   image:
     src: '../../assets/images/n8n-gemini-workflow.png'
     alt: 'n8n Workflow - Resume Parsing with Gemini AI'

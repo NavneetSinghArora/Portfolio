@@ -10,6 +10,8 @@ tags:
 github: 'https://github.com/NavneetSinghArora/Relation-Extraction'
 paper: 'https://www.kaggle.com/c/indore-datathon-2021'
 seo:
+  title: 'IndoRE: Relation Extraction for Low-Resource Indian Languages'
+  description: 'Transformer-based relation extraction for Bengali, Telugu, and Hindi — low-resource NLP using deep generative models and transformer architectures.'
   image:
     src: '../../assets/images/indoml.png'
     alt: 'IndoRE Project - NLP for Indian Languages'
