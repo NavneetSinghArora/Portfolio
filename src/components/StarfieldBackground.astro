@@ -19,7 +19,7 @@
     html.dark #starfield-canvas {
         opacity: 0.5;
     }
-    @media (prefers-reduced-motion: reduce) {
+    @media (prefers-reduced-motion: reduce), (pointer: coarse) {
         #starfield-canvas { display: none; }
     }
 </style>
@@ -28,12 +28,14 @@
     function initStarfield() {
         const canvas = document.getElementById('starfield-canvas') as HTMLCanvasElement;
         if (!canvas) return;
+        if (window.matchMedia('(pointer: coarse)').matches) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
         let animationId: number;
         let stars: { x: number; y: number; z: number; opacity: number; size: number }[] = [];
-        const STAR_COUNT = 120;
+        const STAR_COUNT = 80;
         const SPEED = 0.15;
 
         function resize() {

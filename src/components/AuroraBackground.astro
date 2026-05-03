@@ -2,10 +2,10 @@
 ---
 <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none bg-main-bg" id="aurora-container" transition:persist>
 
-    <!-- GLSL WebGL Fluid Shader (dark mode) -->
+    <!-- GLSL WebGL Fluid Shader (dark mode) — desktop only -->
     <canvas id="glsl-bg" class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-1000"></canvas>
 
-    <!-- Neural Network Particle Mesh -->
+    <!-- Neural Network Particle Mesh — desktop only -->
     <canvas id="parallax-bg" class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-1000"></canvas>
 
 </div>
@@ -13,12 +13,18 @@
 <style>
     :global(html.dark) #glsl-bg  { opacity: 1   !important; }
     :global(html:not(.dark)) #glsl-bg { opacity: 0.85 !important; }
+
+    /* Skip GPU-heavy canvases on touch/mobile devices */
+    @media (pointer: coarse) {
+        #glsl-bg, #parallax-bg { display: none !important; }
+    }
 </style>
 
 <script>
     function initGlslBackground() {
         const canvas = document.getElementById('glsl-bg') as HTMLCanvasElement | null;
         if (!canvas) return;
+        if (window.matchMedia('(pointer: coarse)').matches) return;
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
         const gl = (canvas.getContext('webgl') ?? canvas.getContext('experimental-webgl')) as WebGLRenderingContext | null;
@@ -135,6 +141,7 @@
         const canvas = document.getElementById('parallax-bg') as HTMLCanvasElement;
         const container = document.getElementById('aurora-container');
         if (!canvas || !container) return;
+        if (window.matchMedia('(pointer: coarse)').matches) return;
 
         const CONFIG = {
             particleDensity: 4.5,      // Increased density heavily to reduce gaps

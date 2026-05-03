@@ -20,22 +20,9 @@ const { username } = Astro.props;
         class="spotlight-card group relative p-6 sm:p-8"
     >
         <div class="spotlight-glow"></div>
-        <!-- Skeleton Loading Sketch -->
-        <div id="contributions-loading" class="flex flex-col gap-[18px] h-[210px] w-full p-2 opacity-20">
-            <div class="h-4 w-32 bg-main-border/20 rounded-md animate-pulse mb-1"></div>
-            <div class="flex gap-[4px] justify-between w-full">
-                {Array.from({ length: 52 }).map(() => (
-                    <div class="flex flex-col gap-[4px]">
-                        {Array.from({ length: 7 }).map(() => (
-                            <div class="h-[11px] w-[11px] rounded-[2px] bg-main-border/20 animate-pulse"></div>
-                        ))}
-                    </div>
-                ))}
-            </div>
-            <div class="flex justify-between">
-                <div class="h-4 w-24 bg-main-border/20 rounded-md animate-pulse"></div>
-                <div class="h-4 w-32 bg-main-border/20 rounded-md animate-pulse"></div>
-            </div>
+        <!-- Skeleton Loading -->
+        <div id="contributions-loading" class="h-[210px] w-full overflow-hidden rounded-xl bg-main-border/8 relative">
+            <div class="absolute inset-0 -translate-x-full animate-[shimmer_1.8s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-main-border/10 to-transparent"></div>
         </div>
         
         <div id="contributions-error" class="hidden flex h-[200px] items-center justify-center text-sm opacity-50">

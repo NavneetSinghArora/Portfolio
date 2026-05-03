@@ -68,9 +68,10 @@ const isBlog = Astro.url.pathname.startsWith('/blog/') && Astro.url.pathname !==
 <meta name="theme-color" content="#f0f7ff" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#171717" media="(prefers-color-scheme: dark)" />
 
-<!-- Fonts -->
-<link rel="preconnect" href="https://api.fontshare.com" />
+<!-- Fonts — load stylesheet directly (avoids render-blocking @import in CSS) -->
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin />
 <link rel="dns-prefetch" href="https://api.fontshare.com" />
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@700,500,400&display=swap" />
 
 <!-- Icons -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
