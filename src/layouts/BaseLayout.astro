@@ -57,7 +57,7 @@ const { showHeader = false, ...head } = Astro.props;
         
         <script>
             const cursor = document.getElementById('neon-cursor');
-            let timeout;
+            let timeout: ReturnType<typeof setTimeout> | undefined;
             
             document.addEventListener('mousemove', (e) => {
                 if(cursor) {
@@ -73,7 +73,7 @@ const { showHeader = false, ...head } = Astro.props;
         </script>
         <script>
             // Single global listener to handle all cards
-            let handleMouseMove;
+            let handleMouseMove: ((e: MouseEvent) => void) | undefined;
             
             function initSpotlight() {
                 if (handleMouseMove) {
@@ -81,7 +81,7 @@ const { showHeader = false, ...head } = Astro.props;
                 }
 
                 handleMouseMove = (e) => {
-                    const cards = document.querySelectorAll('.spotlight-card');
+                    const cards = document.querySelectorAll<HTMLElement>('.spotlight-card');
                     if (cards.length === 0) return;
                     
                     cards.forEach((card) => {
@@ -188,6 +188,7 @@ const { showHeader = false, ...head } = Astro.props;
                 if (!fill) return;
 
                 function update() {
+                    if (!fill) return;
                     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
                     if (maxScroll <= 0) { fill.style.transform = 'scaleY(0)'; return; }
                     fill.style.transform = `scaleY(${Math.min(1, window.scrollY / maxScroll)})`;

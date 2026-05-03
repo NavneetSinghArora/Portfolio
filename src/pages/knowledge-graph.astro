@@ -38,7 +38,7 @@ graphData.edges.push({ source: 'projects', target: 'blog', weight: 1.5 });
 // ── Blog post nodes ─────────────────────────────────────────────
 const allTags = new Set<string>();
 blogPosts.forEach(post => {
-    const slug = post.id || post.slug;
+    const slug = post.id;
     const nodeId = `blog-${slug}`;
     graphData.nodes.push({
         id: nodeId,
@@ -59,7 +59,7 @@ blogPosts.forEach(post => {
 
 // ── Project nodes ───────────────────────────────────────────────
 projects.forEach(proj => {
-    const slug = proj.id || proj.slug;
+    const slug = proj.id;
     const nodeId = `proj-${slug}`;
     graphData.nodes.push({
         id: nodeId,

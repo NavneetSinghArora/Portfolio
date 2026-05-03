@@ -1,20 +1,36 @@
 ---
+import { Image } from "astro:assets";
+import anupamImage from "../assets/images/anupam-awal.jpeg";
+import sameerImage from "../assets/images/sameer-makadia.jpeg";
+import shilpaImage from "../assets/images/shilpa-banchor.jpeg";
+
 const testimonials = [
     {
         quote: "Navneet works as a Full Stack Developer and leads most of the development activities in the team. He is really good at his work and takes on new challenges and roles positively. A quick learner and brilliant at managing tasks at hand — he assumed the role of Scrum Master as well, and proactively worked with other teams when required. It is a pleasant experience to work with Navneet.",
         name: "Anupam Awal",
-        title: "Senior Engineering Manager",
+        title: "Associate Manager @ Numerator",
         source: "LinkedIn",
         initials: "AA",
         color: "from-blue-500 to-indigo-600",
+        image: anupamImage,
     },
     {
         quote: "Navneet is a full stack developer who works on multiple technologies and completes tasks with full ownership and responsibility. He is one of the quickest learners and excels from rookie to specialist very quickly. A great thinker who develops out-of-the-box solutions. He goes out of his way to help the team. Happiest to work with Navneet.",
         name: "Sameer Makadia",
-        title: "Senior Software Engineer",
+        title: "Tech Manager @ Nice Ltd.",
         source: "LinkedIn",
         initials: "SM",
         color: "from-violet-500 to-purple-600",
+        image: sameerImage,
+    },
+    {
+        quote: "Navneet worked as a full stack developer and really impressed team the way he took responsibilities. In this short span of time he managed to work as a scrum master as well. He helped us  a lot. Thank you Navneet for your great support.",
+        name: "Shilpa Banchhor",
+        title: "AVP @ Barclays",
+        source: "LinkedIn",
+        initials: "SB",
+        color: "from-emerald-500 to-teal-600",
+        image: shilpaImage,
     },
     {
         quote: "Navneet is the type of developer we like working with. He knows his stuff, is responsive, and communicable. When an error or issue pops up — as is to be expected — he is quick to work towards a resolution.",
@@ -26,7 +42,7 @@ const testimonials = [
     },
     {
         quote: "This is not our first time working with Navneet. We had hired him for some coding work previously and were happy to hire him once again to complete additional tasks. He is easy to work with and we appreciate his coding skills.",
-        name: "Repeat Upwork Client",
+        name: "Upwork Client",
         title: "Web Development Project · ★★★★★",
         source: "Upwork",
         initials: "★",
@@ -64,9 +80,13 @@ const testimonials = [
                 <p class="flex-1 text-sm leading-relaxed text-main/75 font-serif italic">"{t.quote}"</p>
 
                 <div class="flex items-center gap-3 pt-3 border-t border-main-border/10">
-                    <div class={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${t.color} text-[12px] font-bold text-white`}>
-                        {t.initials}
-                    </div>
+                    {t.image ? (
+                        <Image src={t.image} alt={t.name} class="h-9 w-9 shrink-0 rounded-full object-cover" width={36} height={36} />
+                    ) : (
+                        <div class={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${t.color} text-[12px] font-bold text-white`}>
+                            {t.initials}
+                        </div>
+                    )}
                     <div>
                         <p class="text-sm font-semibold text-main">{t.name}</p>
                         <p class="text-[11px] text-main/45">{t.title}</p>
