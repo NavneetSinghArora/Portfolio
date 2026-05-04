@@ -46,7 +46,7 @@ const { Content } = await render(project);
             )}
 
             <!-- Automated Resource Header (Now below thumbnail) -->
-            {(project.data.github || project.data.paper || project.data.demo || project.data.external) && (
+            {(project.data.github || project.data.npm || project.data.paper || project.data.demo || project.data.external) && (
                 <div class="not-prose p-6 rounded-2xl border border-main-border/10 bg-main-bg/5 flex flex-col md:flex-row items-center justify-between gap-6 transition-colors hover:border-main-border/20">
                     <div class="space-y-1.5 text-center md:text-left">
                         <h4 class="text-xs font-bold uppercase tracking-[0.2em] text-main/55">Resource Directory</h4>
@@ -56,8 +56,14 @@ const { Content } = await render(project);
                         {project.data.github && (
                             <a href={project.data.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository" class="group/icon premium-tooltip relative flex h-10 w-10 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip="GitHub Repository">
                                 <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
-                                <img src="https://cdn.simpleicons.org/github" alt="" class="h-6 w-6 opacity-40 group-hover/icon:opacity-100 transition-opacity dark:hidden relative z-10" />
-                                <img src="https://cdn.simpleicons.org/github/white" alt="" class="h-6 w-6 opacity-40 group-hover/icon:opacity-100 transition-opacity hidden dark:block relative z-10" />
+                                <img src="https://cdn.simpleicons.org/github" alt="" class="h-4 w-4 opacity-40 group-hover/icon:opacity-100 transition-opacity dark:hidden relative z-10" />
+                                <img src="https://cdn.simpleicons.org/github/white" alt="" class="h-4 w-4 opacity-40 group-hover/icon:opacity-100 transition-opacity hidden dark:block relative z-10" />
+                            </a>
+                        )}
+                        {project.data.npm && (
+                            <a href={project.data.npm} target="_blank" rel="noopener noreferrer" aria-label="npm Package" class="group/icon premium-tooltip relative flex h-10 w-10 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip="npm Package">
+                                <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                <img src="https://cdn.simpleicons.org/npm/CB3837" alt="" class="h-4 w-4 opacity-40 group-hover/icon:opacity-100 transition-opacity relative z-10" />
                             </a>
                         )}
                         {project.data.paper && (

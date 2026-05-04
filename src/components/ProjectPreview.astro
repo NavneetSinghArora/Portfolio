@@ -35,16 +35,28 @@ const TitleTag = headingLevel;
         
         <div class="flex items-center gap-1.5 px-1 sm:px-0">
             {project.data.github && (
-                <a 
-                    href={project.data.github} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
+                <a
+                    href={project.data.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
                     data-tooltip="GitHub"
                 >
                     <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
                     <img src="https://cdn.simpleicons.org/github" class="h-3.5 w-3.5 dark:hidden opacity-70 group-hover:opacity-100 transition-all relative z-10" alt="GitHub" />
                     <img src="https://cdn.simpleicons.org/github/white" class="h-3.5 w-3.5 hidden dark:block opacity-70 group-hover:opacity-100 transition-all relative z-10" alt="GitHub" />
+                </a>
+            )}
+            {project.data.npm && (
+                <a
+                    href={project.data.npm}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
+                    data-tooltip="npm Package"
+                >
+                    <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                    <img src="https://cdn.simpleicons.org/npm/CB3837" class="h-3.5 w-3.5 opacity-70 group-hover:opacity-100 transition-all relative z-10" alt="npm" />
                 </a>
             )}
             {project.data.paper && (

@@ -7,6 +7,7 @@ import SkillRadar from '../components/SkillRadar.astro';
 import ProjectThumbnail from '../components/ProjectThumbnail.astro';
 import PostThumbnail from '../components/PostThumbnail.astro';
 import GithubContributions from '../components/GithubContributions.astro';
+import NpmPackages from '../components/NpmPackages.astro';
 import StatsCounter from '../components/StatsCounter.astro';
 import WorkedWith from '../components/WorkedWith.astro';
 import Testimonials from '../components/Testimonials.astro';
@@ -51,7 +52,10 @@ const displayProjects = [...featuredProjects, ...nonFeaturedProjects].slice(0, 3
         {siteConfig.github && <GithubContributions username={siteConfig.github} />}
     </div>
 
-    <!-- 03 — Testimonials -->
+    <!-- 03 — npm Packages -->
+    <NpmPackages />
+
+    <!-- 04 — Testimonials -->
     <Testimonials />
 
     <!-- 04 — Featured Projects -->

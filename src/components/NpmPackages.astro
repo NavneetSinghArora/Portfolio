@@ -1,0 +1,132 @@
+---
+---
+
+<div class="mb-16 sm:mb-24" data-nn-layer="os">
+    <div class="mb-10 flex items-baseline justify-between">
+        <div>
+            <p class="mb-2 text-[10px] font-mono uppercase tracking-[0.22em] text-main/30">Open Source ——</p>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold">npm Packages</h2>
+        </div>
+        <a
+            href="https://www.npmjs.com/package/vectools"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm font-medium text-main/60 hover:text-main transition-colors shrink-0"
+        >
+            View on npm →
+        </a>
+    </div>
+
+    <div class="spotlight-card group relative overflow-hidden rounded-2xl p-6 sm:p-8">
+        <div class="spotlight-glow"></div>
+
+        <div class="relative z-10 grid gap-8 lg:grid-cols-2 lg:items-start">
+            <!-- Package info -->
+            <div>
+                <div class="flex items-start gap-4 mb-6">
+                    <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#CB3837]/10 ring-1 ring-[#CB3837]/25">
+                        <img src="https://cdn.simpleicons.org/npm/CB3837" class="h-6 w-6" alt="npm" />
+                    </div>
+                    <div>
+                        <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                            <h3 class="font-mono text-xl font-bold text-main">vectools</h3>
+                            <span class="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-mono text-emerald-400 tracking-wider">v1.0.0</span>
+                            <span class="rounded-full border border-main-border/20 bg-main/5 px-2 py-0.5 text-[10px] font-mono text-main/40 tracking-wider">MIT</span>
+                        </div>
+                        <p class="text-sm text-main/60 leading-relaxed">A lightweight, zero-dependency utility library for vector mathematics and AI embeddings.</p>
+                    </div>
+                </div>
+
+                <ul class="space-y-2.5 mb-7">
+                    {[
+                        'Zero dependencies — no supply-chain risk',
+                        'Pure ESM, tree-shakeable, Node 12+ and browser native',
+                        'TypeScript-first with full type definitions',
+                        'Cosine similarity for semantic search and RAG pipelines',
+                    ].map((feat) => (
+                        <li class="flex items-start gap-2.5 text-sm text-main/70">
+                            <span class="mt-0.5 text-[9px] text-emerald-400 shrink-0">◆</span>
+                            {feat}
+                        </li>
+                    ))}
+                </ul>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <a
+                        href="https://www.npmjs.com/package/vectools"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="relative z-20 inline-flex items-center gap-2 rounded-xl border border-[#CB3837]/30 bg-[#CB3837]/10 px-4 py-2 text-xs font-mono font-semibold text-[#CB3837] transition-colors hover:bg-[#CB3837]/20"
+                    >
+                        <img src="https://cdn.simpleicons.org/npm/CB3837" class="h-3.5 w-3.5" alt="" />
+                        View on npm
+                    </a>
+                    <a
+                        href="https://github.com/NavneetSinghArora/vectools"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="relative z-20 inline-flex items-center gap-2 rounded-xl border border-main-border/20 bg-main/5 px-4 py-2 text-xs font-mono font-semibold text-main/70 transition-colors hover:bg-main/10 hover:text-main"
+                    >
+                        <img src="https://cdn.simpleicons.org/github" class="h-3.5 w-3.5 dark:hidden" alt="" />
+                        <img src="https://cdn.simpleicons.org/github/white" class="h-3.5 w-3.5 hidden dark:block" alt="" />
+                        Source
+                    </a>
+                </div>
+            </div>
+
+            <!-- Code snippets -->
+            <div class="flex flex-col gap-3">
+                <!-- Install command -->
+                <div class="overflow-hidden rounded-xl border border-main-border/10 bg-main/[0.03]">
+                    <div class="flex items-center gap-1.5 border-b border-main-border/10 px-4 py-2.5">
+                        <span class="h-2.5 w-2.5 rounded-full bg-red-500/50"></span>
+                        <span class="h-2.5 w-2.5 rounded-full bg-yellow-500/50"></span>
+                        <span class="h-2.5 w-2.5 rounded-full bg-green-500/50"></span>
+                        <span class="ml-2 text-[10px] font-mono text-main/25 tracking-wider">terminal</span>
+                    </div>
+                    <div class="px-4 py-3 font-mono text-xs">
+                        <span class="text-main/30">$ </span><span class="text-emerald-400">npm</span><span class="text-main/70"> install vectools</span>
+                    </div>
+                </div>
+
+                <!-- Usage example -->
+                <div class="overflow-hidden rounded-xl border border-main-border/10 bg-main/[0.03]">
+                    <div class="flex items-center gap-1.5 border-b border-main-border/10 px-4 py-2.5">
+                        <span class="h-2.5 w-2.5 rounded-full bg-red-500/50"></span>
+                        <span class="h-2.5 w-2.5 rounded-full bg-yellow-500/50"></span>
+                        <span class="h-2.5 w-2.5 rounded-full bg-green-500/50"></span>
+                        <span class="ml-2 text-[10px] font-mono text-main/25 tracking-wider">example.js</span>
+                    </div>
+                    <div class="px-4 py-4 font-mono text-xs leading-[1.9]">
+                        <div>
+                            <span class="text-violet-400">import</span>
+                            <span class="text-main/75"> {'{ cosineSimilarity } '}</span>
+                            <span class="text-violet-400">from</span>
+                            <span class="text-emerald-300"> 'vectools'</span>
+                            <span class="text-main/40">;</span>
+                        </div>
+                        <div class="mt-3 text-main/30">{'// Compare two embedding vectors'}</div>
+                        <div>
+                            <span class="text-blue-300">const</span>
+                            <span class="text-main/75"> score </span>
+                            <span class="text-main/40">= </span>
+                            <span class="text-yellow-300">cosineSimilarity</span>
+                            <span class="text-main/40">(</span>
+                        </div>
+                        <div class="pl-4 text-main/50">
+                            {'[1, 2, 3],'}<span class="ml-3 text-main/25">{'// vector A'}</span>
+                        </div>
+                        <div class="pl-4 text-main/50">
+                            {'[1, 2, 4]'}<span class="ml-4 text-main/25">{'// vector B'}</span>
+                        </div>
+                        <div><span class="text-main/40">);</span></div>
+                        <div class="mt-3">
+                            <span class="text-main/30">{'// → '}</span>
+                            <span class="text-emerald-400">0.9914601339836674</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
