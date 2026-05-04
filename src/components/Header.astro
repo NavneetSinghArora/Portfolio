@@ -73,8 +73,10 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
                 
                 // Handle GitHub dual icons
                 const isGithub = iconName === 'github';
+                const isNpm = iconName === 'npm';
                 const isResume = iconName === 'resume';
                 const resumeIcon = 'https://img.icons8.com/color/48/parse-from-clipboard.png';
+                const npmIcon = 'https://cdn.simpleicons.org/npm/CB3837';
                 
                 return (
                     <a 
@@ -91,6 +93,8 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
                                 <img src={resolveIcon('github-dark')} alt="" width="24" height="24" class="relative z-10 h-6 w-6 sm:h-7 sm:w-7 opacity-90 transition-all dark:hidden" />
                                 <img src={resolveIcon('github-light')} alt="" width="24" height="24" class="relative z-10 hidden h-6 w-6 sm:h-7 sm:w-7 opacity-90 transition-all dark:block" />
                             </>
+                        ) : isNpm ? (
+                            <img src={npmIcon} alt="" width="20" height="20" class="relative z-10 h-5 w-5 opacity-90 transition-all" />
                         ) : isResume ? (
                             <img src={resumeIcon} alt="" width="24" height="24" class="relative z-10 h-6 w-6 sm:h-7 sm:w-7 opacity-90 transition-all" />
                         ) : (

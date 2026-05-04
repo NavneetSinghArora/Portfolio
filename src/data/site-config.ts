@@ -109,6 +109,10 @@ const siteConfig: SiteConfig = {
             href: 'https://n8n.io/creators/navneet-singh-arora/'
         },
         {
+            text: 'npm',
+            href: 'https://www.npmjs.com/package/vectools'
+        },
+        {
             text: 'Resume',
             href: '/Navneet-Resume.pdf'
         }
