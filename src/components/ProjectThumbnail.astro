@@ -61,20 +61,20 @@ const npmPackageName = project.data.npm
         <div class="flex items-center gap-3">
             {project.data.github && (
                 <a href={project.data.github} target="_blank" rel="noopener noreferrer" class="group/icon premium-tooltip relative z-20 flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip="GitHub Repository">
-                    <div class="absolute inset-0 rounded-lg bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
+                    <div class="absolute inset-0 rounded-lg bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
                     <img src="https://cdn.simpleicons.org/github" class="h-3.5 w-3.5 dark:hidden relative z-10 opacity-70 group-hover/icon:opacity-100" alt="GitHub" />
                     <img src="https://cdn.simpleicons.org/github/white" class="h-3.5 w-3.5 hidden dark:block relative z-10 opacity-70 group-hover/icon:opacity-100" alt="GitHub" />
                 </a>
             )}
             {project.data.npm && (
                 <a href={project.data.npm} target="_blank" rel="noopener noreferrer" class="group/icon premium-tooltip relative z-20 flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip="npm Package">
-                    <div class="absolute inset-0 rounded-lg bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
+                    <div class="absolute inset-0 rounded-lg bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
                     <img src="https://cdn.simpleicons.org/npm/CB3837" class="h-3 w-3 relative z-10 opacity-70 group-hover/icon:opacity-100" alt="npm" />
                 </a>
             )}
             {project.data.paper && (
                 <a href={project.data.paper} target="_blank" rel="noopener noreferrer" class="group/icon premium-tooltip relative z-20 flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip={project.data.paper.includes('kaggle.com') ? "Kaggle Competition" : "Research/Project Document"}>
-                    <div class="absolute inset-0 rounded-lg bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
+                    <div class="absolute inset-0 rounded-lg bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
                     {project.data.paper.includes('kaggle.com') ? (
                         <div class="flex items-center relative z-10 opacity-70 group-hover/icon:opacity-100">
                             <img src="https://cdn.simpleicons.org/kaggle" class="h-3.5 w-3.5 dark:hidden" alt="Kaggle" />
@@ -87,13 +87,13 @@ const npmPackageName = project.data.npm
             )}
             {project.data.demo && (
                 <a href={project.data.demo} target="_blank" rel="noopener noreferrer" class="group/icon premium-tooltip relative z-20 flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip="Live Demo">
-                    <div class="absolute inset-0 rounded-lg bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
+                    <div class="absolute inset-0 rounded-lg bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5 relative z-10 opacity-70 group-hover/icon:opacity-100"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                 </a>
             )}
             {project.data.external && (
                 <a href={project.data.external} target="_blank" rel="noopener noreferrer" class="group/icon premium-tooltip relative z-20 flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip={project.data.tags?.includes('n8n') ? "View n8n Workflow" : "External Link"}>
-                    <div class="absolute inset-0 rounded-lg bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
+                    <div class="absolute inset-0 rounded-lg bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
                     {project.data.tags?.includes('n8n') ? (
                         <div class="flex items-center relative z-10 opacity-70 group-hover/icon:opacity-100">
                             <img src="https://cdn.simpleicons.org/n8n" class="h-3.5 w-3.5 dark:hidden" alt="n8n" />

@@ -33,17 +33,35 @@ const { Content } = await render(project);
             <h1 class="font-serif text-3xl leading-tight font-medium sm:text-5xl sm:leading-tight mb-8">{title}</h1>
             
             <!-- Featured Image from Frontmatter -->
-            {seo?.image && (
+            {seo?.image ? (
                 <div class="w-full flex justify-center mb-12">
                     <div class="overflow-hidden rounded-3xl bg-main-bg/5 shadow-2xl shadow-main-bg/20">
-                        <img 
-                            src={seo.image.src.src} 
+                        <img
+                            src={seo.image.src.src}
                             alt={seo.image.alt || title}
                             class="max-w-full h-auto max-h-[70vh] object-contain block"
                         />
                     </div>
                 </div>
-            )}
+            ) : project.data.npm && (() => {
+                const pkg = project.data.npm.split('/package/')[1]?.split('/')[0];
+                return (
+                    <div class="w-full flex justify-center mb-12">
+                        <div class="overflow-hidden rounded-3xl shadow-2xl shadow-black/30 w-full max-w-2xl">
+                            <div class="flex flex-col items-center justify-center gap-5 bg-[#0f0f1a] px-8 py-14">
+                                <span class="inline-flex items-center gap-2 rounded-full border border-[#CB3837]/40 bg-[#CB3837]/10 px-4 py-1.5 text-[11px] font-mono font-bold text-[#CB3837] tracking-widest uppercase">
+                                    <img src="https://cdn.simpleicons.org/npm/CB3837" class="h-3.5 w-3.5" alt="" />
+                                    npm package
+                                </span>
+                                <span class="font-mono text-3xl font-bold text-white/95 tracking-tight">{pkg}</span>
+                                <span class="font-mono text-sm text-emerald-400/80 bg-white/5 rounded-xl px-5 py-2.5 border border-white/5">
+                                    <span class="text-white/30">$ </span>npm install {pkg}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                );
+            })()}
 
             <!-- Automated Resource Header (Now below thumbnail) -->
             {(project.data.github || project.data.npm || project.data.paper || project.data.demo || project.data.external) && (
@@ -55,20 +73,20 @@ const { Content } = await render(project);
                     <div class="flex items-center gap-6">
                         {project.data.github && (
                             <a href={project.data.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository" class="group/icon premium-tooltip relative flex h-10 w-10 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip="GitHub Repository">
-                                <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
                                 <img src="https://cdn.simpleicons.org/github" alt="" class="h-4 w-4 opacity-40 group-hover/icon:opacity-100 transition-opacity dark:hidden relative z-10" />
                                 <img src="https://cdn.simpleicons.org/github/white" alt="" class="h-4 w-4 opacity-40 group-hover/icon:opacity-100 transition-opacity hidden dark:block relative z-10" />
                             </a>
                         )}
                         {project.data.npm && (
                             <a href={project.data.npm} target="_blank" rel="noopener noreferrer" aria-label="npm Package" class="group/icon premium-tooltip relative flex h-10 w-10 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip="npm Package">
-                                <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
                                 <img src="https://cdn.simpleicons.org/npm/CB3837" alt="" class="h-4 w-4 opacity-40 group-hover/icon:opacity-100 transition-opacity relative z-10" />
                             </a>
                         )}
                         {project.data.paper && (
                             <a href={project.data.paper} target="_blank" rel="noopener noreferrer" aria-label="Research Paper" class="group/icon premium-tooltip relative flex h-10 w-10 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip={project.data.paper.includes('kaggle.com') ? "Kaggle Competition" : "Research Paper"}>
-                                <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
                                 {project.data.paper.includes('kaggle.com') ? (
                                     <div class="flex items-center relative z-10 opacity-40 group-hover/icon:opacity-100 transition-opacity">
                                         <img src="https://cdn.simpleicons.org/kaggle" class="h-7 w-7 dark:hidden" alt="Kaggle" />
@@ -81,7 +99,7 @@ const { Content } = await render(project);
                         )}
                         {project.data.demo && (
                             <a href={project.data.demo} target="_blank" rel="noopener noreferrer" aria-label="Live Demo" class="group/icon premium-tooltip relative flex h-10 w-10 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip="Live Demo">
-                                <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-6 w-6 opacity-40 group-hover/icon:opacity-100 transition-opacity relative z-10"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                             </a>
                         )}
@@ -94,7 +112,7 @@ const { Content } = await render(project);
                                 class="group/icon premium-tooltip relative flex h-10 w-10 items-center justify-center transition-all duration-300 hover:scale-115"
                                 data-tooltip={project.data.tags.includes('n8n') ? "Official n8n Workflow" : "External Link"}
                             >
-                                <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
                                 {project.data.tags.includes('n8n') ? (
                                     <div class="flex items-center relative z-10 opacity-40 group-hover/icon:opacity-100 transition-opacity">
                                         <img src="https://cdn.simpleicons.org/n8n" alt="" class="h-6 w-6 dark:hidden" />

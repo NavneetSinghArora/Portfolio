@@ -149,11 +149,22 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                 <div class="w-full sm:w-64 shrink-0 relative z-1">
                     <a href={`/projects/${project.id}/`} class="block aspect-video sm:aspect-square rounded-xl overflow-hidden border border-main-border/5">
                         {project.data.seo?.image ? (
-                            <img 
-                                src={project.data.seo.image.src.src} 
+                            <img
+                                src={project.data.seo.image.src.src}
                                 alt={project.data.title}
                                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                             />
+                        ) : project.data.npm ? (
+                            <div class="flex h-full w-full flex-col items-center justify-center gap-3 bg-[#0f0f1a] px-4 py-4">
+                                <span class="inline-flex items-center gap-1.5 rounded-full border border-[#CB3837]/40 bg-[#CB3837]/10 px-3 py-1 text-[10px] font-mono font-bold text-[#CB3837] tracking-widest uppercase">
+                                    <img src="https://cdn.simpleicons.org/npm/CB3837" class="h-3 w-3" alt="" />
+                                    npm
+                                </span>
+                                <span class="font-mono text-base font-bold text-white/90 tracking-tight">{project.data.npm.split('/package/')[1]?.split('/')[0]}</span>
+                                <span class="font-mono text-[10px] text-emerald-400/80 bg-white/5 rounded-lg px-3 py-1.5 border border-white/5">
+                                    <span class="text-white/30">$ </span>npm i {project.data.npm.split('/package/')[1]?.split('/')[0]}
+                                </span>
+                            </div>
                         ) : (
                             <div class="flex h-full w-full items-center justify-center bg-main-bg/10 text-main/55 text-xs">No preview</div>
                         )}
@@ -176,65 +187,77 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                     <div class="mt-6 flex items-center justify-between">
                         <div class="flex items-center gap-1.5">
                             {project.data.github && (
-                                <a 
-                                    href={project.data.github} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer" 
-                                    class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
+                                <a
+                                    href={project.data.github}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
                                     data-tooltip="GitHub"
                                 >
-                                    <div class="absolute inset-0 rounded-xl bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
-                                    <img src="https://cdn.simpleicons.org/github" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-90" alt="GitHub" />
-                                    <img src="https://cdn.simpleicons.org/github/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-90" alt="GitHub" />
+                                    <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
+                                    <img src="https://cdn.simpleicons.org/github" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="GitHub" />
+                                    <img src="https://cdn.simpleicons.org/github/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="GitHub" />
+                                </a>
+                            )}
+                            {project.data.npm && (
+                                <a
+                                    href={project.data.npm}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
+                                    data-tooltip="npm Package"
+                                >
+                                    <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
+                                    <img src="https://cdn.simpleicons.org/npm/CB3837" class="relative z-10 h-3 w-3 opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="npm" />
                                 </a>
                             )}
                             {project.data.paper && (
-                                <a 
-                                    href={project.data.paper} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer" 
-                                    class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
-                                    data-tooltip={project.data.paper.includes('kaggle.com') ? "Kaggle Competition" : "Research/Project Document"}
+                                <a
+                                    href={project.data.paper}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
+                                    data-tooltip={project.data.paper.includes('kaggle.com') ? "Kaggle Competition" : "Research Paper"}
                                 >
-                                    <div class="absolute inset-0 rounded-xl bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
+                                    <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
                                     {project.data.paper.includes('kaggle.com') ? (
                                         <>
-                                            <img src="https://cdn.simpleicons.org/kaggle" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-90" alt="Kaggle" />
-                                            <img src="https://cdn.simpleicons.org/kaggle/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-90" alt="Kaggle" />
+                                            <img src="https://cdn.simpleicons.org/kaggle" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="Kaggle" />
+                                            <img src="https://cdn.simpleicons.org/kaggle/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="Kaggle" />
                                         </>
                                     ) : (
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-90"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-70 group-hover/icon:opacity-100 transition-opacity"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                                     )}
                                 </a>
                             )}
                             {project.data.demo && (
-                                <a 
-                                    href={project.data.demo} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer" 
-                                    class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
+                                <a
+                                    href={project.data.demo}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
                                     data-tooltip="Live Demo"
                                 >
-                                    <div class="absolute inset-0 rounded-xl bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-90"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                    <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-70 group-hover/icon:opacity-100 transition-opacity"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                                 </a>
                             )}
                             {project.data.external && (
-                                <a 
-                                    href={project.data.external} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer" 
-                                    class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
-                                    data-tooltip={project.data.tags.includes('n8n') ? "Technical implementation and research artifacts associated with this project." : "External Link"}
+                                <a
+                                    href={project.data.external}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
+                                    data-tooltip={project.data.tags.includes('n8n') ? "n8n Workflow" : "External Link"}
                                 >
-                                    <div class="absolute inset-0 rounded-xl bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
+                                    <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
                                     {project.data.tags.includes('n8n') ? (
                                         <>
-                                            <img src="https://cdn.simpleicons.org/n8n" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-90" alt="n8n" />
-                                            <img src="https://cdn.simpleicons.org/n8n/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-90" alt="n8n" />
+                                            <img src="https://cdn.simpleicons.org/n8n" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="n8n" />
+                                            <img src="https://cdn.simpleicons.org/n8n/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="n8n" />
                                         </>
                                     ) : (
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-90"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-70 group-hover/icon:opacity-100 transition-opacity"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                                     )}
                                 </a>
                             )}
@@ -262,11 +285,22 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                 <div class="flex-grow relative z-1">
                     <div class="aspect-video w-full overflow-hidden rounded-xl border border-main-border/5 bg-main-bg/10 mb-4">
                         {project.data.seo?.image ? (
-                            <img 
-                                src={project.data.seo.image.src.src} 
+                            <img
+                                src={project.data.seo.image.src.src}
                                 alt={project.data.title}
                                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                             />
+                        ) : project.data.npm ? (
+                            <div class="flex h-full w-full flex-col items-center justify-center gap-3 bg-[#0f0f1a] px-4 py-6">
+                                <span class="inline-flex items-center gap-1.5 rounded-full border border-[#CB3837]/40 bg-[#CB3837]/10 px-3 py-1 text-[10px] font-mono font-bold text-[#CB3837] tracking-widest uppercase">
+                                    <img src="https://cdn.simpleicons.org/npm/CB3837" class="h-3 w-3" alt="" />
+                                    npm
+                                </span>
+                                <span class="font-mono text-lg font-bold text-white/90 tracking-tight">{project.data.npm.split('/package/')[1]?.split('/')[0]}</span>
+                                <span class="font-mono text-[11px] text-emerald-400/80 bg-white/5 rounded-lg px-3 py-1.5 border border-white/5">
+                                    <span class="text-white/30">$ </span>npm i {project.data.npm.split('/package/')[1]?.split('/')[0]}
+                                </span>
+                            </div>
                         ) : (
                             <div class="flex h-full w-full items-center justify-center text-main/55 text-xs">No preview</div>
                         )}
@@ -283,65 +317,77 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                 <div class="mt-auto flex items-center justify-between pt-3 border-t border-main-border/5">
                     <div class="flex items-center gap-1.5">
                         {project.data.github && (
-                            <a 
-                                href={project.data.github} 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
+                            <a
+                                href={project.data.github}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
                                 data-tooltip="GitHub"
                             >
-                                <div class="absolute inset-0 rounded-xl bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
-                                <img src="https://cdn.simpleicons.org/github" class="relative z-10 h-4 w-4 dark:hidden opacity-90" alt="GitHub" />
-                                <img src="https://cdn.simpleicons.org/github/white" class="relative z-10 h-4 w-4 hidden dark:block opacity-90" alt="GitHub" />
+                                <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
+                                <img src="https://cdn.simpleicons.org/github" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="GitHub" />
+                                <img src="https://cdn.simpleicons.org/github/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="GitHub" />
+                            </a>
+                        )}
+                        {project.data.npm && (
+                            <a
+                                href={project.data.npm}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
+                                data-tooltip="npm Package"
+                            >
+                                <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
+                                <img src="https://cdn.simpleicons.org/npm/CB3837" class="relative z-10 h-3 w-3 opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="npm" />
                             </a>
                         )}
                         {project.data.paper && (
-                            <a 
-                                href={project.data.paper} 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
-                                data-tooltip={project.data.paper.includes('kaggle.com') ? "Kaggle Competition" : "Research/Project Document"}
+                            <a
+                                href={project.data.paper}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
+                                data-tooltip={project.data.paper.includes('kaggle.com') ? "Kaggle Competition" : "Research Paper"}
                             >
-                                <div class="absolute inset-0 rounded-xl bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
+                                <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
                                 {project.data.paper.includes('kaggle.com') ? (
                                     <>
-                                        <img src="https://cdn.simpleicons.org/kaggle" class="relative z-10 h-5 w-5 dark:hidden opacity-90" alt="Kaggle" />
-                                        <img src="https://cdn.simpleicons.org/kaggle/white" class="relative z-10 h-5 w-5 hidden dark:block opacity-90" alt="Kaggle" />
+                                        <img src="https://cdn.simpleicons.org/kaggle" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="Kaggle" />
+                                        <img src="https://cdn.simpleicons.org/kaggle/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="Kaggle" />
                                     </>
                                 ) : (
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-90"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-70 group-hover/icon:opacity-100 transition-opacity"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                                 )}
                             </a>
                         )}
                         {project.data.demo && (
-                            <a 
-                                href={project.data.demo} 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
+                            <a
+                                href={project.data.demo}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
                                 data-tooltip="Live Demo"
                             >
-                                <div class="absolute inset-0 rounded-xl bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-90"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-70 group-hover/icon:opacity-100 transition-opacity"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                             </a>
                         )}
                         {project.data.external && (
-                            <a 
-                                href={project.data.external} 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
-                                data-tooltip={project.data.tags.includes('n8n') ? "n8n Workflows" : "External Link"}
+                            <a
+                                href={project.data.external}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
+                                data-tooltip={project.data.tags.includes('n8n') ? "n8n Workflow" : "External Link"}
                             >
-                                <div class="absolute inset-0 rounded-xl bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
+                                <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
                                 {project.data.tags.includes('n8n') ? (
                                     <>
-                                        <img src="https://cdn.simpleicons.org/n8n" class="relative z-10 h-5 w-5 dark:hidden opacity-90" alt="n8n" />
-                                        <img src="https://cdn.simpleicons.org/n8n/white" class="relative z-10 h-5 w-5 hidden dark:block opacity-90" alt="n8n" />
+                                        <img src="https://cdn.simpleicons.org/n8n" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="n8n" />
+                                        <img src="https://cdn.simpleicons.org/n8n/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="n8n" />
                                     </>
                                 ) : (
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-90"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-70 group-hover/icon:opacity-100 transition-opacity"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                                 )}
                             </a>
                         )}

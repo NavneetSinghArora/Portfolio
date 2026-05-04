@@ -72,9 +72,10 @@ const { Content } = await render(post);
                 </div>
                 <div class="flex items-center gap-6">
                     {medium && (
-                        <a href={medium} target="_blank" rel="noopener noreferrer" aria-label="Read on Medium" class="group/social premium-tooltip relative flex h-10 w-10 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip="Read on Medium">
-                            <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/social:opacity-100 group-hover/social:scale-110 group-hover/social:bg-main/10 ring-1 ring-main/10"></div>
-                            <img src="https://img.icons8.com/sf-black-filled/64/medium-logo.png" alt="Medium" class="h-6 w-6 opacity-40 group-hover/social:opacity-100 transition-opacity dark:invert relative z-10" />
+                        <a href={medium} target="_blank" rel="noopener noreferrer" aria-label="Read on Medium" class="group/icon premium-tooltip relative flex h-10 w-10 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip="Read on Medium">
+                            <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
+                            <img src="https://cdn.simpleicons.org/medium" alt="Medium" class="h-4 w-4 dark:hidden opacity-70 group-hover/icon:opacity-100 transition-opacity relative z-10" />
+                            <img src="https://cdn.simpleicons.org/medium/white" alt="Medium" class="h-4 w-4 hidden dark:block opacity-70 group-hover/icon:opacity-100 transition-opacity relative z-10" />
                         </a>
                     )}
                 </div>
