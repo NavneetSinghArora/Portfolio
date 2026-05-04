@@ -183,7 +183,7 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                                     class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
                                     data-tooltip="GitHub"
                                 >
-                                    <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                    <div class="absolute inset-0 rounded-xl bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
                                     <img src="https://cdn.simpleicons.org/github" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-90" alt="GitHub" />
                                     <img src="https://cdn.simpleicons.org/github/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-90" alt="GitHub" />
                                 </a>
@@ -196,11 +196,11 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                                     class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
                                     data-tooltip={project.data.paper.includes('kaggle.com') ? "Kaggle Competition" : "Research/Project Document"}
                                 >
-                                    <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                    <div class="absolute inset-0 rounded-xl bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
                                     {project.data.paper.includes('kaggle.com') ? (
                                         <>
-                                            <img src="https://cdn.simpleicons.org/kaggle" class="relative z-10 h-5 w-5 dark:hidden opacity-90" alt="Kaggle" />
-                                            <img src="https://cdn.simpleicons.org/kaggle/white" class="relative z-10 h-5 w-5 hidden dark:block opacity-90" alt="Kaggle" />
+                                            <img src="https://cdn.simpleicons.org/kaggle" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-90" alt="Kaggle" />
+                                            <img src="https://cdn.simpleicons.org/kaggle/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-90" alt="Kaggle" />
                                         </>
                                     ) : (
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-90"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
@@ -215,7 +215,7 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                                     class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
                                     data-tooltip="Live Demo"
                                 >
-                                    <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                    <div class="absolute inset-0 rounded-xl bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-90"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                                 </a>
                             )}
@@ -227,11 +227,11 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                                     class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
                                     data-tooltip={project.data.tags.includes('n8n') ? "Technical implementation and research artifacts associated with this project." : "External Link"}
                                 >
-                                    <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                    <div class="absolute inset-0 rounded-xl bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
                                     {project.data.tags.includes('n8n') ? (
                                         <>
-                                            <img src="https://cdn.simpleicons.org/n8n" class="relative z-10 h-5 w-5 dark:hidden opacity-90" alt="n8n" />
-                                            <img src="https://cdn.simpleicons.org/n8n/white" class="relative z-10 h-5 w-5 hidden dark:block opacity-90" alt="n8n" />
+                                            <img src="https://cdn.simpleicons.org/n8n" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-90" alt="n8n" />
+                                            <img src="https://cdn.simpleicons.org/n8n/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-90" alt="n8n" />
                                         </>
                                     ) : (
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-90"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
@@ -290,7 +290,7 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                                 class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
                                 data-tooltip="GitHub"
                             >
-                                <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                <div class="absolute inset-0 rounded-xl bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
                                 <img src="https://cdn.simpleicons.org/github" class="relative z-10 h-4 w-4 dark:hidden opacity-90" alt="GitHub" />
                                 <img src="https://cdn.simpleicons.org/github/white" class="relative z-10 h-4 w-4 hidden dark:block opacity-90" alt="GitHub" />
                             </a>
@@ -303,7 +303,7 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                                 class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
                                 data-tooltip={project.data.paper.includes('kaggle.com') ? "Kaggle Competition" : "Research/Project Document"}
                             >
-                                <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                <div class="absolute inset-0 rounded-xl bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
                                 {project.data.paper.includes('kaggle.com') ? (
                                     <>
                                         <img src="https://cdn.simpleicons.org/kaggle" class="relative z-10 h-5 w-5 dark:hidden opacity-90" alt="Kaggle" />
@@ -322,7 +322,7 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                                 class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
                                 data-tooltip="Live Demo"
                             >
-                                <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                <div class="absolute inset-0 rounded-xl bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-90"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                             </a>
                         )}
@@ -334,7 +334,7 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                                 class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
                                 data-tooltip={project.data.tags.includes('n8n') ? "n8n Workflows" : "External Link"}
                             >
-                                <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
+                                <div class="absolute inset-0 rounded-xl bg-main/5 ring-1 ring-main/15 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/10 group-hover/icon:ring-main/25"></div>
                                 {project.data.tags.includes('n8n') ? (
                                     <>
                                         <img src="https://cdn.simpleicons.org/n8n" class="relative z-10 h-5 w-5 dark:hidden opacity-90" alt="n8n" />
