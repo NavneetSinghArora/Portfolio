@@ -1,39 +1,23 @@
 ---
 import siteConfig from '../data/site-config';
 import QuickConnect from './QuickConnect.astro';
+import IconButton from './IconButton.astro';
+import SocialIcon from './SocialIcon.astro';
+import { resolveIcon } from '../utils/data-utils';
 
-// Dynamically import all logos from src/assets/icons to ensure they are bundled correctly
-const logos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/icons/*.{svg,png,webp,jpg,jpeg}', { eager: true });
-
-function resolveIcon(name: string | undefined) {
-    if (!name) return '';
-    if (name.startsWith('http')) return name;
-    
-    // Handle special cases
-    let searchName = name;
-    if (name.toLowerCase() === 'n8n creator') {
-        searchName = 'n8n';
-    }
-    
-    const extensions = ['.svg', '.png', '.webp', '.jpg', '.jpeg'];
-    for (const ext of extensions) {
-        const path = `/src/assets/icons/${searchName}${ext}`;
-        const asset = logos[path];
-        if (asset) {
-            return (asset.default as any)?.src || asset.default || asset;
-        }
-    }
-    return '';
-}
+type KnownIcon = 'github' | 'npm' | 'medium' | 'kaggle' | 'n8n';
+const knownIcons: KnownIcon[] = ['github', 'npm', 'medium', 'kaggle', 'n8n'];
 
 const socialLinks = siteConfig.socialLinks ?? [];
 const navLinks = siteConfig.footerNavLinks ?? [];
 const currentYear = new Date().getFullYear();
+
+const resumeIcon = 'https://img.icons8.com/color/48/parse-from-clipboard.png';
 ---
 
 <footer class="mx-auto w-full max-w-4xl pb-6 px-4 sm:pb-10">
     <div class="relative rounded-2xl border border-main-border/10 bg-main-bg/40 backdrop-blur-xl shadow-lg p-1.5 ring-1 ring-white/5 dark:ring-white/10 flex flex-col gap-3">
-        
+
         <!-- Row 1: Split Layout -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-4 py-2">
             <!-- Left: Navigation Links -->
@@ -54,32 +38,28 @@ const currentYear = new Date().getFullYear();
                 socialLinks.length > 0 && (
                     <div class="flex flex-wrap items-center gap-1.5 order-1 sm:order-2">
                         {socialLinks.map((link) => {
-                            const iconName = link.text.toLowerCase();
-                            const iconPath = resolveIcon(iconName);
-                            const isGithub = iconName === 'github';
+                            let iconName = link.text.toLowerCase();
+                            if (iconName === 'n8n creator') iconName = 'n8n';
+
+                            const isKnown = knownIcons.includes(iconName as KnownIcon);
                             const isResume = iconName === 'resume';
-                            const resumeIcon = 'https://img.icons8.com/color/48/parse-from-clipboard.png';
 
                             return (
-                                <a
-                                    class="group/social premium-tooltip relative flex h-7.5 w-7.5 items-center justify-center transition-all duration-300 hover:scale-110"
+                                <IconButton
                                     href={link.href}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    data-tooltip={link.text}
+                                    size="sm"
+                                    tooltip={link.text}
                                 >
-                                    <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/social:opacity-100 group-hover/social:bg-main/10 ring-1 ring-main/10" />
-                                    {isGithub ? (
-                                        <>
-                                            <img src={resolveIcon('github-dark')} alt="" class="relative z-10 h-4 w-4 opacity-70 transition-all dark:hidden group-hover/social:opacity-100" />
-                                            <img src={resolveIcon('github-light')} alt="" class="relative z-10 hidden h-4 w-4 opacity-70 transition-all dark:block group-hover/social:opacity-100" />
-                                        </>
+                                    {isKnown ? (
+                                        <SocialIcon name={iconName as KnownIcon} />
                                     ) : isResume ? (
-                                        <img src={resumeIcon} alt="" class="relative z-10 h-4 w-4 opacity-70 transition-all group-hover/social:opacity-100" />
+                                        <img src={resumeIcon} alt={link.text} class="h-3.5 w-3.5" />
                                     ) : (
-                                        <img src={iconPath} alt="" class="relative z-10 h-4 w-4 opacity-70 transition-all group-hover/social:opacity-100" />
+                                        <img src={resolveIcon(iconName)} alt={link.text} class="h-3.5 w-3.5" />
                                     )}
-                                </a>
+                                </IconButton>
                             );
                         })}
                         <div class="w-px h-4 bg-main-border/10 mx-1"></div>

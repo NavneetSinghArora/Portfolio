@@ -4,6 +4,8 @@ import type { GetStaticPathsOptions, Page } from 'astro';
 import { type CollectionEntry, getCollection } from 'astro:content';
 import Pagination from '../../components/Pagination.astro';
 import PostPreview from '../../components/PostPreview.astro';
+import IconButton from '../../components/IconButton.astro';
+import SocialIcon from '../../components/SocialIcon.astro';
 import siteConfig from '../../data/site-config';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { sortItemsByDateDesc } from '../../utils/data-utils';
@@ -173,19 +175,11 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
                     </div>
 
                     <div class="mt-6 flex items-center justify-between">
-                        <div class="flex items-center gap-1.5">
+                        <div class="flex items-center gap-1.5 z-20 relative">
                             {post.data.medium && (
-                                <a 
-                                    href={post.data.medium} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer" 
-                                    class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115" 
-                                    data-tooltip="Read on Medium"
-                                >
-                                    <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
-                                    <img src="https://cdn.simpleicons.org/medium" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="Medium" />
-                                    <img src="https://cdn.simpleicons.org/medium/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="Medium" />
-                                </a>
+                                <IconButton href={post.data.medium} target="_blank" rel="noopener noreferrer" size="md" tooltip="Read on Medium">
+                                    <SocialIcon name="medium" />
+                                </IconButton>
                             )}
                         </div>
                         <span class="text-[10px] font-bold tracking-[0.15em] text-main/30 uppercase font-sans">
@@ -231,19 +225,11 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
                 </div>
                 
                 <div class="mt-auto flex items-center justify-between pt-3 border-t border-main-border/5">
-                    <div class="flex items-center gap-1.5">
+                    <div class="flex items-center gap-1.5 z-20 relative">
                         {post.data.medium && (
-                            <a 
-                                href={post.data.medium} 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                class="group/icon premium-tooltip relative z-20 flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115" 
-                                data-tooltip="Read on Medium"
-                            >
-                                <div class="absolute inset-0 rounded-lg bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
-                                <img src="https://cdn.simpleicons.org/medium" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="Medium" />
-                                <img src="https://cdn.simpleicons.org/medium/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="Medium" />
-                            </a>
+                            <IconButton href={post.data.medium} target="_blank" rel="noopener noreferrer" size="sm" tooltip="Read on Medium">
+                                <SocialIcon name="medium" />
+                            </IconButton>
                         )}
                     </div>
                     <p class="text-[10px] font-bold uppercase tracking-widest text-main/40">

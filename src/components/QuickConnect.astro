@@ -1,5 +1,6 @@
 ---
 import siteConfig from '../data/site-config';
+import IconButton from './IconButton.astro';
 
 // Get clean URLs
 const websiteUrl = siteConfig.website;
@@ -29,13 +30,13 @@ const qrTypes = [
 ---
 
 <div class="relative inline-block qr-instance-container">
-    <button
-        class="qr-toggle-btn group/social premium-tooltip relative flex items-center justify-center transition-all duration-300 hover:scale-115 cursor-pointer"
-        data-tooltip="Quick Connect (Scan QR)"
+    <IconButton
+        variant="social"
+        tooltip="Quick Connect (Scan QR)"
         aria-label="Show Quick Connect QR Code"
+        class="qr-toggle-btn !h-7.5 !w-7.5"
     >
-        <div class="absolute -inset-2 rounded-full bg-main-bg/5 opacity-0 transition-opacity group-hover/social:opacity-100"></div>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 opacity-50 transition-opacity group-hover/social:opacity-100">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 opacity-50 group-hover:opacity-100 transition-opacity">
             <rect x="3" y="3" width="7" height="7"></rect>
             <rect x="14" y="3" width="7" height="7"></rect>
             <rect x="14" y="14" width="7" height="7"></rect>
@@ -44,16 +45,16 @@ const qrTypes = [
             <path d="M17 7h.01"></path>
             <path d="M7 17h.01"></path>
         </svg>
-    </button>
+    </IconButton>
 
     <div
         class="qr-main-container fixed inset-0 z-[100] flex items-center justify-center bg-black/60 opacity-0 pointer-events-none transition-opacity duration-400 backdrop-blur-md"
     >
         <div class="qr-modal-box relative mx-4 w-full max-w-md overflow-hidden rounded-2xl border border-main/10 bg-main-bg p-8 text-center shadow-[0_32px_64px_-12px_rgba(0,0,0,0.5)] backdrop-blur-2xl transition-all duration-500 scale-95 dark:bg-[#0f1115]/80">
             <!-- Close Button -->
-            <button class="qr-close-btn absolute top-6 right-6 z-10 p-2 text-main/30 hover:text-main transition-colors rounded-full hover:bg-main/5">
+            <IconButton variant="ghost" class="qr-close-btn absolute top-6 right-6 z-10">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
+            </IconButton>
             
             <div class="mb-8">
                 <h3 class="font-serif text-3xl font-medium text-main mb-2 tracking-tight">Quick Connect</h3>
@@ -199,7 +200,7 @@ const qrTypes = [
                 ctx.quadraticCurveTo(clipX + clipSize, clipY, clipX + clipSize, clipY + clipR);
                 ctx.lineTo(clipX + clipSize, clipY + clipSize - clipR);
                 ctx.quadraticCurveTo(clipX + clipSize, clipY + clipSize, clipX + clipSize - clipR, clipY + clipSize);
-                ctx.lineTo(clipX + clipR, clipY + clipSize);
+                ctx.lineTo(clipX + r, clipY + clipSize);
                 ctx.quadraticCurveTo(clipX, clipY + clipSize, clipX, clipY + clipSize - clipR);
                 ctx.lineTo(clipX, clipY + clipR);
                 ctx.quadraticCurveTo(clipX, clipY, clipX + clipR, clipY);

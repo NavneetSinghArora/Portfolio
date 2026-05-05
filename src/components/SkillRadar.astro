@@ -44,6 +44,8 @@ const labelPositions = skills.map(s => {
         <p class="mt-2 text-sm text-main/55 max-w-xl">Relative depth across engineering domains — based on years of professional experience and shipped work.</p>
     </div>
 
+    <div class="spotlight-card group relative p-6 sm:p-8">
+        <div class="spotlight-glow"></div>
     <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
 
         <!-- SVG Radar -->
@@ -110,7 +112,7 @@ const labelPositions = skills.map(s => {
         <!-- Skill bars -->
         <div class="w-full grid grid-cols-1 sm:grid-cols-2 gap-3" id="skill-bars">
             {skills.map((s, i) => (
-                <div class="flex items-center gap-3 p-3.5 rounded-xl border border-main-border/10 bg-main-bg/10 backdrop-blur-sm">
+                <div class="flex items-center gap-3 p-3.5 rounded-xl border border-main-border/10 bg-main/5">
                     <div class="w-9 text-right flex-shrink-0">
                         <span class="text-sm font-bold font-mono text-main radar-val" data-target={s.value}>0</span>
                         <span class="text-[10px] text-main/35">%</span>
@@ -127,6 +129,7 @@ const labelPositions = skills.map(s => {
                 </div>
             ))}
         </div>
+    </div>
     </div>
 </div>
 

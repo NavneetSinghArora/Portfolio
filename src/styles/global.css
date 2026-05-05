@@ -124,6 +124,50 @@ html.dark {
     @apply opacity-100 scale-100 translate-y-1;
 }
 
+/* ─── Centralised Interactive Styles ─── */
+.interactive-scale {
+    @apply transition-all duration-300 active:scale-95;
+}
+
+/* ─── Icon Button: single source of truth for icon pill design ─── */
+.icon-btn-glow {
+    @apply relative flex items-center justify-center transition-all duration-300 hover:scale-115 active:scale-95;
+}
+
+.icon-btn-glow::before {
+    content: '';
+    @apply absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 -z-0;
+}
+
+.icon-btn-glow:hover::before {
+    @apply bg-main/15 ring-main/30 scale-110;
+}
+
+.icon-btn-glow img, .icon-btn-glow svg {
+    @apply relative z-10 opacity-70 transition-all duration-300;
+}
+
+.icon-btn-glow:hover img, .icon-btn-glow:hover svg {
+    @apply opacity-100;
+}
+
+/* Header variant: pill fades in on hover (no always-on ring) */
+.icon-btn-glow.icon-header::before {
+    @apply bg-main/5 ring-main/10 opacity-0;
+}
+
+.icon-btn-glow.icon-header:hover::before {
+    @apply opacity-100 bg-main/10;
+}
+
+.icon-btn-glow.icon-header img, .icon-btn-glow.icon-header svg {
+    @apply opacity-90;
+}
+
+.icon-btn-glow.icon-header:hover img, .icon-btn-glow.icon-header:hover svg {
+    @apply opacity-100;
+}
+
 /* Premium Animated Underline - Solid & Elegant */
 .premium-line-hover {
     text-decoration: none !important;

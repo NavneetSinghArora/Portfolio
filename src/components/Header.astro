@@ -2,6 +2,8 @@
 import siteConfig from '../data/site-config';
 import CustomImage from './CustomImage.astro';
 import QuickConnect from './QuickConnect.astro';
+import IconButton from './IconButton.astro';
+import SocialIcon from './SocialIcon.astro';
 
 // Dynamically import all logos from src/assets/icons to ensure they are bundled correctly
 const logos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/icons/*.{svg,png,webp,jpg,jpeg}', { eager: true });
@@ -9,7 +11,7 @@ const logos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/icons/*.
 function resolveIcon(name: string | undefined) {
     if (!name) return '';
     if (name.startsWith('http')) return name;
-    
+
     const extensions = ['.svg', '.png', '.webp', '.jpg', '.jpeg'];
     for (const ext of extensions) {
         const path = `/src/assets/icons/${name}${ext}`;
@@ -20,6 +22,9 @@ function resolveIcon(name: string | undefined) {
     }
     return '';
 }
+
+type KnownIcon = 'github' | 'npm' | 'medium' | 'kaggle' | 'n8n';
+const knownIcons: KnownIcon[] = ['github', 'npm', 'medium', 'kaggle', 'n8n'];
 
 const titleClass = 'text-theme-foreground font-serif text-3xl leading-tight font-medium sm:text-4xl lg:text-5xl';
 const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html';
@@ -65,43 +70,23 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
         <div class="flex flex-wrap justify-center items-center gap-3">
             {siteConfig.socialLinks?.map((link) => {
                 let iconName = link.text.toLowerCase();
-                
-                // Custom mapping for icons
                 if (iconName === 'n8n creator') iconName = 'n8n';
-                
-                const iconPath = resolveIcon(iconName);
-                
-                // Handle GitHub dual icons
-                const isGithub = iconName === 'github';
-                const isNpm = iconName === 'npm';
+
+                const isKnown = knownIcons.includes(iconName as KnownIcon);
                 const isResume = iconName === 'resume';
                 const resumeIcon = 'https://img.icons8.com/color/48/parse-from-clipboard.png';
-                const npmIcon = 'https://cdn.simpleicons.org/npm/CB3837';
-                
+
                 return (
-                    <a 
-                        href={link.href} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        class="group/social premium-tooltip relative flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center transition-all duration-300 hover:scale-115"
-                        data-tooltip={link.text}
-                    >
-                        <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/social:opacity-100 group-hover/social:scale-110 group-hover/social:bg-main/10 ring-1 ring-main/10"></div>
-                        
-                        {isGithub ? (
-                            <>
-                                <img src={resolveIcon('github-dark')} alt="" width="24" height="24" class="relative z-10 h-6 w-6 sm:h-7 sm:w-7 opacity-90 transition-all dark:hidden" />
-                                <img src={resolveIcon('github-light')} alt="" width="24" height="24" class="relative z-10 hidden h-6 w-6 sm:h-7 sm:w-7 opacity-90 transition-all dark:block" />
-                            </>
-                        ) : isNpm ? (
-                            <img src={npmIcon} alt="" width="20" height="20" class="relative z-10 h-5 w-5 opacity-90 transition-all" />
+                    <IconButton href={link.href} target="_blank" rel="noopener noreferrer" variant="header" tooltip={link.text}>
+                        {isKnown ? (
+                            <SocialIcon name={iconName as KnownIcon} size="lg" />
                         ) : isResume ? (
-                            <img src={resumeIcon} alt="" width="24" height="24" class="relative z-10 h-6 w-6 sm:h-7 sm:w-7 opacity-90 transition-all" />
+                            <img src={resumeIcon} alt={link.text} class="h-6 w-6 sm:h-7 sm:w-7" />
                         ) : (
-                            <img src={iconPath} alt="" width="24" height="24" class="relative z-10 h-6 w-6 sm:h-7 sm:w-7 opacity-90 transition-all" />
+                            <img src={resolveIcon(iconName)} alt={link.text} class="h-6 w-6 sm:h-7 sm:w-7" />
                         )}
-                    </a>
-                )
+                    </IconButton>
+                );
             })}
             <div class="flex items-center ml-2">
                 <QuickConnect />

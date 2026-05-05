@@ -1,6 +1,8 @@
 ---
 import { getEntry, getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import IconButton from '../../components/IconButton.astro';
+import SocialIcon from '../../components/SocialIcon.astro';
 import Button from '../../components/Button.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import PostPreview from '../../components/PostPreview.astro';
@@ -70,13 +72,11 @@ const { Content } = await render(post);
                     <h4 class="text-xs font-bold uppercase tracking-[0.2em] text-main/55">Resource Directory</h4>
                     <p class="text-sm text-main/70 font-medium font-serif">This is a summary. <br />Read the full article on Medium — and if you find it helpful, a clap or follow is always appreciated.</p>
                 </div>
-                <div class="flex items-center gap-6">
+                <div class="flex items-center gap-3">
                     {medium && (
-                        <a href={medium} target="_blank" rel="noopener noreferrer" aria-label="Read on Medium" class="group/icon premium-tooltip relative flex h-10 w-10 items-center justify-center transition-all duration-300 hover:scale-115" data-tooltip="Read on Medium">
-                            <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
-                            <img src="https://cdn.simpleicons.org/medium" alt="Medium" class="h-4 w-4 dark:hidden opacity-70 group-hover/icon:opacity-100 transition-opacity relative z-10" />
-                            <img src="https://cdn.simpleicons.org/medium/white" alt="Medium" class="h-4 w-4 hidden dark:block opacity-70 group-hover/icon:opacity-100 transition-opacity relative z-10" />
-                        </a>
+                        <IconButton href={medium} target="_blank" rel="noopener noreferrer" size="lg" tooltip="Read on Medium">
+                            <SocialIcon name="medium" size="md" />
+                        </IconButton>
                     )}
                 </div>
             </div>

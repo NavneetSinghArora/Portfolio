@@ -1,6 +1,8 @@
 ---
 import { type CollectionEntry } from 'astro:content';
 import FormattedDate from './FormattedDate.astro';
+import IconButton from './IconButton.astro';
+import SocialIcon from './SocialIcon.astro';
 
 type Props = { post: CollectionEntry<'blog'>; class?: string };
 
@@ -26,28 +28,20 @@ const imageSrc = banner ?? seo?.image?.src?.src;
             <div class="flex h-full w-full items-center justify-center text-main/55 text-xs">No preview</div>
         )}
     </div>
-    
+
     <div class="relative z-1 flex-grow">
         <h3 class="font-serif text-base font-bold leading-tight line-clamp-2 py-0.5 mb-2 text-main">
             <span class="premium-line-hover">{title}</span>
         </h3>
         {excerpt && <p class="text-xs text-main/90 line-clamp-3 mb-4 leading-relaxed font-sans">{excerpt}</p>}
     </div>
-    
+
     <div class="relative z-10 mt-auto flex items-center justify-between pt-3 border-t border-main-border/10">
         <div class="flex items-center gap-1.5">
             {post.data.medium && (
-                <a 
-                    href={post.data.medium} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    data-tooltip="Read on Medium"
-                    class="group/icon premium-tooltip relative z-20 flex h-7 w-7 items-center justify-center transition-all duration-300 hover:scale-115"
-                >
-                    <div class="absolute inset-0 rounded-lg bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
-                    <img src="https://cdn.simpleicons.org/medium" class="h-3.5 w-3.5 dark:hidden relative z-10 opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="Medium" />
-                    <img src="https://cdn.simpleicons.org/medium/white" class="h-3.5 w-3.5 hidden dark:block relative z-10 opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="Medium" />
-                </a>
+                <IconButton href={post.data.medium} target="_blank" rel="noopener noreferrer" size="sm" tooltip="Read on Medium">
+                    <SocialIcon name="medium" />
+                </IconButton>
             )}
         </div>
         <p class="text-[10px] font-bold uppercase tracking-widest text-main/40 pointer-events-none">

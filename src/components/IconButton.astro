@@ -1,22 +1,59 @@
 ---
-import type { HTMLAttributes } from 'astro/types';
+import type { HTMLAttributes } from 'astro:types';
 
 type AnchorProps = HTMLAttributes<'a'> & { href: string; type?: never };
 type ButtonProps = HTMLAttributes<'button'> & { href?: never };
 
-type Props = ButtonProps | AnchorProps;
+type Props = (ButtonProps | AnchorProps) & {
+    /**
+     * Visual variant:
+     *  social  – standard pill (always-on ring, opacity-70 icon)     [card footers, page lists]
+     *  header  – pill fades in on hover, opacity-90 icon             [header social links]
+     *  default – bordered button with background                     [pagination, misc]
+     *  ghost   – invisible, text-only hover                          [close buttons]
+     */
+    variant?: 'default' | 'social' | 'header' | 'ghost';
+    /**
+     * Container size (only applies to social/header variants):
+     *  sm – h-7  w-7   card footers (thumbnail grid)
+     *  md – h-8  w-8   gallery / list views
+     *  lg – h-10 w-10  resource directories on detail pages
+     */
+    size?: 'sm' | 'md' | 'lg';
+    tooltip?: string;
+};
 
-const { href, class: className, ...rest } = Astro.props;
-const buttonClasses = 'inline-flex items-center justify-center p-2.5 text-main bg-main/5 border border-main-border/20 rounded-xl transition-all duration-300 hover:bg-main/10 hover:border-main-border/40 hover:scale-105 backdrop-blur-sm';
+const { href, class: className, variant = 'default', size = 'md', tooltip, ...rest } = Astro.props;
+
+const sizeClass = { sm: 'h-7 w-7', md: 'h-8 w-8', lg: 'h-10 w-10' }[size];
+
+const variantClasses: Record<string, string> = {
+    default: 'relative inline-flex items-center justify-center p-2.5 text-main bg-main/5 border border-main-border/20 rounded-xl hover:bg-main/10 hover:border-main-border/40 hover:scale-105 backdrop-blur-sm transition-all duration-300 active:scale-95',
+    social:  `${sizeClass} icon-btn-glow`,
+    header:  'h-10 w-10 sm:h-12 sm:w-12 icon-btn-glow icon-header',
+    ghost:   'relative inline-flex items-center justify-center p-2 text-main/30 hover:text-main hover:bg-main/5 rounded-full transition-all duration-300 active:scale-95',
+};
+
+const tooltipAttrs = tooltip ? { 'data-tooltip': tooltip } : {};
+const tooltipClass = tooltip ? 'premium-tooltip' : '';
 ---
 
 {
     href ? (
-        <a href={href} class:list={[buttonClasses, className]} {...rest}>
+        <a
+            href={href}
+            class:list={[variantClasses[variant], tooltipClass, className]}
+            {...tooltipAttrs}
+            {...rest}
+        >
             <slot />
         </a>
     ) : (
-        <button class:list={[buttonClasses, 'cursor-pointer', className]} {...rest}>
+        <button
+            class:list={['cursor-pointer', variantClasses[variant], tooltipClass, className]}
+            {...tooltipAttrs}
+            {...rest}
+        >
             <slot />
         </button>
     )

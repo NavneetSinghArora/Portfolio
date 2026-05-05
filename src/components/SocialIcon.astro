@@ -1,0 +1,66 @@
+---
+/**
+ * Renders the correct icon image(s) for a given platform.
+ * Opacity and z-index are handled by the parent .icon-btn-glow CSS class.
+ *
+ * Pair with IconButton:
+ *   sm/md containers  →  size="sm"  (h-3.5 w-3.5)
+ *   lg  containers    →  size="md"  (h-4 w-4)
+ *   header containers →  size="lg"  (h-6 w-6 sm:h-7 sm:w-7)
+ */
+type Props = {
+    name: 'github' | 'npm' | 'medium' | 'kaggle' | 'n8n' | 'paper' | 'demo' | 'external';
+    size?: 'sm' | 'md' | 'lg';
+};
+
+const { name, size = 'sm' } = Astro.props;
+
+const sz     = { sm: 'h-3.5 w-3.5', md: 'h-4 w-4',  lg: 'h-6 w-6 sm:h-7 sm:w-7' }[size];
+const npmSz  = { sm: 'h-3 w-3',     md: 'h-4 w-4',  lg: 'h-5 w-5'               }[size];
+---
+
+{name === 'github' && (
+    <>
+        <img src="https://cdn.simpleicons.org/github"       alt="GitHub" class:list={[sz, 'dark:hidden']}      />
+        <img src="https://cdn.simpleicons.org/github/white" alt="GitHub" class:list={[sz, 'hidden dark:block']} />
+    </>
+)}
+{name === 'npm' && (
+    <img src="https://cdn.simpleicons.org/npm/CB3837" alt="npm" class={npmSz} />
+)}
+{name === 'medium' && (
+    <>
+        <img src="https://cdn.simpleicons.org/medium"       alt="Medium" class:list={[sz, 'dark:hidden']}      />
+        <img src="https://cdn.simpleicons.org/medium/white" alt="Medium" class:list={[sz, 'hidden dark:block']} />
+    </>
+)}
+{name === 'kaggle' && (
+    <>
+        <img src="https://cdn.simpleicons.org/kaggle"       alt="Kaggle" class:list={[sz, 'dark:hidden']}      />
+        <img src="https://cdn.simpleicons.org/kaggle/white" alt="Kaggle" class:list={[sz, 'hidden dark:block']} />
+    </>
+)}
+{name === 'n8n' && (
+    <img src="https://cdn.simpleicons.org/n8n/EA4B35" alt="n8n" class={sz} />
+)}
+{name === 'paper' && (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class={sz}>
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+        <polyline points="10 9 9 9 8 9"/>
+    </svg>
+)}
+{name === 'demo' && (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class={sz}>
+        <polygon points="5 3 19 12 5 21 5 3"/>
+    </svg>
+)}
+{name === 'external' && (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class={sz}>
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+        <polyline points="15 3 21 3 21 9"/>
+        <line x1="10" y1="14" x2="21" y2="3"/>
+    </svg>
+)}

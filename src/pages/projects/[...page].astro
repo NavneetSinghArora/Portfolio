@@ -5,6 +5,8 @@ import { type CollectionEntry, getCollection } from 'astro:content';
 import Pagination from '../../components/Pagination.astro';
 import ProjectThumbnail from '../../components/ProjectThumbnail.astro';
 import ProjectPreview from '../../components/ProjectPreview.astro';
+import IconButton from '../../components/IconButton.astro';
+import SocialIcon from '../../components/SocialIcon.astro';
 import siteConfig from '../../data/site-config';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { sortItemsByDateDesc } from '../../utils/data-utils';
@@ -185,81 +187,31 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                     </div>
 
                     <div class="mt-6 flex items-center justify-between">
-                        <div class="flex items-center gap-1.5">
+                        <div class="flex items-center gap-1.5 z-20 relative">
                             {project.data.github && (
-                                <a
-                                    href={project.data.github}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
-                                    data-tooltip="GitHub"
-                                >
-                                    <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
-                                    <img src="https://cdn.simpleicons.org/github" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="GitHub" />
-                                    <img src="https://cdn.simpleicons.org/github/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="GitHub" />
-                                </a>
+                                <IconButton href={project.data.github} target="_blank" rel="noopener noreferrer" size="md" tooltip="GitHub">
+                                    <SocialIcon name="github" />
+                                </IconButton>
                             )}
                             {project.data.npm && (
-                                <a
-                                    href={project.data.npm}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
-                                    data-tooltip="npm Package"
-                                >
-                                    <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
-                                    <img src="https://cdn.simpleicons.org/npm/CB3837" class="relative z-10 h-3 w-3 opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="npm" />
-                                </a>
+                                <IconButton href={project.data.npm} target="_blank" rel="noopener noreferrer" size="md" tooltip="npm Package">
+                                    <SocialIcon name="npm" />
+                                </IconButton>
                             )}
                             {project.data.paper && (
-                                <a
-                                    href={project.data.paper}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
-                                    data-tooltip={project.data.paper.includes('kaggle.com') ? "Kaggle Competition" : "Research Paper"}
-                                >
-                                    <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
-                                    {project.data.paper.includes('kaggle.com') ? (
-                                        <>
-                                            <img src="https://cdn.simpleicons.org/kaggle" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="Kaggle" />
-                                            <img src="https://cdn.simpleicons.org/kaggle/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="Kaggle" />
-                                        </>
-                                    ) : (
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-70 group-hover/icon:opacity-100 transition-opacity"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                                    )}
-                                </a>
+                                <IconButton href={project.data.paper} target="_blank" rel="noopener noreferrer" size="md" tooltip={project.data.paper.includes('kaggle.com') ? 'Kaggle Competition' : 'Research Paper'}>
+                                    <SocialIcon name={project.data.paper.includes('kaggle.com') ? 'kaggle' : 'paper'} />
+                                </IconButton>
                             )}
                             {project.data.demo && (
-                                <a
-                                    href={project.data.demo}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
-                                    data-tooltip="Live Demo"
-                                >
-                                    <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-70 group-hover/icon:opacity-100 transition-opacity"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                                </a>
+                                <IconButton href={project.data.demo} target="_blank" rel="noopener noreferrer" size="md" tooltip="Live Demo">
+                                    <SocialIcon name="demo" />
+                                </IconButton>
                             )}
                             {project.data.external && (
-                                <a
-                                    href={project.data.external}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
-                                    data-tooltip={project.data.tags.includes('n8n') ? "n8n Workflow" : "External Link"}
-                                >
-                                    <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
-                                    {project.data.tags.includes('n8n') ? (
-                                        <>
-                                            <img src="https://cdn.simpleicons.org/n8n" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="n8n" />
-                                            <img src="https://cdn.simpleicons.org/n8n/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="n8n" />
-                                        </>
-                                    ) : (
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-70 group-hover/icon:opacity-100 transition-opacity"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                                    )}
-                                </a>
+                                <IconButton href={project.data.external} target="_blank" rel="noopener noreferrer" size="md" tooltip={project.data.tags.includes('n8n') ? 'n8n Workflow' : 'External Link'}>
+                                    <SocialIcon name={project.data.tags.includes('n8n') ? 'n8n' : 'external'} />
+                                </IconButton>
                             )}
                         </div>
                         <span class="text-[10px] font-bold tracking-[0.15em] text-main/30 uppercase font-sans">YEAR {project.data.publishDate.getFullYear()}</span>
@@ -315,81 +267,31 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                 
                 <!-- Card Meta -->
                 <div class="mt-auto flex items-center justify-between pt-3 border-t border-main-border/5">
-                    <div class="flex items-center gap-1.5">
+                    <div class="flex items-center gap-1.5 z-20 relative">
                         {project.data.github && (
-                            <a
-                                href={project.data.github}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
-                                data-tooltip="GitHub"
-                            >
-                                <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
-                                <img src="https://cdn.simpleicons.org/github" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="GitHub" />
-                                <img src="https://cdn.simpleicons.org/github/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="GitHub" />
-                            </a>
+                            <IconButton href={project.data.github} target="_blank" rel="noopener noreferrer" size="md" tooltip="GitHub">
+                                <SocialIcon name="github" />
+                            </IconButton>
                         )}
                         {project.data.npm && (
-                            <a
-                                href={project.data.npm}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
-                                data-tooltip="npm Package"
-                            >
-                                <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
-                                <img src="https://cdn.simpleicons.org/npm/CB3837" class="relative z-10 h-3 w-3 opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="npm" />
-                            </a>
+                            <IconButton href={project.data.npm} target="_blank" rel="noopener noreferrer" size="md" tooltip="npm Package">
+                                <SocialIcon name="npm" />
+                            </IconButton>
                         )}
                         {project.data.paper && (
-                            <a
-                                href={project.data.paper}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
-                                data-tooltip={project.data.paper.includes('kaggle.com') ? "Kaggle Competition" : "Research Paper"}
-                            >
-                                <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
-                                {project.data.paper.includes('kaggle.com') ? (
-                                    <>
-                                        <img src="https://cdn.simpleicons.org/kaggle" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="Kaggle" />
-                                        <img src="https://cdn.simpleicons.org/kaggle/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="Kaggle" />
-                                    </>
-                                ) : (
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-70 group-hover/icon:opacity-100 transition-opacity"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                                )}
-                            </a>
+                            <IconButton href={project.data.paper} target="_blank" rel="noopener noreferrer" size="md" tooltip={project.data.paper.includes('kaggle.com') ? 'Kaggle Competition' : 'Research Paper'}>
+                                <SocialIcon name={project.data.paper.includes('kaggle.com') ? 'kaggle' : 'paper'} />
+                            </IconButton>
                         )}
                         {project.data.demo && (
-                            <a
-                                href={project.data.demo}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
-                                data-tooltip="Live Demo"
-                            >
-                                <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-70 group-hover/icon:opacity-100 transition-opacity"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                            </a>
+                            <IconButton href={project.data.demo} target="_blank" rel="noopener noreferrer" size="md" tooltip="Live Demo">
+                                <SocialIcon name="demo" />
+                            </IconButton>
                         )}
                         {project.data.external && (
-                            <a
-                                href={project.data.external}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="group/icon premium-tooltip relative z-20 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:scale-115"
-                                data-tooltip={project.data.tags.includes('n8n') ? "n8n Workflow" : "External Link"}
-                            >
-                                <div class="absolute inset-0 rounded-xl bg-main/10 ring-1 ring-main/20 transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:bg-main/15 group-hover/icon:ring-main/30"></div>
-                                {project.data.tags.includes('n8n') ? (
-                                    <>
-                                        <img src="https://cdn.simpleicons.org/n8n" class="relative z-10 h-3.5 w-3.5 dark:hidden opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="n8n" />
-                                        <img src="https://cdn.simpleicons.org/n8n/white" class="relative z-10 h-3.5 w-3.5 hidden dark:block opacity-70 group-hover/icon:opacity-100 transition-opacity" alt="n8n" />
-                                    </>
-                                ) : (
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="relative z-10 h-3.5 w-3.5 opacity-70 group-hover/icon:opacity-100 transition-opacity"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                                )}
-                            </a>
+                            <IconButton href={project.data.external} target="_blank" rel="noopener noreferrer" size="md" tooltip={project.data.tags.includes('n8n') ? 'n8n Workflow' : 'External Link'}>
+                                <SocialIcon name={project.data.tags.includes('n8n') ? 'n8n' : 'external'} />
+                            </IconButton>
                         )}
                     </div>
                     <span class="text-[10px] font-bold tracking-[0.15em] text-main/30 uppercase font-sans">YEAR {project.data.publishDate.getFullYear()}</span>

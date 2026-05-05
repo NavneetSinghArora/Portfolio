@@ -1,36 +1,10 @@
 ---
 import type { Stack as StackProps } from '../types';
+import { resolveIcon } from '../utils/data-utils';
 
 type Props = StackProps;
 
 const { title, description, categories } = Astro.props;
-
-// Dynamically import all logos from src/assets/icons
-const logos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/icons/*.{svg,png,webp,jpg,jpeg}', { eager: true });
-
-function resolveIcon(name: string | undefined) {
-    if (!name) return '';
-    if (name.startsWith('http')) return name;
-    
-    const extensions = ['.svg', '.png', '.webp', '.jpg', '.jpeg'];
-    for (const ext of extensions) {
-        // Try both absolute and relative path formats
-        const paths = [
-            `/src/assets/icons/${name}${ext}`,
-            `../assets/icons/${name}${ext}`
-        ];
-        
-        for (const path of paths) {
-            const asset = logos[path];
-            if (asset) {
-                // Handle both ImageMetadata (with .src) and direct string imports
-                return (asset.default as any)?.src || asset.default || asset;
-            }
-        }
-    }
-    
-    return name;
-}
 
 // Ensure the optimal bento order
 const layoutOrder = [
