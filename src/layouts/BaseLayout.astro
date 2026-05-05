@@ -22,7 +22,7 @@ const { showHeader = false, ...head } = Astro.props;
     <head>
         <BaseHead {...head} />
         <script>
-            if (localStorage.theme === 'dark') {
+            if (localStorage.theme !== 'light') {
                 document.documentElement.classList.add('dark');
             }
         </script>

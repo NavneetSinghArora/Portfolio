@@ -58,8 +58,8 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
             )
         }
         <div class="flex flex-col items-center gap-3 mb-6">
-            <p id="header-subtitle" class="text-base sm:text-lg leading-tight opacity-70 font-medium" aria-label={siteConfig.subtitle}>
-                <span id="typewriter-text">{siteConfig.subtitle}</span><span id="typewriter-cursor" class="inline-block w-[2px] h-[1.1em] bg-current align-middle ml-[2px] opacity-70" aria-hidden="true"></span>
+            <p id="header-subtitle" class="text-base sm:text-lg leading-tight font-semibold tracking-wide bg-gradient-to-r from-blue-600 via-violet-600 to-blue-500 dark:from-blue-300 dark:via-violet-300 dark:to-blue-200 bg-clip-text text-transparent" aria-label={siteConfig.subtitle}>
+                <span id="typewriter-text">{siteConfig.subtitle}</span><span id="typewriter-cursor" class="inline-block w-[2px] h-[1.1em] bg-blue-500 dark:bg-blue-300 align-middle ml-[2px]" aria-hidden="true"></span>
             </p>
             <div class="flex items-center gap-1.5 text-main/60 font-medium text-[10px] uppercase tracking-[0.2em] mt-1 mb-2">
                 <svg class="w-3.5 h-3.5 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
