@@ -105,7 +105,7 @@ const siteConfig: SiteConfig = {
             href: 'mailto:aroranavneetsingh.de@gmail.com'
         },
         {
-            text: 'n8n Creator',
+            text: 'n8n Profile',
             href: 'https://n8n.io/creators/navneet-singh-arora/'
         },
         {

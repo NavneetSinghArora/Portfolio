@@ -33,7 +33,7 @@ export function resolveIcon(name: string | undefined) {
     
     // Handle special cases
     let searchName = name;
-    if (name.toLowerCase() === 'n8n creator') {
+    if (name.toLowerCase().includes('n8n')) {
         searchName = 'n8n';
     }
     

@@ -39,7 +39,7 @@ const resumeIcon = 'https://img.icons8.com/color/48/parse-from-clipboard.png';
                     <div class="flex flex-wrap items-center gap-1.5 order-1 sm:order-2">
                         {socialLinks.map((link) => {
                             let iconName = link.text.toLowerCase();
-                            if (iconName === 'n8n creator') iconName = 'n8n';
+                            if (iconName.includes('n8n')) iconName = 'n8n';
 
                             const isKnown = knownIcons.includes(iconName as KnownIcon);
                             const isResume = iconName === 'resume';

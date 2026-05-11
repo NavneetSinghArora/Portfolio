@@ -3,75 +3,84 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Demo — Step 5 Wow Factor" showHeader={false} noindex={true}>
-    <div class="max-w-3xl mx-auto py-12 space-y-20">
-
+    <div class="mx-auto max-w-3xl space-y-20 py-12">
         <div>
-            <a href="/" class="text-sm text-main/50 hover:text-main transition-colors font-mono">← Back home</a>
-            <h1 class="mt-6 font-serif text-3xl font-bold mb-3">Step 5 — Wow Factor</h1>
-            <p class="text-main/60 text-sm leading-relaxed max-w-xl">Two polarising options. Both are unique across thousands of portfolios. Pick one — or neither.</p>
+            <a href="/" class="text-main/50 hover:text-main font-mono text-sm transition-colors">← Back home</a>
+            <h1 class="mt-6 mb-3 font-serif text-3xl font-bold">Step 5 — Wow Factor</h1>
+            <p class="text-main/60 max-w-xl text-sm leading-relaxed">
+                Two polarising options. Both are unique across thousands of portfolios. Pick one — or neither.
+            </p>
         </div>
 
         <!-- ─── Option A: GLSL Fluid Shader ────────────────────── -->
         <div>
             <div class="mb-4 flex items-center gap-3">
-                <span class="flex h-6 w-6 items-center justify-center rounded-md bg-blue-500/10 text-blue-500 text-[11px] font-bold font-mono">A</span>
+                <span class="flex h-6 w-6 items-center justify-center rounded-md bg-blue-500/10 font-mono text-[11px] font-bold text-blue-500">A</span>
                 <h2 class="font-serif text-xl font-bold">GLSL Fluid Neural Shader</h2>
             </div>
-            <p class="text-sm text-main/55 mb-6 leading-relaxed max-w-xl">
-                Replaces the current CSS aurora background with a GPU-rendered GLSL shader — smooth, organic fluid motion with a neural-network-themed colour palette. Runs at 60fps via WebGL. Seen on <strong class="text-main/70">p5aholic.me</strong> (three.js + GLSL).
+            <p class="text-main/55 mb-6 max-w-xl text-sm leading-relaxed">
+                Replaces the current CSS aurora background with a GPU-rendered GLSL shader — smooth, organic fluid motion with a neural-network-themed colour
+                palette. Runs at 60fps via WebGL. Seen on <strong class="text-main/70">p5aholic.me</strong> (three.js + GLSL).
             </p>
 
             <!-- Live WebGL demo -->
-            <div class="relative rounded-2xl overflow-hidden border border-main-border/15 shadow-2xl" style="height: 340px;">
-                <canvas id="glsl-canvas" class="absolute inset-0 w-full h-full"></canvas>
-                <div class="absolute inset-0 flex flex-col items-center justify-center text-center z-10 pointer-events-none">
-                    <p class="text-white/80 font-serif text-2xl font-bold drop-shadow-lg">Live GLSL Preview</p>
-                    <p class="text-white/40 text-sm mt-2 font-mono">Running on your GPU right now</p>
+            <div class="border-main-border/15 relative overflow-hidden rounded-2xl border shadow-2xl" style="height: 340px;">
+                <canvas id="glsl-canvas" class="absolute inset-0 h-full w-full"></canvas>
+                <div class="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center text-center">
+                    <p class="font-serif text-2xl font-bold text-white/80 drop-shadow-lg">Live GLSL Preview</p>
+                    <p class="mt-2 font-mono text-sm text-white/40">Running on your GPU right now</p>
                 </div>
-                <div class="absolute bottom-4 right-4 px-2 py-1 rounded-md bg-black/40 backdrop-blur text-[10px] font-mono text-white/40">WebGL · GLSL</div>
+                <div class="absolute right-4 bottom-4 rounded-md bg-black/40 px-2 py-1 font-mono text-[10px] text-white/40 backdrop-blur">WebGL · GLSL</div>
             </div>
 
-            <div class="mt-3 flex flex-wrap gap-2 text-[11px] font-mono text-main/40">
-                <span class="px-2 py-0.5 rounded border border-main-border/20 bg-main-bg/10">GPU-rendered · 60fps</span>
-                <span class="px-2 py-0.5 rounded border border-main-border/20 bg-main-bg/10">Replaces aurora background</span>
-                <span class="px-2 py-0.5 rounded border border-main-border/20 bg-main-bg/10">Very subtle — stays behind all content</span>
-                <span class="px-2 py-0.5 rounded border border-main-border/20 bg-main-bg/10">~100 lines · no dependencies</span>
+            <div class="text-main/40 mt-3 flex flex-wrap gap-2 font-mono text-[11px]">
+                <span class="border-main-border/20 bg-main-bg/10 rounded border px-2 py-0.5">GPU-rendered · 60fps</span>
+                <span class="border-main-border/20 bg-main-bg/10 rounded border px-2 py-0.5">Replaces aurora background</span>
+                <span class="border-main-border/20 bg-main-bg/10 rounded border px-2 py-0.5">Very subtle — stays behind all content</span>
+                <span class="border-main-border/20 bg-main-bg/10 rounded border px-2 py-0.5">~100 lines · no dependencies</span>
             </div>
         </div>
 
         <!-- ─── Option B: BIOS Boot Sequence ─────────────────────── -->
         <div>
             <div class="mb-4 flex items-center gap-3">
-                <span class="flex h-6 w-6 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-500 text-[11px] font-bold font-mono">B</span>
+                <span class="flex h-6 w-6 items-center justify-center rounded-md bg-emerald-500/10 font-mono text-[11px] font-bold text-emerald-500">B</span>
                 <h2 class="font-serif text-xl font-bold">BIOS Boot Sequence Intro</h2>
             </div>
-            <p class="text-sm text-main/55 mb-6 leading-relaxed max-w-xl">
-                A full-screen retro terminal intro that plays once on the first visit, then fades into the normal portfolio. Inspired by <strong class="text-main/70">adpandey.com</strong>. Extremely memorable — visitors will screenshot it.
+            <p class="text-main/55 mb-6 max-w-xl text-sm leading-relaxed">
+                A full-screen retro terminal intro that plays once on the first visit, then fades into the normal portfolio. Inspired by <strong
+                    class="text-main/70">adpandey.com</strong
+                >. Extremely memorable — visitors will screenshot it.
             </p>
 
             <!-- BIOS preview -->
-            <div class="relative rounded-2xl overflow-hidden border border-emerald-500/20 shadow-2xl bg-black" style="height: 380px; font-family: 'Courier New', monospace;">
-                <div class="absolute inset-0 p-6 text-[13px] leading-[1.8] overflow-hidden" id="bios-container">
+            <div
+                class="relative overflow-hidden rounded-2xl border border-emerald-500/20 bg-black shadow-2xl"
+                style="height: 380px; font-family: 'Courier New', monospace;"
+            >
+                <div class="absolute inset-0 overflow-hidden p-6 text-[13px] leading-[1.8]" id="bios-container">
                     <!-- Lines injected by JS -->
                 </div>
-                <div class="absolute bottom-4 right-4 px-2 py-1 rounded-md bg-black/60 border border-emerald-500/20 text-[10px] font-mono text-emerald-400/50">
+                <div class="absolute right-4 bottom-4 rounded-md border border-emerald-500/20 bg-black/60 px-2 py-1 font-mono text-[10px] text-emerald-400/50">
                     One-time intro · localStorage gated
                 </div>
             </div>
 
             <!-- Replay button -->
-            <button id="replay-bios" class="mt-3 px-4 py-2 rounded-xl border border-main-border/20 text-sm font-medium text-main/60 hover:text-main hover:border-main-border/40 transition-all bg-main-bg/10">
+            <button
+                id="replay-bios"
+                class="border-main-border/20 text-main/60 hover:text-main hover:border-main-border/40 bg-main-bg/10 mt-3 rounded-xl border px-4 py-2 text-sm font-medium transition-all"
+            >
                 ↺ Replay animation
             </button>
 
-            <div class="mt-3 flex flex-wrap gap-2 text-[11px] font-mono text-main/40">
-                <span class="px-2 py-0.5 rounded border border-main-border/20 bg-main-bg/10">localStorage gated — shows once</span>
-                <span class="px-2 py-0.5 rounded border border-main-border/20 bg-main-bg/10">Skip button for returning users</span>
-                <span class="px-2 py-0.5 rounded border border-main-border/20 bg-main-bg/10">Very polarising — love it or hate it</span>
-                <span class="px-2 py-0.5 rounded border border-main-border/20 bg-main-bg/10">~80 lines · no dependencies</span>
+            <div class="text-main/40 mt-3 flex flex-wrap gap-2 font-mono text-[11px]">
+                <span class="border-main-border/20 bg-main-bg/10 rounded border px-2 py-0.5">localStorage gated — shows once</span>
+                <span class="border-main-border/20 bg-main-bg/10 rounded border px-2 py-0.5">Skip button for returning users</span>
+                <span class="border-main-border/20 bg-main-bg/10 rounded border px-2 py-0.5">Very polarising — love it or hate it</span>
+                <span class="border-main-border/20 bg-main-bg/10 rounded border px-2 py-0.5">~80 lines · no dependencies</span>
             </div>
         </div>
-
     </div>
 </BaseLayout>
 
@@ -79,12 +88,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <script>
     const canvas = document.getElementById('glsl-canvas') as HTMLCanvasElement | null;
     if (canvas) {
-        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl') as WebGLRenderingContext | null;
+        const gl = canvas.getContext('webgl') || (canvas.getContext('experimental-webgl') as WebGLRenderingContext | null);
 
         if (gl) {
             const resize = () => {
                 const rect = canvas.parentElement!.getBoundingClientRect();
-                canvas.width  = rect.width  * devicePixelRatio;
+                canvas.width = rect.width * devicePixelRatio;
                 canvas.height = rect.height * devicePixelRatio;
                 (gl as WebGLRenderingContext).viewport(0, 0, canvas.width, canvas.height);
             };
@@ -171,14 +180,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
             const buf = (gl as WebGLRenderingContext).createBuffer();
             (gl as WebGLRenderingContext).bindBuffer((gl as WebGLRenderingContext).ARRAY_BUFFER, buf);
-            (gl as WebGLRenderingContext).bufferData((gl as WebGLRenderingContext).ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), (gl as WebGLRenderingContext).STATIC_DRAW);
+            (gl as WebGLRenderingContext).bufferData(
+                (gl as WebGLRenderingContext).ARRAY_BUFFER,
+                new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]),
+                (gl as WebGLRenderingContext).STATIC_DRAW
+            );
 
             const aPos = (gl as WebGLRenderingContext).getAttribLocation(prog, 'a_pos');
             (gl as WebGLRenderingContext).enableVertexAttribArray(aPos);
             (gl as WebGLRenderingContext).vertexAttribPointer(aPos, 2, (gl as WebGLRenderingContext).FLOAT, false, 0, 0);
 
             const uTime = (gl as WebGLRenderingContext).getUniformLocation(prog, 'u_time');
-            const uRes  = (gl as WebGLRenderingContext).getUniformLocation(prog, 'u_res');
+            const uRes = (gl as WebGLRenderingContext).getUniformLocation(prog, 'u_res');
 
             let start = performance.now();
             function frame() {
@@ -211,12 +224,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         { text: '', color: '', delay: 1580 },
         { text: 'Experience   : 8+ years ........... [VERIFIED]', color: '#86efac', delay: 1700 },
         { text: 'Projects     : 50+ shipped ......... [VERIFIED]', color: '#86efac', delay: 1820 },
-        { text: 'n8n Workflows: 1+ published ....... [VERIFIED]', color: '#86efac', delay: 1940 },
+        { text: 'n8n Workflows: 3+ published ....... [VERIFIED]', color: '#86efac', delay: 1940 },
         { text: '', color: '', delay: 2060 },
         { text: '> STATUS: Open to opportunities', color: '#fbbf24', delay: 2200 },
         { text: '', color: '', delay: 2320 },
         { text: 'Press any key to explore portfolio...', color: '#22d3ee', delay: 2500 },
-        { text: '█', color: '#22d3ee', delay: 2700, blink: true },
+        { text: '█', color: '#22d3ee', delay: 2700, blink: true }
     ];
 
     function runBios() {
@@ -224,7 +237,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         if (!container) return;
         container.innerHTML = '';
 
-        biosLines.forEach(line => {
+        biosLines.forEach((line) => {
             setTimeout(() => {
                 const p = document.createElement('p');
                 p.style.color = line.color || '#334155';
@@ -246,7 +259,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <style>
     @keyframes biosBlinkAnim {
-        0%, 100% { opacity: 1; }
-        50%       { opacity: 0; }
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
     }
 </style>
