@@ -39,6 +39,16 @@ if (image?.src) {
         };
     }
 }
+let personImageSrc: string | undefined;
+if (siteConfig.avatar?.src) {
+    const optimizedAvatar = await getImage({
+        src: siteConfig.avatar.src as ImageMetadata,
+        width: 800,
+        format: 'jpeg'
+    });
+    personImageSrc = new URL(optimizedAvatar.src, Astro.site).toString();
+}
+
 const canonicalURL = new URL(Astro.request.url, Astro.site);
 const publishDate = (Astro.props as any).publishDate;
 
@@ -64,7 +74,6 @@ const isBlog = Astro.url.pathname.startsWith('/blog/') && Astro.url.pathname !==
 <title>{title}</title>
 <meta name="generator" content={Astro.generator} />
 <meta name="author" content={siteConfig.title} />
-{siteConfig.keywords && <meta name="keywords" content={siteConfig.keywords.join(', ')} />}
 <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'} />
 <meta name="theme-color" content="#f0f7ff" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#171717" media="(prefers-color-scheme: dark)" />
@@ -97,8 +106,8 @@ const isBlog = Astro.url.pathname.startsWith('/blog/') && Astro.url.pathname !==
 
 <!-- X/Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="@navneet_singh" />
-<meta name="twitter:creator" content="@navneet_singh" />
+<meta name="twitter:site" content="@IamSprintSingh" />
+<meta name="twitter:creator" content="@IamSprintSingh" />
 <meta name="twitter:url" content={formatCanonicalURL(canonicalURL)} />
 <meta name="twitter:title" content={title} />
 {description && <meta name="twitter:description" content={description} />}
@@ -113,8 +122,8 @@ const isBlog = Astro.url.pathname.startsWith('/blog/') && Astro.url.pathname !==
       "@id": `${siteConfig.website}#person`,
       "name": siteConfig.title,
       "url": siteConfig.website,
-      "image": resolvedImage?.src,
-      "jobTitle": siteConfig.subtitle,
+      "image": personImageSrc,
+      "jobTitle": siteConfig.jobTitle ?? siteConfig.subtitle,
       "description": siteConfig.description,
       "address": {
         "@type": "PostalAddress",

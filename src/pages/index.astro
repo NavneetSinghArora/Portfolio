@@ -3,12 +3,9 @@ import { getCollection } from 'astro:content';
 import Button from '../components/Button.astro';
 import Hero from '../components/Hero.astro';
 import TechStack from '../components/TechStack.astro';
-import SkillRadar from '../components/SkillRadar.astro';
 import ProjectThumbnail from '../components/ProjectThumbnail.astro';
 import PostThumbnail from '../components/PostThumbnail.astro';
 import GithubContributions from '../components/GithubContributions.astro';
-import NpmPackages from '../components/NpmPackages.astro';
-import StatsCounter from '../components/StatsCounter.astro';
 import WorkedWith from '../components/WorkedWith.astro';
 import Testimonials from '../components/Testimonials.astro';
 import siteConfig from '../data/site-config';
@@ -27,9 +24,6 @@ const displayProjects = [...featuredProjects, ...nonFeaturedProjects].slice(0, 3
 <BaseLayout description={siteConfig.description} showHeader={true}>
     <Hero {...siteConfig.hero} />
 
-    <!-- Stats -->
-    <StatsCounter />
-
     <!-- Worked With -->
     <WorkedWith />
 
@@ -41,9 +35,6 @@ const displayProjects = [...featuredProjects, ...nonFeaturedProjects].slice(0, 3
         {siteConfig.stack && <TechStack {...siteConfig.stack} />}
     </div>
 
-    <!-- Domain Proficiency -->
-    <SkillRadar />
-
     <!-- 02 — Contributions -->
     <div data-nn-layer="2">
         <div class="mb-2 flex items-center gap-3">
@@ -51,9 +42,6 @@ const displayProjects = [...featuredProjects, ...nonFeaturedProjects].slice(0, 3
         </div>
         {siteConfig.github && <GithubContributions username={siteConfig.github} />}
     </div>
-
-    <!-- 03 — npm Packages -->
-    <NpmPackages />
 
     <!-- 04 — Testimonials -->
     <Testimonials />

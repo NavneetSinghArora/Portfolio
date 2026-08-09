@@ -2,7 +2,7 @@
 title: 'IndoRE: Relation Extraction for Low Resource Indian Languages'
 description: 'The IndoRE project focused on relation extraction for three low-resource Indian languages: Bengali, Telugu, and Hindi using deep generative models and transformer architectures.'
 publishDate: 'Aug 15 2022'
-isFeatured: true
+isFeatured: false
 tags:
   - NLP
   - Deep Learning

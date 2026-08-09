@@ -52,6 +52,7 @@ export type SiteConfig = {
     avatar?: ImageInput;
     title: string;
     subtitle?: string;
+    jobTitle?: string;
     description: string;
     keywords?: string[];
     image?: ImageInput;

@@ -2,7 +2,7 @@
 title: 'Audio-Visual Emotion Recognition In Continuous Domain'
 description: 'Master Thesis project implementing a high-performance framework for multi-modal emotion recognition using advanced self-supervised representation learning on audio and visual streams.'
 publishDate: 'March 26 2023'
-isFeatured: true
+isFeatured: false
 tags:
   - Multimodal AI
   - Deep Learning

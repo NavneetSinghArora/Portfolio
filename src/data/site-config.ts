@@ -1,4 +1,5 @@
 import navneet_photo from '../assets/images/navneet_photo.jpg';
+import ogCard from '../assets/images/og-card.png';
 import heroBio from '../content/fragments/hero-bio.md?raw';
 import type { SiteConfig } from '../types';
 
@@ -9,27 +10,30 @@ const siteConfig: SiteConfig = {
         alt: 'Navneet Singh Arora'
     },
     title: 'Navneet Singh Arora',
-    subtitle: 'Machine Learning & Full Stack Engineer | n8n Creator',
-    description: 'Expertise in AI, Machine Learning, and Full Stack Development with a focus on architecting intelligent automation workflows and high-performance backend systems.',
+    subtitle: 'Senior AI Engineer · Agentic Systems & RAG',
+    jobTitle: 'Senior AI Engineer',
+    description: 'Senior AI Engineer building production multi-agent systems and RAG pipelines with LangGraph, MCP, and vector search — from architecture through evaluation to deployment.',
     keywords: [
         'Navneet Singh Arora',
-        'Machine Learning Engineer',
-        'AI Automation Expert',
-        'n8n Developer',
-        'Self-Hosted Automation',
-        'Full Stack Developer Hamburg',
-        'Deep Learning',
+        'Senior AI Engineer',
+        'Multi-Agent Systems',
+        'Retrieval-Augmented Generation',
+        'LangGraph',
+        'FastMCP',
+        'Model Context Protocol',
+        'LLM Evaluation',
+        'RAGAS',
+        'DeepEval',
+        'Vector Search',
+        'Qdrant',
+        'FastAPI',
+        'Google Cloud Platform',
         'Computer Vision',
-        'Generative AI',
-        'Python Developer',
-        'TypeScript',
-        'Docker',
-        'Google Gemini AI',
-        'Agentic Workflows'
+        'Python'
     ],
     image: {
-        src: navneet_photo,
-        alt: 'Navneet Singh Arora - Machine Learning & Full Stack Engineer'
+        src: ogCard,
+        alt: 'Navneet Singh Arora — Senior AI Engineer, Agentic Systems & RAG'
     },
     headerNavLinks: [
         {
@@ -188,9 +192,11 @@ const siteConfig: SiteConfig = {
                 items: [
                     { label: 'HuggingFace', icon: 'hugging-face' },
                     { label: 'PyTorch', icon: 'pytorch' },
-                    { label: 'FastMCP', icon: 'https://unpkg.com/@lobehub/icons-static-svg@latest/icons/mcp.svg' },
-                    { label: 'Google Vertex AI', icon: 'gemini' },
+                    { label: 'LangGraph', icon: 'https://cdn.simpleicons.org/langgraph' },
                     { label: 'LangChain', icon: 'langchain' },
+                    { label: 'FastMCP', icon: 'https://unpkg.com/@lobehub/icons-static-svg@latest/icons/mcp.svg' },
+                    { label: 'Qdrant', icon: 'https://cdn.simpleicons.org/qdrant' },
+                    { label: 'Google Vertex AI', icon: 'gemini' },
                     { label: 'Langsmith', icon: 'langsmith' },
                     { label: 'Cursor', icon: { light: 'cursor-dark', dark: 'cursor-light' } },
                     { label: 'Ollama', icon: { light: 'ollama-dark', dark: 'ollama-light' } },

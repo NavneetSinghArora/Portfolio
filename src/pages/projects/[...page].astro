@@ -23,6 +23,16 @@ type Props = { page: Page<CollectionEntry<'projects'>> };
 const { page } = Astro.props;
 const portfolio = page.data;
 const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
+const tier1 = portfolio.filter(p => p.data.isFeatured);
+const tier2 = portfolio.filter(p => !p.data.isFeatured);
+
+// Order values keep tier grouping intact through client-side re-sorting (CSS `order`, not DOM moves).
+const TIER2_OFFSET = 1000;
+const orderFor = (project: CollectionEntry<'projects'>) => {
+    const list = project.data.isFeatured ? tier1 : tier2;
+    const base = project.data.isFeatured ? 1 : TIER2_OFFSET + 1;
+    return base + list.indexOf(project);
+};
 
 ---
 
@@ -136,12 +146,26 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
 
     <!-- Gallery View Container (Horizontal List / Visual List) -->
     <div id="gallery-container" class="hidden flex flex-col gap-6 transition-all duration-300">
+        {tier1.length > 0 && (
+            <div class="tier-heading flex items-center gap-3" style="order:0">
+                <h2 class="font-serif text-lg font-bold text-main">Systems</h2>
+                <div class="h-px flex-1 bg-main-border/10"></div>
+            </div>
+        )}
+        {tier2.length > 0 && (
+            <div class="tier-heading flex items-center gap-3" style={`order:${TIER2_OFFSET}`}>
+                <h2 class="font-serif text-lg font-bold text-main/70">Research &amp; Academic</h2>
+                <div class="h-px flex-1 bg-main-border/10"></div>
+            </div>
+        )}
         {portfolio.map((project) => (
-            <div 
-                class="project-item project-card spotlight-card group relative flex flex-col sm:flex-row gap-6 p-6" 
+            <div
+                class="project-item project-card spotlight-card group relative flex flex-col sm:flex-row gap-6 p-6"
                 data-tags={project.data.tags.join(',')}
                 data-date={project.data.publishDate.getTime()}
                 data-title={project.data.title.toLowerCase()}
+                data-tier={project.data.isFeatured ? '1' : '2'}
+                style={`order:${orderFor(project)}`}
             >
                 <div class="spotlight-glow"></div>
                 <!-- Base Link Overlay -->
@@ -223,12 +247,26 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
 
     <!-- Cards View Container (Detailed Grid) - DEFAULT -->
     <div id="cards-container" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 transition-all duration-300">
+        {tier1.length > 0 && (
+            <div class="tier-heading col-span-full flex items-center gap-3" style="order:0">
+                <h2 class="font-serif text-lg font-bold text-main">Systems</h2>
+                <div class="h-px flex-1 bg-main-border/10"></div>
+            </div>
+        )}
+        {tier2.length > 0 && (
+            <div class="tier-heading col-span-full flex items-center gap-3" style={`order:${TIER2_OFFSET}`}>
+                <h2 class="font-serif text-lg font-bold text-main/70">Research &amp; Academic</h2>
+                <div class="h-px flex-1 bg-main-border/10"></div>
+            </div>
+        )}
         {portfolio.map((project) => (
-            <div 
-                class="project-item project-card spotlight-card group relative flex flex-col p-4 shadow-sm" 
+            <div
+                class="project-item project-card spotlight-card group relative flex flex-col p-4 shadow-sm"
                 data-tags={project.data.tags.join(',')}
                 data-date={project.data.publishDate.getTime()}
                 data-title={project.data.title.toLowerCase()}
+                data-tier={project.data.isFeatured ? '1' : '2'}
+                style={`order:${orderFor(project)}`}
             >
                 <div class="spotlight-glow"></div>
                 <!-- Base Link Overlay -->
@@ -301,8 +339,25 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
     </div>
 
     <div id="list-container" class="hidden flex flex-col gap-4 transition-all duration-300">
+        {tier1.length > 0 && (
+            <div class="tier-heading flex items-center gap-3" style="order:0">
+                <h2 class="font-serif text-lg font-bold text-main">Systems</h2>
+                <div class="h-px flex-1 bg-main-border/10"></div>
+            </div>
+        )}
+        {tier2.length > 0 && (
+            <div class="tier-heading flex items-center gap-3" style={`order:${TIER2_OFFSET}`}>
+                <h2 class="font-serif text-lg font-bold text-main/70">Research &amp; Academic</h2>
+                <div class="h-px flex-1 bg-main-border/10"></div>
+            </div>
+        )}
         {portfolio.map((project) => (
-            <div class="project-item group" data-tags={project.data.tags.join(',')}>
+            <div
+                class="project-item group"
+                data-tags={project.data.tags.join(',')}
+                data-tier={project.data.isFeatured ? '1' : '2'}
+                style={`order:${orderFor(project)}`}
+            >
                 <ProjectPreview project={project} />
             </div>
         ))}
@@ -424,27 +479,33 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
     let currentSort = 'newest';
     let searchQuery = '';
 
+    // Sorting sets CSS `order` per tier group (rather than moving DOM nodes) so the
+    // Systems / Research & Academic grouping survives re-sorting.
     function sortProjects() {
         const containers = [
             document.getElementById('cards-container'),
             document.getElementById('gallery-container'),
             document.getElementById('list-container')
         ];
-        
+
+        const comparator = (a: HTMLElement, b: HTMLElement) => {
+            if (currentSort === 'az') {
+                return (a.dataset.title || '').localeCompare(b.dataset.title || '');
+            }
+            const dateA = parseInt(a.dataset.date || '0');
+            const dateB = parseInt(b.dataset.date || '0');
+            return currentSort === 'newest' ? dateB - dateA : dateA - dateB;
+        };
+
         containers.forEach(container => {
             if (!container) return;
-            
-            const cardArray = Array.from(container.querySelectorAll<HTMLElement>('.project-item'));
-            const sorted = cardArray.sort((a, b) => {
-                if (currentSort === 'az') {
-                    return (a.dataset.title || '').localeCompare(b.dataset.title || '');
-                }
-                const dateA = parseInt(a.dataset.date || '0');
-                const dateB = parseInt(b.dataset.date || '0');
-                return currentSort === 'newest' ? dateB - dateA : dateA - dateB;
-            });
 
-            sorted.forEach(p => container.appendChild(p));
+            const cardArray = Array.from(container.querySelectorAll<HTMLElement>('.project-item'));
+            const tier1Cards = cardArray.filter(c => c.dataset.tier !== '2').sort(comparator);
+            const tier2Cards = cardArray.filter(c => c.dataset.tier === '2').sort(comparator);
+
+            tier1Cards.forEach((card, i) => { card.style.order = String(i + 1); });
+            tier2Cards.forEach((card, i) => { card.style.order = String(1001 + i); });
         });
     }
 
@@ -453,10 +514,10 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
             const tags = (card.dataset.tags || '').split(',');
             const title = card.querySelector('h3')?.textContent?.toLowerCase() || '';
             const desc = card.querySelector('p')?.textContent?.toLowerCase() || '';
-            
+
             const matchesCategory = currentCategory === 'all' || tags.includes(currentCategory);
             const matchesSearch = title.includes(searchQuery) || desc.includes(searchQuery) || tags.some(t => t.includes(searchQuery));
-            
+
             if (matchesCategory && matchesSearch) {
                 card.classList.remove('hidden');
                 card.style.display = '';
@@ -465,7 +526,16 @@ const allTags = [...new Set(portfolio.flatMap(p => p.data.tags))].sort();
                 card.style.display = 'none';
             }
         });
-        
+
+        // Hide a tier heading if every card in that tier is currently filtered out.
+        document.querySelectorAll<HTMLElement>('.tier-heading').forEach(heading => {
+            const container = heading.parentElement;
+            const tier = heading.style.order === '0' ? '1' : '2';
+            const anyVisible = Array.from(container?.querySelectorAll<HTMLElement>(`.project-item[data-tier="${tier}"]`) || [])
+                .some(c => !c.classList.contains('hidden'));
+            heading.style.display = anyVisible ? '' : 'none';
+        });
+
         sortProjects();
     }
 

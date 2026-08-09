@@ -7,8 +7,7 @@ const education = [
         degree: "MSc. Intelligent Adaptive Systems",
         institution: "Universität Hamburg",
         location: "Hamburg, Germany",
-        period: "2021 — 2023",
-        grade: "1.81 GPA",
+        period: "Oct 2020 — 2023",
         focus: "Artificial Intelligence | Machine Learning | Speech Processing | Computer Vision | Neural Networks",
         logo: "uhh"
     },
@@ -17,7 +16,6 @@ const education = [
         institution: "Lovely Professional University",
         location: "Punjab, India",
         period: "2011 — 2015",
-        grade: "2.26 GPA",
         focus: "Software Engineering | Data Structures | Algorithms | Database Management | Web Development",
         logo: "lpu"
     }
@@ -25,9 +23,6 @@ const education = [
 
 // Extract unique levels for filtering
 const allLevels = [...new Set(education.map(ed => ed.degree.split('.')[0]))];
-
-// Neural layer labels (newest = Output, oldest = Input)
-const layerLabels = ['Output Layer', 'Input Layer'];
 
 // Dynamic icon resolution
 const logos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/{icons,images}/*.{svg,png,webp,jpg,jpeg}', { eager: true });
@@ -52,7 +47,7 @@ function resolveIcon(name: string | undefined) {
 }
 ---
 
-<BaseLayout title="Education" description="Academic background of Navneet Singh Arora — MSc Computer Science from Universität Hamburg specialising in machine learning, computer vision, and intelligent systems.">
+<BaseLayout title="Education" description="Academic background of Navneet Singh Arora — MSc Intelligent Adaptive Systems from Universität Hamburg specialising in machine learning, computer vision, and intelligent systems.">
     <div class="mb-12">
         <h1 class="font-serif text-3xl leading-tight font-medium sm:text-4xl mb-4 text-main">Education</h1>
         <p class="text-main/70">My academic journey and technical foundations.</p>
@@ -131,10 +126,7 @@ function resolveIcon(name: string | undefined) {
                 data-search={`${item.institution} ${item.degree} ${item.focus}`.toLowerCase()}
             >
                 <div class="spotlight-glow"></div>
-                <div class="absolute top-4 right-5 pointer-events-none z-20">
-                    <span class="text-[9px] font-mono uppercase tracking-widest text-blue-400/50">▸ {layerLabels[index] ?? `Layer ${index}`}</span>
-                </div>
-                
+
                 {/* SVG Icon Container */}
                 <div class="flex-shrink-0">
                     <div class="flex h-16 w-16 items-center justify-center rounded-2xl border border-main-border/20 bg-main-bg/10 text-main/70 shadow-sm transition-colors group-hover:border-main-border/30 group-hover:text-main overflow-hidden">
@@ -164,12 +156,6 @@ function resolveIcon(name: string | undefined) {
                                 <span>{item.period}</span>
                                 <span class="hidden sm:inline-block h-1 w-1 rounded-full bg-main/30"></span>
                                 <span>{item.location}</span>
-                                {item.grade && (
-                                    <>
-                                        <span class="hidden sm:inline-block h-1 w-1 rounded-full bg-main/30"></span>
-                                        <span class="font-serif text-main/90 font-bold">{item.grade}</span>
-                                    </>
-                                )}
                             </div>
                             
                             {item.focus && (
