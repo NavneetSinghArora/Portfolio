@@ -5,10 +5,10 @@ seo:
   description: Legal notice and contact information as required by German law.
 ---
 
-### Information according to § 5 TMG
+### Information according to § 5 DDG
 
 **Navneet Singh Arora**  
-Tratzigerstrase 15  
+Tratzigerstraße 15  
 22043 Hamburg  
 Germany
 
@@ -16,9 +16,9 @@ Germany
 Email: [aroranavneetsingh.de@gmail.com](mailto:aroranavneetsingh.de@gmail.com)  
 Website: [www.navneetsingharora.com](https://www.navneetsingharora.com)
 
-### Responsible for content according to § 55 Abs. 2 RStV
+### Responsible for content according to § 18 Abs. 2 MStV
 Navneet Singh Arora  
-Tratzigerstrase 15  
+Tratzigerstraße 15  
 22043 Hamburg
 
 ### Dispute Resolution

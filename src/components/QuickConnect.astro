@@ -106,13 +106,10 @@ const qrTypes = [
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js" is:inline></script>
-
 <script>
-    function initQR() {
-        const qrcodeLib = (window as any).QRCode;
-        if (!qrcodeLib) return;
+    let qrcodeLib: typeof import('qrcode') | null = null;
 
+    function initQR() {
         const instances = document.querySelectorAll('.qr-instance-container');
         
         instances.forEach(instance => {
@@ -134,10 +131,14 @@ const qrTypes = [
 
             let currentType = 'site';
 
-            const drawQR = (value: string) => {
+            const drawQR = async (value: string) => {
+                if (!qrcodeLib) {
+                    qrcodeLib = await import('qrcode');
+                }
+
                 const isDark = document.documentElement.classList.contains('dark');
                 const displaySize = 280;
-                
+
                 const ctx = canvas.getContext('2d');
                 if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
 

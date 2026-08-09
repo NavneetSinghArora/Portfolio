@@ -19,6 +19,7 @@
         "@vercel/speed-insights": "^2.0.0",
         "astro": "^5.15.9",
         "marked": "^17.0.0",
+        "qrcode": "^1.5.4",
         "tailwindcss": "^4.1.17"
     },
     "devDependencies": {

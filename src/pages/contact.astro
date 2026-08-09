@@ -139,16 +139,15 @@ const contactMethods = [
                 </div>
 
                 <div class="space-y-1.5">
-                    <label for="phone" class="block text-xs font-bold uppercase tracking-widest text-main/60 flex items-center gap-2">
-                        Phone Number 
-                        <span class="text-[9px] text-main/30 bg-main/5 px-2 py-0.5 rounded-full">Optional</span>
-                    </label>
-                    <input type="tel" name="phone" id="phone" class="w-full rounded-xl border border-main-border/20 bg-main-bg/20 px-4 py-3 text-sm text-main placeholder:text-main/45 focus:border-main/50 focus:outline-none focus:ring-1 focus:ring-main/50 transition-all backdrop-blur-sm shadow-sm" placeholder="+49 123 4567890">
-                </div>
-
-                <div class="space-y-1.5">
                     <label for="message" class="block text-xs font-bold uppercase tracking-widest text-main/60">Message</label>
                     <textarea name="message" id="message" required rows="5" class="w-full rounded-xl border border-main-border/20 bg-main-bg/20 px-4 py-3 text-sm text-main placeholder:text-main/45 focus:border-main/50 focus:outline-none focus:ring-1 focus:ring-main/50 transition-all resize-none backdrop-blur-sm shadow-sm" placeholder="How can we help?"></textarea>
+                </div>
+
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" name="consent" id="consent" required class="mt-1 h-4 w-4 shrink-0 rounded border-main-border/30 bg-main-bg/20 text-main focus:ring-1 focus:ring-main/50">
+                    <label for="consent" class="text-xs text-main/70 leading-relaxed">
+                        I agree that my data may be processed to respond to my inquiry, as described in the <a href="/privacy" class="underline underline-offset-2 hover:text-main transition-colors">privacy policy</a>.
+                    </label>
                 </div>
 
                 <div class="pt-2 flex flex-col sm:flex-row items-center gap-4">
