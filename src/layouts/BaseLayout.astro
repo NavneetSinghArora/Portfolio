@@ -22,7 +22,9 @@ const { showHeader = false, ...head } = Astro.props;
     <head>
         <BaseHead {...head} />
         <script>
-            if (localStorage.theme !== 'light') {
+            const storedTheme = localStorage.theme;
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (storedTheme === 'dark' || (storedTheme !== 'light' && prefersDark)) {
                 document.documentElement.classList.add('dark');
             }
         </script>

@@ -24,7 +24,7 @@
 
     function getActiveTheme() {
         const stored = getStoredTheme();
-        return stored || 'dark';
+        return stored || getSystemTheme();
     }
 
     function applyTheme(theme) {
