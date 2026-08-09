@@ -59,17 +59,9 @@ const siteConfig: SiteConfig = {
         {
             text: 'Contact',
             href: '/contact'
-        },
-        {
-            text: 'Nexus',
-            href: '/knowledge-graph'
         }
     ],
     footerNavLinks: [
-        {
-            text: 'Nexus',
-            href: '/knowledge-graph'
-        },
         {
             text: 'Stack',
             href: '/stack'

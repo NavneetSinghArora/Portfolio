@@ -27,6 +27,7 @@ export default defineConfig({
         '/projects/project-5': '/projects/indore-relation-extraction',
         '/projects/vectools': '/projects/open-source',
         '/projects/n8n-workflow': '/projects/open-source',
-        '/projects/n8n-job-search': '/projects/open-source'
+        '/projects/n8n-job-search': '/projects/open-source',
+        '/knowledge-graph': '/'
     }
 });

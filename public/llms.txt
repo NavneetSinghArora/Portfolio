@@ -29,5 +29,4 @@ Expertise in Machine Learning, Intelligence Automation (n8n), and High-Performan
 ## Site Index
 - /experience: Career timeline (NICE, Cognizant, Repath).
 - /education: MSc Computer Science (Uni Hamburg), BE Computer Engineering (PICT).
-- /knowledge-graph: Semantic map of technical domains.
 - /stack: Detailed hardware and software inventory.
