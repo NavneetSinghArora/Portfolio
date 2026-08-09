@@ -1,0 +1,47 @@
+---
+import siteConfig from '../data/site-config';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+    title="About"
+    description="Navneet Singh Arora's career narrative — from Junior Analyst in fintech to leading AI engineering at Repath, plus a bit about life in Hamburg outside of work."
+>
+    <div class="mb-16 sm:mb-20">
+        <h1 class="font-serif text-3xl leading-tight font-medium sm:text-4xl mb-4">About</h1>
+        <p class="text-main/90 max-w-2xl leading-relaxed text-sm sm:text-base">
+            The longer version of the story on the homepage.
+        </p>
+    </div>
+
+    <div class="prose dark:prose-invert sm:prose-lg max-w-none prose-p:text-main/90 prose-p:leading-relaxed font-sans mb-20 sm:mb-24">
+        <p>
+            I'm an AI/ML and full-stack engineer with over 8 years of experience designing, developing, and
+            deploying scalable software solutions while leading development teams to reach their full potential.
+            I began my career as a Junior Analyst in fintech, honing my skills in data analysis and software
+            development while upholding my core values of innovation, collaboration, and excellence — work that
+            earned me early recognition as an Innovation Lead for Credit Suisse. Since then, I've navigated
+            everything from delivering bespoke customer solutions to building enterprise-grade products, and now
+            to architecting the next generation of AI-powered systems.
+        </p>
+        <p>
+            Based in Hamburg, I currently lead the AI engineering function at <a href="https://www.repath.ai/" target="_blank" rel="noopener noreferrer">Repath</a>
+            as the company's first AI hire, taking our agentic climate-resilience platform from 0→1 — architecting
+            a production multi-agent system with LangGraph and LangChain, an MCP integration layer with FastMCP,
+            and the API layer with FastAPI, while maintaining security and scale with OAuth 2.0, end-to-end
+            encryption, and Docker across roughly 100TB of climate and geospatial data. For what I'm focused on
+            right now, day to day, <a href="/now">see /now</a>.
+        </p>
+        <p>
+            Beyond the code, I'm an avid traveller and road-trip enthusiast, passionate about sports — especially
+            football and Formula 1. I love exploring new destinations and capturing the beauty of the world along
+            the way, and I'm a dedicated foodie who enjoys trying diverse cuisines wherever I end up.
+        </p>
+        <p>
+            I'm committed to pushing the boundaries of AI to deliver transformative impact — whether by driving
+            strategic business value or fostering meaningful societal change — and I'm always eager to collaborate
+            on challenging projects that demand innovation and excellence. If that sounds like your kind of
+            problem, <a href="/contact">let's talk</a>.
+        </p>
+    </div>
+</BaseLayout>

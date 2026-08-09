@@ -1,6 +1,6 @@
 import navneet_photo from '../assets/images/navneet_photo.jpg';
 import ogCard from '../assets/images/og-card.png';
-import heroBio from '../content/fragments/hero-bio.md?raw';
+import heroPitch from '../content/fragments/hero-pitch.md?raw';
 import type { SiteConfig } from '../types';
 
 const siteConfig: SiteConfig = {
@@ -39,6 +39,10 @@ const siteConfig: SiteConfig = {
         {
             text: 'Home',
             href: '/'
+        },
+        {
+            text: 'About',
+            href: '/about'
         },
         {
             text: 'Education',
@@ -115,20 +119,23 @@ const siteConfig: SiteConfig = {
     ],
     hero: {
         title: "Hi, I'm Navneet Singh Arora!",
-        text: heroBio,
-        image: {
-            src: navneet_photo,
-            alt: 'Navneet Singh Arora'
-        },
+        text: heroPitch,
         actions: [
+            {
+                text: 'View Work',
+                href: '/projects',
+                variant: 'primary'
+            },
             {
                 text: 'Download Resume',
                 href: '/Navneet-Resume.pdf',
-                target: '_blank'
+                target: '_blank',
+                variant: 'secondary'
             },
             {
                 text: 'Get in Touch',
-                href: '/contact'
+                href: '/contact',
+                variant: 'secondary'
             }
         ]
     },

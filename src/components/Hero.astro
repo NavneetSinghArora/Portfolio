@@ -42,11 +42,15 @@ const { title, image, text, actions } = Astro.props;
                     <div class="hero-inference-card spotlight-card group relative flex flex-col p-6 sm:p-8 mt-2 overflow-hidden">
                         <div class="spotlight-glow"></div>
                         {text && <div class="relative z-10 prose dark:prose-invert sm:prose-lg max-w-none prose-p:text-main/90 prose-p:leading-relaxed font-sans mt-2" set:html={marked.parse(text)} />}
-                        
+
+                        <a href="/about" class="relative z-10 text-sm font-medium text-main/60 hover:text-main transition-colors mt-3 inline-block w-fit">
+                            More about me →
+                        </a>
+
                         {actions && actions.length > 0 && (
                             <div class="relative z-10 flex flex-wrap gap-4 mt-8">
                                 {actions.map((action) => (
-                                    <Button href={action.href} target={action.target}>
+                                    <Button href={action.href} target={action.target} variant={action.variant}>
                                         {action.text}
                                     </Button>
                                 ))}

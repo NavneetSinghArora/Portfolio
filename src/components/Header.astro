@@ -30,7 +30,7 @@ const titleClass = 'text-theme-foreground font-serif text-3xl leading-tight font
 const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html';
 ---
 
-<header class={`relative mx-auto flex w-full max-w-4xl flex-col items-center text-center gap-6 ${isHome ? 'min-h-[calc(100vh-8rem)] justify-center mb-8' : 'mb-12 sm:mb-16'}`}>
+<header class={`relative mx-auto flex w-full max-w-4xl flex-col items-center text-center gap-6 ${isHome ? 'mb-8' : 'mb-12 sm:mb-16'}`}>
     {
         siteConfig.avatar?.src && (
             <a href="/" class="mb-2">

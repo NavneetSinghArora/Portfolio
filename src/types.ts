@@ -8,6 +8,7 @@ export type Link = {
     text: string;
     href: string;
     target?: string;
+    variant?: 'primary' | 'secondary';
 };
 
 export type Hero = {
