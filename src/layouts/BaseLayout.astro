@@ -7,7 +7,6 @@ import Header from '../components/Header.astro';
 import Nav from '../components/Nav.astro';
 import AuroraBackground from '../components/AuroraBackground.astro';
 import CommandPalette from '../components/CommandPalette.astro';
-import CursorTrail from '../components/CursorTrail.astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 import ScrollToTop from '../components/ScrollToTop.astro';
 
@@ -32,15 +31,8 @@ const { showHeader = false, ...head } = Astro.props;
         <Analytics />
     </head>
     <body class="text-main bg-transparent overflow-x-hidden">
-        <!-- Live Neon Cursor Effect (lightweight approximation of 3D tubes) -->
-        <div id="neon-cursor" class="pointer-events-none fixed top-0 left-0 w-8 h-8 rounded-full mix-blend-screen z-[9999] opacity-0 transition-opacity duration-300 hidden md:block">
-             <div class="absolute inset-0 rounded-full bg-fuchsia-500 blur-xl animate-pulse"></div>
-             <div class="absolute inset-2 rounded-full bg-cyan-400 blur-md"></div>
-        </div>
-
         <AuroraBackground />
         <CommandPalette />
-        <CursorTrail />
         <div id="nn-progress-bar"><div id="nn-progress-fill"></div></div>
         <Nav />
         <div class="flex min-h-screen flex-col px-4 md:px-8 pt-24 sm:pt-32 relative z-10 w-full">
@@ -54,18 +46,6 @@ const { showHeader = false, ...head } = Astro.props;
         <ScrollToTop />
         <SpeedInsights />
         
-        <script>
-            const cursor = document.getElementById('neon-cursor');
-            if (cursor && !window.matchMedia('(pointer: coarse)').matches) {
-                let timeout: ReturnType<typeof setTimeout> | undefined;
-                document.addEventListener('mousemove', (e) => {
-                    cursor.style.opacity = '0.8';
-                    cursor.style.transform = `translate(${e.clientX - 16}px, ${e.clientY - 16}px) scale(1.5)`;
-                    clearTimeout(timeout);
-                    timeout = setTimeout(() => { cursor.style.opacity = '0'; }, 500);
-                }, { passive: true });
-            }
-        </script>
         <script>
             // rAF-throttled spotlight glow — desktop pointer only
             let handleMouseMove: ((e: MouseEvent) => void) | undefined;
@@ -133,49 +113,6 @@ const { showHeader = false, ...head } = Astro.props;
 
             initNeuralActivation();
             document.addEventListener('astro:page-load', initNeuralActivation);
-        </script>
-
-        <script>
-            // 3D Magnetic Tilt — desktop pointer only
-            let tiltAbortController: AbortController | null = null;
-            function initTiltCards() {
-                if (window.matchMedia('(pointer: coarse)').matches) return;
-                if (tiltAbortController) tiltAbortController.abort();
-                tiltAbortController = new AbortController();
-                const { signal } = tiltAbortController;
-
-                const cards = document.querySelectorAll('.spotlight-card, .bento-tilt');
-                cards.forEach((card) => {
-                    const el = card as HTMLElement;
-                    
-                    el.addEventListener('mousemove', (e: MouseEvent) => {
-                        // Skip if card is hidden via view switcher
-                        if (el.closest('.hidden')) return;
-                        
-                        const rect = el.getBoundingClientRect();
-                        const isWide = rect.width > 500;
-                        const maxR = el.classList.contains('bento-tilt') ? 4 : (isWide ? 4 : 8);
-
-                        const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-                        const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-                        el.style.transform = `perspective(900px) rotateX(${ny * -maxR * 0.8}deg) rotateY(${nx * maxR}deg) translateY(-3px)`;
-                        el.style.transition = 'transform 0.12s ease-out';
-                    }, { passive: true, signal });
-
-                    el.addEventListener('mouseleave', () => {
-                        el.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0)';
-                        el.style.transition = 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)';
-                        setTimeout(() => {
-                            if (el.style.transform.includes('0deg')) {
-                                el.style.transform = '';
-                                el.style.transition = '';
-                            }
-                        }, 560);
-                    }, { signal });
-                });
-            }
-            initTiltCards();
-            document.addEventListener('astro:page-load', initTiltCards);
         </script>
 
         <script>

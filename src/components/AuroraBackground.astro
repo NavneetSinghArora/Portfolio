@@ -462,7 +462,7 @@
                     if (cursorTrail[i].age >= 1) { cursorTrail.splice(i, 1); continue; }
                     const a = (1 - cursorTrail[i].age) * (isDark ? 0.5 : 0.32);
                     const r = (1 - cursorTrail[i].age) * 2.4;
-                    const trailRgb = isDark ? '255, 255, 255' : '20, 20, 20';
+                    const trailRgb = isDark ? '255, 255, 255' : '0, 0, 0';
                     ctx.beginPath();
                     ctx.arc(cursorTrail[i].x, cursorTrail[i].y, r, 0, PI2);
                     ctx.fillStyle = `rgba(${trailRgb}, ${a})`;

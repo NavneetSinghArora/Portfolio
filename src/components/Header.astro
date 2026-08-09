@@ -163,6 +163,13 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
             'LangGraph · FastMCP · Qdrant · FastAPI',
         ];
 
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            textEl.textContent = phrases[0];
+            cursor.style.display = 'none';
+            twActive = false;
+            return;
+        }
+
         // Cursor blink via CSS
         if (!document.getElementById('tw-style')) {
             const s = document.createElement('style');

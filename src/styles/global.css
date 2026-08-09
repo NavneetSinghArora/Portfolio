@@ -25,6 +25,16 @@
     font-style: normal;
 }
 
+/* ── Reduced motion: one rule disables every decorative animation site-wide ── */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
 :root {
     --text-main: #1e293b;
     --bg-main: #f0f7ff;
@@ -291,14 +301,6 @@ body.nn-ready .nn-layer {
 body.nn-ready .nn-layer.nn-activated {
     opacity: 1;
     transform: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    body.nn-ready .nn-layer {
-        opacity: 1;
-        transform: none;
-        transition: none;
-    }
 }
 
 /* ── Phase 2: Experience Timeline Neural Flow ──────────────────── */
