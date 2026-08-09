@@ -58,8 +58,8 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
             )
         }
         <div class="flex flex-col items-center gap-3 mb-6">
-            <p id="header-subtitle" class="text-base sm:text-lg leading-tight font-semibold tracking-wide bg-gradient-to-r from-blue-600 via-violet-600 to-blue-500 dark:from-blue-300 dark:via-violet-300 dark:to-blue-200 bg-clip-text text-transparent" aria-label={siteConfig.subtitle}>
-                <span id="typewriter-text">{siteConfig.subtitle}</span><span id="typewriter-cursor" class="inline-block w-[2px] h-[1.1em] bg-blue-500 dark:bg-blue-300 align-middle ml-[2px]" aria-hidden="true"></span>
+            <p id="header-subtitle" class="text-base sm:text-lg leading-tight font-semibold tracking-wide text-main/80" aria-label={siteConfig.subtitle}>
+                <span id="typewriter-text">{siteConfig.subtitle}</span><span id="typewriter-cursor" class="inline-block w-[2px] h-[1.1em] bg-main align-middle ml-[2px]" aria-hidden="true"></span>
             </p>
             <div class="flex items-center gap-1.5 text-main/60 font-medium text-[10px] uppercase tracking-[0.2em] mt-1 mb-2">
                 <svg class="w-3.5 h-3.5 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
@@ -101,10 +101,10 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
                 <!-- Status: Opportunity -->
                 <div class="flex items-center gap-2.5">
                     <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400/40"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-main/30"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-main"></span>
                     </span>
-                    <span class="text-[10px] font-mono leading-none font-medium uppercase tracking-[0.2em] text-emerald-500/90 whitespace-nowrap">Open to Opportunities</span>
+                    <span class="text-[10px] font-mono leading-none font-medium uppercase tracking-[0.2em] text-main/80 whitespace-nowrap">Open to Opportunities</span>
                 </div>
 
                 <div class="h-3 w-px bg-white/10"></div>
@@ -112,12 +112,11 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
                 <!-- Status: Now -->
                 <a href="/now" class="group/now relative -my-2 -mr-5 px-5 py-2 flex items-center gap-2.5 transition-all duration-300 hover:bg-white/5">
                     <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400/40"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500 group-hover/now:scale-110 transition-transform"></span>
+                        <span class="rounded-full h-2 w-2 border border-main/60 group-hover/now:scale-110 transition-transform"></span>
                     </span>
                     <div class="flex items-center gap-2">
-                        <span class="text-[10px] font-mono leading-none font-medium uppercase tracking-[0.2em] text-blue-500/90 group-hover/now:text-blue-400 transition-colors whitespace-nowrap">Currently: Climate AI</span>
-                        <svg class="w-2.5 h-2.5 text-blue-500/40 group-hover/now:text-blue-500 group-hover/now:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <span class="text-[10px] font-mono leading-none font-medium uppercase tracking-[0.2em] text-main/60 group-hover/now:text-main transition-colors whitespace-nowrap">Currently: Climate AI</span>
+                        <svg class="w-2.5 h-2.5 text-main/40 group-hover/now:text-main group-hover/now:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                         </svg>
                     </div>

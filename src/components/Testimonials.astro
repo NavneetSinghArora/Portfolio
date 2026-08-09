@@ -11,7 +11,7 @@ const testimonials = [
         title: "Colleague, NICE Ltd. · same team, 2018–2020",
         source: "LinkedIn",
         initials: "AA",
-        color: "from-blue-500 to-indigo-600",
+        color: "from-neutral-500 to-neutral-700",
         image: anupamImage,
     },
     {
@@ -20,7 +20,7 @@ const testimonials = [
         title: "Tech Manager (R&D), NICE Ltd. · managed Navneet, 2018–2020",
         source: "LinkedIn",
         initials: "SM",
-        color: "from-violet-500 to-purple-600",
+        color: "from-neutral-500 to-neutral-700",
         image: sameerImage,
     },
     {
@@ -29,7 +29,7 @@ const testimonials = [
         title: "Colleague, NICE Ltd. · different teams, 2018–2020",
         source: "LinkedIn",
         initials: "SB",
-        color: "from-emerald-500 to-teal-600",
+        color: "from-neutral-500 to-neutral-700",
         image: shilpaImage,
     },
 ];
@@ -49,7 +49,7 @@ const testimonials = [
                     <svg class="w-6 h-6 text-main/15" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.338-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.338-3.996 5.849h3.983v10h-9.983z"/>
                     </svg>
-                    <span class={`text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full border ${t.source === 'LinkedIn' ? 'border-blue-500/20 text-blue-400/70 bg-blue-500/5' : 'border-amber-500/20 text-amber-400/70 bg-amber-500/5'}`}>
+                    <span class="text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full border border-main-border/20 text-main/60 bg-main/5">
                         {t.source}
                     </span>
                 </div>
