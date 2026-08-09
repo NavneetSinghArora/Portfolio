@@ -9,7 +9,6 @@ import AuroraBackground from '../components/AuroraBackground.astro';
 import CommandPalette from '../components/CommandPalette.astro';
 import CursorTrail from '../components/CursorTrail.astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
-import StarfieldBackground from '../components/StarfieldBackground.astro';
 import ScrollToTop from '../components/ScrollToTop.astro';
 
 export type Props = HeadProps & { showHeader?: boolean };
@@ -38,8 +37,6 @@ const { showHeader = false, ...head } = Astro.props;
              <div class="absolute inset-0 rounded-full bg-fuchsia-500 blur-xl animate-pulse"></div>
              <div class="absolute inset-2 rounded-full bg-cyan-400 blur-md"></div>
         </div>
-
-        <StarfieldBackground />
 
         <AuroraBackground />
         <CommandPalette />

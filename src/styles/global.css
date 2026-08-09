@@ -400,40 +400,6 @@ body.nn-ready .nn-layer.nn-activated {
     #nn-progress-bar { display: none; }
 }
 
-/* ── Feature 6: Background Gradient Morphing ───────────────────── */
-@keyframes gradient-morph {
-    0%   { background-position: 0% 50%; }
-    50%  { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(
-        135deg,
-        var(--bg-main) 0%,
-        color-mix(in srgb, var(--bg-main) 92%, #3b82f6) 25%,
-        var(--bg-main) 50%,
-        color-mix(in srgb, var(--bg-main) 92%, #a855f7) 75%,
-        var(--bg-main) 100%
-    );
-    background-size: 400% 400%;
-    animation: gradient-morph 25s ease infinite;
-    will-change: background-position;
-    pointer-events: none;
-}
-
-@media (prefers-reduced-motion: reduce), (pointer: coarse) {
-    body::before {
-        animation: none;
-        background-size: 100% 100%;
-        will-change: auto;
-    }
-}
-
 /* ── Feature 8: Icon Hover Glow Effect ─────────────────────────── */
 .group\/social {
     position: relative;
