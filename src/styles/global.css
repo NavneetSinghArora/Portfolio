@@ -408,6 +408,34 @@ body.nn-ready .nn-layer.nn-activated {
     #nn-progress-bar { display: none; }
 }
 
+/* ── Section anchoring ─────────────────────────────────────────────
+   No `scroll-snap-type` here, deliberately. It was tried and reverted:
+   the home page's snap points sit 302–652px apart while a laptop viewport
+   is ~735px tall. Chrome's `proximity` threshold scales with the snapport,
+   so when snap points are spaced closer together than the viewport, every
+   resting position is "near" one and proximity degenerates into mandatory.
+   Measured result: scrolling DOWN one wheel tick from y=2500 landed at
+   y=2409 — the page moved up, against the gesture. Section-to-section
+   movement is handled by SectionNav instead, which only moves the page
+   when the reader asks it to.
+
+   scroll-margin-top stays: it offsets anchor jumps (SectionNav, the hero
+   skip in Hero.astro, and deep links) clear of the fixed nav, matching the
+   pt-24/sm:pt-32 on the page shell. */
+html {
+    scroll-behavior: smooth;
+}
+
+.page-section {
+    scroll-margin-top: 6rem;
+}
+
+@media (min-width: 640px) {
+    .page-section {
+        scroll-margin-top: 8rem;
+    }
+}
+
 /* ── Feature 8: Icon Hover Glow Effect ─────────────────────────── */
 .group\/social {
     position: relative;

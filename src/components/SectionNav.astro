@@ -1,0 +1,175 @@
+---
+/**
+ * SectionNav
+ * A fixed rail of dots, one per snap section, that highlights whichever
+ * section is currently in view and jumps to a section on click.
+ *
+ * This is the deliberate way to move between sections — it exists so the
+ * page never has to hijack the scroll wheel to offer the same thing.
+ * Desktop only: on narrow screens it would collide with ScrollToTop, and
+ * the sections are short enough there that the rail earns little.
+ */
+
+export interface Section {
+    id: string;
+    label: string;
+}
+
+interface Props {
+    sections: Section[];
+}
+
+const { sections } = Astro.props;
+---
+
+<nav id="section-nav" class="hidden lg:flex" aria-label="Page sections">
+    <ul class="flex flex-col items-end gap-3">
+        {sections.map((section) => (
+            <li>
+                <a href={`#${section.id}`} class="section-dot group" data-section-id={section.id}>
+                    <span class="section-dot-label">{section.label}</span>
+                    <span class="section-dot-mark"></span>
+                    <span class="sr-only">{section.label}</span>
+                </a>
+            </li>
+        ))}
+    </ul>
+</nav>
+
+<style>
+    #section-nav {
+        position: fixed;
+        right: 1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 150;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+    }
+    /* Stays out of the way until the reader has actually left the hero. */
+    #section-nav.visible {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .section-dot {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.625rem;
+        padding: 0.25rem 0;
+    }
+
+    .section-dot-mark {
+        display: block;
+        height: 7px;
+        width: 7px;
+        flex-shrink: 0;
+        border-radius: 9999px;
+        background: color-mix(in srgb, var(--text-main) 22%, transparent);
+        transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .section-dot:hover .section-dot-mark {
+        background: color-mix(in srgb, var(--text-main) 55%, transparent);
+    }
+
+    .section-dot.active .section-dot-mark {
+        background: var(--text-main);
+        transform: scale(1.45);
+    }
+
+    .section-dot-label {
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        color: color-mix(in srgb, var(--text-main) 60%, transparent);
+        opacity: 0;
+        transform: translateX(6px);
+        transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .section-dot:hover .section-dot-label,
+    .section-dot:focus-visible .section-dot-label {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .section-dot:focus-visible {
+        outline: 2px solid var(--text-main);
+        outline-offset: 4px;
+        border-radius: 4px;
+    }
+</style>
+
+<script>
+    // Both listeners live on objects that survive Astro's body swap
+    // (the IntersectionObserver holds torn-out nodes, window holds scroll),
+    // so without the controller each navigation would leave a live copy behind.
+    let sectionNavController: AbortController | null = null;
+    let sectionNavObserver: IntersectionObserver | null = null;
+
+    function initSectionNav() {
+        sectionNavController?.abort();
+        sectionNavObserver?.disconnect();
+
+        const nav = document.getElementById('section-nav');
+        if (!nav) return;
+
+        sectionNavController = new AbortController();
+        const { signal } = sectionNavController;
+
+        const dots = Array.from(nav.querySelectorAll<HTMLAnchorElement>('.section-dot'));
+        const sections = dots
+            .map((dot) => document.getElementById(dot.dataset.sectionId || ''))
+            .filter((el): el is HTMLElement => el !== null);
+        if (!sections.length) return;
+
+        // Track ratios for every section rather than reacting to each entry in
+        // isolation: with sections taller than the viewport, two can intersect
+        // at once and "last one to fire" picks the wrong winner.
+        const ratios = new Map<string, number>();
+
+        function setActive(id: string) {
+            dots.forEach((dot) => dot.classList.toggle('active', dot.dataset.sectionId === id));
+        }
+
+        sectionNavObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    ratios.set(entry.target.id, entry.isIntersecting ? entry.intersectionRatio : 0);
+                });
+
+                let best = '';
+                let bestRatio = 0;
+                ratios.forEach((ratio, id) => {
+                    if (ratio > bestRatio) {
+                        bestRatio = ratio;
+                        best = id;
+                    }
+                });
+                if (best) setActive(best);
+            },
+            {
+                // The nav overlays the top 6rem; discount it so a section
+                // hidden behind the nav doesn't count as visible.
+                rootMargin: '-96px 0px 0px 0px',
+                threshold: [0, 0.15, 0.3, 0.5, 0.75, 1]
+            }
+        );
+
+        sections.forEach((section) => sectionNavObserver!.observe(section));
+
+        // Hide the rail over the hero — it has its own scroll affordance, and
+        // the dots reading "you are here" on a landing panel adds nothing.
+        function updateVisibility() {
+            nav!.classList.toggle('visible', window.scrollY > window.innerHeight * 0.4);
+        }
+        window.addEventListener('scroll', updateVisibility, { passive: true, signal });
+        updateVisibility();
+    }
+
+    document.addEventListener('astro:page-load', initSectionNav);
+</script>

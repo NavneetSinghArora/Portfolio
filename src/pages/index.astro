@@ -10,6 +10,7 @@ import WorkedWith from '../components/WorkedWith.astro';
 import Testimonials from '../components/Testimonials.astro';
 import siteConfig from '../data/site-config';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionNav from '../components/SectionNav.astro';
 import { sortItemsByDateDesc } from '../utils/data-utils';
 
 const posts = (await getCollection('blog')).sort(sortItemsByDateDesc);
@@ -17,13 +18,27 @@ const displayPosts = posts.slice(0, 3);
 
 const projects = (await getCollection('projects')).sort(sortItemsByDateDesc);
 const featuredProjects = projects.filter(({ data }) => data.isFeatured);
+
+// Order must match the DOM order of the .page-section elements below.
+const sections = [
+    { id: 'hero-parallax', label: 'Intro' },
+    { id: 'selected-work', label: 'Work' },
+    { id: 'worked-with', label: 'Experience' },
+    { id: 'tech-stack', label: 'Stack' },
+    { id: 'testimonials', label: 'Testimonials' },
+    { id: 'writing', label: 'Writing' },
+    { id: 'explore', label: 'Explore' },
+    { id: 'contributions', label: 'Contributions' }
+];
 ---
 
 <BaseLayout description={siteConfig.description} showHeader={true}>
     <Hero {...siteConfig.hero} />
 
+    <SectionNav sections={sections} />
+
     <!-- Selected Work -->
-    <div id="selected-work" class="mb-16 sm:mb-24 scroll-mt-24 sm:scroll-mt-32" data-nn-layer="1">
+    <div id="selected-work" class="page-section mb-16 sm:mb-24" data-nn-layer="1">
         <div class="mb-10 flex items-end justify-between">
             <h2 class="font-serif text-2xl sm:text-3xl font-bold">Selected Work</h2>
             <a href="/projects" class="text-sm font-medium text-main/60 hover:text-main transition-colors shrink-0">
@@ -43,18 +58,22 @@ const featuredProjects = projects.filter(({ data }) => data.isFeatured);
     </div>
 
     <!-- Where I've Worked -->
-    <WorkedWith />
+    <div id="worked-with" class="page-section">
+        <WorkedWith />
+    </div>
 
     <!-- Tech Stack -->
-    <div data-nn-layer="2">
+    <div id="tech-stack" class="page-section" data-nn-layer="2">
         {siteConfig.stack && <TechStack {...siteConfig.stack} />}
     </div>
 
     <!-- What Colleagues Say -->
-    <Testimonials />
+    <div id="testimonials" class="page-section">
+        <Testimonials />
+    </div>
 
     <!-- Writing -->
-    <div class="mb-16 sm:mb-24" data-nn-layer="3">
+    <div id="writing" class="page-section mb-16 sm:mb-24" data-nn-layer="3">
         <div class="mb-10 flex items-end justify-between">
             <h2 class="font-serif text-2xl sm:text-3xl font-bold">Writing</h2>
             <a href="/blog" class="text-sm font-medium text-main/60 hover:text-main transition-colors shrink-0">
@@ -74,7 +93,7 @@ const featuredProjects = projects.filter(({ data }) => data.isFeatured);
     </div>
 
     <!-- Explore — Discovery Hub -->
-    <div class="mb-16 sm:mb-24" data-nn-layer="4">
+    <div id="explore" class="page-section mb-16 sm:mb-24" data-nn-layer="4">
         <h2 class="mb-6 font-serif text-2xl sm:text-3xl font-bold">Explore</h2>
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <!-- Stack Card -->
@@ -110,7 +129,7 @@ const featuredProjects = projects.filter(({ data }) => data.isFeatured);
     </div>
 
     <!-- Contributions -->
-    <div data-nn-layer="5">
+    <div id="contributions" class="page-section" data-nn-layer="5">
         {siteConfig.github && <GithubContributions username={siteConfig.github} />}
     </div>
 </BaseLayout>

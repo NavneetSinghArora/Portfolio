@@ -130,17 +130,20 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
     </div>
 
     {isHome && (
-        <button
+        <!-- Purely a "there's more below" hint. It was a <button> that jumped
+             past the hero; that shortcut is gone along with the scroll
+             hijacking, and a button with no action is a dead control that
+             still takes focus, so this is decorative and inert now. -->
+        <div
             id="scroll-indicator"
-            type="button"
-            aria-label="Scroll to content"
-            class="absolute bottom-4 left-1/2 -translate-x-1/2 animate-bounce flex flex-col items-center gap-2 opacity-50 transition-opacity duration-500 hover:opacity-100 cursor-pointer"
+            aria-hidden="true"
+            class="absolute bottom-4 left-1/2 -translate-x-1/2 animate-bounce flex flex-col items-center gap-2 opacity-50 transition-opacity duration-500 pointer-events-none"
         >
             <span class="text-[10px] sm:text-xs uppercase tracking-[0.2em] font-medium opacity-70">Explore More</span>
             <svg class="w-5 h-5 text-main/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
             </svg>
-        </button>
+        </div>
     )}
 </header>
 
@@ -234,13 +237,10 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
         const indicator = document.getElementById('scroll-indicator');
         if (!indicator) return;
 
-        if (window.scrollY > 50) {
-            indicator.style.opacity = '0';
-            indicator.style.pointerEvents = 'none';
-        } else {
-            indicator.style.opacity = '0.5';
-            indicator.style.pointerEvents = 'auto';
-        }
+        // Opacity only — the indicator is inert now, so restoring
+        // `pointer-events: auto` here would just undo the class that
+        // keeps it from swallowing clicks meant for the page behind it.
+        indicator.style.opacity = window.scrollY > 50 ? '0' : '0.5';
     }
 
     // Attach listener
@@ -249,54 +249,7 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
     // Check initial state
     scrollHandler();
 
-    // Skip straight to the content below the hero on first scroll/swipe/click,
-    // instead of gradually scrolling through the empty full-viewport hero.
-    let heroSkipController: AbortController | null = null;
-
-    function initHeroSkip() {
-        heroSkipController?.abort();
-        heroSkipController = new AbortController();
-        const { signal } = heroSkipController;
-
-        const indicator = document.getElementById('scroll-indicator');
-        const target = document.getElementById('hero-parallax');
-        if (!indicator || !target) return;
-
-        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        let locked = false;
-
-        function goToContent() {
-            if (locked) return;
-            locked = true;
-            target?.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
-            setTimeout(() => { locked = false; }, 800);
-        }
-
-        indicator.addEventListener('click', goToContent, { signal });
-
-        function handleWheel(e: WheelEvent) {
-            if (window.scrollY > 10 || e.deltaY <= 0) return;
-            e.preventDefault();
-            goToContent();
-        }
-
-        let touchStartY = 0;
-        function handleTouchStart(e: TouchEvent) {
-            touchStartY = e.touches[0]?.clientY ?? 0;
-        }
-        function handleTouchMove(e: TouchEvent) {
-            if (window.scrollY > 10) return;
-            const currentY = e.touches[0]?.clientY ?? touchStartY;
-            if (touchStartY - currentY > 20) {
-                e.preventDefault();
-                goToContent();
-            }
-        }
-
-        window.addEventListener('wheel', handleWheel, { passive: false, signal });
-        window.addEventListener('touchstart', handleTouchStart, { passive: true, signal });
-        window.addEventListener('touchmove', handleTouchMove, { passive: false, signal });
-    }
-
-    document.addEventListener('astro:page-load', initHeroSkip);
+    // No hero-skip of any kind here any more. The page scrolls natively:
+    // wheel, swipe, scrollbar, keyboard and find-in-page all reach the
+    // browser untouched. Deliberate section jumps live in SectionNav.
 </script>
