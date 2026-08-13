@@ -12,7 +12,7 @@ const { title, image, text, actions } = Astro.props;
 
 {
     (title || image?.src || text || (actions && actions.length > 0)) && (
-        <section id="hero-parallax" class="relative mb-16 flex w-full flex-col gap-8 sm:mb-24 py-10 sm:py-16 px-4 sm:px-8" data-nn-layer="0" data-nn-delay="60">
+        <section id="hero-parallax" class="relative mb-16 flex w-full scroll-mt-24 flex-col gap-8 sm:mb-24 sm:scroll-mt-32 py-10 sm:py-16 px-4 sm:px-8" data-nn-layer="0" data-nn-delay="60">
             <HeroDecoration />
             <div class="relative z-10 flex w-full flex-col gap-8">
                 {title && (
@@ -66,3 +66,87 @@ const { title, image, text, actions } = Astro.props;
     )
 }
 
+<script>
+    // Mirrors Header.astro's hero-skip: the first scroll/swipe while resting
+    // at the top of a section jumps straight to the adjacent one (down to the
+    // next section, or back up to the previous one) instead of gradually
+    // scrolling through it.
+    let heroCardSkipController: AbortController | null = null;
+
+    function initHeroCardSkip() {
+        heroCardSkipController?.abort();
+        heroCardSkipController = new AbortController();
+        const { signal } = heroCardSkipController;
+
+        const heroEl = document.getElementById('hero-parallax');
+        const nextEl = document.getElementById('selected-work');
+        if (!heroEl || !nextEl) return;
+
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let locked = false;
+
+        function isAtTop(el: HTMLElement) {
+            const clearance = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+            return Math.abs(el.getBoundingClientRect().top - clearance) < 24;
+        }
+
+        function goTo(el: HTMLElement) {
+            if (locked) return;
+            locked = true;
+            el.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
+            setTimeout(() => { locked = false; }, 800);
+        }
+
+        function goToTop() {
+            if (locked) return;
+            locked = true;
+            window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' });
+            setTimeout(() => { locked = false; }, 800);
+        }
+
+        function handleDown() {
+            if (isAtTop(heroEl!)) goTo(nextEl!);
+        }
+
+        function handleUp() {
+            if (isAtTop(nextEl!)) goTo(heroEl!);
+            else if (isAtTop(heroEl!)) goToTop();
+        }
+
+        function handleWheel(e: WheelEvent) {
+            if (e.deltaY > 0) {
+                if (!isAtTop(heroEl!)) return;
+                e.preventDefault();
+                handleDown();
+            } else if (e.deltaY < 0) {
+                if (!isAtTop(nextEl!) && !isAtTop(heroEl!)) return;
+                e.preventDefault();
+                handleUp();
+            }
+        }
+
+        let touchStartY = 0;
+        function handleTouchStart(e: TouchEvent) {
+            touchStartY = e.touches[0]?.clientY ?? 0;
+        }
+        function handleTouchMove(e: TouchEvent) {
+            const currentY = e.touches[0]?.clientY ?? touchStartY;
+            const delta = touchStartY - currentY;
+            if (delta > 20) {
+                if (!isAtTop(heroEl!)) return;
+                e.preventDefault();
+                handleDown();
+            } else if (delta < -20) {
+                if (!isAtTop(nextEl!) && !isAtTop(heroEl!)) return;
+                e.preventDefault();
+                handleUp();
+            }
+        }
+
+        window.addEventListener('wheel', handleWheel, { passive: false, signal });
+        window.addEventListener('touchstart', handleTouchStart, { passive: true, signal });
+        window.addEventListener('touchmove', handleTouchMove, { passive: false, signal });
+    }
+
+    document.addEventListener('astro:page-load', initHeroCardSkip);
+</script>

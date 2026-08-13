@@ -25,10 +25,13 @@ type Props = (ButtonProps | AnchorProps) & {
 
 const { href, class: className, variant = 'default', size = 'md', tooltip, ...rest } = Astro.props;
 
+const ariaLabel = (rest as Record<string, unknown>)['aria-label'] ?? tooltip;
+delete (rest as Record<string, unknown>)['aria-label'];
+
 const sizeClass = { sm: 'h-7 w-7', md: 'h-8 w-8', lg: 'h-10 w-10' }[size];
 
 const variantClasses: Record<string, string> = {
-    default: 'relative inline-flex items-center justify-center p-2.5 text-main bg-main/5 border border-main-border/20 rounded-xl hover:bg-main/10 hover:border-main-border/40 hover:scale-105 backdrop-blur-sm transition-all duration-300 active:scale-95',
+    default: 'relative inline-flex items-center justify-center p-2.5 text-main bg-main/5 border border-main-border/20 rounded-xl hover:bg-main/10 hover:border-main-border/40 hover:scale-105 transition-all duration-300 active:scale-95',
     social:  `${sizeClass} icon-btn-glow`,
     header:  'h-10 w-10 sm:h-12 sm:w-12 icon-btn-glow icon-header',
     ghost:   'relative inline-flex items-center justify-center p-2 text-main/30 hover:text-main hover:bg-main/5 rounded-full transition-all duration-300 active:scale-95',
@@ -43,6 +46,7 @@ const tooltipClass = tooltip ? 'premium-tooltip' : '';
         <a
             href={href}
             class:list={[variantClasses[variant], tooltipClass, className]}
+            aria-label={ariaLabel}
             {...tooltipAttrs}
             {...rest}
         >
@@ -51,6 +55,7 @@ const tooltipClass = tooltip ? 'premium-tooltip' : '';
     ) : (
         <button
             class:list={['cursor-pointer', variantClasses[variant], tooltipClass, className]}
+            aria-label={ariaLabel}
             {...tooltipAttrs}
             {...rest}
         >

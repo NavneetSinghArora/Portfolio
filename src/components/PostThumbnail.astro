@@ -25,7 +25,7 @@ const imageSrc = banner ?? seo?.image?.src?.src;
                 loading="lazy"
             />
         ) : (
-            <div class="flex h-full w-full items-center justify-center text-main/55 text-xs">No preview</div>
+            <div class="flex h-full w-full items-center justify-center text-main/60 text-xs">No preview</div>
         )}
     </div>
 
@@ -44,7 +44,7 @@ const imageSrc = banner ?? seo?.image?.src?.src;
                 </IconButton>
             )}
         </div>
-        <p class="text-[10px] font-bold uppercase tracking-widest text-main/40 pointer-events-none">
+        <p class="text-[10px] font-bold uppercase tracking-widest text-main/70 pointer-events-none">
             {publishDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
         </p>
     </div>

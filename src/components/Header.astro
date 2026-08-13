@@ -30,7 +30,7 @@ const titleClass = 'text-theme-foreground font-serif text-3xl leading-tight font
 const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html';
 ---
 
-<header class={`relative mx-auto flex w-full max-w-4xl flex-col items-center text-center gap-6 ${isHome ? 'mb-8' : 'mb-12 sm:mb-16'}`}>
+<header class={`relative mx-auto flex w-full max-w-4xl flex-col items-center text-center gap-6 ${isHome ? 'min-h-[calc(100svh-6rem)] sm:min-h-[calc(100svh-8rem)] justify-center mb-8' : 'mb-12 sm:mb-16'}`}>
     {
         siteConfig.avatar?.src && (
             <a href="/" class="mb-2">
@@ -59,7 +59,7 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
         }
         <div class="flex flex-col items-center gap-3 mb-6">
             <p id="header-subtitle" class="text-base sm:text-lg leading-tight font-semibold tracking-wide text-main/80" aria-label={siteConfig.subtitle}>
-                <span id="typewriter-text">{siteConfig.subtitle}</span><span id="typewriter-cursor" class="inline-block w-[2px] h-[1.1em] bg-main align-middle ml-[2px]" aria-hidden="true"></span>
+                <span id="typewriter-text" aria-hidden="true">{siteConfig.subtitle}</span><span id="typewriter-cursor" class="inline-block w-[2px] h-[1.1em] bg-main align-middle ml-[2px]" aria-hidden="true"></span>
             </p>
             <div class="flex items-center gap-1.5 text-main/60 font-medium text-[10px] uppercase tracking-[0.2em] mt-1 mb-2">
                 <svg class="w-3.5 h-3.5 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
@@ -74,14 +74,13 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
 
                 const isKnown = knownIcons.includes(iconName as KnownIcon);
                 const isResume = iconName === 'resume';
-                const resumeIcon = 'https://img.icons8.com/color/48/parse-from-clipboard.png';
 
                 return (
                     <IconButton href={link.href} target="_blank" rel="noopener noreferrer" variant="header" tooltip={link.text}>
                         {isKnown ? (
                             <SocialIcon name={iconName as KnownIcon} size="lg" />
                         ) : isResume ? (
-                            <img src={resumeIcon} alt={link.text} class="h-6 w-6 sm:h-7 sm:w-7" />
+                            <img src={resolveIcon('resume-clipboard')} alt={link.text} class="h-6 w-6 sm:h-7 sm:w-7" />
                         ) : (
                             <img src={resolveIcon(iconName)} alt={link.text} class="h-6 w-6 sm:h-7 sm:w-7" />
                         )}
@@ -95,7 +94,7 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
 
         <!-- Unified Presence Dashboard -->
         <div class="mt-10 flex justify-center">
-            <div class="group/bar relative flex items-center gap-4 px-5 py-2 rounded-xl border border-white/5 bg-white/[0.03] backdrop-blur-xl shadow-2xl shadow-black/20 overflow-hidden transition-all duration-700 hover:border-white/10 hover:bg-white/[0.05]">
+            <div class="group/bar relative flex items-center gap-4 px-5 py-2 rounded-xl border border-white/5 bg-white/[0.05] shadow-2xl shadow-black/20 overflow-hidden transition-all duration-700 hover:border-white/10 hover:bg-white/[0.08]">
                 <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none"></div>
                 
                 <!-- Status: Opportunity -->
@@ -129,14 +128,19 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
             </div>
         </div>
     </div>
-    
+
     {isHome && (
-        <div id="scroll-indicator" class="absolute bottom-4 left-1/2 -translate-x-1/2 animate-bounce flex flex-col items-center gap-2 opacity-50 transition-opacity duration-500 hover:opacity-100">
+        <button
+            id="scroll-indicator"
+            type="button"
+            aria-label="Scroll to content"
+            class="absolute bottom-4 left-1/2 -translate-x-1/2 animate-bounce flex flex-col items-center gap-2 opacity-50 transition-opacity duration-500 hover:opacity-100 cursor-pointer"
+        >
             <span class="text-[10px] sm:text-xs uppercase tracking-[0.2em] font-medium opacity-70">Explore More</span>
             <svg class="w-5 h-5 text-main/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
             </svg>
-        </div>
+        </button>
     )}
 </header>
 
@@ -229,7 +233,7 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
     function scrollHandler() {
         const indicator = document.getElementById('scroll-indicator');
         if (!indicator) return;
-        
+
         if (window.scrollY > 50) {
             indicator.style.opacity = '0';
             indicator.style.pointerEvents = 'none';
@@ -238,10 +242,61 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
             indicator.style.pointerEvents = 'auto';
         }
     }
-    
+
     // Attach listener
     window.addEventListener('scroll', scrollHandler, { passive: true });
-    
+
     // Check initial state
     scrollHandler();
+
+    // Skip straight to the content below the hero on first scroll/swipe/click,
+    // instead of gradually scrolling through the empty full-viewport hero.
+    let heroSkipController: AbortController | null = null;
+
+    function initHeroSkip() {
+        heroSkipController?.abort();
+        heroSkipController = new AbortController();
+        const { signal } = heroSkipController;
+
+        const indicator = document.getElementById('scroll-indicator');
+        const target = document.getElementById('hero-parallax');
+        if (!indicator || !target) return;
+
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let locked = false;
+
+        function goToContent() {
+            if (locked) return;
+            locked = true;
+            target?.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
+            setTimeout(() => { locked = false; }, 800);
+        }
+
+        indicator.addEventListener('click', goToContent, { signal });
+
+        function handleWheel(e: WheelEvent) {
+            if (window.scrollY > 10 || e.deltaY <= 0) return;
+            e.preventDefault();
+            goToContent();
+        }
+
+        let touchStartY = 0;
+        function handleTouchStart(e: TouchEvent) {
+            touchStartY = e.touches[0]?.clientY ?? 0;
+        }
+        function handleTouchMove(e: TouchEvent) {
+            if (window.scrollY > 10) return;
+            const currentY = e.touches[0]?.clientY ?? touchStartY;
+            if (touchStartY - currentY > 20) {
+                e.preventDefault();
+                goToContent();
+            }
+        }
+
+        window.addEventListener('wheel', handleWheel, { passive: false, signal });
+        window.addEventListener('touchstart', handleTouchStart, { passive: true, signal });
+        window.addEventListener('touchmove', handleTouchMove, { passive: false, signal });
+    }
+
+    document.addEventListener('astro:page-load', initHeroSkip);
 </script>

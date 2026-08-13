@@ -4,6 +4,24 @@ interface Props {
 }
 
 const { username } = Astro.props;
+
+const usernames = username.split(',').map((u) => u.trim());
+
+let contributionsData: unknown[] = [];
+try {
+    contributionsData = await Promise.all(
+        usernames.map(async (u) => {
+            const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${u}?y=last`);
+            if (!res.ok) throw new Error(`Failed to fetch contributions for ${u}`);
+            return res.json();
+        })
+    );
+} catch (err) {
+    console.error(err);
+    contributionsData = [];
+}
+
+const contributionsJson = JSON.stringify(contributionsData).replace(/</g, '\\u003c');
 ---
 
 <section class="mb-16 sm:mb-24" data-nn-layer="2">
@@ -14,7 +32,8 @@ const { username } = Astro.props;
         </p>
     </div>
 
-    <div 
+    <script type="application/json" id="github-contributions-data" is:inline set:html={contributionsJson} />
+    <div
         id="github-contributions"
         data-username={username}
         class="spotlight-card group relative p-6 sm:p-8"
@@ -103,25 +122,19 @@ const { username } = Astro.props;
         const container = document.getElementById('github-contributions');
         if (!container) return;
 
-        const usernames = container.dataset.username?.split(',').map(u => u.trim()) || [];
         const grid = document.getElementById('contributions-grid');
         const loading = document.getElementById('contributions-loading');
         const error = document.getElementById('contributions-error');
         const content = document.getElementById('contributions-content');
         const totalEl = document.getElementById('total-contributions');
 
-        if (!usernames.length || !grid || !loading || !error || !content || !totalEl) return;
+        if (!grid || !loading || !error || !content || !totalEl) return;
 
         try {
-            const fetchPromises = usernames.map(u => 
-                fetch(`https://github-contributions-api.jogruber.de/v4/${u}?y=last`).then(res => {
-                    if (!res.ok) throw new Error('Failed to fetch');
-                    return res.json();
-                })
-            );
-            
-            const allData = await Promise.all(fetchPromises);
-            
+            const dataEl = document.getElementById('github-contributions-data');
+            const allData = JSON.parse(dataEl?.textContent || '[]');
+            if (!Array.isArray(allData) || !allData.length) throw new Error('No contribution data');
+
             let totalLastYear = 0;
             const contributionsMap = new Map();
 
@@ -216,7 +229,7 @@ const { username } = Astro.props;
             grid.innerHTML = `
                 <div class="flex gap-2 w-full justify-center">
                     <!-- Left Axis for Days -->
-                    <div class="flex flex-col gap-[4px] text-[9px] text-main/50 font-medium pt-[18px]">
+                    <div class="flex flex-col gap-[4px] text-[9px] text-main/70 font-medium pt-[18px]">
                         <div style="height: 11px;"></div>
                         <div style="height: 11px; line-height: 11px;">Mon</div>
                         <div style="height: 11px;"></div>
@@ -229,7 +242,7 @@ const { username } = Astro.props;
                     <!-- Chart Area -->
                     <div class="flex flex-col gap-[3px]">
                         <!-- Top Axis for Months -->
-                        <div class="relative h-[18px] text-[9px] text-main/50 font-medium">
+                        <div class="relative h-[18px] text-[9px] text-main/70 font-medium">
                             ${monthLabels}
                         </div>
                         

@@ -5,8 +5,6 @@ seo:
   description: Information on how your data is handled in accordance with GDPR.
 ---
 
-> **Draft notice:** This policy has been rewritten to accurately reflect every third-party service this website actually uses. It is a good-faith draft, not legal advice, and will be reviewed against current German data protection guidance (e-recht24) before it is treated as final.
-
 ### 1. Overview
 
 **Controller**  
@@ -54,39 +52,25 @@ The contact form on the [Contact](/contact) page submits your name, email addres
 - **US transfer:** Web3Forms operates in the United States. See [Web3Forms' Privacy Policy](https://web3forms.com/privacy)
 - A hidden honeypot field is used to filter automated spam submissions; it does not collect data about legitimate visitors.
 
-### 5. GitHub contributions widget
-
-The homepage displays a live GitHub contributions graph. To render it, your browser fetches data from **github-contributions-api.jogruber.de**, a third-party API that mirrors public GitHub contribution data. No personal data about you (the visitor) is sent — only your browser's IP address, as with any HTTP request.
-
-- **Purpose:** displaying a visual summary of public open-source activity
-- **Legal basis:** Art. 6(1)(f) GDPR (legitimate interest in showcasing work)
-
-### 6. Remote icon assets
-
-Some technology and social icons on this site are loaded from third-party icon CDNs: **cdn.simpleicons.org**, **unpkg.com**, and **img.icons8.com**. Loading an icon from these services exposes your browser's IP address and user agent to that service, the same as loading any remote image.
-
-- **Purpose:** displaying brand/technology icons without hosting every icon locally
-- **Legal basis:** Art. 6(1)(f) GDPR (legitimate interest)
-
-### 7. Blog banner images — Medium
+### 5. Blog banner images — Medium
 
 Some blog post banner images are hosted on **miro.medium.com** (Medium's image CDN), since these posts are also published on Medium. Loading a post with a Medium-hosted banner exposes your IP address and user agent to Medium.
 
 - **Purpose:** displaying post banner images
 - **Legal basis:** Art. 6(1)(f) GDPR (legitimate interest)
 
-### 8. Local storage
+### 6. Local storage
 
 This site stores a small number of preferences in your browser's local storage — your light/dark theme choice and your preferred view mode on the projects page. This data stays on your device, is never transmitted to me or any third party, and is not a cookie in the legal sense. You can clear it at any time via your browser settings.
 
-### 9. Server log files
+### 7. Server log files
 
 Beyond what Vercel processes for hosting (Section 3), no additional server-side logging is performed by me directly.
 
-### 10. Data not collected
+### 8. Data not collected
 
-This site does not use advertising cookies, does not run cross-site tracking pixels, does not sell data to third parties, and does not build user profiles. The phone number field was removed from the contact form in 2026 as it served no purpose.
+This site does not use advertising cookies, does not run cross-site tracking pixels, does not sell data to third parties, and does not build user profiles. The phone number field was removed from the contact form in 2026 as it served no purpose. Technology and social icons, and GitHub contribution data, are fetched at build time and served as part of the static site — your browser does not request them from any third party.
 
-### 11. Changes to this policy
+### 9. Changes to this policy
 
 This policy may be updated as the site's features or third-party services change. The version in effect is always the one published at this URL.

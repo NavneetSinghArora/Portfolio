@@ -47,7 +47,7 @@ const top3Languages = Object.entries(languageWeights)
     .slice(0, 3);
 ---
 
-<div class="relative w-full max-w-md rounded-[24px] border border-white/10 bg-[#121212]/80 backdrop-blur-xl p-6 shadow-2xl transition-all duration-300 hover:border-white/20 mt-8 mb-4 group">
+<div class="relative w-full max-w-md rounded-[24px] border border-white/10 bg-[#121212] p-6 shadow-2xl transition-all duration-300 hover:border-white/20 mt-8 mb-4 group">
     <div class="flex items-start gap-4 mb-2">
         <!-- Purple GitHub Icon -->
         <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#241b38] border border-[#3b2a5a] shadow-inner drop-shadow-md transition-transform group-hover:scale-105">
@@ -57,7 +57,7 @@ const top3Languages = Object.entries(languageWeights)
         </div>
         
         <div class="flex flex-col">
-            <p class="text-[10px] sm:text-[11px] font-mono tracking-[0.2em] font-semibold text-main/40 uppercase mb-1">
+            <p class="text-[10px] sm:text-[11px] font-mono tracking-[0.2em] font-semibold text-main/70 uppercase mb-1">
                 GitHub Blueprint
             </p>
             <div class="flex items-baseline gap-2 leading-none">
@@ -65,7 +65,7 @@ const top3Languages = Object.entries(languageWeights)
                     {totalLoc.toLocaleString()}
                 </h3>
             </div>
-            <p class="text-[11px] sm:text-xs font-medium text-main/50 mt-2">
+            <p class="text-[11px] sm:text-xs font-medium text-main/70 mt-2">
                 approx. lines of code written
             </p>
         </div>
@@ -79,15 +79,15 @@ const top3Languages = Object.entries(languageWeights)
             <span class="text-[14px] sm:text-[15px] font-semibold text-white/90 leading-tight">
                 {top3Languages[0]}<br/><span class="text-xs text-white/70">{top3Languages[1]} • {top3Languages[2]}</span>
             </span>
-            <span class="text-[9px] sm:text-[10px] tracking-[0.1em] font-mono uppercase text-main/40 mt-1">Top Stack</span>
+            <span class="text-[9px] sm:text-[10px] tracking-[0.1em] font-mono uppercase text-main/70 mt-1">Top Stack</span>
         </div>
         <div class="flex flex-col text-center gap-1 border-x border-white/5 mx-2 px-2">
             <span class="text-[14px] sm:text-[15px] font-semibold text-white/90">~{estimatedHours.toLocaleString()}h</span>
-            <span class="text-[9px] sm:text-[10px] tracking-[0.1em] font-mono uppercase text-main/40 mt-1">Est. Hours</span>
+            <span class="text-[9px] sm:text-[10px] tracking-[0.1em] font-mono uppercase text-main/70 mt-1">Est. Hours</span>
         </div>
         <div class="flex flex-col text-center sm:text-right gap-1">
             <span class="text-[14px] sm:text-[15px] font-semibold text-white/90">{totalRepos}</span>
-            <span class="text-[9px] sm:text-[10px] tracking-[0.1em] font-mono uppercase text-main/40 mt-1">Total Repos</span>
+            <span class="text-[9px] sm:text-[10px] tracking-[0.1em] font-mono uppercase text-main/70 mt-1">Total Repos</span>
         </div>
     </div>
 </div>

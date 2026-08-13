@@ -12,7 +12,7 @@ const socialLinks = siteConfig.socialLinks ?? [];
 const navLinks = siteConfig.footerNavLinks ?? [];
 const currentYear = new Date().getFullYear();
 
-const resumeIcon = 'https://img.icons8.com/color/48/parse-from-clipboard.png';
+const resumeIcon = resolveIcon('resume-clipboard');
 ---
 
 <footer class="mx-auto w-full max-w-4xl pb-6 px-4 sm:pb-10">
@@ -76,9 +76,9 @@ const resumeIcon = 'https://img.icons8.com/color/48/parse-from-clipboard.png';
 
         <!-- Row 2: Copyright -->
         <div class="text-center pb-2 px-4">
-            <p class="text-[11px] font-bold tracking-[0.1em] uppercase text-main/30">
+            <p class="text-[11px] font-bold tracking-[0.1em] uppercase text-main/70">
                 &copy; {currentYear}
-                <a href="/"><span class="premium-line-hover text-main/40">{siteConfig.title}</span></a>.
+                <a href="/"><span class="premium-line-hover text-main/70">{siteConfig.title}</span></a>.
                 All rights reserved.
             </p>
         </div>

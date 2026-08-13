@@ -93,7 +93,7 @@ const contactMethods = [
                         </div>
                         <div>
                             <h2 class="font-serif text-lg font-medium tracking-wide">{method.title}</h2>
-                            <p class="text-[10px] uppercase tracking-widest font-bold text-main/50 mt-0.5">{method.subtitle}</p>
+                            <p class="text-[10px] uppercase tracking-widest font-bold text-main/70 mt-0.5">{method.subtitle}</p>
                         </div>
                     </div>
                     
@@ -110,7 +110,7 @@ const contactMethods = [
     </div>
 
     <!-- Submit Form Section -->
-    <div class="mt-24 sm:mt-32 border border-main-border/20 bg-main-bg/10 backdrop-blur-md shadow-sm rounded-2xl p-6 sm:p-10 relative overflow-hidden mb-12 sm:mb-20">
+    <div class="mt-24 sm:mt-32 border border-main-border/20 bg-main-bg/90 shadow-sm rounded-2xl p-6 sm:p-10 relative overflow-hidden mb-12 sm:mb-20">
         <!-- Background glows -->
         <div class="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-main/5 blur-3xl" />
         <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-main/5 blur-3xl" />
@@ -129,18 +129,18 @@ const contactMethods = [
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div class="space-y-1.5">
                         <label for="name" class="block text-xs font-bold uppercase tracking-widest text-main/60">Name</label>
-                        <input type="text" name="name" id="name" required class="w-full rounded-xl border border-main-border/20 bg-main-bg/20 px-4 py-3 text-sm text-main placeholder:text-main/45 focus:border-main/50 focus:outline-none focus:ring-1 focus:ring-main/50 transition-all backdrop-blur-sm shadow-sm" placeholder="John Doe">
+                        <input type="text" name="name" id="name" required class="w-full rounded-xl border border-main-border/20 bg-main-bg/90 px-4 py-3 text-sm text-main placeholder:text-main/60 focus:border-main/50 focus:outline-none focus:ring-1 focus:ring-main/50 transition-all shadow-sm" placeholder="John Doe">
                     </div>
                     
                     <div class="space-y-1.5">
                         <label for="email" class="block text-xs font-bold uppercase tracking-widest text-main/60">Email</label>
-                        <input type="email" name="email" id="email" required class="w-full rounded-xl border border-main-border/20 bg-main-bg/20 px-4 py-3 text-sm text-main placeholder:text-main/45 focus:border-main/50 focus:outline-none focus:ring-1 focus:ring-main/50 transition-all backdrop-blur-sm shadow-sm" placeholder="john@example.com">
+                        <input type="email" name="email" id="email" required class="w-full rounded-xl border border-main-border/20 bg-main-bg/90 px-4 py-3 text-sm text-main placeholder:text-main/60 focus:border-main/50 focus:outline-none focus:ring-1 focus:ring-main/50 transition-all shadow-sm" placeholder="john@example.com">
                     </div>
                 </div>
 
                 <div class="space-y-1.5">
                     <label for="message" class="block text-xs font-bold uppercase tracking-widest text-main/60">Message</label>
-                    <textarea name="message" id="message" required rows="5" class="w-full rounded-xl border border-main-border/20 bg-main-bg/20 px-4 py-3 text-sm text-main placeholder:text-main/45 focus:border-main/50 focus:outline-none focus:ring-1 focus:ring-main/50 transition-all resize-none backdrop-blur-sm shadow-sm" placeholder="How can we help?"></textarea>
+                    <textarea name="message" id="message" required rows="5" class="w-full rounded-xl border border-main-border/20 bg-main-bg/90 px-4 py-3 text-sm text-main placeholder:text-main/60 focus:border-main/50 focus:outline-none focus:ring-1 focus:ring-main/50 transition-all resize-none shadow-sm" placeholder="How can we help?"></textarea>
                 </div>
 
                 <div class="flex items-start gap-3">
@@ -160,7 +160,7 @@ const contactMethods = [
                     </button>
                 </div>
                 <!-- Inline Result Message -->
-                <div id="form-result" class="empty:hidden"></div>
+                <div id="form-result" role="status" aria-live="polite" tabindex="-1" class="empty:hidden outline-none"></div>
             </form>
         </div>
     </div>
@@ -208,17 +208,20 @@ const contactMethods = [
                                 <span class="text-sm font-medium">Message sent successfully! I'll be in touch soon.</span>
                             </div>
                         `;
+                        result.focus();
                     }
                 } else {
                     console.log(data);
                     if (result) {
                         result.innerHTML = `<span class="text-sm text-red-500 mt-2 block">${data.message}</span>`;
+                        result.focus();
                     }
                 }
             } catch (error) {
                 console.log(error);
                 if (result) {
                     result.innerHTML = `<span class="text-sm text-red-500 mt-2 block">Something went wrong! Please try sending a direct email.</span>`;
+                    result.focus();
                 }
             } finally {
                 if (submitBtn) {

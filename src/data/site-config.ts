@@ -147,7 +147,7 @@ const siteConfig: SiteConfig = {
                 title: 'Languages & Data',
                 items: [
                     { label: 'Python', icon: 'python' },
-                    { label: 'TypeScript', icon: 'https://cdn.simpleicons.org/typescript' },
+                    { label: 'TypeScript', icon: 'typescript' },
                     { label: 'Pandas', icon: 'pandas' },
                     { label: 'NumPy', icon: 'numpy' }
                 ]
@@ -191,10 +191,10 @@ const siteConfig: SiteConfig = {
                 items: [
                     { label: 'HuggingFace', icon: 'hugging-face' },
                     { label: 'PyTorch', icon: 'pytorch' },
-                    { label: 'LangGraph', icon: 'https://cdn.simpleicons.org/langgraph' },
+                    { label: 'LangGraph', icon: 'langgraph' },
                     { label: 'LangChain', icon: 'langchain' },
-                    { label: 'FastMCP', icon: 'https://unpkg.com/@lobehub/icons-static-svg@latest/icons/mcp.svg' },
-                    { label: 'Qdrant', icon: 'https://cdn.simpleicons.org/qdrant' },
+                    { label: 'FastMCP', icon: 'mcp' },
+                    { label: 'Qdrant', icon: 'qdrant' },
                     { label: 'Google Vertex AI', icon: 'gemini' },
                     { label: 'Langsmith', icon: 'langsmith' },
                     { label: 'Cursor', icon: { light: 'cursor-dark', dark: 'cursor-light' } },
@@ -202,8 +202,8 @@ const siteConfig: SiteConfig = {
                     { label: 'Claude Code', icon: 'claude' },
                     { label: 'Gemini CLI', icon: 'gemini' },
                     { label: 'Codex', icon: 'codex' },
-                    { label: 'Computer Vision', icon: 'https://cdn.simpleicons.org/opencv' },
-                    { label: 'LLMs', icon: 'https://cdn.simpleicons.org/openai' },
+                    { label: 'Computer Vision', icon: 'opencv' },
+                    { label: 'LLMs', icon: 'openai' },
                     { label: 'Jupyter', icon: 'jupyter' },
                     { label: 'Colab', icon: 'colab' }
                 ]

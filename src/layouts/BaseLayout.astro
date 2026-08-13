@@ -31,13 +31,19 @@ const { showHeader = false, ...head } = Astro.props;
         <Analytics />
     </head>
     <body class="text-main bg-transparent overflow-x-hidden">
+        <a
+            href="#main-content"
+            class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10000] focus:rounded-lg focus:bg-main focus:px-4 focus:py-2 focus:text-main-bg focus:text-sm focus:font-medium focus:shadow-lg"
+        >
+            Skip to content
+        </a>
         <AuroraBackground />
         <CommandPalette />
-        <div id="nn-progress-bar"><div id="nn-progress-fill"></div></div>
+        <div id="nn-progress-bar" aria-hidden="true"><div id="nn-progress-fill"></div></div>
         <Nav />
         <div class="flex min-h-screen flex-col px-4 md:px-8 pt-24 sm:pt-32 relative z-10 w-full">
             {showHeader && <Header />}
-            <main class="mx-auto w-full max-w-4xl grow">
+            <main id="main-content" class="mx-auto w-full max-w-4xl grow">
                 <slot />
             </main>
             <Footer />

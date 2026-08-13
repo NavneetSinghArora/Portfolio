@@ -1,6 +1,8 @@
 ---
 import { type CollectionEntry } from 'astro:content';
 import ArrowRight from '../assets/icons/arrow-right.svg';
+import mediumDark from '../assets/icons/medium-dark.svg';
+import mediumLight from '../assets/icons/medium-light.svg';
 import FormattedDate from './FormattedDate.astro';
 
 type Props = { post: CollectionEntry<'blog'>; class?: string; headingLevel?: 'h2' | 'h3' };
@@ -27,7 +29,7 @@ const TitleTag = headingLevel;
 
     {/* Metadata Section */}
     <div class="flex flex-row sm:flex-col justify-between sm:items-end gap-4 shrink-0 pt-1 sm:border-l sm:border-main-border/10 sm:pl-8">
-        <div class="text-[11px] font-bold tracking-[0.2em] text-main/40 uppercase font-sans">
+        <div class="text-[11px] font-bold tracking-[0.2em] text-main/70 uppercase font-sans">
             {publishDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
         </div>
         
@@ -41,8 +43,8 @@ const TitleTag = headingLevel;
                     data-tooltip="Read on Medium"
                 >
                     <div class="absolute inset-0 rounded-xl bg-main/5 opacity-0 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:scale-110 group-hover/icon:bg-main/10 ring-1 ring-main/10"></div>
-                    <img src="https://cdn.simpleicons.org/medium" class="h-3.5 w-3.5 dark:hidden opacity-70 group-hover:opacity-100 transition-all relative z-10" alt="Medium" />
-                    <img src="https://cdn.simpleicons.org/medium/white" class="h-3.5 w-3.5 hidden dark:block opacity-70 group-hover:opacity-100 transition-all relative z-10" alt="Medium" />
+                    <img src={mediumDark.src} class="h-3.5 w-3.5 dark:hidden opacity-70 group-hover:opacity-100 transition-all relative z-10" alt="Medium" />
+                    <img src={mediumLight.src} class="h-3.5 w-3.5 hidden dark:block opacity-70 group-hover:opacity-100 transition-all relative z-10" alt="Medium" />
                 </a>
             )}
         </div>

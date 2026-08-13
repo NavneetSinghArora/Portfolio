@@ -8,6 +8,14 @@
  *   lg  containers    →  size="md"  (h-4 w-4)
  *   header containers →  size="lg"  (h-6 w-6 sm:h-7 sm:w-7)
  */
+import githubDark from '../assets/icons/github-dark.svg';
+import githubLight from '../assets/icons/github-light.svg';
+import npmIcon from '../assets/icons/npm.svg';
+import mediumDark from '../assets/icons/medium-dark.svg';
+import mediumLight from '../assets/icons/medium-light.svg';
+import kaggleIcon from '../assets/icons/kaggle.svg';
+import n8nIcon from '../assets/icons/n8n-color.svg';
+
 type Props = {
     name: 'github' | 'npm' | 'medium' | 'kaggle' | 'n8n' | 'paper' | 'demo' | 'external';
     size?: 'sm' | 'md' | 'lg';
@@ -21,27 +29,24 @@ const npmSz  = { sm: 'h-3 w-3',     md: 'h-4 w-4',  lg: 'h-5 w-5'               
 
 {name === 'github' && (
     <>
-        <img src="https://cdn.simpleicons.org/github"       alt="GitHub" class:list={[sz, 'dark:hidden']}      />
-        <img src="https://cdn.simpleicons.org/github/white" alt="GitHub" class:list={[sz, 'hidden dark:block']} />
+        <img src={githubDark.src}  alt="GitHub" class:list={[sz, 'dark:hidden']}      />
+        <img src={githubLight.src} alt="GitHub" class:list={[sz, 'hidden dark:block']} />
     </>
 )}
 {name === 'npm' && (
-    <img src="https://cdn.simpleicons.org/npm/CB3837" alt="npm" class={npmSz} />
+    <img src={npmIcon.src} alt="npm" class={npmSz} />
 )}
 {name === 'medium' && (
     <>
-        <img src="https://cdn.simpleicons.org/medium"       alt="Medium" class:list={[sz, 'dark:hidden']}      />
-        <img src="https://cdn.simpleicons.org/medium/white" alt="Medium" class:list={[sz, 'hidden dark:block']} />
+        <img src={mediumDark.src}  alt="Medium" class:list={[sz, 'dark:hidden']}      />
+        <img src={mediumLight.src} alt="Medium" class:list={[sz, 'hidden dark:block']} />
     </>
 )}
 {name === 'kaggle' && (
-    <>
-        <img src="https://cdn.simpleicons.org/kaggle"       alt="Kaggle" class:list={[sz, 'dark:hidden']}      />
-        <img src="https://cdn.simpleicons.org/kaggle/white" alt="Kaggle" class:list={[sz, 'hidden dark:block']} />
-    </>
+    <img src={kaggleIcon.src} alt="Kaggle" class={sz} />
 )}
 {name === 'n8n' && (
-    <img src="https://cdn.simpleicons.org/n8n/EA4B35" alt="n8n" class={sz} />
+    <img src={n8nIcon.src} alt="n8n" class={sz} />
 )}
 {name === 'paper' && (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class={sz}>

@@ -46,9 +46,9 @@ const qrTypes = [
     </IconButton>
 
     <div
-        class="qr-main-container fixed inset-0 z-[100] flex items-center justify-center bg-black/60 opacity-0 pointer-events-none transition-opacity duration-400 backdrop-blur-md"
+        class="qr-main-container fixed inset-0 z-[100] flex items-center justify-center bg-black/80 opacity-0 pointer-events-none transition-opacity duration-400"
     >
-        <div class="qr-modal-box relative mx-4 w-full max-w-md overflow-hidden rounded-2xl border border-main/10 bg-main-bg p-8 text-center shadow-[0_32px_64px_-12px_rgba(0,0,0,0.5)] backdrop-blur-2xl transition-all duration-500 scale-95 dark:bg-[#0f1115]/80">
+        <div class="qr-modal-box relative mx-4 w-full max-w-md overflow-hidden rounded-2xl border border-main/10 bg-main-bg p-8 text-center shadow-[0_32px_64px_-12px_rgba(0,0,0,0.5)] transition-all duration-500 scale-95 dark:bg-[#0f1115]">
             <!-- Close Button -->
             <IconButton variant="ghost" class="qr-close-btn absolute top-6 right-6 z-10">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -56,7 +56,7 @@ const qrTypes = [
             
             <div class="mb-8">
                 <h3 class="font-serif text-3xl font-medium text-main mb-2 tracking-tight">Quick Connect</h3>
-                <p class="text-sm text-main/50">Modern artifacts for the agentic era.</p>
+                <p class="text-sm text-main/60">Modern artifacts for the agentic era.</p>
             </div>
 
             <div class="mb-8 flex justify-center p-1 rounded-2xl bg-main/10 border border-main/10 shadow-inner relative">
@@ -100,7 +100,7 @@ const qrTypes = [
                         View My Workflows
                     </a>
                 </div>
-                <p class="mt-2 text-[9px] text-main/30 uppercase tracking-[0.3em] font-black">&copy; {new Date().getFullYear()} &bull; Navneet Singh Arora</p>
+                <p class="mt-2 text-[9px] text-main/70 uppercase tracking-[0.3em] font-black">&copy; {new Date().getFullYear()} &bull; Navneet Singh Arora</p>
             </div>
         </div>
     </div>
@@ -217,7 +217,7 @@ const qrTypes = [
                 tabBtns.forEach(btn => {
                     const isSelected = btn.getAttribute('data-qr-type') === type;
                     btn.classList.toggle('text-main-bg', isSelected);
-                    btn.classList.toggle('text-main/50', !isSelected);
+                    btn.classList.toggle('text-main/70', !isSelected);
                     btn.classList.toggle('hover:text-main', !isSelected);
 
                     if (isSelected && highlight) {

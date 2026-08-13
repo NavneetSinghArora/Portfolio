@@ -3,6 +3,7 @@ import { type CollectionEntry } from 'astro:content';
 import CustomImage from './CustomImage.astro';
 import IconButton from './IconButton.astro';
 import SocialIcon from './SocialIcon.astro';
+import npmIcon from '../assets/icons/npm.svg';
 
 type Props = { project: CollectionEntry<'projects'>; class?: string };
 
@@ -31,16 +32,16 @@ const npmPackageName = project.data.npm
         ) : npmPackageName ? (
             <div class="flex h-full w-full flex-col items-center justify-center gap-3 bg-[#0f0f1a] px-4 py-6">
                 <span class="inline-flex items-center gap-1.5 rounded-full border border-[#CB3837]/40 bg-[#CB3837]/10 px-3 py-1 text-[10px] font-mono font-bold text-[#CB3837] tracking-widest uppercase">
-                    <img src="https://cdn.simpleicons.org/npm/CB3837" class="h-3 w-3" alt="" />
+                    <img src={npmIcon.src} class="h-3 w-3" alt="" />
                     npm
                 </span>
                 <span class="font-mono text-lg font-bold text-white/90 tracking-tight">{npmPackageName}</span>
                 <span class="font-mono text-[11px] text-white/80 bg-white/5 rounded-lg px-3 py-1.5 border border-white/5">
-                    <span class="text-white/30">$ </span>npm i {npmPackageName}
+                    <span class="text-white/70">$ </span>npm i {npmPackageName}
                 </span>
             </div>
         ) : (
-            <div class="flex h-full w-full items-center justify-center text-main/55 text-xs">No preview</div>
+            <div class="flex h-full w-full items-center justify-center text-main/60 text-xs">No preview</div>
         )}
     </div>
 
@@ -52,7 +53,7 @@ const npmPackageName = project.data.npm
         {project.data.tags && project.data.tags.length > 0 && (
             <div class="flex flex-wrap gap-1 mb-3">
                 {project.data.tags.slice(0, 3).map((tag: string) => (
-                    <span class="px-2 py-0.5 text-[9px] font-mono font-medium rounded-full border border-main-border/20 bg-main/5 text-main/50 tracking-wide">{tag}</span>
+                    <span class="px-2 py-0.5 text-[9px] font-mono font-medium rounded-full border border-main-border/20 bg-main/5 text-main/70 tracking-wide">{tag}</span>
                 ))}
             </div>
         )}
@@ -87,6 +88,6 @@ const npmPackageName = project.data.npm
                 </IconButton>
             )}
         </div>
-        <span class="text-[10px] font-bold uppercase tracking-widest text-main/40 pointer-events-none">{project.data.publishDate.getFullYear()}</span>
+        <span class="text-[10px] font-bold uppercase tracking-widest text-main/70 pointer-events-none">{project.data.publishDate.getFullYear()}</span>
     </div>
 </div>

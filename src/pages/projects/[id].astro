@@ -5,6 +5,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import IconButton from '../../components/IconButton.astro';
 import SocialIcon from '../../components/SocialIcon.astro';
 import { sortItemsByDateDesc } from '../../utils/data-utils';
+import npmIcon from '../../assets/icons/npm.svg';
 
 export async function getStaticPaths() {
     const projects = await getCollection('projects');
@@ -40,6 +41,8 @@ const { Content } = await render(project);
                     <div class="overflow-hidden rounded-3xl bg-main-bg/5 shadow-2xl shadow-main-bg/20">
                         <img
                             src={seo.image.src.src}
+                            width={seo.image.src.width}
+                            height={seo.image.src.height}
                             alt={seo.image.alt || title}
                             class="max-w-full h-auto max-h-[70vh] object-contain block"
                         />
@@ -52,7 +55,7 @@ const { Content } = await render(project);
                         <div class="overflow-hidden rounded-3xl shadow-2xl shadow-black/30 w-full max-w-2xl">
                             <div class="flex flex-col items-center justify-center gap-5 bg-[#0f0f1a] px-8 py-14">
                                 <span class="inline-flex items-center gap-2 rounded-full border border-[#CB3837]/40 bg-[#CB3837]/10 px-4 py-1.5 text-[11px] font-mono font-bold text-[#CB3837] tracking-widest uppercase">
-                                    <img src="https://cdn.simpleicons.org/npm/CB3837" class="h-3.5 w-3.5" alt="" />
+                                    <img src={npmIcon.src} class="h-3.5 w-3.5" alt="" />
                                     npm package
                                 </span>
                                 <span class="font-mono text-3xl font-bold text-white/95 tracking-tight">{pkg}</span>
@@ -69,7 +72,7 @@ const { Content } = await render(project);
             {(project.data.github || project.data.npm || project.data.paper || project.data.demo || project.data.external) && (
                 <div class="not-prose p-6 rounded-2xl border border-main-border/10 bg-main-bg/5 flex flex-col md:flex-row items-center justify-between gap-6 transition-colors hover:border-main-border/20">
                     <div class="space-y-1.5 text-center md:text-left">
-                        <h4 class="text-xs font-bold uppercase tracking-[0.2em] text-main/55">Resource Directory</h4>
+                        <h4 class="text-xs font-bold uppercase tracking-[0.2em] text-main/60">Resource Directory</h4>
                         <p class="text-sm text-main/70 font-medium font-serif">Technical implementation and research artifacts associated with this project.</p>
                     </div>
                     <div class="flex items-center gap-3">

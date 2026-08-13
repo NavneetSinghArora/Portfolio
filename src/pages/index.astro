@@ -23,7 +23,7 @@ const featuredProjects = projects.filter(({ data }) => data.isFeatured);
     <Hero {...siteConfig.hero} />
 
     <!-- Selected Work -->
-    <div class="mb-16 sm:mb-24" data-nn-layer="1">
+    <div id="selected-work" class="mb-16 sm:mb-24 scroll-mt-24 sm:scroll-mt-32" data-nn-layer="1">
         <div class="mb-10 flex items-end justify-between">
             <h2 class="font-serif text-2xl sm:text-3xl font-bold">Selected Work</h2>
             <a href="/projects" class="text-sm font-medium text-main/60 hover:text-main transition-colors shrink-0">
@@ -88,8 +88,8 @@ const featuredProjects = projects.filter(({ data }) => data.isFeatured);
                     </div>
                     <h3 class="font-serif text-lg font-bold text-main">Stack</h3>
                 </div>
-                <p class="text-sm text-main/55 leading-relaxed mb-4">The high-performance hardware and software ecosystem powering my daily AI research and engineering workflow.</p>
-                <span class="inline-flex items-center gap-1.5 text-[11px] font-mono text-main/35 group-hover:text-main/60 transition-colors uppercase tracking-widest">View Gear →</span>
+                <p class="text-sm text-main/60 leading-relaxed mb-4">The high-performance hardware and software ecosystem powering my daily AI research and engineering workflow.</p>
+                <span class="inline-flex items-center gap-1.5 text-[11px] font-mono text-main/70 group-hover:text-main transition-colors uppercase tracking-widest">View Gear →</span>
             </a>
 
             <!-- Now Card -->
@@ -103,8 +103,8 @@ const featuredProjects = projects.filter(({ data }) => data.isFeatured);
                     </div>
                     <h3 class="font-serif text-lg font-bold text-main">Now</h3>
                 </div>
-                <p class="text-sm text-main/55 leading-relaxed mb-4">An active telemetry feed of my current projects, technical focus, and life trajectory in Hamburg.</p>
-                <span class="inline-flex items-center gap-1.5 text-[11px] font-mono text-main/35 group-hover:text-main/60 transition-colors uppercase tracking-widest">Check Status →</span>
+                <p class="text-sm text-main/60 leading-relaxed mb-4">An active telemetry feed of my current projects, technical focus, and life trajectory in Hamburg.</p>
+                <span class="inline-flex items-center gap-1.5 text-[11px] font-mono text-main/70 group-hover:text-main transition-colors uppercase tracking-widest">Check Status →</span>
             </a>
         </div>
     </div>

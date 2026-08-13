@@ -39,8 +39,7 @@ const navLinks = siteConfig.headerNavLinks ?? [];
 
         <!-- Command Palette Trigger -->
         <button
-            id="cmd-trigger"
-            class="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-main-border/15 bg-main-bg/10 text-main/40 hover:text-main/70 hover:border-main-border/30 transition-all duration-200 text-[11px] font-mono"
+            class="cmd-trigger hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-main-border/15 bg-main-bg/10 text-main/70 hover:text-main hover:border-main-border/30 transition-all duration-200 text-[11px] font-mono"
             aria-label="Open command palette"
         >
             <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -73,6 +72,17 @@ const navLinks = siteConfig.headerNavLinks ?? [];
                 </NavLink>
             </li>
         ))}
+        <li class="md:hidden">
+            <button
+                class="cmd-trigger flex w-full items-center gap-2 px-4 py-3 rounded-xl text-base font-medium text-main/70 hover:text-main hover:bg-main-bg/10 transition-all duration-300"
+                aria-label="Open command palette"
+            >
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+                Search
+            </button>
+        </li>
     </ul>
 </nav>
 
@@ -143,10 +153,15 @@ const navLinks = siteConfig.headerNavLinks ?? [];
             }
         }, { signal });
 
-        // Cmd trigger button wires into the global palette listener securely
-        document.getElementById('cmd-trigger')?.addEventListener('click', () => {
-            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true, bubbles: true }));
-        }, { signal });
+        // Cmd trigger buttons open the palette via its own listener
+        document.querySelectorAll('.cmd-trigger').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.dispatchEvent(new CustomEvent('open-command-palette'));
+                menuToggleBtn?.classList.remove('is-active');
+                menuToggleBtn?.setAttribute('aria-expanded', 'false');
+                menu?.classList.remove('is-visible');
+            }, { signal });
+        });
     }
 
     document.addEventListener('astro:page-load', initNav);
