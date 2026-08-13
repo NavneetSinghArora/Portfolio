@@ -1,21 +1,54 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import bookCover from '../assets/images/AI-Engineering-Book-Cover.jpeg';
+import f1Logo from '../assets/icons/F1.svg';
 
 const updatedAt = 'August 2026';
 
-// Deliberately short. If this list grows past four, something has gone wrong.
-const alsoNow = [
+// Grouped by category. Deliberately short — if any one category grows past
+// four entries, it has stopped being "currently" and wants its own page.
+// Categories render in this order and are skipped entirely when empty, so a
+// new one can be added here without touching the markup below.
+//
+// Names are verbs on purpose. Nouns ("Books", "Sports") read as a permanent
+// taxonomy of interests, which is what About is for; the present participle
+// keeps these entries reading as things that are true right now and will
+// stop being true later — same contract as the page's "Updated when it
+// stops being true" and the dated "Before this" list at the bottom.
+const categories = [
     {
-        name: 'AI Engineering — Chip Huyen',
-        description:
-            'Just started it. Reading it properly rather than skimming for the parts I already agree with, which is the failure mode with books in this space.'
+        name: 'Reading',
+        items: [
+            {
+                name: 'AI Engineering — Chip Huyen',
+                // One line each, deliberately. These cards are meant to scan,
+                // and a single line keeps them compact without hiding anything
+                // behind a hover that touch devices can't perform.
+                description: 'Reading it properly, not skimming for the parts I already agree with.',
+                // Portrait cover (296×388) — reads as a book, so it gets the
+                // rounded corners and shadow a spine-less thumbnail needs.
+                image: bookCover,
+                imageAlt: 'Cover of AI Engineering by Chip Huyen',
+                imageClass: 'w-full rounded-md shadow-md shadow-black/20'
+            }
+        ]
     },
     {
-        name: 'F1 2026',
-        description:
-            'The regulation reset made this the most interesting season in years. Still following it closely.'
+        name: 'Watching',
+        items: [
+            {
+                name: 'F1 2026',
+                description: 'The regulation reset made this the most interesting season in years.',
+                // Wide 120×30 wordmark, single #EE0000 fill — legible on both
+                // themes as-is, so no light/dark variant and no rounding.
+                image: f1Logo,
+                imageAlt: 'Formula 1 logo',
+                imageClass: 'w-full'
+            }
+        ]
     }
-];
+].filter((category) => category.items.length > 0);
 
 const previously = [
     { when: 'April 2026', what: 'Deep in the Repath agent platform, shader experiments, and expanding the n8n template library.' }
@@ -39,10 +72,20 @@ const previously = [
         <div class="spotlight-card relative p-6 border-main-border/10 bg-main/5">
             <div class="spotlight-glow opacity-30"></div>
             <div class="flex items-start gap-4">
-                <span
-                    class="mt-1 flex h-2.5 w-2.5 shrink-0 rounded-full bg-main shadow-[0_0_10px_rgba(128,128,128,0.5)]"
-                    style="animation: model-blink 2s ease-in-out infinite;"
-                ></span>
+                <!-- The site has two status colours: emerald = open to
+                     opportunities (header), amber = currently / paused but
+                     reachable. This dot matches the header's "Currently" pill
+                     that links here. -->
+                <span class="relative mt-1 flex h-2.5 w-2.5 shrink-0">
+                    <span
+                        class="absolute inline-flex h-full w-full rounded-full bg-amber-400/30"
+                        style="animation: model-blink 2s ease-in-out infinite;"
+                    ></span>
+                    <span
+                        class="relative inline-flex h-2.5 w-2.5 rounded-full bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.6)]"
+                        style="animation: model-blink 2s ease-in-out infinite;"
+                    ></span>
+                </span>
                 <div>
                     <h2 class="text-sm font-bold text-main mb-1">Taking a break, then looking</h2>
                     <p class="text-sm text-main/60 leading-relaxed max-w-2xl">
@@ -60,35 +103,59 @@ const previously = [
         <h2 class="font-serif text-xl font-bold text-main mb-4">The main thing</h2>
         <div class="max-w-2xl space-y-4 text-main/60 leading-relaxed">
             <p class="text-base text-main/80">
-                Wrapping up my last weeks at Repath. I'm leaving the company.
+                I'm in my last few weeks at Repath.
             </p>
+            <!-- The "time off, then looking" beat lives in the availability
+                 card at the top of the page; saying it again here was the same
+                 fact twice. This section answers what I'm doing now, the card
+                 answers whether I'm available. -->
             <p>
-                Most of what's left is handover — closing out the climate-data and agent work so it's legible to
-                whoever picks it up next. Less building, more writing things down. It's a slower kind of work and
-                genuinely harder to do well.
-            </p>
-            <p>
-                After that, time off. Not a sabbatical with a reading list and a plan attached — actual time off.
-                Whatever comes next starts fresh rather than picking up where this left off.
+                Most of what's left is handover: closing out the climate-data and agent work so it's legible to
+                whoever picks it up next. Less building, more writing things down. It's slower work, and harder
+                than it looks.
             </p>
         </div>
     </div>
 
-    <!-- Everything else -->
-    <div class="mb-14">
-        <h2 class="font-serif text-xl font-bold text-main mb-6">Also</h2>
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {
-                alsoNow.map((item) => (
-                    <div class="spotlight-card group relative flex flex-col gap-2 p-5">
-                        <div class="spotlight-glow" />
-                        <p class="text-sm font-semibold text-main">{item.name}</p>
-                        <p class="text-sm text-main/60 leading-relaxed">{item.description}</p>
-                    </div>
-                ))
-            }
-        </div>
-    </div>
+    <!-- Everything else, by category -->
+    {
+        categories.map((category) => (
+            <div class="mb-14">
+                <h2 class="font-serif text-xl font-bold text-main mb-6">{category.name}</h2>
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    {category.items.map((item) => (
+                        <div class="spotlight-card group relative flex items-center gap-4 p-5">
+                            <div class="spotlight-glow" />
+                            {item.image && (
+                                <div class="relative z-10 w-20 shrink-0">
+                                    {/* astro:assets can't optimise SVGs — they come through as
+                                        plain metadata, so the wordmark ships as a raw <img> while
+                                        the raster cover goes through <Image> for srcset + webp. */}
+                                    {item.image.format === 'svg' ? (
+                                        <img src={item.image.src} alt={item.imageAlt} class={item.imageClass} loading="lazy" decoding="async" />
+                                    ) : (
+                                        <Image
+                                            src={item.image}
+                                            alt={item.imageAlt}
+                                            widths={[80, 160]}
+                                            sizes="80px"
+                                            class={item.imageClass}
+                                            loading="lazy"
+                                            decoding="async"
+                                        />
+                                    )}
+                                </div>
+                            )}
+                            <div class="relative z-10 flex flex-col gap-2">
+                                <p class="text-sm font-semibold text-main">{item.name}</p>
+                                <p class="text-sm text-main/60 leading-relaxed">{item.description}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        ))
+    }
 
     <!-- Changelog -->
     <div class="mb-20">
