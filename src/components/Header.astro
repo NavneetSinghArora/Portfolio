@@ -94,7 +94,7 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
 
         <!-- Unified Presence Dashboard -->
         <div class="mt-10 flex justify-center">
-            <div class="group/bar relative flex items-center gap-4 px-5 py-2 rounded-xl border border-white/5 bg-white/[0.05] shadow-2xl shadow-black/20 overflow-hidden transition-all duration-700 hover:border-white/10 hover:bg-white/[0.08]">
+            <div class="group/bar relative flex max-w-full flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:gap-4 px-5 py-2 rounded-xl border border-white/5 bg-white/[0.05] shadow-2xl shadow-black/20 overflow-hidden transition-all duration-700 hover:border-white/10 hover:bg-white/[0.08]">
                 <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none"></div>
                 
                 <!-- Status: Opportunity -->
@@ -106,10 +106,10 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
                     <span class="text-[10px] font-mono leading-none font-medium uppercase tracking-[0.2em] text-main/80 whitespace-nowrap">Open to Opportunities</span>
                 </div>
 
-                <div class="h-3 w-px bg-white/10"></div>
+                <div class="h-px w-full bg-white/10 sm:h-3 sm:w-px"></div>
 
                 <!-- Status: Now -->
-                <a href="/now" class="group/now relative -my-2 -mr-5 px-5 py-2 flex items-center gap-2.5 transition-all duration-300 hover:bg-white/5">
+                <a href="/now" class="group/now relative -mx-5 px-5 py-1 sm:-my-2 sm:mx-0 sm:-mr-5 sm:py-2 flex items-center gap-2.5 transition-all duration-300 hover:bg-white/5">
                     <span class="relative flex h-2 w-2">
                         <span class="rounded-full h-2 w-2 border border-main/60 group-hover/now:scale-110 transition-transform"></span>
                     </span>

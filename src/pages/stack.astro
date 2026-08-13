@@ -1,103 +1,715 @@
 ---
-import siteConfig from '../data/site-config';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { resolveIcon } from '../utils/data-utils';
 
-const sections = [
+// `verify: true` renders an amber dot — a detail still to be confirmed.
+
+type Icon = string | { light: string; dark: string } | undefined;
+
+interface Item {
+    name: string;
+    icon?: Icon;
+    layer: string;
+    note: string;
+    meta: string[];
+    verify?: boolean;
+}
+
+// The things worth a big card. Everything else is a chip.
+const drivers: Item[] = [
     {
-        title: 'Hardware',
-        icon: '<path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M12 17v4"/><path d="M8 21h8"/>',
-        items: [
-            { name: 'Macbook Pro', description: 'Powerhouse for professional work, handling heavy Docker stacks and multi-agent simulations.' },
-            { name: 'Mac Mini', description: 'Dedicated station for personal projects, experimentation, and always-on services.' },
-            { name: 'Apple Airpods Pro', description: 'Essential for deep-focus sessions and seamless transition between devices.' },
-            { name: 'LG Ergo Monitor', description: 'Flexible ergonomic display setup providing the vertical real estate needed for complex debugging.' },
-            { name: 'Logitech MX Keys Combo', description: 'Precision peripherals designed for comfort during extended engineering sessions.' },
-            { name: 'Xiaomi Screen Lights', description: 'Atmospheric and functional lighting to reduce eye strain during late-night sprints.' },
-            { name: 'Maidesite Standing Desk & Chair', description: 'The ergonomic foundation of my workspace, enabling a healthy balance of standing and sitting flow.' },
-        ],
+        name: 'MacBook Pro 14"',
+        icon: { light: 'macbook-dark', dark: 'macbook-light' },
+        layer: 'Hardware',
+        note: 'M4, 24GB, 2024. The work machine — client projects, heavy builds, and anything that has to travel.',
+        meta: ['daily', 'work', 'since 2024']
     },
     {
-        title: 'Development',
-        icon: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
-        items: [
-            { name: 'Cursor / Antigravity', description: 'Next-generation AI code editors used interchangeably for predictive engineering and rapid prototyping.' },
-            { name: 'Claude Code / Ollama + Gemini', description: 'A hybrid setup of CLI agentic assistants and local/managed LLMs for versatile problem solving.' },
-            { name: 'Ghostty Terminal', description: 'Lightning-fast terminal experience paired with a custom high-contrast theme for maximum clarity.' },
-            { name: 'PgAdmin', description: 'Robust administration and development platform for PostgreSQL database clusters.' },
-            { name: 'Postman', description: 'Complete API development environment for testing and documenting backend endpoints.' },
-        ],
+        name: 'Mac Mini',
+        icon: { light: 'macmini-dark', dark: 'macmini-light' },
+        layer: 'Hardware',
+        note: 'M4, 10 cores, 32GB, 2024. The personal machine, and the always-on server every self-hosted service on this page runs on.',
+        meta: ['daily', 'personal', 'since 2024']
     },
     {
-        title: 'AI & Machine Learning',
-        icon: '<circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>',
-        items: [
-            { name: 'LangGraph', description: 'Graph-based orchestration for stateful multi-agent systems, used in production for climate data workflows.' },
-            { name: 'LangChain & LangSmith', description: 'Core framework for building and observing complex multi-agent pipelines and traces.' },
-            { name: 'FastMCP', description: 'MCP protocol implementation for building standardized tool interfaces for AI agents.' },
-            { name: 'Qdrant', description: 'Vector database powering retrieval for RAG pipelines and semantic search.' },
-            { name: 'RAGAS / DeepEval', description: 'Evaluation frameworks for measuring hallucination, faithfulness, and retrieval quality.' },
-            { name: 'FastAPI', description: 'The default choice for building high-performance, asynchronous AI service endpoints.' },
-            { name: 'Google Vertex AI / Gemini', description: 'Enterprise-grade cloud inference stack for large-scale reasoning and multimodal tasks.' },
-            { name: 'Hugging Face', description: 'Indispensable hub for model discovery, fine-tuning, and open-source ML research.' },
-            { name: 'Jupyter / Google Colab', description: 'Unified notebook environment for data exploration and experimental model training.' },
-        ],
+        name: 'VS Code',
+        icon: { light: 'vscode-dark', dark: 'vscode-light' },
+        layer: 'Development',
+        note: 'Back to a plain editor. Cursor held this seat for close to two years; once Claude Code moved the agent into the terminal, the editor went back to being an editor.',
+        meta: ['daily', 'free']
     },
     {
-        title: 'Automation & Orchestration',
-        icon: '<path d="M9 3H5a2 2 0 0 0-2 2v4"/><path d="M21 3h-4a2 2 0 0 1-2 2v4"/><path d="M3 9v6"/><path d="M21 9v6"/><path d="M9 21H5a2 2 0 0 1-2-2v-4"/><path d="M21 21h-4a2 2 0 0 1-2-2v-4"/>',
-        items: [
-            { name: 'n8n (Self-Hosted)', description: 'Central engine for my personal and professional automation, with 3 workflow templates published in the official n8n gallery.' },
-            { name: 'GitHub Actions', description: 'Standardized CI/CD pipelines for automated testing, building, and multi-platform deployment.' },
-            { name: 'Notion', description: 'Consolidated workspace for project management, technical documentation, and knowledge base.' },
-            { name: 'Slack', description: 'Primary channel for team coordination and asynchronous operational alerts.' },
-            { name: 'Miro', description: 'Visual collaboration platform used for system architecture, whiteboarding, and project mapping.' },
-            { name: 'Claude Routines', description: 'Experimental boundary for exploring autonomous task execution and agentic sequences.' },
-        ],
+        name: 'Claude Code',
+        icon: 'claude',
+        layer: 'Development',
+        note: 'Terminal-first, so it lives where the work lives. Best at the tasks I can describe but do not want to type.',
+        meta: ['daily', 'paid']
     },
     {
-        title: 'Infrastructure',
-        icon: '<rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>',
-        items: [
-            { name: 'Docker / Docker Compose', description: 'Containerization standard for consistent development, testing, and production environments.' },
-            { name: 'Google Cloud Platform (GCP)', description: 'Primary cloud provider for managed ML services, compute, and serverless architectures.' },
-            { name: 'Cloudflare', description: 'Multi-layer security, DNS management, and edge performance optimization.' },
-            { name: 'Tailscale', description: 'Zero-config Mesh VPN for secure, simplified connectivity across distributed infrastructure.' },
-            { name: 'Caddy', description: 'Modern reverse proxy with automatic SSL, perfect for securing self-hosted services.' },
-            { name: 'Vercel', description: 'Optimized deployment platform for high-performance frontend applications and this portfolio.' },
-        ],
+        name: 'LangGraph',
+        icon: 'langgraph',
+        layer: 'AI & ML',
+        note: 'In production for climate-data workflows. Chose it over plain chains the first time an agent needed to remember what it had already tried.',
+        meta: ['daily', 'production']
     },
+    {
+        name: 'n8n',
+        icon: 'n8n-color',
+        layer: 'Automation',
+        note: 'Self-hosted on the Mac Mini and quietly running most of my life. 3 of my workflow templates are in the official n8n gallery.',
+        meta: ['daily', 'self-hosted', 'free']
+    },
+    {
+        name: 'Docker',
+        icon: 'docker',
+        layer: 'Infrastructure',
+        note: 'The reason "works on my machine" stopped being a sentence I say. Compose files are the real documentation for every project here.',
+        meta: ['daily', 'free']
+    },
+    {
+        name: 'Ghostty',
+        icon: { light: 'ghostty-dark', dark: 'ghostty-light' },
+        layer: 'Development',
+        note: 'Replaced Warp in 2025. Native, fast, no config-file bankruptcy — and now where most of the work happens, since Claude Code lives here.',
+        meta: ['daily', 'free']
+    }
 ];
+
+// The long tail — dense, filterable, description on demand.
+const rest: Item[] = [
+    // Hardware
+    { name: 'LG Ergo Monitor', icon: { light: 'monitor-dual-dark', dark: 'monitor-dual-light' }, layer: 'Hardware', note: 'Pivots vertical, which is the only way to read a 400-line stack trace without scrolling.', meta: ['daily'] },
+    { name: 'MX Keys Combo', icon: { light: 'keyboard-mouse-dark', dark: 'keyboard-mouse-light' }, layer: 'Hardware', note: 'Quiet keys and a scroll wheel that free-spins through a long diff.', meta: ['daily'] },
+    { name: 'iPad Air 11"', icon: { light: 'ipad-dark', dark: 'ipad-light' }, layer: 'Hardware', note: 'The 2026 model, and the only screen here that is not for work. Reading, watching, and staying off the Macs.', meta: ['daily', 'personal'] },
+    { name: 'AirPods Pro', icon: { light: 'airpods-pro-dark', dark: 'airpods-pro-light' }, layer: 'Hardware', note: 'Noise cancelling as a focus switch. Hand-off between Mac and phone is the actual feature.', meta: ['daily'] },
+    { name: 'Maidesite Standing Desk', icon: { light: 'desk-dark', dark: 'desk-light' }, layer: 'Hardware', note: 'Standing for reviews and calls, sitting for the hard parts.', meta: ['daily'] },
+    { name: 'Xiaomi Screen Lights', icon: { light: 'lightbar-dark', dark: 'lightbar-light' }, layer: 'Hardware', note: 'Lights the desk, not the display. Late sessions cost less.', meta: ['nightly'] },
+
+    // Development
+    { name: 'Ollama', icon: { light: 'ollama-dark', dark: 'ollama-light' }, layer: 'Development', note: 'Local inference for anything I would rather not send over a wire.', meta: ['weekly', 'free', 'local'] },
+    { name: 'PgAdmin', icon: 'postgresql', layer: 'Development', note: 'For the Postgres work that is faster to click than to type.', meta: ['weekly', 'free'] },
+    { name: 'Postman', icon: 'postman', layer: 'Development', note: 'Endpoint testing and the collections that end up being the API docs.', meta: ['weekly'] },
+
+    // AI & ML
+    { name: 'LangChain', icon: { light: 'langchain-dark', dark: 'langchain-light' }, layer: 'AI & ML', note: 'The connective tissue under the graphs — retrievers, loaders, model adapters.', meta: ['daily'] },
+    { name: 'LangSmith', icon: { light: 'langsmith-dark', dark: 'langsmith-light' }, layer: 'AI & ML', note: 'Where I go when an agent did something strange and I need the trace, not a theory.', meta: ['daily'] },
+    { name: 'FastMCP', icon: { light: 'mcp-dark', dark: 'mcp-light' }, layer: 'AI & ML', note: 'Wraps my tools in MCP so any agent can call them without bespoke glue.', meta: ['weekly', 'free'] },
+    { name: 'Qdrant', icon: 'qdrant', layer: 'AI & ML', note: 'Vector store behind the RAG pipelines. Self-hosted for anything private.', meta: ['daily', 'self-hosted'] },
+    { name: 'FastAPI', icon: 'fastapi', layer: 'AI & ML', note: 'Default for AI service endpoints. Async by default, typed by habit.', meta: ['daily', 'free'] },
+    { name: 'RAGAS / DeepEval', icon: { light: 'eval-dark', dark: 'eval-light' }, layer: 'AI & ML', note: 'Because "it looks right" is not a retrieval metric. Faithfulness and hallucination scoring.', meta: ['weekly', 'free'] },
+    { name: 'Vertex AI / Gemini', icon: 'googlecloud', layer: 'AI & ML', note: 'Managed inference when the job needs scale or multimodal input.', meta: ['weekly', 'paid'] },
+    { name: 'Hugging Face', icon: 'hugging-face', layer: 'AI & ML', note: 'Model discovery and fine-tuning. First stop before building anything from scratch.', meta: ['weekly', 'free'] },
+    { name: 'Jupyter / Colab', icon: 'jupyter', layer: 'AI & ML', note: 'Exploration lives here; nothing ships from here.', meta: ['weekly', 'free'] },
+
+    // Automation
+    { name: 'GitHub Actions', icon: 'github-actions', layer: 'Automation', note: 'Test, build, deploy. Every repo gets one before it gets a README.', meta: ['daily', 'free'] },
+    { name: 'Notion', icon: { light: 'notion-dark', dark: 'notion-light' }, layer: 'Automation', note: 'Project management and the docs I will need in six months.', meta: ['daily'] },
+    { name: 'Slack', icon: 'slack', layer: 'Automation', note: 'Team coordination, plus the channel my n8n workflows shout into.', meta: ['daily'] },
+    { name: 'Miro', icon: 'miro', layer: 'Automation', note: 'Architecture sketching. Most systems here started as a rectangle on this board.', meta: ['sometimes'] },
+    { name: 'Claude Routines', icon: 'claude', layer: 'Automation', note: 'Experiment in letting agents run on a schedule without me in the loop.', meta: ['trialing'] },
+
+    // Infrastructure
+    { name: 'Google Cloud', icon: 'googlecloud', layer: 'Infrastructure', note: 'Primary cloud — managed ML, compute, and the serverless bits.', meta: ['weekly', 'paid'] },
+    { name: 'Cloudflare', icon: 'cloudflare', layer: 'Infrastructure', note: 'DNS, edge caching, and the first line of defence for everything public.', meta: ['weekly', 'free'] },
+    { name: 'Tailscale', icon: { light: 'tailscale-dark', dark: 'tailscale-light' }, layer: 'Infrastructure', note: 'Mesh VPN. Reaches the Mac Mini from anywhere without opening a single port.', meta: ['daily', 'free'] },
+    { name: 'Caddy', icon: { light: 'caddy-dark', dark: 'caddy-light' }, layer: 'Infrastructure', note: 'Reverse proxy with automatic TLS. Two lines of config per service.', meta: ['self-hosted', 'free'] },
+    { name: 'Vercel', icon: { light: 'vercel-dark', dark: 'vercel-light' }, layer: 'Infrastructure', note: 'Frontends and this site. Push to main, done.', meta: ['weekly', 'free'] }
+];
+
+// The topology diagram — layers top (what I touch) to bottom (what it runs on).
+const topology = [
+    {
+        id: 'interface',
+        label: 'Interface',
+        blurb: 'The three windows open all day. Everything else I only see when it breaks.',
+        items: [
+            { name: 'VS Code', icon: { light: 'vscode-dark', dark: 'vscode-light' } },
+            { name: 'Claude Code', icon: 'claude' },
+            { name: 'Ghostty', icon: { light: 'ghostty-dark', dark: 'ghostty-light' } }
+        ]
+    },
+    {
+        id: 'agents',
+        label: 'Agents',
+        blurb: 'Where a prompt becomes a plan — state, tools, and the loop that decides what to do next.',
+        observed: true,
+        items: [
+            { name: 'LangGraph', icon: 'langgraph' },
+            { name: 'LangChain', icon: { light: 'langchain-dark', dark: 'langchain-light' } },
+            { name: 'FastMCP', icon: { light: 'mcp-dark', dark: 'mcp-light' } }
+        ]
+    },
+    {
+        id: 'serving',
+        label: 'Serving',
+        blurb: 'The layer that turns all of it into something another system can call.',
+        observed: true,
+        items: [
+            { name: 'FastAPI', icon: 'fastapi' },
+            { name: 'n8n', icon: 'n8n-color' }
+        ]
+    },
+    {
+        id: 'data',
+        label: 'Data & models',
+        blurb: 'Retrieval and inference. Private work stays on the Mac Mini; the rest goes to Vertex.',
+        observed: true,
+        items: [
+            { name: 'Qdrant', icon: 'qdrant' },
+            { name: 'Postgres', icon: 'postgresql' },
+            { name: 'Vertex AI', icon: 'googlecloud' },
+            { name: 'Gemini', icon: 'gemini' },
+            { name: 'Ollama', icon: { light: 'ollama-dark', dark: 'ollama-light' } }
+        ]
+    },
+    {
+        id: 'runtime',
+        label: 'Runtime',
+        blurb: 'Containers, TLS, and a private mesh — so nothing above has to care where it is running.',
+        items: [
+            { name: 'Docker', icon: 'docker' },
+            { name: 'Caddy', icon: { light: 'caddy-dark', dark: 'caddy-light' } },
+            { name: 'Tailscale', icon: { light: 'tailscale-dark', dark: 'tailscale-light' } },
+            { name: 'Cloudflare', icon: 'cloudflare' },
+            { name: 'GCP', icon: 'googlecloud' },
+            { name: 'Vercel', icon: { light: 'vercel-dark', dark: 'vercel-light' } }
+        ]
+    },
+    {
+        id: 'machines',
+        label: 'Machines',
+        blurb: 'Two boxes. One travels, one never sleeps.',
+        variant: 'boxes',
+        items: [
+            { name: 'MacBook Pro', sub: 'M4 · 24GB · work', icon: { light: 'macbook-dark', dark: 'macbook-light' } },
+            { name: 'Mac Mini', sub: 'M4 · 32GB · always on', icon: { light: 'macmini-dark', dark: 'macmini-light' } }
+        ]
+    }
+];
+
+const layers = ['Hardware', 'Development', 'AI & ML', 'Automation', 'Infrastructure'];
+const totalCount = drivers.length + rest.length;
+
+const changelog = [
+    { when: '2026', what: 'Cursor → VS Code + Claude Code', why: 'after nearly two years on Cursor, the agent moved to the terminal and the editor went back to being an editor' },
+    { when: '2026', what: 'Trialled Antigravity', why: 'wanted the experience firsthand — it stayed a test, not a tool' },
+    { when: '2025', what: 'Warp → Ghostty', why: 'native rendering, and a config I own' },
+    { when: '2024', what: 'Added the Mac Mini as an always-on server', why: 'self-hosted services should not depend on a laptop lid being open' }
+];
+
+function iconFor(icon: Icon) {
+    if (!icon) return null;
+    if (typeof icon === 'string') return { light: resolveIcon(icon), dark: resolveIcon(icon) };
+    return { light: resolveIcon(icon.light), dark: resolveIcon(icon.dark) };
+}
 ---
 
-<BaseLayout title="Stack" description="The hardware and software stack powering Navneet's AI research and engineering — from MacBooks and Docker to n8n, LangChain, GCP, and self-hosted tooling.">
+<BaseLayout
+    title="Stack"
+    description="The hardware and software stack powering Navneet's AI research and engineering — a MacBook Pro and an always-on Mac Mini running Docker, n8n, LangGraph, Qdrant, and a stack of self-hosted tooling."
+>
+    <!-- ── Hero ──────────────────────────────────────────────────────────── -->
     <div class="mb-12">
         <h1 class="font-serif text-3xl leading-tight font-bold sm:text-4xl mb-4 text-main">The Stack</h1>
         <p class="text-main/60 max-w-xl leading-relaxed">
-            A curated ecosystem of hardware, software, and tools that power my daily engineering workflow—from local ML inference to globally distributed infrastructure.
+            Everything below runs something I actually use — most of it every day. Here is how the pieces sit on top of
+            each other.
         </p>
+        <div class="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs text-main/45">
+            <span><span class="font-semibold text-main/70">{totalCount}</span> tools</span>
+            <span><span class="font-semibold text-main/70">{layers.length}</span> layers</span>
+            <span><span class="font-semibold text-main/70">4</span> self-hosted</span>
+            <span><span class="font-semibold text-main/70">2</span> machines</span>
+        </div>
     </div>
 
-    <div class="space-y-14 mb-20">
-        {sections.map(section => (
-            <div>
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="flex h-8 w-8 items-center justify-center rounded-lg border border-main-border/20 bg-main-bg/20 text-main/60">
-                        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" set:html={section.icon}></svg>
-                    </div>
-                    <h2 class="font-serif text-xl font-bold text-main">{section.title}</h2>
-                </div>
+    <!-- ── 1. Topology ───────────────────────────────────────────────────── -->
+    <section class="mb-16" data-nn-layer="1">
+        <h2 class="font-serif text-xl font-bold text-main mb-1">How it fits together</h2>
+        <p class="text-sm text-main/50 mb-6">Top is what I touch. Bottom is what it all runs on. Hover a layer for what it does.</p>
 
-                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    {section.items.map(item => (
-                        <div class="spotlight-card group relative flex flex-col gap-2 p-5">
-                            <div class="spotlight-glow"></div>
-                            <p class="text-sm font-semibold text-main">{item.name}</p>
-                            <p class="text-sm text-main/60 leading-relaxed">{item.description}</p>
+        <div class="topology">
+            <div class="topo-spine" aria-hidden="true"><span class="topo-pulse"></span></div>
+
+            {
+                topology.map((layer, i) => (
+                    <div class="topo-row" data-layer={layer.id} style={`--depth:${i}`}>
+                        <div class="topo-label">{layer.label}</div>
+
+                        <div class="topo-card">
+                            {layer.variant === 'boxes' ? (
+                                <div class="topo-boxes">
+                                    {layer.items.map(item => {
+                                        const ic = iconFor(item.icon);
+                                        return (
+                                            <div class="topo-box">
+                                                {ic && (
+                                                    <>
+                                                        <img src={ic.light} alt="" loading="lazy" class="topo-ico block dark:hidden" />
+                                                        <img src={ic.dark} alt="" loading="lazy" class="topo-ico hidden dark:block" />
+                                                    </>
+                                                )}
+                                                <span>
+                                                    <span class="topo-box-name">{item.name}</span>
+                                                    <span class="topo-box-sub">{item.sub}</span>
+                                                </span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            ) : (
+                                <div class="topo-chips">
+                                    {layer.items.map((item, n) => {
+                                        const ic = iconFor(item.icon);
+                                        return (
+                                            <span class="topo-chip" style={`--n:${n}`}>
+                                                {ic && (
+                                                    <>
+                                                        <img src={ic.light} alt="" loading="lazy" class="topo-ico block dark:hidden" />
+                                                        <img src={ic.dark} alt="" loading="lazy" class="topo-ico hidden dark:block" />
+                                                    </>
+                                                )}
+                                                {item.name}
+                                            </span>
+                                        );
+                                    })}
+                                </div>
+                            )}
+
+                            <div class="topo-blurb"><p>{layer.blurb}</p></div>
                         </div>
-                    ))}
-                </div>
+
+                        {layer.observed && <span class="topo-observed-tick" aria-hidden="true"></span>}
+                    </div>
+                ))
+            }
+
+            <div class="topo-observed" aria-hidden="true">
+                <span class="topo-observed-label">traced &amp; evaluated</span>
+                <span class="topo-observed-tools">LangSmith</span>
+                <span class="topo-observed-tools">RAGAS</span>
+                <span class="topo-observed-tools">DeepEval</span>
             </div>
-        ))}
-    </div>
+        </div>
+    </section>
+
+    <!-- ── 2. Daily drivers ──────────────────────────────────────────────── -->
+    <section class="mb-16" data-nn-layer="1">
+        <h2 class="font-serif text-xl font-bold text-main mb-1">Daily drivers</h2>
+        <p class="text-sm text-main/50 mb-6">The ones I would replace first if they disappeared tomorrow.</p>
+
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {
+                drivers.map((item) => {
+                    const ic = iconFor(item.icon);
+                    return (
+                        <div class="spotlight-card group relative flex flex-col gap-3 p-5">
+                            <div class="spotlight-glow"></div>
+                            <div class="relative z-10 flex items-center gap-2.5">
+                                {ic ? (
+                                    <>
+                                        <img src={ic.light} alt="" loading="lazy" class="h-4 w-4 object-contain opacity-80 block dark:hidden" />
+                                        <img src={ic.dark} alt="" loading="lazy" class="h-4 w-4 object-contain opacity-80 hidden dark:block" />
+                                    </>
+                                ) : (
+                                    <span class="flex h-4 w-4 items-center justify-center rounded border border-main-border/25 text-[9px] font-bold text-main/50">
+                                        {item.name.charAt(0)}
+                                    </span>
+                                )}
+                                <p class="text-sm font-semibold text-main">{item.name}</p>
+                                {item.verify && <span class="h-1.5 w-1.5 rounded-full bg-amber-500/70" title="Verify this detail"></span>}
+                                <span class="ml-auto text-[10px] uppercase tracking-wider text-main/35">{item.layer}</span>
+                            </div>
+                            <p class="relative z-10 text-sm leading-relaxed text-main/60">{item.note}</p>
+                            <div class="relative z-10 mt-auto flex flex-wrap gap-1.5 pt-1">
+                                {item.meta.map((m) => (
+                                    <span class="rounded-full border border-main-border/10 bg-black/[0.04] px-2 py-0.5 text-[10px] tracking-wide text-main/50 dark:bg-white/[0.05]">
+                                        {m}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    );
+                })
+            }
+        </div>
+    </section>
+
+    <!-- ── 3. Everything else ────────────────────────────────────────────── -->
+    <section class="mb-16" data-nn-layer="1">
+        <div class="mb-5 flex flex-wrap items-baseline justify-between gap-3">
+            <div>
+                <h2 class="font-serif text-xl font-bold text-main mb-1">Everything else</h2>
+                <p class="text-sm text-main/50">Tap any tool for the reason it is here.</p>
+            </div>
+        </div>
+
+        <div class="mb-5 flex flex-wrap gap-2" id="sv2-filters">
+            <button class="sv2-filter is-active" data-filter="all" type="button">All</button>
+            {layers.map((l) => <button class="sv2-filter" data-filter={l} type="button">{l}</button>)}
+        </div>
+
+        <div class="grid grid-cols-1 gap-2 sm:grid-cols-2" id="sv2-grid">
+            {
+                rest.map((item) => {
+                    const ic = iconFor(item.icon);
+                    return (
+                        <button type="button" class="sv2-item spotlight-card group relative p-4 text-left" data-layer={item.layer} aria-expanded="false">
+                            <div class="spotlight-glow"></div>
+                            <div class="relative z-10 flex items-center gap-2.5">
+                                {ic ? (
+                                    <>
+                                        <img src={ic.light} alt="" loading="lazy" class="h-4 w-4 shrink-0 object-contain opacity-75 block dark:hidden" />
+                                        <img src={ic.dark} alt="" loading="lazy" class="h-4 w-4 shrink-0 object-contain opacity-75 hidden dark:block" />
+                                    </>
+                                ) : (
+                                    <span class="flex h-4 w-4 shrink-0 items-center justify-center rounded border border-main-border/25 text-[9px] font-bold text-main/50">
+                                        {item.name.charAt(0)}
+                                    </span>
+                                )}
+                                <span class="text-sm font-medium text-main">{item.name}</span>
+                                {item.verify && <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-amber-500/70"></span>}
+                                <span class="ml-auto flex shrink-0 gap-1.5">
+                                    {item.meta.map((m) => (
+                                        <span class="text-[10px] tracking-wide text-main/35">{m}</span>
+                                    ))}
+                                </span>
+                            </div>
+                            <div class="sv2-reveal relative z-10">
+                                <p class="overflow-hidden text-sm leading-relaxed text-main/55">
+                                    <span class="block pt-2.5">{item.note}</span>
+                                </p>
+                            </div>
+                        </button>
+                    );
+                })
+            }
+        </div>
+    </section>
+
+    <!-- ── 4. Changelog ──────────────────────────────────────────────────── -->
+    <section class="mb-20" data-nn-layer="1">
+        <h2 class="font-serif text-xl font-bold text-main mb-1">What changed</h2>
+        <p class="text-sm text-main/50 mb-6">A stack that never moves is a stack nobody uses.</p>
+
+        <div class="border-l border-main-border/15 pl-5">
+            {
+                changelog.map((c) => (
+                    <div class="relative pb-5 last:pb-0">
+                        <span class="absolute -left-[23px] top-1.5 h-1.5 w-1.5 rounded-full bg-main/25"></span>
+                        <div class="flex flex-wrap items-baseline gap-x-2.5">
+                            <span class="text-[11px] font-medium tabular-nums text-main/40">{c.when}</span>
+                            <span class="text-sm text-main">{c.what}</span>
+                            {c.verify && <span class="h-1.5 w-1.5 rounded-full bg-amber-500/70"></span>}
+                        </div>
+                        <p class="mt-0.5 text-sm text-main/45">{c.why}</p>
+                    </div>
+                ))
+            }
+        </div>
+    </section>
 </BaseLayout>
 
+<style>
+    /* ── Topology ────────────────────────────────────────────────────────── */
+    .topology {
+        position: relative;
+    }
+    @media (min-width: 1024px) {
+        .topology { padding-right: 9.25rem; }
+    }
+
+    /* the flow spine running down the left of the layer cards */
+    .topo-spine {
+        position: absolute;
+        left: 5.75rem;
+        top: 0.75rem;
+        bottom: 2.75rem;
+        width: 1px;
+        background: linear-gradient(
+            to bottom,
+            transparent,
+            color-mix(in srgb, var(--border-main) 34%, transparent) 12%,
+            color-mix(in srgb, var(--border-main) 34%, transparent) 88%,
+            transparent
+        );
+        pointer-events: none;
+    }
+    .topo-pulse {
+        position: absolute;
+        left: -2px;
+        width: 5px;
+        height: 5px;
+        border-radius: 9999px;
+        background: var(--text-main);
+        opacity: 0.55;
+        box-shadow: 0 0 10px 2px color-mix(in srgb, var(--text-main) 35%, transparent);
+        animation: topo-fall 7s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    }
+    @keyframes topo-fall {
+        0%        { top: 0%;   opacity: 0; }
+        8%        { opacity: 0.6; }
+        88%       { opacity: 0.6; }
+        100%      { top: 100%; opacity: 0; }
+    }
+
+    .topo-row {
+        position: relative;
+        display: grid;
+        grid-template-columns: 5.75rem 1fr;
+        align-items: start;
+        margin-bottom: 0.7rem;
+    }
+    .topo-row:last-of-type { margin-bottom: 0; }
+
+    .topo-label {
+        padding-top: 1.05rem;
+        padding-right: 1.4rem;
+        text-align: right;
+        font-size: 0.625rem;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: color-mix(in srgb, var(--text-main) 55%, transparent);
+        transition: color 0.3s ease;
+    }
+
+    /* each layer sits a little heavier than the one above it */
+    .topo-card {
+        position: relative;
+        margin-left: 1.4rem;
+        border-radius: 0.85rem;
+        border: 1px solid color-mix(in srgb, var(--border-main) calc(18% + var(--depth) * 4%), transparent);
+        background: color-mix(in srgb, var(--bg-main) calc(74% + var(--depth) * 4%), transparent);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow: 0 1px 2px color-mix(in srgb, var(--border-main) 6%, transparent);
+        padding: 0.85rem 1rem;
+        transition: border-color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+    }
+    /* tick connecting each card back to the spine */
+    .topo-card::before {
+        content: '';
+        position: absolute;
+        left: -1.4rem;
+        top: 1.45rem;
+        width: 1.4rem;
+        height: 1px;
+        background: color-mix(in srgb, var(--border-main) 30%, transparent);
+        transition: background-color 0.3s ease;
+    }
+
+    .topo-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+    .topo-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        border-radius: 9999px;
+        border: 1px solid color-mix(in srgb, var(--border-main) 18%, transparent);
+        background: color-mix(in srgb, var(--text-main) 5%, transparent);
+        padding: 0.3rem 0.65rem;
+        font-size: 0.75rem;
+        line-height: 1;
+        color: color-mix(in srgb, var(--text-main) 88%, transparent);
+        transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+    }
+    .topo-ico {
+        height: 0.85rem;
+        width: 0.85rem;
+        object-fit: contain;
+        opacity: 0.85;
+    }
+
+    .topo-boxes {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem;
+    }
+    .topo-box {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        border-radius: 0.6rem;
+        border: 1px solid color-mix(in srgb, var(--border-main) 22%, transparent);
+        background: color-mix(in srgb, var(--text-main) 5%, transparent);
+        padding: 0.55rem 0.7rem;
+    }
+    .topo-box-name {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: color-mix(in srgb, var(--text-main) 88%, transparent);
+    }
+    .topo-box-sub {
+        display: block;
+        font-size: 0.65rem;
+        margin-top: 0.1rem;
+        color: color-mix(in srgb, var(--text-main) 42%, transparent);
+    }
+
+    /* layer description — revealed on hover, same idiom as the tool list */
+    .topo-blurb {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.35s ease;
+    }
+    .topo-blurb > p {
+        overflow: hidden;
+        font-size: 0.75rem;
+        line-height: 1.5;
+        color: color-mix(in srgb, var(--text-main) 62%, transparent);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        /* focusing one layer quiets the others */
+        .topology:hover .topo-row:not(:hover) .topo-card { opacity: 0.62; }
+        .topology:hover .topo-row:not(:hover) .topo-label { opacity: 0.62; }
+
+        .topo-row:hover .topo-card {
+            border-color: color-mix(in srgb, var(--border-main) 55%, transparent);
+            background: color-mix(in srgb, var(--bg-main) 94%, transparent);
+            transform: translateX(2px);
+        }
+        .topo-row:hover .topo-card::before { background: color-mix(in srgb, var(--border-main) 50%, transparent); }
+        .topo-row:hover .topo-label { color: color-mix(in srgb, var(--text-main) 80%, transparent); }
+        .topo-row:hover .topo-blurb { grid-template-rows: 1fr; }
+        .topo-row:hover .topo-blurb > p { padding-top: 0.6rem; }
+        .topo-row:hover .topo-chip {
+            border-color: color-mix(in srgb, var(--border-main) 24%, transparent);
+            transform: translateY(-1px);
+            transition-delay: calc(var(--n) * 28ms);
+        }
+    }
+
+    /* the observability rail alongside the agent → serving → data layers */
+    .topo-observed-tick {
+        position: absolute;
+        right: -1.1rem;
+        top: 1.45rem;
+        width: 1.1rem;
+        height: 1px;
+        background: color-mix(in srgb, var(--border-main) 18%, transparent);
+    }
+    .topo-observed {
+        position: absolute;
+        right: 0;
+        top: 20%;
+        height: 42%;
+        width: 7.75rem;
+        border-left: 1px dashed color-mix(in srgb, var(--border-main) 34%, transparent);
+        padding-left: 0.8rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.25rem;
+    }
+    .topo-observed-label {
+        font-size: 0.6rem;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: color-mix(in srgb, var(--text-main) 52%, transparent);
+    }
+    .topo-observed-tools {
+        font-size: 0.7rem;
+        line-height: 1.5;
+        color: color-mix(in srgb, var(--text-main) 75%, transparent);
+    }
+
+    /* no room for the side rail on narrow screens — fold it away */
+    @media (max-width: 1023px) {
+        .topo-observed, .topo-observed-tick { display: none; }
+    }
+    @media (max-width: 640px) {
+        .topo-row { grid-template-columns: 1fr; }
+        .topo-label { text-align: left; padding: 0 0 0.35rem 0; }
+        .topo-card { margin-left: 0; }
+        .topo-card::before { display: none; }
+        .topo-spine { display: none; }
+        .topo-boxes { grid-template-columns: 1fr; }
+        .topo-blurb { grid-template-rows: 1fr; }
+        .topo-blurb > p { padding-top: 0.6rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .topo-pulse { animation: none; opacity: 0; }
+        .topo-card, .topo-chip, .topo-blurb { transition: none; }
+    }
+
+    .sv2-filter {
+        border-radius: 9999px;
+        border: 1px solid color-mix(in srgb, var(--border-main) 15%, transparent);
+        padding: 0.375rem 0.75rem;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        color: color-mix(in srgb, var(--text-main) 55%, transparent);
+        transition:
+            color 0.2s ease,
+            border-color 0.2s ease,
+            background-color 0.2s ease;
+    }
+    .sv2-filter:hover {
+        border-color: color-mix(in srgb, var(--border-main) 35%, transparent);
+        color: color-mix(in srgb, var(--text-main) 85%, transparent);
+    }
+    .sv2-filter.is-active {
+        border-color: color-mix(in srgb, var(--border-main) 45%, transparent);
+        color: var(--text-main);
+        background-color: color-mix(in srgb, var(--text-main) 7%, transparent);
+    }
+
+    /* description collapsed by default, expands on hover (fine pointers) or when opened */
+    .sv2-reveal {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.32s ease;
+    }
+    .sv2-item.is-open .sv2-reveal {
+        grid-template-rows: 1fr;
+    }
+    @media (hover: hover) and (pointer: fine) {
+        .sv2-item:hover .sv2-reveal {
+            grid-template-rows: 1fr;
+        }
+    }
+    .sv2-item[hidden] {
+        display: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .sv2-reveal {
+            transition: none;
+        }
+    }
+</style>
+
+<script>
+    function initStackV2() {
+        const grid = document.getElementById('sv2-grid');
+        const filters = document.getElementById('sv2-filters');
+        if (!grid || !filters) return;
+
+        grid.querySelectorAll<HTMLElement>('.sv2-item').forEach((item) => {
+            item.addEventListener('click', () => {
+                const open = item.classList.toggle('is-open');
+                item.setAttribute('aria-expanded', String(open));
+            });
+        });
+
+        filters.querySelectorAll<HTMLElement>('.sv2-filter').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const value = btn.dataset.filter;
+                filters.querySelectorAll('.sv2-filter').forEach((b) => b.classList.remove('is-active'));
+                btn.classList.add('is-active');
+                grid.querySelectorAll<HTMLElement>('.sv2-item').forEach((item) => {
+                    item.hidden = value !== 'all' && item.dataset.layer !== value;
+                });
+            });
+        });
+    }
+
+    initStackV2();
+    document.addEventListener('astro:page-load', initStackV2);
+</script>
