@@ -236,7 +236,8 @@ function iconFor(icon: Icon) {
                     <div class="topo-row" data-layer={layer.id} style={`--depth:${i}`}>
                         <div class="topo-label">{layer.label}</div>
 
-                        <div class="topo-card">
+                        <div class="topo-card spotlight-card">
+                            <div class="spotlight-glow"></div>
                             {layer.variant === 'boxes' ? (
                                 <div class="topo-boxes">
                                     {layer.items.map(item => {
@@ -475,16 +476,18 @@ function iconFor(icon: Icon) {
 
     /* each layer sits a little heavier than the one above it */
     .topo-card {
-        position: relative;
         margin-left: 1.4rem;
-        border-radius: 0.85rem;
-        border: 1px solid color-mix(in srgb, var(--border-main) calc(18% + var(--depth) * 4%), transparent);
-        background: color-mix(in srgb, var(--bg-main) calc(74% + var(--depth) * 4%), transparent);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        box-shadow: 0 1px 2px color-mix(in srgb, var(--border-main) 6%, transparent);
-        padding: 0.85rem 1rem;
-        transition: border-color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+        padding: 1rem;
+        /* only deviation from a standard card: weight increases down the stack */
+        border-color: color-mix(in srgb, var(--border-main) calc(14% + var(--depth) * 4%), transparent);
+    }
+
+    /* keep content above the card's glass highlight */
+    .topo-chips,
+    .topo-boxes,
+    .topo-blurb {
+        position: relative;
+        z-index: 2;
     }
     /* tick connecting each card back to the spine */
     .topo-card::before {
@@ -569,8 +572,7 @@ function iconFor(icon: Icon) {
         .topology:hover .topo-row:not(:hover) .topo-label { opacity: 0.62; }
 
         .topo-row:hover .topo-card {
-            border-color: color-mix(in srgb, var(--border-main) 55%, transparent);
-            background: color-mix(in srgb, var(--bg-main) 94%, transparent);
+            border-color: color-mix(in srgb, var(--border-main) 60%, transparent);
             transform: translateX(2px);
         }
         .topo-row:hover .topo-card::before { background: color-mix(in srgb, var(--border-main) 50%, transparent); }
