@@ -284,7 +284,9 @@ const qrTypes = [
         });
     }
 
-    initQR();
+    // astro:page-load fires on initial load AND on every client-side navigation.
+    // Calling init here too would bind every handler twice on first load — the vCard
+    // download button would fire two downloads per click.
     document.addEventListener('astro:page-load', initQR);
 </script>
 

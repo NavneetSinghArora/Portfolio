@@ -125,15 +125,21 @@
             raf = requestAnimationFrame(frame);
         }
         raf = requestAnimationFrame(frame);
-
-        document.addEventListener('astro:before-swap', () => {
-            cancelAnimationFrame(raf);
-            window.removeEventListener('resize', resize);
-        }, { once: true });
     }
 
-    initGlslBackground();
-    document.addEventListener('astro:page-load', initGlslBackground);
+    // #aurora-container is transition:persist, so the canvas and its GL context
+    // survive navigations. Re-initialising would reset u_time (the shader visibly
+    // snaps back to frame 0), blank the canvas via canvas.width, and leak a
+    // program + shaders + buffer + resize listener on every page change.
+    let glslInitialized = false;
+    function startGlsl() {
+        if (glslInitialized) return;
+        initGlslBackground();
+        glslInitialized = true;
+    }
+
+    startGlsl();
+    document.addEventListener('astro:page-load', startGlsl);
 </script>
 
 <script>

@@ -350,6 +350,7 @@ const contributionsJson = JSON.stringify(contributionsData).replace(/</g, '\\u00
     }
 
     // Run on initial load and view transitions
-    initGithubContributions();
+    // astro:page-load fires on initial load AND on every client-side navigation.
+    // Calling init here too would run the whole fetch + render pass twice on first load.
     document.addEventListener('astro:page-load', initGithubContributions);
 </script>

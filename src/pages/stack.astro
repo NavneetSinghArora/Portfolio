@@ -688,16 +688,22 @@ function iconFor(icon: Icon) {
 </style>
 
 <script>
+    let stackAbortController: AbortController | null = null;
+
     function initStackV2() {
         const grid = document.getElementById('sv2-grid');
         const filters = document.getElementById('sv2-filters');
         if (!grid || !filters) return;
 
+        stackAbortController?.abort();
+        stackAbortController = new AbortController();
+        const { signal } = stackAbortController;
+
         grid.querySelectorAll<HTMLElement>('.sv2-item').forEach((item) => {
             item.addEventListener('click', () => {
                 const open = item.classList.toggle('is-open');
                 item.setAttribute('aria-expanded', String(open));
-            });
+            }, { signal });
         });
 
         filters.querySelectorAll<HTMLElement>('.sv2-filter').forEach((btn) => {
@@ -708,10 +714,12 @@ function iconFor(icon: Icon) {
                 grid.querySelectorAll<HTMLElement>('.sv2-item').forEach((item) => {
                     item.hidden = value !== 'all' && item.dataset.layer !== value;
                 });
-            });
+            }, { signal });
         });
     }
 
-    initStackV2();
+    // astro:page-load fires on initial load AND on every client-side navigation.
+    // Calling init here as well would bind every handler twice on first load, and
+    // the item toggle would cancel itself out — the accordion would never open.
     document.addEventListener('astro:page-load', initStackV2);
 </script>

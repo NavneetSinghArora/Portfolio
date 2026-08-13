@@ -1,20 +1,23 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
 
-type Props = HTMLAttributes<'a'>;
+// `marker` opts this link into the sliding active-pill view transition. Only one
+// link per document may carry the name — a duplicate view-transition-name aborts
+// the whole transition — so the mobile menu renders its copies without it.
+type Props = HTMLAttributes<'a'> & { marker?: boolean };
 
-const { href, class: className, ...props } = Astro.props;
+const { href, class: className, marker = false, ...props } = Astro.props;
 
 const { pathname } = Astro.url;
 const isActive = href === pathname || href === pathname.replace(/\/$/, '');
 ---
 
-<a 
+<a
     class:list={[
-        className, 
+        className,
         { 'active-nav-link !bg-main hover:!bg-main/90 !text-main-bg shadow-lg shadow-main/20 scale-[1.02]': isActive }
-    ]} 
-    style={isActive ? "view-transition-name: active-nav-marker" : ""}
+    ]}
+    style={isActive && marker ? "view-transition-name: active-nav-marker" : ""}
     href={href} 
     aria-current={isActive ? 'page' : undefined}
     {...props}

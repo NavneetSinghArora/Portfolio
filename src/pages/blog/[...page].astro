@@ -263,7 +263,20 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
 </style>
 
 <script>
+    // Bound on every `astro:page-load` (initial load included). The AbortController
+    // drops the previous page's listeners first — without it the document-level
+    // click handler below would accumulate one copy per visit, since `document`
+    // survives the swap while the elements it closes do not.
+    let blogAbortController: AbortController | null = null;
+
     function initBlog() {
+        // Keyed off #blog-search, which only this page has. The projects listing
+        // reuses #cards-container, #view-cards, .dropdown-container, .sort-btn and
+        // friends, so a guard on any of those would bind these handlers on top of
+        // the projects page's own — every dropdown click would then fire twice and
+        // cancel itself out.
+        if (!document.getElementById('blog-search')) return;
+
         // --- View Switcher ---
         const galleryBtn = document.getElementById('view-gallery');
         const cardsBtn = document.getElementById('view-cards');
@@ -275,6 +288,15 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
         const containers = [galleryContainer, cardsContainer, listContainer];
 
         if (buttons.some(b => !b) || containers.some(c => !c)) return;
+
+        blogAbortController?.abort();
+        const controller = new AbortController();
+        blogAbortController = controller;
+        const { signal } = controller;
+
+        // Drop the listeners when leaving the page, so the document-level handler
+        // below never runs against another page's dropdowns.
+        document.addEventListener('astro:before-swap', () => controller.abort(), { once: true, signal });
 
         function setView(view: 'cards' | 'gallery' | 'list') {
             containers.forEach(c => c?.classList.add('hidden'));
@@ -309,9 +331,9 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
             localStorage.setItem('blog-view', view);
         }
 
-        galleryBtn?.addEventListener('click', () => setView('gallery'));
-        cardsBtn?.addEventListener('click', () => setView('cards'));
-        listBtn?.addEventListener('click', () => setView('list'));
+        galleryBtn?.addEventListener('click', () => setView('gallery'), { signal });
+        cardsBtn?.addEventListener('click', () => setView('cards'), { signal });
+        listBtn?.addEventListener('click', () => setView('list'), { signal });
 
         const savedView = localStorage.getItem('blog-view') as any || 'cards';
         setView(savedView);
@@ -334,7 +356,7 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
                     menu?.classList.remove('hidden');
                     chevron?.classList.add('rotate-180');
                 }
-            });
+            }, { signal });
         });
 
         document.addEventListener('click', () => {
@@ -342,7 +364,7 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
                 dropdown.querySelector('.dropdown-menu')?.classList.add('hidden');
                 dropdown.querySelector('.chevron')?.classList.remove('rotate-180');
             });
-        });
+        }, { signal });
 
         // --- Filters & Sorting ---
         const filterButtons = document.querySelectorAll('.tag-filter-btn');
@@ -406,7 +428,7 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
                 const label = document.getElementById('current-category');
                 if (label) label.textContent = btn.textContent?.trim() || 'All Topics';
                 applyFilters();
-            });
+            }, { signal });
         });
 
         sortButtons.forEach(btn => {
@@ -429,15 +451,17 @@ const allTags = [...new Set(blog.flatMap(p => p.data.tags))].sort();
                 const label = document.getElementById('current-sort');
                 if (label) label.textContent = btn.textContent?.trim() || 'Newest First';
                 applyFilters();
-            });
+            }, { signal });
         });
 
         blogSearch?.addEventListener('input', (e) => {
             searchQuery = (e.target as HTMLInputElement).value.toLowerCase();
             applyFilters();
-        });
+        }, { signal });
     }
 
-    initBlog();
-    document.addEventListener('astro:after-swap', initBlog);
+    // astro:page-load, not astro:after-swap: after-swap never fires on the initial
+    // load (hence the old duplicate top-level call) and runs mid-transition, where
+    // the getBoundingClientRect() calls in setView() read unsettled layout.
+    document.addEventListener('astro:page-load', initBlog);
 </script>

@@ -38,9 +38,17 @@
 </style>
 
 <script>
+    // The scroll listener lives on `window`, which survives the swap — without the
+    // AbortController it would accumulate one live handler per navigation.
+    let scrollTopAbortController: AbortController | null = null;
+
     function initScrollToTop() {
         const btn = document.getElementById('scroll-to-top');
         if (!btn) return;
+
+        scrollTopAbortController?.abort();
+        scrollTopAbortController = new AbortController();
+        const { signal } = scrollTopAbortController;
 
         const handleScroll = () => {
             btn.classList.toggle('visible', window.scrollY > 300);
@@ -48,12 +56,12 @@
 
         btn.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+        }, { signal });
 
-        window.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('scroll', handleScroll, { passive: true, signal });
         handleScroll();
     }
 
-    initScrollToTop();
+    // astro:page-load fires on initial load AND on every client-side navigation.
     document.addEventListener('astro:page-load', initScrollToTop);
 </script>

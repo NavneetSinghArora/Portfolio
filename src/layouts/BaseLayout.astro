@@ -85,7 +85,7 @@ const { showHeader = false, ...head } = Astro.props;
                 window.addEventListener('mousemove', handleMouseMove, { passive: true });
             }
 
-            initSpotlight();
+            // astro:page-load fires on initial load AND on every client-side navigation.
             document.addEventListener('astro:page-load', initSpotlight);
         </script>
 
@@ -117,15 +117,24 @@ const { showHeader = false, ...head } = Astro.props;
                 });
             }
 
-            initNeuralActivation();
+            // astro:page-load fires on initial load AND on every client-side
+            // navigation, so calling init here too would build a second, redundant
+            // IntersectionObserver over the same elements on first load.
             document.addEventListener('astro:page-load', initNeuralActivation);
         </script>
 
         <script>
             // Phase 7: Neural scroll progress bar
+            // The scroll listener lives on `window`, which survives the swap — without
+            // the AbortController it would accumulate one live handler per navigation.
+            let progressAbortController: AbortController | null = null;
+
             function initProgressBar() {
                 const fill = document.getElementById('nn-progress-fill');
                 if (!fill) return;
+
+                progressAbortController?.abort();
+                progressAbortController = new AbortController();
 
                 function update() {
                     if (!fill) return;
@@ -134,10 +143,10 @@ const { showHeader = false, ...head } = Astro.props;
                     fill.style.transform = `scaleY(${Math.min(1, window.scrollY / maxScroll)})`;
                 }
 
-                window.addEventListener('scroll', update, { passive: true });
+                window.addEventListener('scroll', update, { passive: true, signal: progressAbortController.signal });
                 update();
             }
-            initProgressBar();
+            // astro:page-load fires on initial load AND on every client-side navigation.
             document.addEventListener('astro:page-load', initProgressBar);
         </script>
     </body>

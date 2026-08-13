@@ -173,6 +173,12 @@ function resolveIcon(name: string | undefined) {
     <div class="mb-20 sm:mb-28"></div>
 
     <script>
+        // Bound on every `astro:page-load` (initial load included). The
+        // AbortController drops the previous page's listeners first — without it
+        // the document-level click handler below would accumulate one copy per
+        // visit, since `document` survives the swap.
+        let educationAbortController: AbortController | null = null;
+
         function initEducationDiscovery() {
             const searchInput = document.getElementById('education-search') as HTMLInputElement;
             const container = document.getElementById('education-container');
@@ -180,6 +186,17 @@ function resolveIcon(name: string | undefined) {
             const filterBtns = document.querySelectorAll('.filter-btn');
             const sortBtns = document.querySelectorAll('.sort-btn');
             
+            if (!container) return;
+
+            educationAbortController?.abort();
+            const controller = new AbortController();
+            educationAbortController = controller;
+            const { signal } = controller;
+
+            // Drop the listeners when leaving the page, so the document-level
+            // handler below never runs against another page's dropdowns.
+            document.addEventListener('astro:before-swap', () => controller.abort(), { once: true, signal });
+
             let currentFilter = 'all';
             let currentSort = 'newest';
             let searchQuery = '';
@@ -217,7 +234,7 @@ function resolveIcon(name: string | undefined) {
             searchInput?.addEventListener('input', (e) => {
                 searchQuery = (e.target as HTMLInputElement).value.toLowerCase();
                 updateUI();
-            });
+            }, { signal });
 
             // Filter
             filterBtns.forEach(btn => {
@@ -241,7 +258,7 @@ function resolveIcon(name: string | undefined) {
                     }
                     
                     updateUI();
-                });
+                }, { signal });
             });
 
             // Sort
@@ -266,7 +283,7 @@ function resolveIcon(name: string | undefined) {
                     }
 
                     updateUI();
-                });
+                }, { signal });
             });
 
             // Dropdown Logic
@@ -286,17 +303,18 @@ function resolveIcon(name: string | undefined) {
 
                     menu?.classList.toggle('hidden');
                     chevron?.classList.toggle('rotate-180');
-                });
+                }, { signal });
             });
 
             document.addEventListener('click', () => {
                 document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
                 document.querySelectorAll('.chevron').forEach(c => c.classList.remove('rotate-180'));
-            });
+            }, { signal });
         }
 
-        initEducationDiscovery();
-        document.addEventListener('astro:after-swap', initEducationDiscovery);
+        // astro:page-load, not astro:after-swap: after-swap never fires on the
+        // initial load (hence the old duplicate top-level call).
+        document.addEventListener('astro:page-load', initEducationDiscovery);
     </script>
 
     <style>

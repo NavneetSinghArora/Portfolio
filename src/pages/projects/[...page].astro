@@ -379,7 +379,36 @@ const orderFor = (project: CollectionEntry<'projects'>) => {
 </style>
 
 <script>
-    function initViewSwitcher() {
+    // Everything here re-binds on every `astro:page-load` (initial load included).
+    // With <ClientRouter /> the module body runs only once per session, so any
+    // listener bound at module scope would stay attached to the discarded DOM and
+    // the filters would silently stop working after a client-side navigation.
+    // The AbortController drops the previous page's listeners before re-binding.
+    let projectsAbortController: AbortController | null = null;
+
+    function initProjects() {
+        // Keyed off #project-search, which only this page has. The blog listing
+        // reuses #cards-container, #view-cards, .dropdown-container, .sort-btn and
+        // friends, so a guard on any of those would bind these handlers on top of
+        // the blog page's own — every dropdown click would then fire twice and
+        // cancel itself out.
+        if (!document.getElementById('project-search')) return;
+
+        projectsAbortController?.abort();
+        const controller = new AbortController();
+        projectsAbortController = controller;
+        const { signal } = controller;
+
+        // Drop the listeners when leaving the page, so the document-level handler
+        // below never runs against another page's dropdowns.
+        document.addEventListener('astro:before-swap', () => controller.abort(), { once: true, signal });
+
+        initViewSwitcher(signal);
+        initDropdowns(signal);
+        initFilters(signal);
+    }
+
+    function initViewSwitcher(signal: AbortSignal) {
         const galleryBtn = document.getElementById('view-gallery');
         const cardsBtn = document.getElementById('view-cards');
         const listBtn = document.getElementById('view-list');
@@ -397,9 +426,9 @@ const orderFor = (project: CollectionEntry<'projects'>) => {
         const savedView = localStorage.getItem('projects-view') || 'cards';
         switchTo(savedView as any);
 
-        galleryBtn?.addEventListener('click', () => switchTo('gallery'));
-        cardsBtn?.addEventListener('click', () => switchTo('cards'));
-        listBtn?.addEventListener('click', () => switchTo('list'));
+        galleryBtn?.addEventListener('click', () => switchTo('gallery'), { signal });
+        cardsBtn?.addEventListener('click', () => switchTo('cards'), { signal });
+        listBtn?.addEventListener('click', () => switchTo('list'), { signal });
 
         function switchTo(view: 'gallery' | 'cards' | 'list') {
             containers.forEach(c => c?.classList.add('hidden'));
@@ -434,160 +463,162 @@ const orderFor = (project: CollectionEntry<'projects'>) => {
     }
 
     // Dropdown Handling
-    const dropdowns = document.querySelectorAll('.dropdown-container');
-    
-    dropdowns.forEach(dropdown => {
-        const trigger = dropdown.querySelector('.dropdown-trigger');
-        const menu = dropdown.querySelector('.dropdown-menu');
-        const chevron = dropdown.querySelector('.chevron');
+    function initDropdowns(signal: AbortSignal) {
+        const dropdowns = document.querySelectorAll('.dropdown-container');
 
-        trigger?.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const isHidden = menu?.classList.contains('hidden');
-            
-            // Close all
-            dropdowns.forEach(other => {
-                other.querySelector('.dropdown-menu')?.classList.add('hidden');
-                other.querySelector('.chevron')?.classList.remove('rotate-180');
-            });
-
-            if (isHidden) {
-                menu?.classList.remove('hidden');
-                chevron?.classList.add('rotate-180');
-            }
-        });
-    });
-
-    document.addEventListener('click', () => {
         dropdowns.forEach(dropdown => {
-            dropdown.querySelector('.dropdown-menu')?.classList.add('hidden');
-            dropdown.querySelector('.chevron')?.classList.remove('rotate-180');
+            const trigger = dropdown.querySelector('.dropdown-trigger');
+            const menu = dropdown.querySelector('.dropdown-menu');
+            const chevron = dropdown.querySelector('.chevron');
+
+            trigger?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isHidden = menu?.classList.contains('hidden');
+
+                // Close all
+                dropdowns.forEach(other => {
+                    other.querySelector('.dropdown-menu')?.classList.add('hidden');
+                    other.querySelector('.chevron')?.classList.remove('rotate-180');
+                });
+
+                if (isHidden) {
+                    menu?.classList.remove('hidden');
+                    chevron?.classList.add('rotate-180');
+                }
+            }, { signal });
         });
-    });
+
+        document.addEventListener('click', () => {
+            dropdowns.forEach(dropdown => {
+                dropdown.querySelector('.dropdown-menu')?.classList.add('hidden');
+                dropdown.querySelector('.chevron')?.classList.remove('rotate-180');
+            });
+        }, { signal });
+    }
 
     // Filtering & Search Logic
-    const filterButtons = document.querySelectorAll('.tag-filter-btn');
-    const sortButtons = document.querySelectorAll('.sort-btn');
-    const projectSearch = document.getElementById('project-search') as HTMLInputElement;
-    const projectCards = document.querySelectorAll<HTMLElement>('.project-item');
+    function initFilters(signal: AbortSignal) {
+        const filterButtons = document.querySelectorAll('.tag-filter-btn');
+        const sortButtons = document.querySelectorAll('.sort-btn');
+        const projectSearch = document.getElementById('project-search') as HTMLInputElement;
+        const projectCards = document.querySelectorAll<HTMLElement>('.project-item');
 
-    let currentCategory = 'all';
-    let currentSort = 'newest';
-    let searchQuery = '';
+        let currentCategory = 'all';
+        let currentSort = 'newest';
+        let searchQuery = '';
 
-    // Sorting sets CSS `order` per tier group (rather than moving DOM nodes) so the
-    // Systems / Research & Academic grouping survives re-sorting.
-    function sortProjects() {
-        const containers = [
-            document.getElementById('cards-container'),
-            document.getElementById('gallery-container'),
-            document.getElementById('list-container')
-        ];
+        // Sorting sets CSS `order` per tier group (rather than moving DOM nodes) so the
+        // Systems / Research & Academic grouping survives re-sorting.
+        function sortProjects() {
+            const containers = [
+                document.getElementById('cards-container'),
+                document.getElementById('gallery-container'),
+                document.getElementById('list-container')
+            ];
 
-        const comparator = (a: HTMLElement, b: HTMLElement) => {
-            if (currentSort === 'az') {
-                return (a.dataset.title || '').localeCompare(b.dataset.title || '');
-            }
-            const dateA = parseInt(a.dataset.date || '0');
-            const dateB = parseInt(b.dataset.date || '0');
-            return currentSort === 'newest' ? dateB - dateA : dateA - dateB;
-        };
+            const comparator = (a: HTMLElement, b: HTMLElement) => {
+                if (currentSort === 'az') {
+                    return (a.dataset.title || '').localeCompare(b.dataset.title || '');
+                }
+                const dateA = parseInt(a.dataset.date || '0');
+                const dateB = parseInt(b.dataset.date || '0');
+                return currentSort === 'newest' ? dateB - dateA : dateA - dateB;
+            };
 
-        containers.forEach(container => {
-            if (!container) return;
+            containers.forEach(container => {
+                if (!container) return;
 
-            const cardArray = Array.from(container.querySelectorAll<HTMLElement>('.project-item'));
-            const tier1Cards = cardArray.filter(c => c.dataset.tier !== '2').sort(comparator);
-            const tier2Cards = cardArray.filter(c => c.dataset.tier === '2').sort(comparator);
+                const cardArray = Array.from(container.querySelectorAll<HTMLElement>('.project-item'));
+                const tier1Cards = cardArray.filter(c => c.dataset.tier !== '2').sort(comparator);
+                const tier2Cards = cardArray.filter(c => c.dataset.tier === '2').sort(comparator);
 
-            tier1Cards.forEach((card, i) => { card.style.order = String(i + 1); });
-            tier2Cards.forEach((card, i) => { card.style.order = String(1001 + i); });
-        });
-    }
+                tier1Cards.forEach((card, i) => { card.style.order = String(i + 1); });
+                tier2Cards.forEach((card, i) => { card.style.order = String(1001 + i); });
+            });
+        }
 
-    function applyFilters() {
-        projectCards.forEach(card => {
-            const tags = (card.dataset.tags || '').split(',');
-            const title = card.querySelector('h3')?.textContent?.toLowerCase() || '';
-            const desc = card.querySelector('p')?.textContent?.toLowerCase() || '';
+        function applyFilters() {
+            projectCards.forEach(card => {
+                const tags = (card.dataset.tags || '').split(',');
+                const title = card.querySelector('h3')?.textContent?.toLowerCase() || '';
+                const desc = card.querySelector('p')?.textContent?.toLowerCase() || '';
 
-            const matchesCategory = currentCategory === 'all' || tags.includes(currentCategory);
-            const matchesSearch = title.includes(searchQuery) || desc.includes(searchQuery) || tags.some(t => t.includes(searchQuery));
+                const matchesCategory = currentCategory === 'all' || tags.includes(currentCategory);
+                const matchesSearch = title.includes(searchQuery) || desc.includes(searchQuery) || tags.some(t => t.includes(searchQuery));
 
-            if (matchesCategory && matchesSearch) {
-                card.classList.remove('hidden');
-                card.style.display = '';
-            } else {
-                card.classList.add('hidden');
-                card.style.display = 'none';
-            }
-        });
+                if (matchesCategory && matchesSearch) {
+                    card.classList.remove('hidden');
+                    card.style.display = '';
+                } else {
+                    card.classList.add('hidden');
+                    card.style.display = 'none';
+                }
+            });
 
-        // Hide a tier heading if every card in that tier is currently filtered out.
-        document.querySelectorAll<HTMLElement>('.tier-heading').forEach(heading => {
-            const container = heading.parentElement;
-            const tier = heading.style.order === '0' ? '1' : '2';
-            const anyVisible = Array.from(container?.querySelectorAll<HTMLElement>(`.project-item[data-tier="${tier}"]`) || [])
-                .some(c => !c.classList.contains('hidden'));
-            heading.style.display = anyVisible ? '' : 'none';
-        });
+            // Hide a tier heading if every card in that tier is currently filtered out.
+            document.querySelectorAll<HTMLElement>('.tier-heading').forEach(heading => {
+                const container = heading.parentElement;
+                const tier = heading.style.order === '0' ? '1' : '2';
+                const anyVisible = Array.from(container?.querySelectorAll<HTMLElement>(`.project-item[data-tier="${tier}"]`) || [])
+                    .some(c => !c.classList.contains('hidden'));
+                heading.style.display = anyVisible ? '' : 'none';
+            });
 
-        sortProjects();
-    }
+            sortProjects();
+        }
 
-    filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            currentCategory = (btn as HTMLElement).dataset.tagFilter!;
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentCategory = (btn as HTMLElement).dataset.tagFilter!;
             
-            // UI Updates
-            filterButtons.forEach(b => {
-                const indicator = b.querySelector('.active-indicator');
-                b.classList.remove('text-main');
-                b.classList.add('text-main/60');
-                indicator?.classList.remove('opacity-100');
-                indicator?.classList.add('opacity-0');
-            });
-            btn.classList.add('text-main');
-            btn.classList.remove('text-main/60');
-            btn.querySelector('.active-indicator')?.classList.remove('opacity-0');
-            btn.querySelector('.active-indicator')?.classList.add('opacity-100');
+                // UI Updates
+                filterButtons.forEach(b => {
+                    const indicator = b.querySelector('.active-indicator');
+                    b.classList.remove('text-main');
+                    b.classList.add('text-main/60');
+                    indicator?.classList.remove('opacity-100');
+                    indicator?.classList.add('opacity-0');
+                });
+                btn.classList.add('text-main');
+                btn.classList.remove('text-main/60');
+                btn.querySelector('.active-indicator')?.classList.remove('opacity-0');
+                btn.querySelector('.active-indicator')?.classList.add('opacity-100');
 
-            const label = document.getElementById('current-category');
-            if (label) label.textContent = btn.textContent?.trim() || 'All Categories';
-            applyFilters();
+                const label = document.getElementById('current-category');
+                if (label) label.textContent = btn.textContent?.trim() || 'All Categories';
+                applyFilters();
+            }, { signal });
         });
-    });
 
-    sortButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            currentSort = (btn as HTMLElement).dataset.sort!;
+        sortButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentSort = (btn as HTMLElement).dataset.sort!;
 
-            // UI Updates
-            sortButtons.forEach(b => {
-                const indicator = b.querySelector('.active-indicator');
-                b.classList.remove('text-main');
-                b.classList.add('text-main/60');
-                indicator?.classList.remove('opacity-100');
-                indicator?.classList.add('opacity-0');
-            });
-            btn.classList.add('text-main');
-            btn.classList.remove('text-main/60');
-            btn.querySelector('.active-indicator')?.classList.remove('opacity-0');
-            btn.querySelector('.active-indicator')?.classList.add('opacity-100');
+                // UI Updates
+                sortButtons.forEach(b => {
+                    const indicator = b.querySelector('.active-indicator');
+                    b.classList.remove('text-main');
+                    b.classList.add('text-main/60');
+                    indicator?.classList.remove('opacity-100');
+                    indicator?.classList.add('opacity-0');
+                });
+                btn.classList.add('text-main');
+                btn.classList.remove('text-main/60');
+                btn.querySelector('.active-indicator')?.classList.remove('opacity-0');
+                btn.querySelector('.active-indicator')?.classList.add('opacity-100');
 
-            const label = document.getElementById('current-sort');
-            if (label) label.textContent = btn.textContent?.trim() || 'Newest';
-            applyFilters();
+                const label = document.getElementById('current-sort');
+                if (label) label.textContent = btn.textContent?.trim() || 'Newest';
+                applyFilters();
+            }, { signal });
         });
-    });
 
-    projectSearch?.addEventListener('input', (e) => {
-        searchQuery = (e.target as HTMLInputElement).value.toLowerCase();
-        applyFilters();
-    });
+        projectSearch?.addEventListener('input', (e) => {
+            searchQuery = (e.target as HTMLInputElement).value.toLowerCase();
+            applyFilters();
+        }, { signal });
+    }
 
-    // Init on first load
-    initViewSwitcher();
-    // Re-init on page navigation
-    document.addEventListener('astro:page-load', initViewSwitcher);
+    // astro:page-load fires on initial load AND on every client-side navigation.
+    document.addEventListener('astro:page-load', initProjects);
 </script>
