@@ -76,7 +76,7 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
                 const isResume = iconName === 'resume';
 
                 return (
-                    <IconButton href={link.href} target="_blank" rel="noopener noreferrer" variant="header" tooltip={link.text}>
+                    <IconButton href={link.href} target="_blank" rel="noopener noreferrer" variant="header" size="xl" tooltip={link.text}>
                         {isKnown ? (
                             <SocialIcon name={iconName as KnownIcon} size="lg" />
                         ) : isResume ? (
@@ -94,24 +94,24 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
 
         <!-- Unified Presence Dashboard -->
         <div class="mt-10 flex justify-center">
-            <div class="group/bar relative flex max-w-full flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:gap-4 px-5 py-2 rounded-xl border border-white/5 bg-white/[0.05] shadow-2xl shadow-black/20 overflow-hidden transition-all duration-700 hover:border-white/10 hover:bg-white/[0.08]">
-                <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none"></div>
+            <div class="group/bar relative flex max-w-full flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:gap-4 px-5 py-2 rounded-xl border border-main-border/20 bg-surface/70 backdrop-blur-md shadow-sm overflow-hidden transition-all duration-700 hover:border-main-border/40 hover:bg-surface dark:shadow-2xl dark:shadow-black/20">
+                <div class="absolute inset-0 bg-gradient-to-br from-main/[0.03] to-transparent pointer-events-none"></div>
                 
                 <!-- Status: Opportunity -->
                 <div class="flex items-center gap-2.5">
                     <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-main/30"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-main"></span>
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400/30"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
                     </span>
                     <span class="text-[10px] font-mono leading-none font-medium uppercase tracking-[0.2em] text-main/80 whitespace-nowrap">Open to Opportunities</span>
                 </div>
 
-                <div class="h-px w-full bg-white/10 sm:h-3 sm:w-px"></div>
+                <div class="h-px w-full bg-main-border/20 sm:h-3 sm:w-px"></div>
 
                 <!-- Status: Currently -->
-                <a href="/currently" class="group/now relative -mx-5 px-5 py-1 sm:-my-2 sm:mx-0 sm:-mr-5 sm:py-2 flex items-center gap-2.5 transition-all duration-300 hover:bg-white/5">
+                <a href="/currently" class="group/now relative -mx-5 px-5 py-1 sm:-my-2 sm:mx-0 sm:-mr-5 sm:py-2 flex items-center gap-2.5 transition-all duration-300 hover:bg-main/5">
                     <span class="relative flex h-2 w-2">
-                        <span class="rounded-full h-2 w-2 border border-main/60 group-hover/now:scale-110 transition-transform"></span>
+                        <span class="rounded-full h-2 w-2 bg-sky-400/80 border border-sky-400 group-hover/now:scale-110 transition-transform"></span>
                     </span>
                     <div class="flex items-center gap-2">
                         <span class="text-[10px] font-mono leading-none font-medium uppercase tracking-[0.2em] text-main/60 group-hover/now:text-main transition-colors whitespace-nowrap">Currently: Wrapping up at Repath</span>
@@ -123,7 +123,7 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html
 
                 <!-- Corner Accent -->
                 <div class="absolute top-0 right-0 p-1 opacity-20">
-                    <svg width="6" height="6" viewBox="0 0 6 6" fill="none" class="text-white"><path d="M6 0V6H0" stroke="currentColor" stroke-width="0.5"/></svg>
+                    <svg width="6" height="6" viewBox="0 0 6 6" fill="none" class="text-main"><path d="M6 0V6H0" stroke="currentColor" stroke-width="0.5"/></svg>
                 </div>
             </div>
         </div>
