@@ -28,6 +28,7 @@ export default defineConfig({
         '/projects/vectools': '/projects/open-source',
         '/projects/n8n-workflow': '/projects/open-source',
         '/projects/n8n-job-search': '/projects/open-source',
-        '/knowledge-graph': '/'
+        '/knowledge-graph': '/',
+        '/now': '/currently'
     }
 });

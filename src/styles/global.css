@@ -36,11 +36,13 @@
 }
 
 :root {
-    --text-main: #1e293b;
-    --bg-main: #f0f7ff;
-    --bg-muted: #e6f0ff;
-    --border-main: #1e293b;
+    --text-main: #1c1c1c;
+    --bg-main: #f4f4f2;
+    --bg-muted: #e8e8e5;
+    --border-main: #1c1c1c;
     --spotlight-color: rgba(0, 0, 0, 0.05);
+    /* Raised surface for controls that must separate from the page background. */
+    --surface: #ffffff;
 }
 html.dark {
     --text-main: #f2f1ec;
@@ -48,6 +50,9 @@ html.dark {
     --bg-muted: #242424;
     --border-main: #f2f1ec;
     --spotlight-color: rgba(255, 255, 255, 0.03);
+    /* Needs a clearer lift off --bg-main in dark than #1f1f1f gave, or the
+       control surfaces disappear into the page. */
+    --surface: #232323;
 }
 
 @theme {
@@ -58,6 +63,7 @@ html.dark {
     --color-main-bg: var(--bg-main);
     --color-main-muted: var(--bg-muted);
     --color-main-border: var(--border-main);
+    --color-surface: var(--surface);
 }
 
 @layer utilities {

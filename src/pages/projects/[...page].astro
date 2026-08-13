@@ -45,104 +45,96 @@ const orderFor = (project: CollectionEntry<'projects'>) => {
         </div>
     </div>
 
-    <!-- Premium Filter Console -->
-    <div class="mb-20 space-y-4">
-        <!-- Search Bar -->
-        <div class="relative group">
-            <input 
-                type="text" 
-                id="project-search" 
-                placeholder="Search projects by name, tag, or technology..." 
-                class="w-full bg-main-bg/90 border border-main-border/20 rounded-xl py-3 pl-12 pr-4 text-[14px] text-main placeholder:text-main/60 focus:outline-none focus:ring-2 focus:ring-main/10 focus:border-main/30 transition-all shadow-sm"
+    <!-- Filter console — search leads on its own row, refinements sit below.
+         Controls share a raised surface so they separate from the page in both themes. -->
+    <div class="mb-20 space-y-3">
+        <!-- Search -->
+        <div class="group relative">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-main/60 transition-colors group-focus-within:text-main"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input
+                type="text"
+                id="project-search"
+                placeholder="Search projects by name, tag, or technology…"
+                class="h-12 w-full rounded-xl border border-main-border/15 bg-surface pl-11 pr-4 text-sm text-main placeholder:text-main/60 transition-colors focus:outline-none focus:border-main/30 focus-visible:ring-2 focus-visible:ring-main/20"
             />
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-main/50 group-focus-within:text-main transition-colors pointer-events-none z-10"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
         </div>
 
-        <!-- Tool Row (Filters + Sort + View Switcher) -->
-        <div class="flex flex-wrap items-center justify-between gap-4">
+        <!-- Refinements -->
+        <div class="flex flex-wrap items-center justify-between gap-3">
             <div class="flex flex-wrap items-center gap-3">
-                <!-- Category Dropdown -->
-                <div class="relative dropdown-container" id="category-dropdown">
-                    <button class="dropdown-trigger flex items-center justify-between gap-3 px-4 py-2.5 min-w-[170px] bg-main-bg/90 border border-main-border/20 rounded-xl text-[14px] font-medium text-main/60 hover:text-main transition-all shadow-sm">
-                        <div class="flex items-center gap-2">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
-                            <span id="current-category">All Categories</span>
-                        </div>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-30 chevron transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
+                <!-- Category -->
+                <div class="dropdown-container relative" id="category-dropdown">
+                    <button class="dropdown-trigger flex h-11 min-w-[168px] items-center justify-between gap-3 rounded-xl border border-main-border/15 bg-surface px-4 text-sm font-medium text-main/70 transition-colors hover:text-main focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-main/20">
+                        <span id="current-category">All Categories</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron h-3.5 w-3.5 text-main/60 transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
                     </button>
-                    
-                    <div class="dropdown-menu hidden absolute top-full left-0 mt-2 min-w-[220px] bg-main-bg/95 border border-main-border/10 rounded-xl py-1.5 shadow-2xl z-50 origin-top-left transition-all duration-200">
-                        <button class="tag-filter-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-tag-filter="all">
-                            <div class="h-1.5 w-1.5 rounded-full bg-main opacity-0 transition-opacity active-indicator"></div>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path></svg>
+
+                    <div class="dropdown-menu hidden absolute top-full left-0 z-50 mt-2 max-h-[min(24rem,60vh)] min-w-[220px] origin-top-left overflow-y-auto overscroll-contain rounded-xl border border-main-border/15 bg-surface py-1.5 shadow-xl transition-all duration-200">
+                        <button class="tag-filter-btn flex w-full items-center gap-3 px-4 py-2 text-[13px] text-main/70 transition-colors hover:text-main" data-tag-filter="all">
+                            <div class="active-indicator h-1.5 w-1.5 shrink-0 rounded-full bg-main opacity-0 transition-opacity"></div>
                             All Projects
                         </button>
                         {allTags.map(tag => (
-                            <button class="tag-filter-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors capitalize" data-tag-filter={tag}>
-                                <div class="h-1.5 w-1.5 rounded-full bg-main opacity-0 transition-opacity active-indicator"></div>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="M12 2l3.5 2h4l2 3.5l-2 3.5v4l-2 3.5l-4 2l-3.5-2h-4l-2-3.5l2-3.5v-4l2-3.5l4-2z"></path></svg>
+                            <button class="tag-filter-btn flex w-full items-center gap-3 px-4 py-2 text-[13px] capitalize text-main/70 transition-colors hover:text-main" data-tag-filter={tag}>
+                                <div class="active-indicator h-1.5 w-1.5 shrink-0 rounded-full bg-main opacity-0 transition-opacity"></div>
                                 {tag}
                             </button>
                         ))}
                     </div>
                 </div>
 
-                <!-- Sort Dropdown -->
-                <div class="relative dropdown-container" id="sort-dropdown">
-                    <button class="dropdown-trigger flex items-center justify-between gap-3 px-4 py-2.5 min-w-[170px] bg-main-bg/90 border border-main-border/20 rounded-xl text-[14px] font-medium text-main/60 hover:text-main transition-all shadow-sm">
-                        <div class="flex items-center gap-2">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-40"><path d="m3 16 4 4 4-4"></path><path d="M7 20V4"></path><path d="m21 8-4-4-4 4"></path><path d="M17 4v16"></path></svg>
-                            <span id="current-sort">Newest First</span>
-                        </div>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-30 chevron transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
+                <!-- Sort -->
+                <div class="dropdown-container relative" id="sort-dropdown">
+                    <button class="dropdown-trigger flex h-11 min-w-[150px] items-center justify-between gap-3 rounded-xl border border-main-border/15 bg-surface px-4 text-sm font-medium text-main/70 transition-colors hover:text-main focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-main/20">
+                        <span id="current-sort">Newest First</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron h-3.5 w-3.5 text-main/60 transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
                     </button>
-                    <div class="dropdown-menu hidden absolute top-full left-0 mt-2 min-w-[200px] bg-main-bg/95 border border-main-border/10 rounded-xl py-1.5 shadow-2xl z-50 origin-top-left transition-all duration-200">
-                        <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="newest">
-                            <div class="h-1.5 w-1.5 rounded-full bg-main opacity-100 transition-opacity active-indicator"></div>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="m3 16 4 4 4-4"></path><path d="M7 20V4"></path></svg>
+                    <div class="dropdown-menu hidden absolute top-full left-0 z-50 mt-2 min-w-[200px] origin-top-left rounded-xl border border-main-border/15 bg-surface py-1.5 shadow-xl transition-all duration-200">
+                        <button class="sort-btn flex w-full items-center gap-3 px-4 py-2 text-[13px] text-main/70 transition-colors hover:text-main" data-sort="newest">
+                            <div class="active-indicator h-1.5 w-1.5 shrink-0 rounded-full bg-main opacity-100 transition-opacity"></div>
                             Newest First
                         </button>
-                        <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="oldest">
-                            <div class="h-1.5 w-1.5 rounded-full bg-main opacity-0 transition-opacity active-indicator"></div>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="m3 8 4-4 4 4"></path><path d="M7 4v16"></path></svg>
+                        <button class="sort-btn flex w-full items-center gap-3 px-4 py-2 text-[13px] text-main/70 transition-colors hover:text-main" data-sort="oldest">
+                            <div class="active-indicator h-1.5 w-1.5 shrink-0 rounded-full bg-main opacity-0 transition-opacity"></div>
                             Oldest First
                         </button>
-                        <button class="sort-btn flex items-center gap-3 w-full px-4 py-2 text-[13px] text-main/60 hover:text-main hover:bg-main-bg/10 transition-colors" data-sort="az">
-                            <div class="h-1.5 w-1.5 rounded-full bg-main opacity-0 transition-opacity active-indicator"></div>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 opacity-40"><path d="M11 5h10"></path><path d="M11 9h10"></path><path d="M11 13h10"></path><path d="m3 17 3 3 3-3"></path><path d="M6 18V4"></path></svg>
-                            Alphabetical (A-Z)
+                        <button class="sort-btn flex w-full items-center gap-3 px-4 py-2 text-[13px] text-main/70 transition-colors hover:text-main" data-sort="az">
+                            <div class="active-indicator h-1.5 w-1.5 shrink-0 rounded-full bg-main opacity-0 transition-opacity"></div>
+                            Alphabetical (A–Z)
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Integrated View Switcher -->
-            <div class="flex items-center gap-1.5 bg-main-bg/90 border border-main-border/20 p-1 rounded-xl shadow-sm relative view-switcher-container">
-                <div class="view-highlight absolute transition-all duration-500 ease-out bg-main rounded-lg shadow-md"></div>
-                <button 
+            <!-- View switcher -->
+            <div class="view-switcher-container relative flex items-center gap-1 rounded-xl border border-main-border/15 bg-surface p-1.5">
+                <div class="view-highlight absolute rounded-lg bg-main/10 transition-all duration-300 ease-out"></div>
+                <button
                     id="view-cards"
-                    class="view-mode-btn premium-tooltip flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-main-bg/10 text-main active-view relative z-10" 
+                    class="view-mode-btn premium-tooltip active-view relative z-10 flex h-8 w-8 items-center justify-center rounded-lg transition-colors"
                     data-tooltip="Grid"
+                    aria-label="Grid view"
                 >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
                 </button>
-                <button 
+                <button
                     id="view-gallery"
-                    class="view-mode-btn premium-tooltip flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-main-bg/10 text-main/40 relative z-10" 
+                    class="view-mode-btn premium-tooltip relative z-10 flex h-8 w-8 items-center justify-center rounded-lg text-main/40 transition-colors"
                     data-tooltip="Gallery"
+                    aria-label="Gallery view"
                 >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
                 </button>
-                <button 
+                <button
                     id="view-list"
-                    class="view-mode-btn premium-tooltip flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-main-bg/10 text-main/40 relative z-10" 
+                    class="view-mode-btn premium-tooltip relative z-10 flex h-8 w-8 items-center justify-center rounded-lg text-main/40 transition-colors"
                     data-tooltip="List"
+                    aria-label="List view"
                 >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
                 </button>
             </div>
         </div>
-    </div>
     </div>
 
     <!-- Gallery View Container (Horizontal List / Visual List) -->
@@ -369,11 +361,14 @@ const orderFor = (project: CollectionEntry<'projects'>) => {
 
 <style>
     @reference "../../styles/global.css";
+    /* The sliding `.view-highlight` carries the active background, so the active
+       button only needs to change its ink — no second filled block on top of it. */
     .active-view {
-        @apply bg-main text-main-bg shadow-md scale-105;
+        @apply text-main;
     }
-    .tag-filter-btn {
-        @apply bg-main-bg/5 border-main-border/10 transition-all hover:bg-main-bg/10;
+    .tag-filter-btn:hover,
+    .sort-btn:hover {
+        @apply bg-main/5;
     }
     .active-tag {
         @apply bg-main text-main-bg border-main shadow-lg shadow-main/20 scale-105;

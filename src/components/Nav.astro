@@ -6,8 +6,10 @@ import siteConfig from '../data/site-config';
 const navLinks = siteConfig.headerNavLinks ?? [];
 ---
 
-<nav id="main-nav" class="fixed top-6 left-1/2 -translate-x-1/2 z-[999] w-full max-w-4xl px-4 pointer-events-none" aria-label="Primary navigation">
-    <div id="nav-container" class="relative rounded-2xl border border-main-border/10 bg-main-bg/40 backdrop-blur-xl shadow-lg transition-all duration-500 overflow-hidden flex items-center justify-between gap-2 p-1.5 ring-1 ring-white/5 dark:ring-white/10 pointer-events-auto">
+<nav id="main-nav" class="fixed top-6 left-1/2 -translate-x-1/2 z-[999] flex w-full max-w-4xl flex-col items-center px-4 pointer-events-none" aria-label="Primary navigation">
+    <!-- Full-width on mobile; on desktop the pill hugs its contents so it never
+         stretches into a dead zone between the links and the controls. -->
+    <div id="nav-container" class="relative w-full md:w-auto rounded-2xl border border-main-border/10 bg-main-bg/40 backdrop-blur-xl shadow-lg transition-all duration-500 overflow-hidden flex items-center justify-between md:justify-start gap-2 p-1.5 ring-1 ring-white/5 dark:ring-white/10 pointer-events-auto">
         <!-- Desktop Nav -->
         <ul class="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
@@ -48,10 +50,8 @@ const navLinks = siteConfig.headerNavLinks ?? [];
             <span>⌘K</span>
         </button>
 
-        <div class="w-px h-5 bg-main-border/10 mx-1"></div>
-
         <!-- Theme Toggle Wrapper -->
-        <div class="flex items-center px-1">
+        <div class="flex items-center">
             <ThemeToggle />
         </div>
     </div>
@@ -59,7 +59,7 @@ const navLinks = siteConfig.headerNavLinks ?? [];
     <!-- Mobile Menu (Floating Panel) -->
     <ul
         id="menu-items"
-        class="menu mt-3 invisible opacity-0 scale-95 translate-y-2 flex flex-col gap-1 p-2 rounded-2xl border border-main-border/10 bg-main-bg/80 backdrop-blur-xl shadow-2xl transition-all duration-300 origin-top pointer-events-none"
+        class="menu mt-3 w-full invisible opacity-0 scale-95 translate-y-2 flex flex-col gap-1 p-2 rounded-2xl border border-main-border/10 bg-main-bg/80 backdrop-blur-xl shadow-2xl transition-all duration-300 origin-top pointer-events-none"
     >
         {navLinks.map((link) => (
             <li>

@@ -41,20 +41,12 @@ const siteConfig: SiteConfig = {
             href: '/'
         },
         {
-            text: 'About',
-            href: '/about'
-        },
-        {
-            text: 'Education',
-            href: '/education'
+            text: 'Projects',
+            href: '/projects'
         },
         {
             text: 'Experience',
             href: '/experience'
-        },
-        {
-            text: 'Projects',
-            href: '/projects'
         },
         {
             text: 'Blog',
@@ -67,12 +59,20 @@ const siteConfig: SiteConfig = {
     ],
     footerNavLinks: [
         {
+            text: 'About',
+            href: '/about'
+        },
+        {
+            text: 'Education',
+            href: '/education'
+        },
+        {
             text: 'Stack',
             href: '/stack'
         },
         {
-            text: 'Now',
-            href: '/now'
+            text: 'Currently',
+            href: '/currently'
         },
         {
             text: 'Contact',
