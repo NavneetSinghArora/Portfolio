@@ -28,7 +28,6 @@ const { showHeader = false, ...head } = Astro.props;
         </script>
         <ClientRouter />
         <script is:inline src="/theme-toggle.js"></script>
-        <Analytics />
     </head>
     <body class="text-main bg-transparent overflow-x-hidden">
         <a
@@ -50,6 +49,13 @@ const { showHeader = false, ...head } = Astro.props;
         </div>
 
         <ScrollToTop />
+        <!-- Must stay in <body>. <Analytics /> renders a <vercel-analytics> custom
+             element; inside <head> the parser implicitly closes the head at that tag
+             and reparents everything Astro emits after it — including the bundled
+             stylesheet link — into <body>. ClientRouter preserves <head> across
+             navigations but replaces <body>, so the stylesheet would be destroyed and
+             re-created on every navigation, flashing the page unstyled. -->
+        <Analytics />
         <SpeedInsights />
         
         <script>
